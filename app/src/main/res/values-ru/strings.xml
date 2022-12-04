@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Application</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="short_or_long_email">Длина E-mail должна быть от 7 до 32 символов</string>
+    <string name="short_or_long_password">Длина пароля должна быть от 6 до 32 символов</string>
+    <string name="short_or_long_email_briefly">Длина E-mail &lt; 7</string>
+    <string name="short_or_long_password_briefly">Длина пароля &lt; 6</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="e_mail_or_username">Email или имя пользователя</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="username">Имя пользователя</string>
+    <string name="confirm_password">Подтверждение пароля</string>
+    <string name="short_or_long_username">Длина имени должна быть от 4 до 32 символов</string>
+    <string name="short_or_long_username_briefly">Длина имени &lt; 4</string>
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
+    <string name="passwords_do_not_match_briefly">Пароли не совпадают</string>
+    <string name="no_server_connection">Нет связи с сервером</string>
+    <string name="wrong_email_or_password">Неверный логин или пароль</string>
+    <string name="login_as_guest">Войти как гость</string>
+</resources>

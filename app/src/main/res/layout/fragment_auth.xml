@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.AuthFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/f_auth_email_container"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="32"
+            app:endIconMode="clear_text"
+            app:errorEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.32999998">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/f_auth_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/e_mail_or_username"
+                android:text="scx0503@gmail.com"
+                android:inputType="textEmailAddress"
+                android:maxLength="32">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/f_auth_password_container"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="32"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/f_auth_email_container">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/f_auth_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:text="Ruslan3"
+                android:inputType="textPassword"
+                android:maxLength="32">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/f_auth_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/sign_in"
+            app:layout_constraintEnd_toEndOf="@+id/f_auth_password_container"
+            app:layout_constraintStart_toStartOf="@+id/f_auth_password_container"
+            app:layout_constraintTop_toBottomOf="@+id/f_auth_password_container">
+
+        </com.google.android.material.button.MaterialButton>
+
+        <TextView
+            android:id="@+id/f_auth_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/create_account"
+            android:textColor="@color/blue_link"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/f_auth_password_container"
+            app:layout_constraintStart_toStartOf="@+id/f_auth_password_container"
+            app:layout_constraintTop_toBottomOf="@+id/f_auth_button" />
+
+        <TextView
+            android:id="@+id/f_auth_login_as_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/login_as_guest"
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/f_auth_create_account"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/f_auth_create_account"
+            app:layout_constraintTop_toBottomOf="@+id/f_auth_create_account" />
+
+        <TextView
+            android:id="@+id/f_auth_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/forgot_password"
+            android:textColor="@color/blue_link"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/f_auth_create_account"
+            app:layout_constraintStart_toStartOf="@+id/f_auth_password_container"
+            app:layout_constraintTop_toBottomOf="@+id/f_auth_password_container"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Application</string>
+    <string name="e_mail_or_username">Email or username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="short_or_long_username">Username length must be between 4 and 32 characters</string>
+    <string name="short_or_long_username_briefly">Username length &lt; 4</string>
+    <string name="short_or_long_email">Email length must be between 7 and 32 characters</string>
+    <string name="short_or_long_email_briefly">Email length &lt; 7</string>
+    <string name="short_or_long_password">Password length must be between 6 and 32 characters</string>
+    <string name="short_or_long_password_briefly">Password length &lt; 6</string>
+    <string name="create_account">Create account</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="passwords_do_not_match_briefly">Passwords dont match</string>
+    <string name="no_server_connection">No server connection</string>
+    <string name="wrong_email_or_password">Wrong email or password</string>
+    <string name="login_as_guest">Login as guest</string>
+</resources>
