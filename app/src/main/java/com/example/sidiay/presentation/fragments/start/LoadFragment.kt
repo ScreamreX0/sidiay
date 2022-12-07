@@ -1,4 +1,4 @@
-package com.example.sidiay.presentation.fragments
+package com.example.sidiay.presentation.fragments.start
 
 import android.os.Bundle
 import android.view.LayoutInflater

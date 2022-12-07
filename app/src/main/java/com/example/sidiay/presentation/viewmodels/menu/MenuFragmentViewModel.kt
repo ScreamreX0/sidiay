@@ -1,4 +1,4 @@
-package com.example.sidiay.presentation.viewmodels
+package com.example.sidiay.presentation.viewmodels.menu
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

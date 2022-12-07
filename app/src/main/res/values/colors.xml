@@ -17,5 +17,6 @@
     <color name="blue_link">#5DADE2 </color>
     <color name="grey">#808080</color>
 
-    <color name="orange">#FFA500</color>
+    <color name="orange">#DAA520</color>
+    <color name="goldenrod">#DAA520</color>
 </resources>

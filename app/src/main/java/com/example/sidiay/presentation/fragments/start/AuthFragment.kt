@@ -1,4 +1,4 @@
-package com.example.sidiay.presentation.fragments
+package com.example.sidiay.presentation.fragments.start
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.sidiay.databinding.FragmentAuthBinding
-import com.example.sidiay.presentation.viewmodels.SignInFragmentViewModel
+import com.example.sidiay.presentation.viewmodels.start.SignInFragmentViewModel
 import com.example.domain.enums.SignInStatuses
 import com.example.sidiay.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,7 +78,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private fun successHandler() {
         viewModel.successResult.observe(viewLifecycleOwner) {
-            val action = AuthFragmentDirections.actionLoginFragmentToMainMenuFragment(viewModel.successResult.value!!)
+            val action =
+                AuthFragmentDirections.actionLoginFragmentToMainMenuFragment(
+                    viewModel.successResult.value!!
+                )
             findNavController().navigate(action)
         }
     }

@@ -1,4 +1,4 @@
-package com.example.sidiay.presentation.viewmodels
+package com.example.sidiay.presentation.viewmodels.start
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

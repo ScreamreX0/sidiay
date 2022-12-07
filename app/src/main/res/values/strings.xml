@@ -22,4 +22,8 @@
     <string name="login_as_guest">Login as guest</string>
     <string name="kron_application">KRON Application</string>
     <string name="LLC">LLC \"CDIA\"</string>
+    <string name="Home">Home</string>
+    <string name="Scanner">Scanner</string>
+    <string name="Notifications">Notifications</string>
+    <string name="Settings">Settings</string>
 </resources>

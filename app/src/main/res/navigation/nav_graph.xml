@@ -6,7 +6,7 @@
     app:startDestination="@id/loadFragment">
     <fragment
         android:id="@+id/loadFragment"
-        android:name="com.example.sidiay.presentation.fragments.LoadFragment"
+        android:name="com.example.sidiay.presentation.fragments.start.LoadFragment"
         android:label="fragment_load"
         tools:layout="@layout/fragment_load" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="com.example.sidiay.presentation.fragments.MainMenuFragment"
+        android:name="com.example.sidiay.presentation.fragments.menu.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <argument
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.sidiay.presentation.fragments.AuthFragment"
+        android:name="com.example.sidiay.presentation.fragments.start.AuthFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_mainMenuFragment"
