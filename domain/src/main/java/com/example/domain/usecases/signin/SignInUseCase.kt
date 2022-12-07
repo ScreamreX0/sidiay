@@ -10,4 +10,8 @@ class SignInUseCase @Inject constructor(
     suspend fun execute(params: SignInParams): Any {
         return userRepository.emailSignIn(params)
     }
+
+    fun getEmptyUser(): Any {
+        return userRepository.getEmptyUser()
+    }
 }

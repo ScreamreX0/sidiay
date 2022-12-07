@@ -9,7 +9,7 @@
     <string name="short_or_long_password_briefly">Длина пароля &lt; 6</string>
     <string name="create_account">Создать аккаунт</string>
     <string name="forgot_password">Забыли пароль?</string>
-    <string name="e_mail_or_username">Email или имя пользователя</string>
+    <string name="login">Логин</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="username">Имя пользователя</string>
     <string name="confirm_password">Подтверждение пароля</string>
@@ -20,4 +20,6 @@
     <string name="no_server_connection">Нет связи с сервером</string>
     <string name="wrong_email_or_password">Неверный логин или пароль</string>
     <string name="login_as_guest">Войти как гость</string>
+    <string name="kron_application">КРОН Заявка</string>
+    <string name="LLC">ООО \"СиДиАй\"</string>
 </resources>

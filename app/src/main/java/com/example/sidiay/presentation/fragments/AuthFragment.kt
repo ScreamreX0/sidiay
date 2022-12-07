@@ -29,7 +29,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
 
         // BUTTONS
         enterButtonHandler()        // Auth button
-        forgotPasswordHandler()     // Forgot button
 
         // OBSERVERS
         errorsHandler()             // Errors observing
@@ -81,12 +80,6 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         viewModel.successResult.observe(viewLifecycleOwner) {
             val action = AuthFragmentDirections.actionLoginFragmentToMainMenuFragment(viewModel.successResult.value!!)
             findNavController().navigate(action)
-        }
-    }
-
-    private fun forgotPasswordHandler() {
-        binding.fAuthForgotPassword.setOnClickListener {
-            // TODO: forgot password
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.data.repositories
 
 import com.example.data.api.ApiService
+import com.example.data.models.User
 import com.example.domain.enums.NetworkStatuses
 import com.example.domain.models.SignInParams
 import com.example.domain.repositories.IUserRepository
@@ -21,5 +22,9 @@ class UserRepository @Inject constructor(
             NetworkStatuses.BadRequest.code -> "Wrong email or password"
             else -> throw java.lang.RuntimeException(unhandledCode)
         }
+    }
+
+    override fun getEmptyUser(): Any {
+        return User()
     }
 }

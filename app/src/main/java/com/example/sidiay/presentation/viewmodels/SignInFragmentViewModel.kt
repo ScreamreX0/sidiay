@@ -8,6 +8,7 @@ import com.example.domain.enums.SignInStatuses
 import com.example.domain.models.SignInParams
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
+import com.example.domain.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -32,6 +33,14 @@ class SignInFragmentViewModel @Inject constructor(
             return
         }
 
+        if (Constants.ONLINE) {
+            signInOnline(params = params)
+        } else {
+            signInOffline()
+        }
+    }
+
+    private fun signInOnline(params: SignInParams) {
         viewModelScope.launch(getAuthHandler()) {
             val authResult = authUseCase.execute(params = params)
 
@@ -41,6 +50,10 @@ class SignInFragmentViewModel @Inject constructor(
                 successResult.value = authResult as User
             }
         }
+    }
+
+    private fun signInOffline() {
+        successResult.value = authUseCase.getEmptyUser() as User
     }
 
     private fun getAuthHandler(): CoroutineExceptionHandler {

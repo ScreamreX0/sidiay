@@ -10,6 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:rotationY="180"
+            android:src="@drawable/black_triangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:src="@drawable/orange_triangle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="145dp"
+            android:text="@string/kron_application"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/f_auth_email_container"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -29,19 +60,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.32999998">
+            app:layout_constraintVertical_bias="0.45">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/f_auth_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/e_mail_or_username"
-                android:text="scx0503@gmail.com"
+                android:hint="@string/login"
                 android:inputType="textEmailAddress"
-                android:maxLength="32">
-
-            </com.google.android.material.textfield.TextInputEditText>
-
+                android:maxLength="32"
+                android:text="scx0503@gmail.com" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -69,12 +97,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:text="Ruslan3"
                 android:inputType="textPassword"
-                android:maxLength="32">
-
-            </com.google.android.material.textfield.TextInputEditText>
-
+                android:maxLength="32"
+                android:text="Ruslan3" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -83,51 +108,22 @@
             android:layout_height="60dp"
             android:layout_marginTop="50dp"
             android:text="@string/sign_in"
+            android:theme="@style/defaultButtonTheme"
             app:layout_constraintEnd_toEndOf="@+id/f_auth_password_container"
             app:layout_constraintStart_toStartOf="@+id/f_auth_password_container"
-            app:layout_constraintTop_toBottomOf="@+id/f_auth_password_container">
-
-        </com.google.android.material.button.MaterialButton>
+            app:layout_constraintTop_toBottomOf="@+id/f_auth_password_container" />
 
         <TextView
-            android:id="@+id/f_auth_create_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/create_account"
-            android:textColor="@color/blue_link"
+            android:layout_marginBottom="10dp"
+            android:text="@string/LLC"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/f_auth_password_container"
-            app:layout_constraintStart_toStartOf="@+id/f_auth_password_container"
-            app:layout_constraintTop_toBottomOf="@+id/f_auth_button" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/f_auth_login_as_guest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@string/login_as_guest"
-            android:textColor="@color/grey"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/f_auth_create_account"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_auth_create_account"
-            app:layout_constraintTop_toBottomOf="@+id/f_auth_create_account" />
+        </TextView>
 
-        <TextView
-            android:id="@+id/f_auth_forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/forgot_password"
-            android:textColor="@color/blue_link"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/f_auth_create_account"
-            app:layout_constraintStart_toStartOf="@+id/f_auth_password_container"
-            app:layout_constraintTop_toBottomOf="@+id/f_auth_password_container"
-            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
