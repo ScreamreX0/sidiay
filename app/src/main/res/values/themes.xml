@@ -33,4 +33,9 @@
     <style name="applicationItemIcon" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="tint">@color/grey</item>
     </style>
+
+    <style name="Base.Widget.AppCompat.SearchView." parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="editTextColor">@color/white</item>
+        <item name="hintTextColor">@color/white</item>
+    </style>
 </resources>

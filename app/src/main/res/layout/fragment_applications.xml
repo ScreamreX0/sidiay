@@ -9,7 +9,7 @@
         android:id="@+id/f_application_app_bar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/orange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,18 +22,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingStart="25dp"
-                android:paddingEnd="25dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 android:text="Заявки"
                 android:textColor="@color/white"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.Toolbar
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="313dp"
+                android:layout_height="56dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/f_applications_title"
@@ -46,12 +46,13 @@
 
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/f_application_search_view"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:theme="@style/Base.Widget.AppCompat.SearchView."
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-                    </androidx.appcompat.widget.SearchView>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:searchIcon="@drawable/ic_baseline_search_24_white"></androidx.appcompat.widget.SearchView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>

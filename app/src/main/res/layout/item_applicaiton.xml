@@ -10,7 +10,7 @@
         android:id="@+id/i_application_new"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/ic_sharp_add_circle_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,7 +19,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/ic_baseline_error_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         app:tint="@color/red" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/i_application_title"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"
@@ -46,11 +46,11 @@
         android:id="@+id/i_application_company_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_baseline_fiber_manual_record_24"
         android:theme="@style/applicationItemIcon"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/i_application_title"
+        app:layout_constraintTop_toBottomOf="@+id/i_application_title" />
 
     <ImageView
         android:id="@+id/i_application_priority_icon"

@@ -24,13 +24,12 @@ class ApplicationsAdapter(private val applications: List<Application>) : Recycle
             with(applications[position]) {
                 binding.iApplicationCompany.text = service
                 binding.iApplicationPriority.text = priority
-                executor.let {
-                    "${it!!.firstName} ${executor!!.name.first()}. ${executor!!.lastName.first()}."
+                executor?.let {
+                    binding.iApplicationPerson.text = "${it.firstName} ${it.name.first()}. ${it.lastName.first()}."
                 }
-                expirationDate.let {
-                    binding.iApplicationDate.text = SimpleDateFormat("dd-MM-yyyy").format(it)
-                }
+                binding.iApplicationDate.text = expirationDate
                 binding.iApplicationStatus.text = status
+                binding.iApplicationTitle.text = "$id№ $description"
             }
         }
     }
