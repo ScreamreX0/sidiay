@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:padding="15dp">
+
+    <ImageView
+        android:id="@+id/i_application_new"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_sharp_add_circle_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/blue_link" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/ic_baseline_error_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/i_application_new"
+        app:layout_constraintVertical_bias="1.0"
+        app:tint="@color/red" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="15dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:theme="@style/applicationItemTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/i_application_new"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/i_application_company_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/ic_baseline_fiber_manual_record_24"
+        android:theme="@style/applicationItemIcon"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/i_application_priority_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/ic_baseline_arrow_outward_24"
+        android:theme="@style/applicationItemIcon"
+        app:layout_constraintLeft_toLeftOf="@+id/i_application_company_icon"
+        app:layout_constraintTop_toBottomOf="@+id/i_application_company_icon" />
+
+    <ImageView
+        android:id="@+id/i_application_person_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:src="@drawable/ic_baseline_person_24"
+        android:theme="@style/applicationItemIcon"
+        app:layout_constraintLeft_toLeftOf="@+id/i_application_priority_icon"
+        app:layout_constraintTop_toBottomOf="@+id/i_application_priority_icon" />
+
+    <TextView
+        android:id="@+id/i_application_company"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text=""
+
+        android:theme="@style/applicationItemTextView"
+        app:layout_constraintEnd_toStartOf="@+id/i_application_date_icon"
+        app:layout_constraintStart_toEndOf="@+id/i_application_company_icon"
+        app:layout_constraintTop_toTopOf="@+id/i_application_company_icon" />
+
+    <TextView
+        android:id="@+id/i_application_priority"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text=""
+        android:theme="@style/applicationItemTextView"
+        app:layout_constraintEnd_toStartOf="@+id/i_application_status_icon"
+        app:layout_constraintStart_toEndOf="@+id/i_application_priority_icon"
+        app:layout_constraintTop_toTopOf="@+id/i_application_priority_icon" />
+
+    <TextView
+        android:id="@+id/i_application_person"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text=""
+        android:theme="@style/applicationItemTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/i_application_person_icon"
+        app:layout_constraintTop_toTopOf="@+id/i_application_person_icon" />
+
+    <TextView
+        android:id="@+id/i_application_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:theme="@style/applicationItemTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/i_application_company_icon" />
+
+    <ImageView
+        android:id="@+id/i_application_date_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_baseline_flag_24"
+        android:theme="@style/applicationItemIcon"
+        app:layout_constraintEnd_toStartOf="@+id/i_application_date"
+        app:layout_constraintTop_toTopOf="@+id/i_application_date" />
+
+    <TextView
+        android:id="@+id/i_application_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text=""
+        android:theme="@style/applicationItemTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/i_application_date" />
+
+    <ImageView
+        android:id="@+id/i_application_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_baseline_check_24"
+        android:theme="@style/applicationItemIcon"
+        app:layout_constraintEnd_toStartOf="@+id/i_application_status"
+        app:layout_constraintTop_toTopOf="@+id/i_application_status" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
