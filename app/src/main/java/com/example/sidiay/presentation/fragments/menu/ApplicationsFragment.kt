@@ -15,9 +15,10 @@ import com.example.sidiay.presentation.viewmodels.menu.ApplicationFragmentViewMo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ApplicationFragment : Fragment(R.layout.fragment_applications) {
+class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     private val viewModel: ApplicationFragmentViewModel by viewModels()
     private lateinit var binding: FragmentApplicationsBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +44,7 @@ class ApplicationFragment : Fragment(R.layout.fragment_applications) {
             binding.fApplicationRecyclerView.setHasFixedSize(true)
 
             binding.fApplicationRecyclerView.adapter = viewModel.applications
-                .value?.let { applications -> ApplicationsAdapter(applications) }
+                .value?.let { applications -> ApplicationsAdapter(applications, this) }
         }
     }
 

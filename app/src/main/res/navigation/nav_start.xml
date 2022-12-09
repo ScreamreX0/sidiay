@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loadFragment">
+
     <fragment
         android:id="@+id/loadFragment"
         android:name="com.example.sidiay.presentation.fragments.start.LoadFragment"
         android:label="fragment_load"
-        tools:layout="@layout/fragment_load" >
+        tools:layout="@layout/fragment_load">
         <action
             android:id="@+id/action_loadFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -18,24 +19,22 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.sidiay.presentation.fragments.start.AuthFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_loginFragment_to_nav_menu"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/mainMenuFragment"
         android:name="com.example.sidiay.presentation.fragments.menu.MainMenuFragment"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        tools:layout="@layout/fragment_main_menu">
         <argument
             android:name="user"
             app:argType="com.example.domain.models.entities.User" />
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.sidiay.presentation.fragments.start.AuthFragment"
-        android:label="LoginFragment" >
-        <action
-            android:id="@+id/action_loginFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

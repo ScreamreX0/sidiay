@@ -79,7 +79,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     private fun successHandler() {
         viewModel.successResult.observe(viewLifecycleOwner) {
             val action =
-                AuthFragmentDirections.actionLoginFragmentToMainMenuFragment(
+                AuthFragmentDirections.actionLoginFragmentToNavMenu(
                     viewModel.successResult.value!!
                 )
             findNavController().navigate(action)
