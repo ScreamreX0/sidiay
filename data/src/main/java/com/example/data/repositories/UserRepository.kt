@@ -12,19 +12,17 @@ class UserRepository @Inject constructor(
 ) : IUserRepository {
     private val unhandledCode = "Unhandled code"
 
-    override suspend fun emailSignIn(authParams: SignInParams): Any {
+    override suspend fun emailSignIn(authParams: SignInParams): User? {
         val response = apiService.emailIn(authParams.createBody())
 
         return when (response.code()) {
-            NetworkStatuses.OK.code -> response.body() ?: throw java.lang.RuntimeException(
-                "An error occurred during authorization. Response code 200 but response body is empty"
-            )
-            NetworkStatuses.BadRequest.code -> "Wrong email or password"
+            NetworkStatuses.OK.code -> response.body()
+            NetworkStatuses.BadRequest.code -> null
             else -> throw java.lang.RuntimeException(unhandledCode)
         }
     }
 
-    override fun getEmptyUser(): Any {
+    override fun getEmptyUser(): User {
         return User()
     }
 }

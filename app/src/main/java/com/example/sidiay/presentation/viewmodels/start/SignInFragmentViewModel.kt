@@ -44,10 +44,10 @@ class SignInFragmentViewModel @Inject constructor(
         viewModelScope.launch(getAuthHandler()) {
             val authResult = authUseCase.execute(params = params)
 
-            if (authResult::class == String::class) {
+            if (authResult == null) {
                 errorResult.value = listOf(SignInStatuses.WRONG_EMAIL_OR_PASSWORD)
             } else {
-                successResult.value = authResult as User
+                successResult.value = authResult!!
             }
         }
     }
