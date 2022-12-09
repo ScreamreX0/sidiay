@@ -1,10 +1,7 @@
-package com.example.data.models
+package com.example.domain.models.entities
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 
 @Parcelize
 data class Application constructor (

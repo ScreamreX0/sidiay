@@ -3,7 +3,7 @@ package com.example.sidiay.presentation.viewmodels.start
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.models.User
+import com.example.domain.models.entities.User
 import com.example.domain.enums.SignInStatuses
 import com.example.domain.models.SignInParams
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase

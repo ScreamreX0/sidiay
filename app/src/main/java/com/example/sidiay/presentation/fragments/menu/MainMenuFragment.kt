@@ -10,7 +10,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentMainMenuBinding
 import com.example.sidiay.presentation.viewmodels.menu.MenuFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
     private val args by navArgs<MainMenuFragmentArgs>()
     private val viewModel: MenuFragmentViewModel by viewModels()

@@ -11,4 +11,5 @@ object Constants {
     const val MAX_USERNAME_LENGHT = 32
 
     const val URL = "http://81.23.153.83:8081/"
+    const val LOCAL_URL = "http://localhost:8081/"
 }

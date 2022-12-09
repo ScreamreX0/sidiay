@@ -4,9 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.models.Application
+import com.example.domain.models.entities.Application
 import com.example.sidiay.databinding.ItemApplicaitonBinding
-import java.text.SimpleDateFormat
 
 class ApplicationsAdapter(private val applications: List<Application>) : RecyclerView.Adapter<ApplicationsAdapter.ApplicationViewHolder>() {
     inner class ApplicationViewHolder(val binding: ItemApplicaitonBinding) : RecyclerView.ViewHolder(binding.root)

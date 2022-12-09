@@ -1,6 +1,5 @@
 package com.example.sidiay.di
 
-import androidx.compose.ui.unit.Constraints
 import com.example.data.api.ApiService
 import com.example.domain.utils.Constants
 import com.google.gson.GsonBuilder
@@ -26,8 +25,14 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
+        val url: String = if (Constants.ONLINE) {
+            Constants.URL
+        } else {
+            Constants.LOCAL_URL
+        }
+
         return Retrofit.Builder()
-            .baseUrl(Constants.URL)
+            .baseUrl(url)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
