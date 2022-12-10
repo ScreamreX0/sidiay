@@ -43,6 +43,7 @@ class ApplicationsAdapter(
         }
 
         holder.itemView.setOnClickListener {
+
             val action = ApplicationsFragmentDirections.actionFragmentApplicationsToApplicationItemFragment(
                 applications[position]
             )

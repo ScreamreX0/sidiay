@@ -38,4 +38,23 @@
         <item name="editTextColor">@color/white</item>
         <item name="hintTextColor">@color/white</item>
     </style>
+    
+    <style name="fragmentApplicationItemTitleText" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="fragmentApplicationItemDescText" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="fragmentApplicationItemIcon">
+        <item name="tint">@color/grey</item>
+    </style>
+
+    <style name="fragmentApplicationItemIconSecond">
+        <item name="tint">@color/orange</item>
+    </style>
 </resources>
