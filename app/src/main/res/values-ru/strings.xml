@@ -29,20 +29,17 @@
     <string name="field_object">Месторождение/объект</string>
     <string name="desc">Описание</string>
     <string name="service">Сервис</string>
-    <string name="executor">Исполнитель</string>
     <string name="kind">Вид</string>
     <string name="status">Статус</string>
     <string name="priority">Приоритет</string>
     <string name="plane_date">Плановая\nдата</string>
     <string name="expiration_date">Дата\nокончания</string>
-    <string name="description">Описание</string>
-    <string name="not_filled">Не заполнено</string>
     <string name="completed_work">Выполненные работы</string>
-    <string name="author">Автор</string>
     <string name="date_of_creation">Дата создания</string>
-    <string name="home">Главная</string>
     <string name="executor">Исполнитель</string>
     <string name="description">Описание</string>
-    <string name="not_filled">Не заполнено</string>
+    <string name="applications">Заявки</string>
     <string name="author">Автор</string>
+    <string name="not_filled">Не заполнено</string>
+    <string name="application">Заявка</string>
 </resources>

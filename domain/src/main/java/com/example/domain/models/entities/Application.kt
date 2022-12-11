@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Application constructor (
     val id: Int,
+    val title: String = "",
     val service: String = "",
     val executor: Employee?,
     val type: String = "",

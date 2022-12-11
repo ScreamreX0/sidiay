@@ -14,26 +14,40 @@ class ApplicationRepository @Inject constructor(
         return List(10) {
             Application(
                 id = it,
-                service = "${it}Ихсанов",
-                description = "Покрасить подставку под КТП, ТД, ТП, ТО",
+                title = "Неисправность №$it",
+                service = "Сервис №$it",
+                executor = Employee(
+                    id = it,
+                    firstName = "Ихсанов№${it * 2}",
+                    name = "Руслан№${it * 2}",
+                    lastName = "Ленарович№${it * 2}"
+                ),
+                type = "Ведущий",
                 priority = "Средний",
                 status = "Не закрыта",
-                executor = Employee(
-                    id = it * 2,
-                    firstName = "$it",
-                    name = "${it + 1}",
-                    lastName = "${it + 2}"
-                ),
-                plannedDate = "05-03-2003",
-                expirationDate = "05-03-2003",
+                plannedDate = "11.12.2022 15:00",
+                expirationDate = "11.12.2022 15:00",
+                description = "Покрасить подставку под КТП, ТД, ТП, ТО",
+                completedWorks = "Неисправность ЧРЭП. Выполнена замена СУ с ЧП. Электромонтер Карзохин Н.И. 22:11-23:30.",
                 author = Employee(
-                    id = it * 3,
-                    firstName = "$it",
-                    name = "${it + 1}",
-                    lastName = "${it + 2}"
+                    id = it,
+                    firstName = "Ихсанов№${it * 3}",
+                    name = "Руслан№${it * 3}",
+                    lastName = "Ленарович№${it * 3}"
                 ),
-                creationDate = "05-03-2003",
-                objects = listOf(Object(id = 1), Object(id = 2), Object(id = 3)),
+                creationDate = "05.12.2022 00:00",
+                objects = listOf(
+                    Object(
+                        id = 1,
+                        name = "ЦДНГ-1"
+                    ), Object(
+                        id = 2,
+                        name = "Сунчелеевское"
+                    ), Object(
+                        id = 3,
+                        name = "ФФФФ-123"
+                    )
+                ),
             )
         }
     }

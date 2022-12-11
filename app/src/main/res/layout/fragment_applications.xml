@@ -24,7 +24,7 @@
                 android:gravity="center"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
-                android:text="Заявки"
+                android:text="@string/applications"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
