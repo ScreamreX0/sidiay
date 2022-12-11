@@ -22,8 +22,22 @@
     <string name="login_as_guest">Login as guest</string>
     <string name="kron_application">KRON Application</string>
     <string name="LLC">LLC \"CDIA\"</string>
-    <string name="Home">Home</string>
+    <string name="home">Home</string>
     <string name="Scanner">Scanner</string>
     <string name="Notifications">Notifications</string>
     <string name="Settings">Settings</string>
+    <string name="desc">Description</string>
+    <string name="field_object">Field/object</string>
+    <string name="service">Service</string>
+    <string name="executor">Executor</string>
+    <string name="kind">Kind</string>
+    <string name="status">Status</string>
+    <string name="priority">Priority</string>
+    <string name="plane_date">Plane date</string>
+    <string name="expiration_date">Expiration date</string>
+    <string name="description">Description</string>
+    <string name="not_filled">Not filled</string>
+    <string name="completed_work">Completed work</string>
+    <string name="author">Author</string>
+    <string name="date_of_creation">Date of creation</string>
 </resources>

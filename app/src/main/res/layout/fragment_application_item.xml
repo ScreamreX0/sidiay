@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,7 +31,6 @@
                     android:lines="2"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="Заявка №11231231"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -47,19 +47,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:menu="@menu/application_app_bar_menu" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/f_application_item_title_second"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="50dp"
-            android:text="qwdqwdqwqwdqqweqweqwe"
             android:textColor="@color/orange"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,9 +69,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="25dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_title_second"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_title_second"
             app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
 
         <TextView
@@ -82,9 +80,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Месторождение/объект"
+            android:text="@string/field_object"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_title_second"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
@@ -93,7 +91,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="qweqweqweqweqwEQeqweqweqweqeqweqweqew"
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
@@ -104,6 +101,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIconSecond"
             app:layout_constraintStart_toStartOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/f_application_item_object"
@@ -114,18 +112,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Сервис"
+            android:text="@string/service"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_title_second"
             app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/f_application_item_service"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="qweqweqweqweqweqweqweq"
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView4"
             app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -136,9 +133,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIconSecond"
             app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_service"
             app:srcCompat="@drawable/ic_baseline_person_24" />
 
         <TextView
@@ -146,18 +144,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Исполнитель"
+            android:text="@string/executor"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_service"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/f_application_item_executor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="qweqpoqpjoqiwejrqojroiqowqjowjr"
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView3"
             app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -173,13 +170,14 @@
             android:background="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor" />
 
         <ImageView
             android:id="@+id/imageView7"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/line4"
@@ -190,20 +188,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Вид"
+            android:text="@string/kind"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toTopOf="@+id/imageView7" />
+            app:layout_constraintTop_toTopOf="@+id/imageView7"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/f_application_item_kind"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            android:text=""
             app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -213,9 +211,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind"
             app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
 
         <TextView
@@ -223,14 +222,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Статус"
+            android:text="@string/status"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView8"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind"
             app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toTopOf="@+id/imageView8" />
+            app:layout_constraintTop_toTopOf="@+id/imageView8"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/f_application_item_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -243,10 +243,11 @@
             android:id="@+id/imageView10"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:theme="@style/fragmentApplicationItemIcon"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
+            android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_status"
             app:srcCompat="@drawable/ic_baseline_error_24" />
 
         <TextView
@@ -254,18 +255,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:text="@string/priority"
             android:theme="@style/fragmentApplicationItemTitleText"
-            android:text="Приоритет"
-            app:layout_constraintEnd_toEndOf="@+id/textView10"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_status"
             app:layout_constraintStart_toEndOf="@+id/imageView10"
-            app:layout_constraintTop_toTopOf="@+id/imageView10" />
+            app:layout_constraintTop_toTopOf="@+id/imageView10"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/f_application_item_priority"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text=""
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView11"
             app:layout_constraintStart_toStartOf="@+id/textView11"
@@ -276,9 +277,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority"
             app:srcCompat="@drawable/ic_baseline_flag_24" />
 
         <TextView
@@ -286,8 +288,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:text="@string/plane_date"
             android:theme="@style/fragmentApplicationItemTitleText"
-            android:text="Плановая\nдата"
             app:layout_constraintStart_toEndOf="@+id/imageView11"
             app:layout_constraintTop_toTopOf="@+id/imageView11" />
 
@@ -295,28 +297,26 @@
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Дата\nокончания"
+            android:text="@string/expiration_date"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView12"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/f_application_item_plane_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="12.09.2022 23:00"
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView13"
             app:layout_constraintStart_toStartOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/f_application_item_expiration_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="12.09.2022 23:00"
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView14"
             app:layout_constraintStart_toStartOf="@+id/textView14"
@@ -327,9 +327,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date"
             app:srcCompat="@drawable/ic_baseline_message_24" />
 
         <TextView
@@ -337,18 +338,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Описание"
+            android:text="@string/description"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView16"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date"
             app:layout_constraintStart_toEndOf="@+id/imageView13"
             app:layout_constraintTop_toTopOf="@+id/imageView13" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/f_application_item_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Не заполнено"
+            android:text="@string/not_filled"
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView17"
             app:layout_constraintStart_toStartOf="@+id/textView17"
@@ -359,9 +360,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView18"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_description"
             app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
         <TextView
@@ -369,18 +371,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Выполненные работы"
+            android:text="@string/completed_work"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView18"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_description"
             app:layout_constraintStart_toEndOf="@+id/imageView14"
             app:layout_constraintTop_toTopOf="@+id/imageView14" />
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/f_application_item_completed_work"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text=""
             android:theme="@style/fragmentApplicationItemDescText"
             app:layout_constraintEnd_toEndOf="@+id/textView19"
             app:layout_constraintStart_toStartOf="@+id/textView19"
@@ -391,28 +392,28 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView14"
-            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work"
             app:srcCompat="@drawable/ic_baseline_person_24" />
 
         <TextView
             android:id="@+id/textView21"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Автор"
+            android:text="@string/author"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView20"
-            app:layout_constraintStart_toStartOf="@+id/textView20"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work"
             app:layout_constraintTop_toTopOf="@+id/imageView15" />
 
         <TextView
-            android:id="@+id/textView22"
+            android:id="@+id/f_application_item_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            android:text=""
             app:layout_constraintEnd_toEndOf="@+id/textView21"
             app:layout_constraintStart_toStartOf="@+id/textView21"
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
@@ -422,31 +423,30 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
             app:layout_constraintStart_toStartOf="@+id/imageView15"
-            app:layout_constraintTop_toBottomOf="@+id/textView22"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_author"
             app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
 
         <TextView
             android:id="@+id/textView23"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Дата создания"
+            android:text="@string/date_of_creation"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/textView22"
-            app:layout_constraintStart_toStartOf="@+id/textView22"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_author"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_author"
             app:layout_constraintTop_toTopOf="@+id/imageView16" />
 
         <TextView
-            android:id="@+id/textView24"
+            android:id="@+id/f_application_item_date_of_creation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            android:text=""
             app:layout_constraintEnd_toEndOf="@+id/textView23"
             app:layout_constraintStart_toStartOf="@+id/textView23"
             app:layout_constraintTop_toBottomOf="@+id/textView23" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
