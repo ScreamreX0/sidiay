@@ -49,17 +49,22 @@ android {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    def nav_version = "2.5.2"
-    def lifecycle_version = '2.4.0-alpha03'
-    def material_version = '1.6.1'
+    def nav_version = "2.5.3"
+    def lifecycle_version = '2.6.0-alpha03'
+    def material_version = '1.7.0'
     def di_version = '2.44'
+    def hilt_version = '1.5.5'
+    def kapt_version = "0.5.0"
+    def constraint_version = '2.1.4'
+    def appcompat_version = "1.5.1"
+    def ktx_version = "1.6.10"
 
     // core
-    implementation 'androidx.core:core-ktx:1.6.10'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2"
+    implementation "androidx.core:core-ktx:$ktx_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:$kapt_version"
 
     // modules
     implementation project(path: ':domain')
@@ -71,15 +76,11 @@ dependencies {
     // hilt
     implementation "com.google.dagger:hilt-android:$di_version"
     kapt "com.google.dagger:hilt-android-compiler:$di_version"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
+    implementation "androidx.fragment:fragment-ktx:$hilt_version"
 
     // navigation
-    implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    //classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
 
     // material
     implementation "com.google.android.material:material:$material_version"

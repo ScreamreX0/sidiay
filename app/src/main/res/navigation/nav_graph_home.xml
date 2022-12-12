@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_home"
+    app:startDestination="@id/nav_graph_home_nested">
+
+    <navigation
+        android:id="@+id/nav_graph_home_nested"
+        app:startDestination="@id/fragment_applications">
+        <fragment
+            android:id="@+id/applicationItemFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.ApplicationItemFragment"
+            android:label="ApplicationItemFragment"
+            tools:layout="@layout/fragment_application_item">
+            <argument
+                android:name="application"
+                app:argType="com.example.domain.models.entities.Application" />
+        </fragment>
+        <fragment
+            android:id="@+id/fragment_applications"
+            android:name="com.example.sidiay.presentation.fragments.menu.ApplicationsFragment"
+            tools:layout="@layout/fragment_applications">
+            <action
+                android:id="@+id/action_fragment_applications_to_applicationItemFragment"
+                app:destination="@id/applicationItemFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_scanner_nested"
+        app:startDestination="@id/scannerFragment">
+        <fragment
+            android:id="@+id/scannerFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.ScannerFragment"
+            android:label="ScannerFragment"
+            tools:layout="@layout/fragment_scanner" />
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_notifications_nested"
+        app:startDestination="@id/notificationsFragment">
+        <fragment
+            android:id="@+id/notificationsFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.NotificationsFragment"
+            android:label="NotificationsFragment"
+            tools:layout="@layout/fragment_notifications" />
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_settings_nested"
+        app:startDestination="@id/settingsFragment">
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.SettingsFragment"
+            android:label="SettingsFragment"
+            tools:layout="@layout/fragment_settings" />
+    </navigation>
+</navigation>

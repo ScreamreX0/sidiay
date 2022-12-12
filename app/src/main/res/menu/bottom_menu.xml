@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/b_menu_menu"
+        android:id="@+id/nav_graph_home_nested"
         android:icon="@drawable/ic_baseline_menu_24"
         android:title="@string/home" />
 
     <item
-        android:id="@+id/b_menu_scanner"
+        android:id="@+id/nav_graph_scanner_nested"
         android:icon="@drawable/ic_baseline_qr_code_scanner_24"
         android:title="@string/Scanner" />
 
     <item
-        android:id="@+id/b_menu_notification"
+        android:id="@+id/nav_graph_notifications_nested"
         android:icon="@drawable/ic_baseline_notifications_24"
         android:title="@string/Notifications" />
 
     <item
-        android:id="@+id/b_menu_settings"
+        android:id="@+id/nav_graph_settings_nested"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/Settings" />
 </menu>
