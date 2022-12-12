@@ -42,5 +42,14 @@
     <string name="date_of_creation">Date of creation</string>
     <string name="applications">Applications</string>
     <string name="application">Application</string>
+    <string name="necessarily_star">*</string>
+    <string name="add_object">Add object</string>
+    <string name="add_application">Add application</string>
+    <string name="title">Title</string>
+    <string name="choose_service">Choose service</string>
+    <string name="choose_executor">Choose executor</string>
+    <string name="choose_type">Choose type</string>
+    <string name="choose_status">Choose status</string>
+    <string name="choose_priority">Choose priority</string>
 
 </resources>

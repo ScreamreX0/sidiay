@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentApplicationsBinding
@@ -34,6 +35,14 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
 
         initRecyclerViewObserver()
         fillRecyclerView()
+
+        handleAddButton()
+    }
+
+    private fun handleAddButton() {
+        binding.fApplicationAddButton.setOnClickListener {
+            findNavController().navigate(R.id.action_fragment_applications_to_addApplicationFragment)
+        }
     }
 
     @SuppressLint("SimpleDateFormat", "NewApi")

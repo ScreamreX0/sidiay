@@ -6,4 +6,5 @@
     <string name="Scanner">Scanner</string>
     <string name="Notifications">Notifications</string>
     <string name="Settings">Settings</string>
+    <string name="necessarily_star" translatable="false">*</string>
 </resources>

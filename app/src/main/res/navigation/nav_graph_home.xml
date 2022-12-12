@@ -28,7 +28,15 @@
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            <action
+                android:id="@+id/action_fragment_applications_to_addApplicationFragment"
+                app:destination="@id/addApplicationFragment" />
         </fragment>
+        <fragment
+            android:id="@+id/addApplicationFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.AddApplicationFragment"
+            android:label="AddApplicationFragment"
+            tools:layout="@layout/fragment_add_application"/>
     </navigation>
     <navigation
         android:id="@+id/nav_graph_scanner_nested"
@@ -57,4 +65,5 @@
             android:label="SettingsFragment"
             tools:layout="@layout/fragment_settings" />
     </navigation>
+
 </navigation>

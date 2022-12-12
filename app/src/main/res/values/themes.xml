@@ -57,4 +57,10 @@
     <style name="fragmentApplicationItemIconSecond">
         <item name="tint">@color/orange</item>
     </style>
+    
+    <style name="fragmentAddApplicationNecessarilyStar">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">"@color/dark_red"</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

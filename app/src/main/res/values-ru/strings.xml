@@ -42,4 +42,12 @@
     <string name="author">Автор</string>
     <string name="not_filled">Не заполнено</string>
     <string name="application">Заявка</string>
+    <string name="add_object">Добавить объект</string>
+    <string name="add_application">Создание заявки</string>
+    <string name="title">Заголовок</string>
+    <string name="choose_service">Выбрать сервис</string>
+    <string name="choose_executor">Выбрать исполнителя</string>
+    <string name="choose_type">Выбрать вид</string>
+    <string name="choose_status">Выбрать статус</string>
+    <string name="choose_priority">Выбрать приоритет</string>
 </resources>
