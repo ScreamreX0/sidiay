@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Sidiay.Image" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tint">@color/grey_400</item>
+    </style>
+
+    <style name="Widget.Sidiay.Image.Item">
+        <item name="tint">@color/grey_400</item>
+    </style>
+
+    <style name="Widget.Sidiay.Image.SecondItem">
+        <item name="tint">@color/orange_500</item>
+    </style>
+
+    <style name="Widget.Sidiay.Icon.SignIn.Left" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tint">@color/grey_900</item>
+    </style>
+
+    <style name="Widget.Sidiay.Icon.SignIn.Right" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tint">@color/grey_400</item>
+    </style>
+</resources>

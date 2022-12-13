@@ -73,14 +73,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
                 android:textColor="@color/orange_500"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/f_application_item_app_bar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/f_application_item_object_image"
@@ -88,7 +87,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="25dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIconSecond"
+                android:theme="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_second_title"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_second_title"
                 app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
@@ -99,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/field_object"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_second_title"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_object_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_object_image" />
@@ -109,7 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_object_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_object_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_object_subtitle" />
@@ -120,7 +119,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIconSecond"
+                android:theme="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_object_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_object_text"
                 app:srcCompat="@drawable/ic_baseline_miscellaneous_services_24" />
@@ -131,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/service"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_second_title"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_service_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_service_image" />
@@ -141,7 +140,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_service_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_service_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_service_subtitle" />
@@ -152,7 +151,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIconSecond"
+                android:theme="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_service_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_service_text"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
@@ -163,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/executor"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_service_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_executor_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_executor_image" />
@@ -173,7 +172,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_executor_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor_subtitle" />
@@ -185,7 +184,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="40dp"
-                android:background="@color/grey"
+                android:background="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor_text" />
@@ -196,7 +195,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_executor_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_line"
                 app:srcCompat="@drawable/ic_baseline_menu_24" />
@@ -207,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/kind"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor_text"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_kind_image"
@@ -219,7 +218,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_kind_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind_subtitle" />
@@ -230,7 +229,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_kind_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind_text"
                 app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
@@ -241,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/status"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_status_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_status_image"
@@ -252,7 +251,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_status_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_status_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_status_subtitle" />
@@ -263,7 +262,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_status_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_status_text"
                 app:srcCompat="@drawable/ic_baseline_error_24" />
@@ -274,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/priority"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_status_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_priority_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_priority_image"
@@ -285,7 +284,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_priority_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority_subtitle" />
@@ -296,7 +295,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_priority_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority_text"
                 app:srcCompat="@drawable/ic_baseline_flag_24" />
@@ -307,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/plane_date"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_plane_date_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_plane_date_image" />
 
@@ -316,7 +315,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/expiration_date"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority_text"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_plane_date_subtitle" />
 
@@ -325,7 +324,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_plane_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_plane_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date_subtitle" />
@@ -335,7 +334,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_expiration_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_expiration_date_subtitle" />
@@ -346,7 +345,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_plane_date_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date_text"
                 app:srcCompat="@drawable/ic_baseline_message_24" />
@@ -357,7 +356,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/description"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_description_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_description_image" />
@@ -368,7 +367,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@string/not_filled"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_description_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_description_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_description_subtitle" />
@@ -379,7 +378,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_description_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_description_text"
                 app:srcCompat="@drawable/ic_twotone_view_list_24" />
@@ -390,7 +389,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/completed_work"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_description_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_completed_work_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_completed_work_image" />
@@ -400,7 +399,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work_subtitle" />
@@ -411,7 +410,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work_text"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
@@ -421,7 +420,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/author"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work_text"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_text"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_author_image" />
@@ -431,7 +430,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_author_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_author_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_author_subtitle" />
@@ -442,7 +441,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/fragmentApplicationItemIcon"
+                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_author_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_author_text"
                 app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
@@ -452,7 +451,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/date_of_creation"
-                android:theme="@style/fragmentApplicationItemTitleText"
+                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_author_text"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_author_text"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_creation_date_image" />
@@ -462,7 +461,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:theme="@style/fragmentApplicationItemDescText"
+                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_creation_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_creation_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_creation_date_subtitle" />

@@ -36,7 +36,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:theme="@style/applicationItemTextView"
+        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/i_application_new"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_baseline_fiber_manual_record_24"
-        android:theme="@style/applicationItemIcon"
+        android:theme="@style/Widget.Sidiay.Image"
         app:layout_constraintStart_toStartOf="@+id/i_application_title"
         app:layout_constraintTop_toBottomOf="@+id/i_application_title" />
 
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:src="@drawable/ic_baseline_arrow_outward_24"
-        android:theme="@style/applicationItemIcon"
+        android:theme="@style/Widget.Sidiay.Image"
         app:layout_constraintLeft_toLeftOf="@+id/i_application_company_icon"
         app:layout_constraintTop_toBottomOf="@+id/i_application_company_icon" />
 
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:src="@drawable/ic_baseline_person_24"
-        android:theme="@style/applicationItemIcon"
+        android:theme="@style/Widget.Sidiay.Image"
         app:layout_constraintLeft_toLeftOf="@+id/i_application_priority_icon"
         app:layout_constraintTop_toBottomOf="@+id/i_application_priority_icon" />
 
@@ -79,7 +79,7 @@
         android:layout_marginStart="5dp"
         android:text=""
 
-        android:theme="@style/applicationItemTextView"
+        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toStartOf="@+id/i_application_date_icon"
         app:layout_constraintStart_toEndOf="@+id/i_application_company_icon"
         app:layout_constraintTop_toTopOf="@+id/i_application_company_icon" />
@@ -91,7 +91,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:text=""
-        android:theme="@style/applicationItemTextView"
+        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toStartOf="@+id/i_application_status_icon"
         app:layout_constraintStart_toEndOf="@+id/i_application_priority_icon"
         app:layout_constraintTop_toTopOf="@+id/i_application_priority_icon" />
@@ -102,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text=""
-        android:theme="@style/applicationItemTextView"
+        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/i_application_person_icon"
         app:layout_constraintTop_toTopOf="@+id/i_application_person_icon" />
@@ -112,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:theme="@style/applicationItemTextView"
+        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/i_application_company_icon" />
 
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:src="@drawable/ic_baseline_flag_24"
-        android:theme="@style/applicationItemIcon"
+        android:theme="@style/Widget.Sidiay.Image"
         app:layout_constraintEnd_toStartOf="@+id/i_application_date"
         app:layout_constraintTop_toTopOf="@+id/i_application_date" />
 
@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:text=""
-        android:theme="@style/applicationItemTextView"
+        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/i_application_date" />
 
@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:src="@drawable/ic_baseline_check_24"
-        android:theme="@style/applicationItemIcon"
+        android:theme="@style/Widget.Sidiay.Image"
         app:layout_constraintEnd_toStartOf="@+id/i_application_status"
         app:layout_constraintTop_toTopOf="@+id/i_application_status" />
 

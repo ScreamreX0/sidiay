@@ -48,7 +48,7 @@
                         android:id="@+id/f_application_search_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/Base.Widget.AppCompat.SearchView."
+                        android:theme="@style/Widget.Sidiay.SearchView"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
