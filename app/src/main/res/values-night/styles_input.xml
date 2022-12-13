@@ -4,7 +4,7 @@
     <style name="Widget.Sidiay.TextInputLayer" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="backgroundTint">@color/white</item>
         <item name="boxStrokeColor">@color/white</item>
-        <item name="boxBackgroundColor">@color/grey_600</item>
+        <item name="boxBackgroundColor">@color/white</item>
         <item name="hintTextColor">@color/white</item>
     </style>
 

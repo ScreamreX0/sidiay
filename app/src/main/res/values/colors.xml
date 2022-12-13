@@ -23,12 +23,14 @@
     <color name="coffee">#CABFAB</color>
     <color name="coffee_light">#DFD8C8</color>
 
+    <color name="grey_50">#e6e6e6</color>
     <color name="grey_200">#d3d3d3</color>
     <color name="grey_400">#808080</color>
     <color name="grey_600">#52575D</color>
     <color name="grey_700">#41444B</color>
     <color name="grey_800">#393E46</color>
     <color name="grey_900">#222831</color>
+    <color name="grey_950">#292929</color>
 
     <color name="orange_200">#FFE15D</color>
     <color name="orange_500">#FD841F</color>

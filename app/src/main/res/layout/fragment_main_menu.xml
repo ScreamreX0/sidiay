@@ -23,11 +23,11 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/f_main_bottom_nav"
+            style="@style/Widget.Sidiay.BottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            app:itemIconTint="@color/orange_500"
-            app:itemTextColor="@color/orange_500"
-            app:labelVisibilityMode="labeled"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_menu" />

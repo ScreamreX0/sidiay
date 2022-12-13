@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Sidiay.DefaultTheme">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.Sidiay.SearchView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="editTextColor">@color/white</item>
+        <item name="hintTextColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Sidiay.BottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="itemIconTint">@color/orange_500</item>
+        <item name="itemTextColor">@color/orange_500</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.Background" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/grey_50</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.RecyclerView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.ChipGroup.ScrollView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.ChipGroup" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.AppBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="backgroundTint">@color/orange_500</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.FloatingButton" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/orange_500</item>
+        <item name="tint">@color/white</item>
+    </style>
+</resources>

@@ -23,4 +23,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:text">*</item>
     </style>
+
+    <style name="Widget.Sidiay.Text.ItemApplication">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

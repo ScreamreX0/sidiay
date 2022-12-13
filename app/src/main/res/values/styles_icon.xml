@@ -19,4 +19,12 @@
     <style name="Widget.Sidiay.Icon.SignIn.Right" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="tint">@color/grey_900</item>
     </style>
+
+    <style name="Widget.Sidiay.Icon.Add" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tint">@color/pastel_purple</item>
+    </style>
+
+    <style name="Widget.Sidiay.Icon.Error" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tint">@color/red_700</item>
+    </style>
 </resources>

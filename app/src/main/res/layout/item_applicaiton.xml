@@ -2,39 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Sidiay.ItemApplication.Background"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:padding="15dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/item_application"
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/i_application_new"
+        style="@style/Widget.Sidiay.Icon.Add"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="14dp"
         android:src="@drawable/ic_sharp_add_circle_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/pastel_purple" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:layout_width="30dp"
+        style="@style/Widget.Sidiay.Icon.Error"
         android:layout_height="30dp"
         android:layout_marginBottom="14dp"
         android:src="@drawable/ic_baseline_error_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/i_application_new"
-        app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/red_700"/>
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/i_application_title"
+        style="@style/Widget.Sidiay.Text.ItemApplication"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"
         android:text=""
-        android:textColor="@color/black"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,6 +78,7 @@
 
     <TextView
         android:id="@+id/i_application_company"
+        style="@style/Widget.Sidiay.Text.ItemApplication"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -86,6 +91,7 @@
 
     <TextView
         android:id="@+id/i_application_priority"
+        style="@style/Widget.Sidiay.Text.ItemApplication"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -98,6 +104,7 @@
 
     <TextView
         android:id="@+id/i_application_person"
+        style="@style/Widget.Sidiay.Text.ItemApplication"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -109,6 +116,7 @@
 
     <TextView
         android:id="@+id/i_application_date"
+        style="@style/Widget.Sidiay.Text.ItemApplication"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -128,6 +136,7 @@
 
     <TextView
         android:id="@+id/i_application_status"
+        style="@style/Widget.Sidiay.Text.ItemApplication"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
