@@ -7,8 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="red">#ff0000</color>>
-    <color name="dark_red">#8b0000</color>>
+    <color name="red">#ff0000</color>
+    <color name="dark_red">#8b0000</color>
+    <color name="pastel_red">#8b0000</color>
 
     <color name="pastel_purple">#B1B2FF</color>
     <color name="pastel_blue">#AAC4FF</color>
@@ -17,8 +18,8 @@
 
     <color name="blue_link">#5DADE2 </color>
     <color name="grey">#808080</color>
-    <color name="light_grey">#d3d3d3</color>
 
     <color name="orange">#DAA520</color>
     <color name="goldenrod">#DAA520</color>
+    <color name="light_grey">#d3d3d3</color>
 </resources>

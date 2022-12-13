@@ -21,7 +21,7 @@ class SignInFragmentViewModel @Inject constructor(
     private val authUseCase: SignInUseCase
 ) : ViewModel() {
     var errorResult = MutableLiveData<List<SignInStatuses>>()
-    var successResult = MutableLiveData<User>()
+    var successAuth = MutableLiveData<User>()
 
     fun signIn(email: String, password: String) {
         val params = SignInParams(email, password)
@@ -33,10 +33,10 @@ class SignInFragmentViewModel @Inject constructor(
             return
         }
 
-        if (Constants.ONLINE) {
-            signInOnline(params = params)
-        } else {
+        if (Constants.DEBUG_MODE) {
             signInOffline()
+        } else {
+            signInOnline(params = params)
         }
     }
 
@@ -47,13 +47,13 @@ class SignInFragmentViewModel @Inject constructor(
             if (authResult == null) {
                 errorResult.value = listOf(SignInStatuses.WRONG_EMAIL_OR_PASSWORD)
             } else {
-                successResult.value = authResult!!
+                successAuth.value = authResult!!
             }
         }
     }
 
     private fun signInOffline() {
-        successResult.value = authUseCase.getEmptyUser() as User
+        successAuth.value = authUseCase.getEmptyUser() as User
     }
 
     private fun getAuthHandler(): CoroutineExceptionHandler {

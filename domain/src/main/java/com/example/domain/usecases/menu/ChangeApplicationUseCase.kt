@@ -5,13 +5,13 @@ import com.example.domain.repositories.IApplicationRepository
 import com.example.domain.utils.Constants
 import javax.inject.Inject
 
-class GetApplicationsUseCase @Inject constructor(
+class ChangeApplicationUseCase @Inject constructor(
     private val applicationRepository: IApplicationRepository
 ) {
-    suspend fun execute(): List<Application> {
+    suspend fun execute(newApplication: Application) : Boolean {
         if (Constants.DEBUG_MODE) {
-            return applicationRepository.getTestApplicationsList()
+            return applicationRepository.testChangeApplication(newApplication = newApplication)
         }
-        return applicationRepository.getApplicationsList()
+        return applicationRepository.changeApplication(newApplication = newApplication)
     }
 }

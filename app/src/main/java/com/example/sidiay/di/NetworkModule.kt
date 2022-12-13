@@ -25,10 +25,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
-        val url: String = if (Constants.ONLINE) {
-            Constants.URL
-        } else {
+        val url: String = if (Constants.DEBUG_MODE) {
             Constants.LOCAL_URL
+        } else {
+            Constants.URL
         }
 
         return Retrofit.Builder()

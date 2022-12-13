@@ -5,24 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.sidiay.databinding.FragmentAuthBinding
 import com.example.sidiay.presentation.viewmodels.start.SignInFragmentViewModel
 import com.example.domain.enums.SignInStatuses
 import com.example.sidiay.R
-import com.example.sidiay.presentation.fragments.menu.MainMenuFragment
+import com.example.sidiay.databinding.FragmentSigninBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AuthFragment : Fragment(R.layout.fragment_auth) {
+class SignInFragment : Fragment(R.layout.fragment_signin) {
     private val viewModel: SignInFragmentViewModel by viewModels()
-    private lateinit var binding: FragmentAuthBinding
+    private lateinit var binding: FragmentSigninBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentAuthBinding.inflate(inflater, container, false)
+        binding = FragmentSigninBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -79,9 +77,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
     }
 
     private fun successHandler() {
-        viewModel.successResult.observe(viewLifecycleOwner) {
-            val action = AuthFragmentDirections.actionLoginFragmentToNavMenu(
-                    viewModel.successResult.value!!
+        viewModel.successAuth.observe(viewLifecycleOwner) {
+            val action = SignInFragmentDirections.actionLoginFragmentToNavMenu(
+                    viewModel.successAuth.value!!
                 )
             findNavController().navigate(action)
         }

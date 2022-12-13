@@ -1,8 +1,10 @@
 package com.example.sidiay.di
 
-import com.example.domain.models.entities.Application
 import com.example.domain.repositories.IApplicationRepository
 import com.example.domain.repositories.IUserRepository
+import com.example.domain.usecases.menu.GetApplicationUseCase
+import com.example.domain.usecases.menu.GetApplicationsUseCase
+import com.example.domain.usecases.menu.create.SaveApplicationUseCase
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.Module
@@ -24,7 +26,17 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetApplicationsUseCase(applicationsRepository: IApplicationRepository): List<Application> {
-        return applicationsRepository.getApplicationsListOffline()
+    fun provideGetApplicationsUseCase(applicationRepository: IApplicationRepository): GetApplicationsUseCase {
+        return GetApplicationsUseCase(applicationRepository = applicationRepository)
+    }
+
+    @Provides
+    fun provideGetApplicationUseCase(applicationRepository: IApplicationRepository): GetApplicationUseCase {
+        return GetApplicationUseCase(applicationRepository = applicationRepository)
+    }
+
+    @Provides
+    fun provideSaveApplicationUseCase(applicationsRepository: IApplicationRepository): SaveApplicationUseCase {
+        return SaveApplicationUseCase(applicationRepository = applicationsRepository)
     }
 }

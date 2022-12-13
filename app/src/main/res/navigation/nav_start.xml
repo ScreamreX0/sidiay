@@ -22,9 +22,9 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.sidiay.presentation.fragments.start.AuthFragment"
+        android:name="com.example.sidiay.presentation.fragments.start.SignInFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_auth">
+        tools:layout="@layout/fragment_signin">
         <action
             android:id="@+id/action_loginFragment_to_nav_menu"
             app:destination="@id/mainMenuFragment"

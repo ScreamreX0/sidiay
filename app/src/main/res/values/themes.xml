@@ -38,7 +38,7 @@
         <item name="editTextColor">@color/white</item>
         <item name="hintTextColor">@color/white</item>
     </style>
-    
+
     <style name="fragmentApplicationItemTitleText" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/grey</item>
@@ -57,7 +57,7 @@
     <style name="fragmentApplicationItemIconSecond">
         <item name="tint">@color/orange</item>
     </style>
-    
+
     <style name="fragmentAddApplicationNecessarilyStar">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">"@color/dark_red"</item>

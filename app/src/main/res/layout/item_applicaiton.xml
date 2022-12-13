@@ -10,22 +10,22 @@
         android:id="@+id/i_application_new"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         android:src="@drawable/ic_sharp_add_circle_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/blue_link" />
+        app:tint="@color/pastel_purple" />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="14dp"
         android:src="@drawable/ic_baseline_error_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/i_application_new"
         app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/red" />
+        app:tint="@color/pastel_red"/>
 
     <TextView
         android:id="@+id/i_application_title"

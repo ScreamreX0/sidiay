@@ -4,12 +4,14 @@ import com.example.domain.models.entities.Application
 
 
 interface IApplicationRepository {
-    fun getApplicationsListOffline(): List<Application>
     suspend fun getApplicationsList(): List<Application>
-
-    fun getApplicationOffline(id: Int): Application
     suspend fun getApplication(id: Int): Application
-
-    fun changeApplicationOffline(newApplication: Application): Boolean
     suspend fun changeApplication(newApplication: Application): Boolean
+    suspend fun saveApplication(application: Application): Boolean
+
+    // Test
+    suspend fun getTestApplicationsList(): List<Application>
+    suspend fun getTestApplication(id: Int): Application
+    suspend fun testChangeApplication(newApplication: Application): Boolean
+    suspend fun saveTestApplication(application: Application): Boolean
 }
