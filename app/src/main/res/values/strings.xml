@@ -46,10 +46,16 @@
     <string name="add_object">Add object</string>
     <string name="add_application">Add application</string>
     <string name="title">Title</string>
-    <string name="choose_service">Choose service</string>
-    <string name="choose_executor">Choose executor</string>
-    <string name="choose_type">Choose type</string>
-    <string name="choose_status">Choose status</string>
-    <string name="choose_priority">Choose priority</string>
-
+    <string name="select_service">Choose service</string>
+    <string name="select_executor">Choose executor</string>
+    <string name="select_type">Choose type</string>
+    <string name="select_status">Choose status</string>
+    <string name="select_priority">Choose priority</string>
+    <string name="plane_date_2nd">Plane date</string>
+    <string name="expiration_date_2nd">Expiration date</string>
+    <string name="select_date">Select date</string>
+    <string name="add_description">Add description</string>
+    <string name="add_completed_work">Add completed work</string>
+    <string name="select_author">Choose author</string>
+    <string name="save">Save</string>
 </resources>

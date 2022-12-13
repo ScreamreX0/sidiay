@@ -1,612 +1,637 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/f_add_application_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="60dp"
+        android:backgroundTint="@color/orange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/f_add_application_app_bar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/orange"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/f_add_application_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="70dp"
+                android:ellipsize="end"
+                android:gravity="fill"
+                android:lines="2"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/add_application"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/f_add_application_toolbar"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/f_add_application_title"
-                    android:layout_width="0dp"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/f_add_application_toolbar"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/add_application_app_bar_menu" />
+
+            <ImageView
+                android:id="@+id/f_add_application_back_button"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:contentDescription="@string/desc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/f_add_application_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+                app:tint="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/f_add_application_app_bar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="75dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/f_add_application_second_title_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:background="@color/white"
+                android:hint="@string/title"
+                android:textColor="@color/orange"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/f_add_application_oil_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="25dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIconSecond"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_second_title_edit"
+                app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
+
+            <TextView
+                android:id="@+id/f_add_application_object_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/field_object"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_oil_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_oil_image" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/f_add_application_object_chip_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:chipSpacingVertical="-5dp"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_object_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_subtitle">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layoutDirection="rtl"
+                    android:text="qlweqw"
+                    app:chipBackgroundColor="@color/light_grey"
+                    app:chipCornerRadius="100dp"
+                    app:chipEndPadding="5dp"
+                    app:chipIcon="@drawable/ic_baseline_close_24"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeWidth="0dp"
+                    app:iconEndPadding="-5dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_object"
+                    app:chipBackgroundColor="@color/blue_link"
+                    app:chipCornerRadius="100dp"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeWidth="0dp" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/f_add_application_star_object"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/necessarily_star"
+                android:theme="@style/fragmentAddApplicationNecessarilyStar"
+                app:layout_constraintBottom_toBottomOf="@+id/f_add_application_object_subtitle"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_object_subtitle"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_object_subtitle" />
+
+            <ImageView
+                android:id="@+id/f_add_application_service_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIconSecond"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_oil_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_chip_group"
+                app:srcCompat="@drawable/ic_baseline_miscellaneous_services_24" />
+
+            <TextView
+                android:id="@+id/f_add_application_service_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/service"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_service_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_service_image" />
+
+            <TextView
+                android:id="@+id/f_add_application_star_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/necessarily_star"
+                android:theme="@style/fragmentAddApplicationNecessarilyStar"
+                app:layout_constraintBottom_toBottomOf="@+id/f_add_application_service_subtitle"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_service_subtitle"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_service_subtitle" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/f_add_application_service_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/select_service"
+                android:textColorHint="@color/grey"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_service_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_service_subtitle">
+
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_application_auto_complete_service"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="70dp"
-                    android:ellipsize="end"
-                    android:gravity="fill"
-                    android:lines="2"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:text="@string/add_application"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/f_add_application_toolbar"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/f_add_application_toolbar"
-                    android:layout_width="0dp"
-                    android:layout_height="56dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:menu="@menu/add_application_app_bar_menu" />
+            <ImageView
+                android:id="@+id/f_add_application_executor_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIconSecond"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_service_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_service_layout"
+                app:srcCompat="@drawable/ic_baseline_person_24" />
 
-                <ImageView
-                    android:id="@+id/f_add_application_back_button"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:contentDescription="@string/desc"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/f_add_application_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-                    app:tint="@color/white" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/f_add_application_second_title_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="50dp"
-            android:background="@color/white"
-            android:hint="@string/title"
-            android:textColor="@color/orange"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_app_bar" />
-
-        <ImageView
-            android:id="@+id/f_add_application_oil_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="25dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_second_title_edit"
-            app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
-
-        <TextView
-            android:id="@+id/f_add_application_object_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/field_object"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_oil_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_oil_image" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/f_add_application_object_chip_group"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:chipSpacingVertical="-5dp"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_object_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_subtitle">
-
-            <com.google.android.material.chip.Chip
+            <TextView
+                android:id="@+id/f_add_application_executor_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layoutDirection="rtl"
-                android:text="qlweqw"
-                app:chipBackgroundColor="@color/light_grey"
-                app:chipCornerRadius="100dp"
-                app:chipEndPadding="5dp"
-                app:chipIcon="@drawable/ic_baseline_close_24"
-                app:chipStartPadding="5dp"
-                app:chipStrokeWidth="0dp"
-                app:iconEndPadding="-5dp" />
+                android:layout_marginStart="10dp"
+                android:text="@string/executor"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_service_layout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_executor_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_executor_image" />
 
-            <com.google.android.material.chip.Chip
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/f_add_application_executor_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/select_executor"
+                android:textColorHint="@color/grey"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_executor_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_subtitle">
+
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_application_auto_complete_executor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/f_add_application_line"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="40dp"
+                android:background="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_layout" />
+
+            <ImageView
+                android:id="@+id/f_add_application_kind_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_executor_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_line"
+                app:srcCompat="@drawable/ic_baseline_menu_24" />
+
+            <TextView
+                android:id="@+id/f_add_application_kind_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_object"
-                app:chipBackgroundColor="@color/blue_link"
-                app:chipCornerRadius="100dp"
-                app:chipEndPadding="5dp"
-                app:chipStartPadding="5dp"
-                app:chipStrokeWidth="0dp" />
-        </com.google.android.material.chip.ChipGroup>
+                android:layout_marginStart="10dp"
+                android:text="@string/kind"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_kind_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_kind_image"
+                tools:ignore="TextContrastCheck" />
 
-        <TextView
-            android:id="@+id/f_add_application_star_object"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/necessarily_star"
-            android:theme="@style/fragmentAddApplicationNecessarilyStar"
-            app:layout_constraintBottom_toBottomOf="@+id/f_add_application_object_subtitle"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_object_subtitle"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_object_subtitle" />
+            <TextView
+                android:id="@+id/f_add_application_star_kind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/necessarily_star"
+                android:theme="@style/fragmentAddApplicationNecessarilyStar"
+                app:layout_constraintBottom_toBottomOf="@+id/f_add_application_kind_subtitle"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_kind_subtitle"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_kind_subtitle" />
 
-        <ImageView
-            android:id="@+id/f_add_application_service_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_oil_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_chip_group"
-            app:srcCompat="@drawable/ic_baseline_miscellaneous_services_24" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/f_add_application_type_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/select_type"
+                android:textColorHint="@color/grey"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_kind_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_kind_subtitle">
 
-        <TextView
-            android:id="@+id/f_add_application_service_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/service"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_service_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_service_image" />
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_application_auto_complete_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/f_add_application_star_service"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/necessarily_star"
-            android:theme="@style/fragmentAddApplicationNecessarilyStar"
-            app:layout_constraintBottom_toBottomOf="@+id/f_add_application_service_subtitle"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_service_subtitle"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_service_subtitle" />
+            <ImageView
+                android:id="@+id/f_add_application_status_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_kind_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_type_layout"
+                app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/f_add_application_service_layout"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/choose_service"
-            android:textColorHint="@color/grey"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_service_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_service_subtitle">
+            <TextView
+                android:id="@+id/f_add_application_status_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/status"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_status_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_status_image"
+                tools:ignore="TextContrastCheck" />
 
-            <AutoCompleteTextView
-                android:id="@+id/f_add_application_auto_complete_service"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/f_add_application_status_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/select_status"
+                android:textColorHint="@color/grey"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_status_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_status_subtitle">
 
-        <ImageView
-            android:id="@+id/f_add_application_executor_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_service_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_service_layout"
-            app:srcCompat="@drawable/ic_baseline_person_24" />
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_application_auto_complete_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/f_add_application_executor_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/executor"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_service_layout"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_executor_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_executor_image" />
+            <ImageView
+                android:id="@+id/f_add_application_priority_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_status_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_status_layout"
+                app:srcCompat="@drawable/ic_baseline_error_24" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/f_add_application_executor_layout"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/choose_executor"
-            android:textColorHint="@color/grey"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_executor_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_subtitle">
+            <TextView
+                android:id="@+id/f_add_application_priority_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/priority"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_priority_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_priority_image"
+                tools:ignore="TextContrastCheck" />
 
-            <AutoCompleteTextView
-                android:id="@+id/f_add_application_auto_complete_executor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/f_add_application_star_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/necessarily_star"
+                android:theme="@style/fragmentAddApplicationNecessarilyStar"
+                app:layout_constraintBottom_toBottomOf="@+id/f_add_application_priority_subtitle"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_priority_subtitle"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_priority_subtitle" />
 
-        <View
-            android:id="@+id/f_add_application_line"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_layout" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/f_add_application_priority_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/select_priority"
+                android:textColorHint="@color/grey"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_priority_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_priority_subtitle">
 
-        <ImageView
-            android:id="@+id/f_add_application_kind_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_executor_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_line"
-            app:srcCompat="@drawable/ic_baseline_menu_24" />
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_application_auto_complete_priority"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/f_add_application_kind_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/kind"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_kind_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_kind_image"
-            tools:ignore="TextContrastCheck" />
+            <ImageView
+                android:id="@+id/f_add_application_plane_date_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_priority_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_priority_layout"
+                app:srcCompat="@drawable/ic_baseline_flag_24" />
 
-        <TextView
-            android:id="@+id/f_add_application_star_kind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/necessarily_star"
-            android:theme="@style/fragmentAddApplicationNecessarilyStar"
-            app:layout_constraintBottom_toBottomOf="@+id/f_add_application_kind_subtitle"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_kind_subtitle"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_kind_subtitle" />
+            <TextView
+                android:id="@+id/f_add_application_plane_date_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/plane_date_2nd"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_plane_date_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_plane_date_image" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/f_add_application_type_layout"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/choose_type"
-            android:textColorHint="@color/grey"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_kind_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_kind_subtitle">
+            <TextView
+                android:id="@+id/f_add_application_expiration_date_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/expiration_date_2nd"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_plane_date_subtitle" />
 
-            <AutoCompleteTextView
-                android:id="@+id/f_add_application_auto_complete_type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/f_add_application_plane_date_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/select_date"
+                android:theme="@style/fragmentApplicationItemDescText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_plane_date_subtitle"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_plane_date_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_plane_date_subtitle" />
 
-        <ImageView
-            android:id="@+id/f_add_application_status_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_kind_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_type_layout"
-            app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
+            <TextView
+                android:id="@+id/f_add_application_expiration_date_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:minHeight="40dp"
+                android:text="@string/select_date"
+                android:theme="@style/fragmentApplicationItemDescText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_expiration_date_subtitle"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_expiration_date_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_expiration_date_subtitle" />
 
-        <TextView
-            android:id="@+id/f_add_application_status_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/status"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_status_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_status_image"
-            tools:ignore="TextContrastCheck" />
+            <ImageView
+                android:id="@+id/f_add_application_description_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_plane_date_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_plane_date_text"
+                app:srcCompat="@drawable/ic_baseline_message_24" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/f_add_application_status_layout"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/choose_status"
-            android:textColorHint="@color/grey"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_status_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_status_subtitle">
+            <TextView
+                android:id="@+id/f_add_application_description_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/description"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_description_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_description_image" />
 
-            <AutoCompleteTextView
-                android:id="@+id/f_add_application_auto_complete_status"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/f_add_application_description_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/white"
+                android:hint="@string/add_description"
+                android:textColor="@color/grey"
+                android:theme="@style/fragmentApplicationItemDescText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_description_subtitle"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_description_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_description_subtitle" />
 
-        <ImageView
-            android:id="@+id/f_add_application_priority_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_status_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_status_layout"
-            app:srcCompat="@drawable/ic_baseline_error_24" />
+            <ImageView
+                android:id="@+id/f_add_application_completed_work_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_description_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_description_edit"
+                app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
-        <TextView
-            android:id="@+id/f_add_application_priority_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/priority"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_priority_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_priority_image"
-            tools:ignore="TextContrastCheck" />
+            <TextView
+                android:id="@+id/f_add_application_completed_work_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/completed_work"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_completed_work_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_completed_work_image" />
 
-        <TextView
-            android:id="@+id/f_add_application_star_priority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/necessarily_star"
-            android:theme="@style/fragmentAddApplicationNecessarilyStar"
-            app:layout_constraintBottom_toBottomOf="@+id/f_add_application_priority_subtitle"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_priority_subtitle"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_priority_subtitle" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/f_add_application_completed_work_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/white"
+                android:hint="@string/add_completed_work"
+                android:theme="@style/fragmentApplicationItemDescText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_completed_work_subtitle"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_completed_work_subtitle" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/f_add_application_priority_layout"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/choose_priority"
-            android:textColorHint="@color/grey"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_priority_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_priority_subtitle">
+            <ImageView
+                android:id="@+id/f_add_application_author_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_completed_work_edit"
+                app:srcCompat="@drawable/ic_baseline_person_24" />
 
-            <AutoCompleteTextView
-                android:id="@+id/f_add_application_auto_complete_priority"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/f_add_application_author_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/author"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_author_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_author_image"
+                tools:ignore="TextContrastCheck" />
 
-        <ImageView
-            android:id="@+id/f_add_application_plane_date_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_priority_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_priority_layout"
-            app:srcCompat="@drawable/ic_baseline_flag_24" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/f_add_application_author_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/select_author"
+                android:textColorHint="@color/grey"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_author_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_subtitle">
 
-        <TextView
-            android:id="@+id/f_add_application_plane_date_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/plane_date_2nd"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_plane_date_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_plane_date_image" />
+                <AutoCompleteTextView
+                    android:id="@+id/f_add_application_auto_complete_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/f_add_application_expiration_date_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/expiration_date_2nd"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_plane_date_subtitle" />
+            <ImageView
+                android:id="@+id/f_add_application_creation_date_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/desc"
+                android:theme="@style/fragmentApplicationItemIcon"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_author_image"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_layout"
+                app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
-        <TextView
-            android:id="@+id/f_add_application_plane_date_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/select_date"
-            android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_plane_date_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_plane_date_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_plane_date_subtitle" />
+            <TextView
+                android:id="@+id/f_add_application_creation_date_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/date_of_creation"
+                android:theme="@style/fragmentApplicationItemTitleText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
+                app:layout_constraintStart_toEndOf="@+id/f_add_application_creation_date_image"
+                app:layout_constraintTop_toTopOf="@+id/f_add_application_creation_date_image" />
 
-        <TextView
-            android:id="@+id/f_add_application_expiration_date_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:minHeight="40dp"
-            android:text="@string/select_date"
-            android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_expiration_date_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_expiration_date_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_expiration_date_subtitle" />
+            <TextView
+                android:id="@+id/f_add_application_creation_date_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/white"
+                android:text="@string/select_date"
+                android:theme="@style/fragmentApplicationItemDescText"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_creation_date_subtitle"
+                app:layout_constraintStart_toStartOf="@+id/f_add_application_creation_date_subtitle"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_creation_date_subtitle" />
 
-        <ImageView
-            android:id="@+id/f_add_application_description_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_plane_date_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_plane_date_text"
-            app:srcCompat="@drawable/ic_baseline_message_24" />
-
-        <TextView
-            android:id="@+id/f_add_application_description_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/description"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_expiration_date_text"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_description_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_description_image" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/f_add_application_description_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/white"
-            android:hint="@string/add_description"
-            android:textColor="@color/grey"
-            android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_description_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_description_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_description_subtitle" />
-
-        <ImageView
-            android:id="@+id/f_add_application_completed_work_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_description_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_description_edit"
-            app:srcCompat="@drawable/ic_twotone_view_list_24" />
-
-        <TextView
-            android:id="@+id/f_add_application_completed_work_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/completed_work"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_description_edit"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_completed_work_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_completed_work_image" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/f_add_application_completed_work_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/white"
-            android:hint="@string/add_completed_work"
-            android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_completed_work_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_completed_work_subtitle" />
-
-        <ImageView
-            android:id="@+id/f_add_application_author_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_completed_work_edit"
-            app:srcCompat="@drawable/ic_baseline_person_24" />
-
-        <TextView
-            android:id="@+id/f_add_application_author_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/author"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_author_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_author_image"
-            tools:ignore="TextContrastCheck" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/f_add_application_author_layout"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/choose_author"
-            android:textColorHint="@color/grey"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_author_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_subtitle">
-
-            <AutoCompleteTextView
-                android:id="@+id/f_add_application_auto_complete_author"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageView
-            android:id="@+id/f_add_application_creation_date_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/desc"
-            android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_author_image"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_layout"
-            app:srcCompat="@drawable/ic_twotone_view_list_24" />
-
-        <TextView
-            android:id="@+id/f_add_application_creation_date_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/date_of_creation"
-            android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_author_layout"
-            app:layout_constraintStart_toEndOf="@+id/f_add_application_creation_date_image"
-            app:layout_constraintTop_toTopOf="@+id/f_add_application_creation_date_image" />
-
-        <TextView
-            android:id="@+id/f_add_application_creation_date_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/white"
-            android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/f_add_application_creation_date_subtitle"
-            app:layout_constraintStart_toStartOf="@+id/f_add_application_creation_date_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/f_add_application_creation_date_subtitle" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/f_add_application_save_button"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:background="@color/light_grey"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_creation_date_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

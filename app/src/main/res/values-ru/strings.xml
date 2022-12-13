@@ -45,15 +45,16 @@
     <string name="add_object">Добавить объект</string>
     <string name="add_application">Создание заявки</string>
     <string name="title">Заголовок</string>
-    <string name="choose_service">Выбрать сервис</string>
-    <string name="choose_executor">Выбрать исполнителя</string>
-    <string name="choose_type">Выбрать вид</string>
-    <string name="choose_status">Выбрать статус</string>
-    <string name="choose_priority">Выбрать приоритет</string>
+    <string name="select_service">Выбрать сервис</string>
+    <string name="select_executor">Выбрать исполнителя</string>
+    <string name="select_type">Выбрать вид</string>
+    <string name="select_status">Выбрать статус</string>
+    <string name="select_priority">Выбрать приоритет</string>
     <string name="plane_date_2nd">Плановая дата</string>
     <string name="expiration_date_2nd">Дата окончания</string>
     <string name="select_date">Выбрать дату</string>
     <string name="add_description">Добавить описание</string>
-    <string name="add_completed_work">Добавить выполненные работы</string>
-    <string name="choose_author">Выбрать автора</string>
+    <string name="add_completed_work">Добавить работы</string>
+    <string name="select_author">Выбрать автора</string>
+    <string name="save">Сохранить</string>
 </resources>

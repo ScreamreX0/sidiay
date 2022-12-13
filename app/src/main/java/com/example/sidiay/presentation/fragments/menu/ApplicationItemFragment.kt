@@ -36,34 +36,34 @@ class ApplicationItemFragment : Fragment(R.layout.fragment_application_item) {
         with(args.application) {
             with(binding) {
                 fApplicationItemTitle.text = "${getString(R.string.application)}№ $id"
-                fApplicationItemTitleSecond.text = title
+                fApplicationItemSecondTitle.text = title
 
-                fApplicationItemService.text = service
+                fApplicationItemServiceText.text = service
 
-                fApplicationItemCompletedWork.text = completedWorks
+                fApplicationItemCompletedWorkText.text = completedWorks
 
-                fApplicationItemDateOfCreation.text = creationDate
-                fApplicationItemExpirationDate.text = expirationDate
-                fApplicationItemPlaneDate.text = plannedDate
+                fApplicationItemCreationDateText.text = creationDate
+                fApplicationItemExpirationDateText.text = expirationDate
+                fApplicationItemPlaneDateText.text = plannedDate
 
-                fApplicationItemObject.text = objects?.joinToString(
+                fApplicationItemObjectText.text = objects?.joinToString(
                     separator = "/",
                     transform = { it.name }
                 )
 
-                fApplicationItemPriority.text = priority
-                fApplicationItemStatus.text = status
-                fApplicationItemKind.text = type
+                fApplicationItemPriorityText.text = priority
+                fApplicationItemStatusText.text = status
+                fApplicationItemKindText.text = type
 
-                fApplicationItemDescription.text = description
+                fApplicationItemDescriptionText.text = description
 
                 // Author full name
-                fApplicationItemAuthor.text = author?.let {
+                fApplicationItemAuthorText.text = author?.let {
                     "${author!!.firstName} ${author!!.name.first()}. ${author!!.lastName.first()}."
                 }
 
                 // Executor full name
-                fApplicationItemExecutor.text = executor?.let {
+                fApplicationItemExecutorText.text = executor?.let {
                     "${executor!!.firstName} ${executor!!.name.first()}. ${executor!!.lastName.first()}."
                 }
             }
