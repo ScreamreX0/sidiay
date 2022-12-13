@@ -20,7 +20,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
                 <TextView
                     android:id="@+id/f_application_item_title"
                     android:layout_width="0dp"
@@ -62,7 +61,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
-            android:id="@+id/f_application_item_title_second"
+            android:id="@+id/f_application_item_second_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -76,103 +75,103 @@
             app:layout_constraintTop_toBottomOf="@+id/f_application_item_app_bar" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/f_application_item_object_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="25dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/f_application_item_title_second"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_title_second"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_second_title"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_second_title"
             app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/f_application_item_object_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/field_object"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_title_second"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/imageView4" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_second_title"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_object_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_object_image" />
 
         <TextView
-            android:id="@+id/f_application_item_object"
+            android:id="@+id/f_application_item_object_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_object_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_object_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_object_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/f_application_item_service_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/imageView4"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_object"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_object_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_object_text"
             app:srcCompat="@drawable/ic_baseline_miscellaneous_services_24" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/f_application_item_service_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/service"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_title_second"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_second_title"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_service_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_service_image" />
 
         <TextView
-            android:id="@+id/f_application_item_service"
+            android:id="@+id/f_application_item_service_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_service_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_service_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_service_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/f_application_item_executor_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIconSecond"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_service"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_service_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_service_text"
             app:srcCompat="@drawable/ic_baseline_person_24" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/f_application_item_executor_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/executor"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_service"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_service_text"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_executor_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_executor_image" />
 
         <TextView
-            android:id="@+id/f_application_item_executor"
+            android:id="@+id/f_application_item_executor_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_executor_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor_subtitle" />
 
         <View
-            android:id="@+id/line4"
+            android:id="@+id/f_application_item_line"
             android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginStart="40dp"
@@ -181,283 +180,283 @@
             android:background="@color/grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor" />
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor_text" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/f_application_item_kind_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView3"
-            app:layout_constraintTop_toBottomOf="@+id/line4"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_executor_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_line"
             app:srcCompat="@drawable/ic_baseline_menu_24" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/f_application_item_kind_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/kind"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor_text"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toTopOf="@+id/imageView7"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_kind_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_kind_image"
             tools:ignore="TextContrastCheck" />
 
         <TextView
-            android:id="@+id/f_application_item_kind"
+            android:id="@+id/f_application_item_kind_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView7"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_kind_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/f_application_item_status_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_kind_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind_text"
             app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/f_application_item_status_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/status"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind"
-            app:layout_constraintStart_toEndOf="@+id/imageView8"
-            app:layout_constraintTop_toTopOf="@+id/imageView8"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind_text"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_status_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_status_image"
             tools:ignore="TextContrastCheck" />
 
         <TextView
-            android:id="@+id/f_application_item_status"
+            android:id="@+id/f_application_item_status_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_status_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_status_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_status_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView10"
+            android:id="@+id/f_application_item_priority_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView8"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_status"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_status_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_status_text"
             app:srcCompat="@drawable/ic_baseline_error_24" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/f_application_item_priority_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/priority"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_status"
-            app:layout_constraintStart_toEndOf="@+id/imageView10"
-            app:layout_constraintTop_toTopOf="@+id/imageView10"
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_status_text"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_priority_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_priority_image"
             tools:ignore="TextContrastCheck" />
 
         <TextView
-            android:id="@+id/f_application_item_priority"
+            android:id="@+id/f_application_item_priority_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView11"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_priority_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/f_application_item_plane_date_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView10"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_priority_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority_text"
             app:srcCompat="@drawable/ic_baseline_flag_24" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/f_application_item_plane_date_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/plane_date"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintStart_toEndOf="@+id/imageView11"
-            app:layout_constraintTop_toTopOf="@+id/imageView11" />
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_plane_date_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_plane_date_image" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/f_application_item_expiration_date_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/expiration_date"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority"
-            app:layout_constraintTop_toTopOf="@+id/textView13" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority_text"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_plane_date_subtitle" />
 
         <TextView
-            android:id="@+id/f_application_item_plane_date"
+            android:id="@+id/f_application_item_plane_date_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView13"
-            app:layout_constraintStart_toStartOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_plane_date_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_plane_date_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date_subtitle" />
 
         <TextView
-            android:id="@+id/f_application_item_expiration_date"
+            android:id="@+id/f_application_item_expiration_date_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView14"
-            app:layout_constraintStart_toStartOf="@+id/textView14"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_expiration_date_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_expiration_date_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView13"
+            android:id="@+id/f_application_item_description_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView11"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_plane_date_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date_text"
             app:srcCompat="@drawable/ic_baseline_message_24" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/f_application_item_description_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/description"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date"
-            app:layout_constraintStart_toEndOf="@+id/imageView13"
-            app:layout_constraintTop_toTopOf="@+id/imageView13" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date_text"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_description_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_description_image" />
 
         <TextView
-            android:id="@+id/f_application_item_description"
+            android:id="@+id/f_application_item_description_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/not_filled"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView17"
-            app:layout_constraintStart_toStartOf="@+id/textView17"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_description_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_description_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_description_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView14"
+            android:id="@+id/f_application_item_completed_work_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView13"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_description"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_description_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_description_text"
             app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/f_application_item_completed_work_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/completed_work"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_description"
-            app:layout_constraintStart_toEndOf="@+id/imageView14"
-            app:layout_constraintTop_toTopOf="@+id/imageView14" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_description_text"
+            app:layout_constraintStart_toEndOf="@+id/f_application_item_completed_work_image"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_completed_work_image" />
 
         <TextView
-            android:id="@+id/f_application_item_completed_work"
+            android:id="@+id/f_application_item_completed_work_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView19"
-            app:layout_constraintStart_toStartOf="@+id/textView19"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/f_application_item_author_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView14"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work_text"
             app:srcCompat="@drawable/ic_baseline_person_24" />
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/f_application_item_author_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/author"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work"
-            app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work"
-            app:layout_constraintTop_toTopOf="@+id/imageView15" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work_text"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_text"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_author_image" />
 
         <TextView
-            android:id="@+id/f_application_item_author"
+            android:id="@+id/f_application_item_author_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView21"
-            app:layout_constraintStart_toStartOf="@+id/textView21"
-            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_author_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_author_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_author_subtitle" />
 
         <ImageView
-            android:id="@+id/imageView16"
+            android:id="@+id/f_application_item_creation_date_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/desc"
             android:theme="@style/fragmentApplicationItemIcon"
-            app:layout_constraintStart_toStartOf="@+id/imageView15"
-            app:layout_constraintTop_toBottomOf="@+id/f_application_item_author"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_author_image"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_author_text"
             app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
 
         <TextView
-            android:id="@+id/textView23"
+            android:id="@+id/f_application_item_creation_date_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/date_of_creation"
             android:theme="@style/fragmentApplicationItemTitleText"
-            app:layout_constraintEnd_toEndOf="@+id/f_application_item_author"
-            app:layout_constraintStart_toStartOf="@+id/f_application_item_author"
-            app:layout_constraintTop_toTopOf="@+id/imageView16" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_author_text"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_author_text"
+            app:layout_constraintTop_toTopOf="@+id/f_application_item_creation_date_image" />
 
         <TextView
-            android:id="@+id/f_application_item_date_of_creation"
+            android:id="@+id/f_application_item_creation_date_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:theme="@style/fragmentApplicationItemDescText"
-            app:layout_constraintEnd_toEndOf="@+id/textView23"
-            app:layout_constraintStart_toStartOf="@+id/textView23"
-            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+            app:layout_constraintEnd_toEndOf="@+id/f_application_item_creation_date_subtitle"
+            app:layout_constraintStart_toStartOf="@+id/f_application_item_creation_date_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/f_application_item_creation_date_subtitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

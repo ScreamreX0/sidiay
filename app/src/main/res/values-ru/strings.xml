@@ -50,4 +50,10 @@
     <string name="choose_type">Выбрать вид</string>
     <string name="choose_status">Выбрать статус</string>
     <string name="choose_priority">Выбрать приоритет</string>
+    <string name="plane_date_2nd">Плановая дата</string>
+    <string name="expiration_date_2nd">Дата окончания</string>
+    <string name="select_date">Выбрать дату</string>
+    <string name="add_description">Добавить описание</string>
+    <string name="add_completed_work">Добавить выполненные работы</string>
+    <string name="choose_author">Выбрать автора</string>
 </resources>
