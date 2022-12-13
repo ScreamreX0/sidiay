@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/i_application_new"
         app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/pastel_red"/>
+        app:tint="@color/red_700"/>
 
     <TextView
         android:id="@+id/i_application_title"

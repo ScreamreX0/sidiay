@@ -9,7 +9,7 @@
         android:id="@+id/f_application_item_app_bar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="@color/orange_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -75,7 +75,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
-                android:textColor="@color/orange"
+                android:textColor="@color/orange_500"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

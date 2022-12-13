@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Sidiay" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryVariant">@color/orange</item>
+        <item name="colorPrimary">@color/orange_500</item>
+        <item name="colorPrimaryVariant">@color/orange_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -16,12 +16,12 @@
 
     <style name="defaultButtonTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:backgroundTint">@color/orange</item>
+        <item name="android:backgroundTint">@color/orange_500</item>
     </style>
 
     <style name="defaultInputTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:backgroundTint">@color/orange</item>
+        <item name="android:backgroundTint">@color/orange_500</item>
     </style>
 
     <style name="applicationItemTextView" parent="Theme.AppCompat.Light.NoActionBar">
@@ -55,7 +55,7 @@
     </style>
 
     <style name="fragmentApplicationItemIconSecond">
-        <item name="tint">@color/orange</item>
+        <item name="tint">@color/orange_500</item>
     </style>
 
     <style name="fragmentAddApplicationNecessarilyStar">
