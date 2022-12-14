@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Widget.Sidiay.TextView" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="Widget.Sidiay.TitleText" parent="Theme.AppCompat.Light.NoActionBar">

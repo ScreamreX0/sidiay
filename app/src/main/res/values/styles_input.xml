@@ -16,11 +16,12 @@
         <item name="counterMaxLength">32</item>
         <item name="endIconMode">clear_text</item>
         <item name="errorEnabled">false</item>
+        <item name="counterTextColor">@color/colorAccent</item>
 
-        <item name="hintTextColor">@color/grey_800</item>
-        <item name="backgroundTint">@color/grey_800</item>
-        <item name="boxStrokeColor">@color/grey_800</item>
-        <item name="boxBackgroundColor">@color/grey_800</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxBackgroundColor">@color/colorAccent</item>
     </style>
 
     <style name="Widget.Sidiay.EditText" parent="ThemeOverlay.Material3.TextInputEditText">
@@ -33,9 +34,5 @@
         <item name="android:textColorHint">@color/grey_400</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">30dp</item>
-    </style>
-
-    <style name="Widget.Sidiay.AddApplication.EditText" parent="ThemeOverlay.Material3.TextInputEditText">
-
     </style>
 </resources>

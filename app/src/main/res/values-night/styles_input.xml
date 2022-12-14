@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Widget.Sidiay.TextInputEditText" parent="">
-        <item name="backgroundTint">@color/colorPrimaryVariant</item>
-        <item name="hintTextColor">@color/colorSecondary</item>
+        <item name="backgroundTint">@color/colorSecondary</item>
+        <item name="hintTextColor">@color/colorPrimary</item>
         <item name="android:textCursorDrawable">@color/colorPrimary</item>
         <item name="android:background">@color/colorSecondary</item>
     </style>
 
     <style name="Widget.Sidiay.TextInputLayer" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">32</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="errorEnabled">false</item>
+        <item name="counterTextColor">@color/colorPrimary</item>
+
+        <item name="hintTextColor">@color/colorPrimary</item>
         <item name="backgroundTint">@color/colorPrimary</item>
-        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeColor">@color/colorPrimary</item>
         <item name="boxBackgroundColor">@color/colorPrimary</item>
-        <item name="hintTextColor">@color/white</item>
     </style>
 
     <style name="Widget.Sidiay.EditText" parent="ThemeOverlay.Material3.TextInputEditText">

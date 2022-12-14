@@ -6,6 +6,6 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
 
-        <item name="buttonStyle">@style/Widget.Sidiay.Button</item>
+        <item name="android:background">@color/colorSecondaryVariant</item>
     </style>
 </resources>
