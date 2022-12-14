@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Sidiay.ItemApplication.Background"
     android:layout_width="match_parent"
     android:layout_height="140dp"
+    style="@style/Theme.Sidiay.ItemBackground"
     android:background="@drawable/item_application"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/i_application_new"

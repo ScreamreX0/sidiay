@@ -5,8 +5,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.FloatingButton" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/grey_200</item>
-        <item name="tint">@color/black</item>
+    <style name="Widget.Sidiay.FloatingButton" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="tint">@color/colorSecondary</item>
     </style>
 </resources>

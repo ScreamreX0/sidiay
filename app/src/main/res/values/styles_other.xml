@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Bottom nav -->
+    <style name="Widget.Sidiay.BottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="itemIconTint">@color/colorPrimary</item>
+        <item name="itemTextColor">@color/colorPrimary</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="backgroundTint">@color/colorSecondary</item>
+    </style>
+
+    <!-- Appbars -->
+    <style name="Widget.Sidiay.AppBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.AppBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/orange_500</item>
+    </style>
+
+
     <!-- Themes -->
     <style name="Theme.Sidiay.DefaultTheme">
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.Background" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/grey_10</item>
+    <style name="Theme.Sidiay.ItemBackground">
+        <item name="android:backgroundTint">@color/colorSecondaryLight</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.Background" parent="">
+        <item name="android:backgroundTint">@color/colorSecondaryLight</item>
     </style>
 
     <!-- Chips -->
@@ -35,30 +57,17 @@
         <item name="chipStrokeWidth">0dp</item>
     </style>
 
-    <!-- Bottom nav -->
-    <style name="Widget.Sidiay.BottomNavigation" parent="Widget.Design.BottomNavigationView">
-        <item name="itemIconTint">@color/orange_500</item>
-        <item name="itemTextColor">@color/orange_500</item>
-        <item name="labelVisibilityMode">labeled</item>
-        <item name="backgroundTint">@color/white</item>
-    </style>
-
     <!-- Views -->
-    <style name="Widget.Sidiay.ItemApplication.RecyclerView" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/white</item>
+    <style name="Widget.Sidiay.RecyclerView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/colorSecondary</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.ChipGroup.ScrollView" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/white</item>
+    <style name="Widget.Sidiay.ChipGroup.ScrollView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/colorSecondary</item>
     </style>
 
     <style name="Widget.Sidiay.SearchView" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:editTextColor">@color/white</item>
-        <item name="hintTextColor">@color/white</item>
-    </style>
-
-    <!-- Appbars -->
-    <style name="Widget.Sidiay.ItemApplication.AppBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/orange_500</item>
+        <item name="android:editTextColor">@color/colorSecondary</item>
+        <item name="hintTextColor">@color/colorSecondary</item>
     </style>
 </resources>
