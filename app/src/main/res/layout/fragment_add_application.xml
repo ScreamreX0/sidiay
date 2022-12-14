@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Sidiay.ItemApplication.Background"
+    style="@style/Widget.Sidiay.Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,6 +20,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_title"
+                style="@style/Widget.Sidiay.Text.Title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="70dp"
@@ -120,7 +121,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_subtitle">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.Sidiay.AddApplication.Chip.Object"
+                    style="@style/Widget.Sidiay.Chip.Object"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
@@ -135,7 +136,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/f_add_application_add_object_button"
-                    style="@style/Widget.Sidiay.AddApplication.Chip.AddObject"
+                    style="@style/Widget.Sidiay.Chip.AddObject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/add_object" />
@@ -228,7 +229,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_executor_text"
-                style="@style/Widget.Sidiay.Text.Description"
+                style="@style/Widget.Sidiay.Text.ItemApplication.Description"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
@@ -427,7 +428,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_plane_date_text"
-                style="@style/Widget.Sidiay.Text.Description"
+                style="@style/Widget.Sidiay.Text.ItemApplication.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -438,7 +439,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_expiration_date_text"
-                style="@style/Widget.Sidiay.Text.Description"
+                style="@style/Widget.Sidiay.Text.ItemApplication.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -472,11 +473,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/f_add_application_description_edit"
-                style="@style/Widget.Sidiay.AddApplication.EditText"
+                style="@style/Widget.Sidiay.ItemApplication.TextInputEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/white"
                 android:hint="@string/add_description"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_description_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_description_subtitle"
@@ -506,11 +506,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/f_add_application_completed_work_edit"
-                style="@style/Widget.Sidiay.AddApplication.EditText"
+                style="@style/Widget.Sidiay.ItemApplication.TextInputEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/white"
                 android:hint="@string/add_completed_work"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_completed_work_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_subtitle"
@@ -542,7 +541,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_author_text"
-                style="@style/Widget.Sidiay.Text.Description"
+                style="@style/Widget.Sidiay.Text.ItemApplication.Description"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
@@ -576,7 +575,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_creation_date_text"
-                style="@style/Widget.Sidiay.Text.Description"
+                style="@style/Widget.Sidiay.Text.ItemApplication.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

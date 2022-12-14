@@ -24,7 +24,7 @@
         <item name="android:backgroundTint">@color/colorSecondaryLight</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.Background" parent="">
+    <style name="Widget.Sidiay.Background" parent="">
         <item name="android:backgroundTint">@color/colorSecondaryLight</item>
     </style>
 
@@ -37,17 +37,17 @@
         <item name="android:backgroundTint">@color/grey_200</item>
     </style>
 
-    <style name="Widget.Sidiay.AddApplication.Chip.Object" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/grey_200</item>
+    <style name="Widget.Sidiay.Chip.Object" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/colorSecondaryVariant</item>
         <item name="chipCornerRadius">100dp</item>
         <item name="chipEndPadding">5dp</item>
         <item name="chipStartPadding">5dp</item>
         <item name="chipStrokeWidth">0dp</item>
     </style>
 
-    <style name="Widget.Sidiay.AddApplication.Chip.AddObject" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Widget.Sidiay.Chip.AddObject" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:backgroundTint">@color/blue_700</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/colorSecondary</item>
         <item name="chipCornerRadius">100dp</item>
         <item name="chipEndPadding">5dp</item>
         <item name="chipStartPadding">5dp</item>

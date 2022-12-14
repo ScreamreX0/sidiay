@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Widget.Sidiay.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
@@ -9,7 +10,7 @@
         <item name="android:textColor">@color/colorPrimaryVariant</item>
     </style>
 
-    <style name="Widget.Sidiay.Text" parent="Theme.AppCompat.Light.NoActionBar"/>
+    <style name="Widget.Sidiay.Text" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="Widget.Sidiay.Text.Description" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textSize">20sp</item>
@@ -17,8 +18,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Widget.Sidiay.Text.ItemApplication.Description" parent="Widget.Sidiay.Text.Description">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorPrimary</item>
+    </style>
+
     <style name="Widget.Sidiay.Text.StarText">
-        <item name="android:textColor">"@color/white"</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">*</item>
     </style>
 
     <style name="Widget.Sidiay.Text.ItemApplication">
