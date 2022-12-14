@@ -4,9 +4,9 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="Widget.Sidiay.TitleText" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Widget.Sidiay.Subtitle" parent="Widget.Sidiay.TextView">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/grey_200</item>
+        <item name="android:textColor">@color/colorPrimaryVariant</item>
     </style>
 
     <style name="Widget.Sidiay.Text" parent="Theme.AppCompat.Light.NoActionBar"/>
@@ -26,17 +26,11 @@
         <item name="android:backgroundTint">@color/white</item>
     </style>
 
-    <style name="Widget.Sidiay.Text.ItemApplication.SecondTitle">
-        <item name="android:textColor">@color/grey_200</item>
-        <item name="android:textSize">30sp</item>
+    <style name="Widget.Sidiay.Text.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="Widget.Sidiay.Text.ItemApplication.Title">
-        <item name="android:ellipsize">end</item>
-        <item name="android:lines">2</item>
-        <item name="android:gravity">fill</item>
-        <item name="android:textColor">@color/grey_50</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="Widget.Sidiay.Text.SecondTitle">
+        <item name="android:textColor">@color/colorPrimaryVariant</item>
     </style>
 </resources>

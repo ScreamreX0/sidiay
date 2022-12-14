@@ -8,7 +8,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/f_add_application_app_bar"
-        style="@style/Widget.Sidiay.ItemApplication.AppBar"
+        style="@style/Widget.Sidiay.AppBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_object_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -165,7 +165,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_service_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -216,7 +216,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_executor_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -263,7 +263,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_kind_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -315,7 +315,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_status_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -356,7 +356,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_priority_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -408,7 +408,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_plane_date_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -418,7 +418,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_expiration_date_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/expiration_date_2nd"
@@ -461,7 +461,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_description_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -495,7 +495,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_completed_work_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -529,7 +529,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_author_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -565,7 +565,7 @@
 
             <TextView
                 android:id="@+id/f_add_application_creation_date_subtitle"
-                style="@style/Widget.Sidiay.TitleText"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

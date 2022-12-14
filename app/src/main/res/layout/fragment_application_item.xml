@@ -7,7 +7,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/f_application_item_app_bar"
-        style="@style/Widget.Sidiay.ItemApplication.AppBar"
+        style="@style/Widget.Sidiay.AppBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,12 +19,17 @@
 
             <TextView
                 android:id="@+id/f_application_item_title"
-                style="@style/Widget.Sidiay.Text.ItemApplication.Title"
+                style="@style/Widget.Sidiay.Text.Title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="70dp"
+                android:ellipsize="end"
+                android:gravity="fill"
+                android:lines="2"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/f_application_item_toolbar"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,11 +70,12 @@
 
             <TextView
                 android:id="@+id/f_application_item_second_title"
-                style="@style/Widget.Sidiay.Text.ItemApplication.SecondTitle"
+                style="@style/Widget.Sidiay.Text.SecondTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,96 +83,96 @@
 
             <ImageView
                 android:id="@+id/f_application_item_object_image"
+                style="@style/Widget.Sidiay.Image.SecondItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="25dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_second_title"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_second_title"
                 app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
 
             <TextView
                 android:id="@+id/f_application_item_object_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/field_object"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_second_title"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_object_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_object_image" />
 
             <TextView
                 android:id="@+id/f_application_item_object_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_object_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_object_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_object_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_service_image"
+                style="@style/Widget.Sidiay.Image.SecondItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_object_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_object_text"
                 app:srcCompat="@drawable/ic_baseline_miscellaneous_services_24" />
 
             <TextView
                 android:id="@+id/f_application_item_service_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/service"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_second_title"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_service_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_service_image" />
 
             <TextView
                 android:id="@+id/f_application_item_service_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_service_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_service_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_service_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_executor_image"
+                style="@style/Widget.Sidiay.Image.SecondItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_service_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_service_text"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
 
             <TextView
                 android:id="@+id/f_application_item_executor_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/executor"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_service_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_executor_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_executor_image" />
 
             <TextView
                 android:id="@+id/f_application_item_executor_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_executor_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_executor_subtitle" />
@@ -185,22 +191,22 @@
 
             <ImageView
                 android:id="@+id/f_application_item_kind_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_executor_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_line"
                 app:srcCompat="@drawable/ic_baseline_menu_24" />
 
             <TextView
                 android:id="@+id/f_application_item_kind_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/kind"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_executor_text"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_kind_image"
@@ -209,32 +215,32 @@
 
             <TextView
                 android:id="@+id/f_application_item_kind_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_kind_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_status_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_kind_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_kind_text"
                 app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
 
             <TextView
                 android:id="@+id/f_application_item_status_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/status"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_kind_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_status_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_status_image"
@@ -242,32 +248,32 @@
 
             <TextView
                 android:id="@+id/f_application_item_status_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_status_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_status_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_status_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_priority_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_status_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_status_text"
                 app:srcCompat="@drawable/ic_baseline_error_24" />
 
             <TextView
                 android:id="@+id/f_application_item_priority_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/priority"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_status_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_priority_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_priority_image"
@@ -275,187 +281,187 @@
 
             <TextView
                 android:id="@+id/f_application_item_priority_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_priority_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_plane_date_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_priority_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_priority_text"
                 app:srcCompat="@drawable/ic_baseline_flag_24" />
 
             <TextView
                 android:id="@+id/f_application_item_plane_date_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/plane_date"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_plane_date_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_plane_date_image" />
 
             <TextView
                 android:id="@+id/f_application_item_expiration_date_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/expiration_date"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_priority_text"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_plane_date_subtitle" />
 
             <TextView
                 android:id="@+id/f_application_item_plane_date_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_plane_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_plane_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date_subtitle" />
 
             <TextView
                 android:id="@+id/f_application_item_expiration_date_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_expiration_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_expiration_date_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_description_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_plane_date_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_plane_date_text"
                 app:srcCompat="@drawable/ic_baseline_message_24" />
 
             <TextView
                 android:id="@+id/f_application_item_description_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/description"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_expiration_date_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_description_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_description_image" />
 
             <TextView
                 android:id="@+id/f_application_item_description_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@string/not_filled"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_description_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_description_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_description_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_completed_work_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_description_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_description_text"
                 app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
             <TextView
                 android:id="@+id/f_application_item_completed_work_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/completed_work"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_description_text"
                 app:layout_constraintStart_toEndOf="@+id/f_application_item_completed_work_image"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_completed_work_image" />
 
             <TextView
                 android:id="@+id/f_application_item_completed_work_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_author_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_completed_work_text"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
 
             <TextView
                 android:id="@+id/f_application_item_author_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/author"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_completed_work_text"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_completed_work_text"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_author_image" />
 
             <TextView
                 android:id="@+id/f_application_item_author_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_author_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_author_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_author_subtitle" />
 
             <ImageView
                 android:id="@+id/f_application_item_creation_date_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                style="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_author_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_author_text"
                 app:srcCompat="@drawable/ic_baseline_calendar_month_24" />
 
             <TextView
                 android:id="@+id/f_application_item_creation_date_subtitle"
+                style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/date_of_creation"
-                style="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_author_text"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_author_text"
                 app:layout_constraintTop_toTopOf="@+id/f_application_item_creation_date_image" />
 
             <TextView
                 android:id="@+id/f_application_item_creation_date_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                style="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_application_item_creation_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_application_item_creation_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_application_item_creation_date_subtitle" />
