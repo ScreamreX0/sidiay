@@ -1,10 +1,11 @@
 package com.example.sidiay.di
 
+import com.example.domain.enums.Services
 import com.example.domain.repositories.IApplicationRepository
 import com.example.domain.repositories.IUserRepository
 import com.example.domain.usecases.menu.GetApplicationUseCase
 import com.example.domain.usecases.menu.GetApplicationsUseCase
-import com.example.domain.usecases.menu.create.SaveApplicationUseCase
+import com.example.domain.usecases.menu.create.*
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.Module
@@ -38,5 +39,30 @@ class DomainModule {
     @Provides
     fun provideSaveApplicationUseCase(applicationsRepository: IApplicationRepository): SaveApplicationUseCase {
         return SaveApplicationUseCase(applicationRepository = applicationsRepository)
+    }
+
+    @Provides
+    fun provideGetServicesUseCase(): GetServicesUseCase {
+        return GetServicesUseCase()
+    }
+
+    @Provides
+    fun provideGetKindsUseCase(): GetKindsUseCase {
+        return GetKindsUseCase()
+    }
+
+    @Provides
+    fun provideGetPrioritiesUseCase(): GetPrioritiesUseCase {
+        return GetPrioritiesUseCase()
+    }
+
+    @Provides
+    fun provideGetPeriodsUseCase(): GetPeriodsUseCase {
+        return GetPeriodsUseCase()
+    }
+
+    @Provides
+    fun provideGetStatusesUseCase(): GetStatusesUseCase {
+        return GetStatusesUseCase()
     }
 }
