@@ -9,7 +9,7 @@
     </style>
 
     <style name="Widget.Sidiay.Image.SecondItem">
-        <item name="tint">@color/orange_500</item>
+        <item name="tint">@color/grey_50</item>
     </style>
 
     <style name="Widget.Sidiay.Icon.SignIn.Left" parent="Theme.AppCompat.Light.NoActionBar">
@@ -26,5 +26,9 @@
 
     <style name="Widget.Sidiay.Icon.Error" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="tint">@color/grey_950</item>
+    </style>
+
+    <style name="Widget.Sidiay.AddApplication.EditText" parent="ThemeOverlay.Material3.TextInputEditText">
+
     </style>
 </resources>

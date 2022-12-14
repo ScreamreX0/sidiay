@@ -22,4 +22,14 @@
         <item name="android:textCursorDrawable">@color/grey_800</item>
         <item name="hintTextColor">@color/white</item>
     </style>
+
+    <style name="Widget.Sidiay.AddApplication.TextInputLayer" parent="Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+        <item name="android:textColorHint">@color/grey_400</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
+    <style name="Widget.Sidiay.AddApplication.EditText" parent="ThemeOverlay.Material3.TextInputEditText">
+
+    </style>
 </resources>

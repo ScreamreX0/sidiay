@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Themes -->
     <style name="Theme.Sidiay.DefaultTheme">
         <item name="android:background">@color/grey_700</item>
         <item name="colorPrimary">@color/grey_700</item>
     </style>
 
-    <style name="Widget.Sidiay.SearchView" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="editTextColor">@color/white</item>
-        <item name="hintTextColor">@color/white</item>
+    <style name="Widget.Sidiay.ItemApplication.Background" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/grey_600</item>
     </style>
 
+    <!-- Chips -->
+    <style name="Widget.Sidiay.ItemApplication.ChipGroup" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/grey_600</item>
+    </style>
+
+    <style name="Widget.Sidiay.ItemApplication.Chip" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/grey_50</item>
+        <item name="android:textColor">@color/grey_900</item>
+    </style>
+
+    <style name="Widget.Sidiay.AddApplication.Chip.Object" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/grey_50</item>
+        <item name="android:textColor">@color/grey_900</item>
+        <item name="chipCornerRadius">100dp</item>
+        <item name="chipEndPadding">5dp</item>
+        <item name="chipStartPadding">5dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+    </style>
+
+    <style name="Widget.Sidiay.AddApplication.Chip.AddObject" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:backgroundTint">@color/grey_600</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="chipCornerRadius">100dp</item>
+        <item name="chipEndPadding">5dp</item>
+        <item name="chipStartPadding">5dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+    </style>
+
+    <!-- Bottom nav -->
     <style name="Widget.Sidiay.BottomNavigation" parent="Widget.Design.BottomNavigationView">
         <item name="itemIconTint">@color/white</item>
         <item name="itemTextColor">@color/white</item>
@@ -17,10 +46,7 @@
         <item name="backgroundTint">@color/grey_600</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.Background" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/grey_600</item>
-    </style>
-
+    <!-- Views -->
     <style name="Widget.Sidiay.ItemApplication.RecyclerView" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/grey_700</item>
     </style>
@@ -29,16 +55,13 @@
         <item name="android:background">@color/grey_700</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.Chip" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/grey_950</item>
+    <style name="Widget.Sidiay.SearchView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="editTextColor">@color/white</item>
+        <item name="hintTextColor">@color/white</item>
     </style>
 
+    <!-- Appbars -->
     <style name="Widget.Sidiay.ItemApplication.AppBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:backgroundTint">@color/grey_600</item>
-    </style>
-
-    <style name="Widget.Sidiay.ItemApplication.FloatingButton" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:backgroundTint">@color/grey_200</item>
-        <item name="tint">@color/black</item>
     </style>
 </resources>

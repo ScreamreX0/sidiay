@@ -12,14 +12,14 @@
     </style>
 
     <style name="Widget.Sidiay.Text.Description" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textSize">23sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/grey_400</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Widget.Sidiay.Text.StarText">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">"@color/dark_red"</item>
+        <item name="android:textColor">"@color/red_500"</item>
         <item name="android:textStyle">bold</item>
         <item name="android:text">*</item>
     </style>
@@ -27,4 +27,20 @@
     <style name="Widget.Sidiay.Text.ItemApplication">
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="Widget.Sidiay.Text.ItemApplication.Title">
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">2</item>
+        <item name="android:gravity">fill</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Sidiay.Text.ItemApplication.SecondTitle">
+        <item name="android:textColor">@color/orange_500</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+
 </resources>

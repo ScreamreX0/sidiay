@@ -2,14 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Sidiay.ItemApplication.Background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/f_add_application_app_bar"
+        style="@style/Widget.Sidiay.ItemApplication.AppBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:backgroundTint="@color/orange_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -71,14 +72,14 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/f_add_application_second_title_edit"
+                style="@style/Widget.Sidiay.EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
-                android:background="@color/white"
                 android:hint="@string/title"
-                android:textColor="@color/orange_500"
+                android:maxLength="255"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -87,22 +88,22 @@
 
             <ImageView
                 android:id="@+id/f_add_application_oil_image"
+                style="@style/Widget.Sidiay.Image.SecondItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="25dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_second_title_edit"
                 app:srcCompat="@drawable/ic_baseline_oil_barrel_24" />
 
             <TextView
                 android:id="@+id/f_add_application_object_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/field_object"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_oil_image"
@@ -119,6 +120,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_subtitle">
 
                 <com.google.android.material.chip.Chip
+                    style="@style/Widget.Sidiay.AddApplication.Chip.Object"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
@@ -132,45 +134,42 @@
                     app:iconEndPadding="-5dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/f_add_application_add_object_button"
+                    style="@style/Widget.Sidiay.AddApplication.Chip.AddObject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_object"
-                    app:chipBackgroundColor="@color/blue_700"
-                    app:chipCornerRadius="100dp"
-                    app:chipEndPadding="5dp"
-                    app:chipStartPadding="5dp"
-                    app:chipStrokeWidth="0dp" />
+                    android:text="@string/add_object" />
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
                 android:id="@+id/f_add_application_star_object"
+                style="@style/Widget.Sidiay.Text.StarText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/necessarily_star"
-                android:theme="@style/Widget.Sidiay.Text.StarText"
                 app:layout_constraintBottom_toBottomOf="@+id/f_add_application_object_subtitle"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_object_subtitle"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_object_subtitle" />
 
             <ImageView
                 android:id="@+id/f_add_application_service_image"
+                style="@style/Widget.Sidiay.Image.SecondItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_oil_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_chip_group"
                 app:srcCompat="@drawable/ic_baseline_miscellaneous_services_24" />
 
             <TextView
                 android:id="@+id/f_add_application_service_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/service"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_service_image"
@@ -178,23 +177,20 @@
 
             <TextView
                 android:id="@+id/f_add_application_star_service"
+                style="@style/Widget.Sidiay.Text.StarText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/necessarily_star"
-                android:theme="@style/Widget.Sidiay.Text.StarText"
                 app:layout_constraintBottom_toBottomOf="@+id/f_add_application_service_subtitle"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_service_subtitle"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_service_subtitle" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/f_add_application_service_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
+                style="@style/Widget.Sidiay.AddApplication.TextInputLayer"
                 android:layout_marginTop="5dp"
                 android:hint="@string/select_service"
-                android:textColorHint="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_service_subtitle"
@@ -209,46 +205,38 @@
 
             <ImageView
                 android:id="@+id/f_add_application_executor_image"
+                style="@style/Widget.Sidiay.Image.SecondItem"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.SecondItem"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_service_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_service_layout"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
 
             <TextView
                 android:id="@+id/f_add_application_executor_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/executor"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_service_layout"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_executor_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_executor_image" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/f_add_application_executor_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            <TextView
+                android:id="@+id/f_add_application_executor_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:hint="@string/select_executor"
-                android:textColorHint="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_executor_subtitle"
-                app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_subtitle">
-
-                <AutoCompleteTextView
-                    android:id="@+id/f_add_application_auto_complete_executor"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_subtitle" />
 
             <View
                 android:id="@+id/f_add_application_line"
@@ -260,27 +248,27 @@
                 android:background="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_executor_text" />
 
             <ImageView
                 android:id="@+id/f_add_application_kind_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_executor_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_line"
                 app:srcCompat="@drawable/ic_baseline_menu_24" />
 
             <TextView
                 android:id="@+id/f_add_application_kind_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/kind"
-                android:theme="@style/Widget.Sidiay.TitleText"
-                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_text"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_kind_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_kind_image"
@@ -288,30 +276,27 @@
 
             <TextView
                 android:id="@+id/f_add_application_star_kind"
+                style="@style/Widget.Sidiay.Text.StarText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/necessarily_star"
-                android:theme="@style/Widget.Sidiay.Text.StarText"
                 app:layout_constraintBottom_toBottomOf="@+id/f_add_application_kind_subtitle"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_kind_subtitle"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_kind_subtitle" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/f_add_application_type_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:id="@+id/f_add_application_kind_layout"
+                style="@style/Widget.Sidiay.AddApplication.TextInputLayer"
                 android:layout_marginTop="5dp"
                 android:hint="@string/select_type"
-                android:textColorHint="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_kind_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_kind_subtitle">
 
                 <AutoCompleteTextView
-                    android:id="@+id/f_add_application_auto_complete_type"
+                    android:id="@+id/f_add_application_auto_complete_kinds"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="none" />
@@ -319,22 +304,22 @@
 
             <ImageView
                 android:id="@+id/f_add_application_status_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_kind_image"
-                app:layout_constraintTop_toBottomOf="@+id/f_add_application_type_layout"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_kind_layout"
                 app:srcCompat="@drawable/ic_baseline_playlist_add_check_24" />
 
             <TextView
                 android:id="@+id/f_add_application_status_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/status"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_status_image"
@@ -343,12 +328,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/f_add_application_status_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
+                style="@style/Widget.Sidiay.AddApplication.TextInputLayer"
                 android:layout_marginTop="5dp"
                 android:hint="@string/select_status"
-                android:textColorHint="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_status_subtitle"
@@ -363,23 +345,23 @@
 
             <ImageView
                 android:id="@+id/f_add_application_priority_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_status_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_status_layout"
                 app:srcCompat="@drawable/ic_baseline_error_24" />
 
             <TextView
                 android:id="@+id/f_add_application_priority_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/priority"
-                android:theme="@style/Widget.Sidiay.TitleText"
-                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_text"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_priority_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_priority_image"
@@ -387,23 +369,20 @@
 
             <TextView
                 android:id="@+id/f_add_application_star_priority"
+                style="@style/Widget.Sidiay.Text.StarText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/necessarily_star"
-                android:theme="@style/Widget.Sidiay.Text.StarText"
                 app:layout_constraintBottom_toBottomOf="@+id/f_add_application_priority_subtitle"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_priority_subtitle"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_priority_subtitle" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/f_add_application_priority_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
+                style="@style/Widget.Sidiay.AddApplication.TextInputLayer"
                 android:layout_marginTop="5dp"
                 android:hint="@string/select_priority"
-                android:textColorHint="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_priority_subtitle"
@@ -418,216 +397,204 @@
 
             <ImageView
                 android:id="@+id/f_add_application_plane_date_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_priority_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_priority_layout"
                 app:srcCompat="@drawable/ic_baseline_flag_24" />
 
             <TextView
                 android:id="@+id/f_add_application_plane_date_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/plane_date_2nd"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_plane_date_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_plane_date_image" />
 
             <TextView
                 android:id="@+id/f_add_application_expiration_date_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/expiration_date_2nd"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_plane_date_subtitle" />
 
             <TextView
                 android:id="@+id/f_add_application_plane_date_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@string/select_date"
-                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_plane_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_plane_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_plane_date_subtitle" />
 
             <TextView
                 android:id="@+id/f_add_application_expiration_date_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:minHeight="40dp"
                 android:text="@string/select_date"
-                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_expiration_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_expiration_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_expiration_date_subtitle" />
 
             <ImageView
                 android:id="@+id/f_add_application_description_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_plane_date_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_plane_date_text"
                 app:srcCompat="@drawable/ic_baseline_message_24" />
 
             <TextView
                 android:id="@+id/f_add_application_description_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/description"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_description_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_description_image" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/f_add_application_description_edit"
+                style="@style/Widget.Sidiay.AddApplication.EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:backgroundTint="@color/white"
                 android:hint="@string/add_description"
-                android:textColor="@color/grey_400"
-                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_description_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_description_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_description_subtitle" />
 
             <ImageView
                 android:id="@+id/f_add_application_completed_work_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_description_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_description_edit"
                 app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
             <TextView
                 android:id="@+id/f_add_application_completed_work_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/completed_work"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_completed_work_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_completed_work_image" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/f_add_application_completed_work_edit"
+                style="@style/Widget.Sidiay.AddApplication.EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:backgroundTint="@color/white"
                 android:hint="@string/add_completed_work"
-                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_completed_work_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_completed_work_subtitle" />
 
             <ImageView
                 android:id="@+id/f_add_application_author_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_completed_work_image"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_completed_work_edit"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
 
             <TextView
                 android:id="@+id/f_add_application_author_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/author"
-                android:theme="@style/Widget.Sidiay.TitleText"
-                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_layout"
+                app:layout_constraintEnd_toEndOf="@+id/f_add_application_executor_text"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_author_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_author_image"
                 tools:ignore="TextContrastCheck" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/f_add_application_author_layout"
-                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            <TextView
+                android:id="@+id/f_add_application_author_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:hint="@string/select_author"
-                android:textColorHint="@color/grey_400"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_author_subtitle"
-                app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_subtitle">
-
-                <AutoCompleteTextView
-                    android:id="@+id/f_add_application_auto_complete_author"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_subtitle" />
 
             <ImageView
                 android:id="@+id/f_add_application_creation_date_image"
+                style="@style/Widget.Sidiay.Image.Item"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:contentDescription="@string/desc"
-                android:theme="@style/Widget.Sidiay.Image.Item"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_author_image"
-                app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_layout"
+                app:layout_constraintTop_toBottomOf="@+id/f_add_application_author_text"
                 app:srcCompat="@drawable/ic_twotone_view_list_24" />
 
             <TextView
                 android:id="@+id/f_add_application_creation_date_subtitle"
+                style="@style/Widget.Sidiay.TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/date_of_creation"
-                android:theme="@style/Widget.Sidiay.TitleText"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintStart_toEndOf="@+id/f_add_application_creation_date_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_application_creation_date_image" />
 
             <TextView
                 android:id="@+id/f_add_application_creation_date_text"
+                style="@style/Widget.Sidiay.Text.Description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:backgroundTint="@color/white"
                 android:text="@string/select_date"
-                android:theme="@style/Widget.Sidiay.Text.Description"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_creation_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_creation_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_creation_date_subtitle" />
 
-            <TextView
+            <Button
                 android:id="@+id/f_add_application_save_button"
+                style="@style/Widget.Sidiay.Button"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="40dp"
-                android:background="@color/grey_200"
-                android:gravity="center"
                 android:text="@string/save"
-                android:textColor="@color/black"
-                android:textSize="23sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_creation_date_text" />

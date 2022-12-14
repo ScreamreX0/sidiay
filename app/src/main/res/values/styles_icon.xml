@@ -25,6 +25,6 @@
     </style>
 
     <style name="Widget.Sidiay.Icon.Error" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/red_700</item>
+        <item name="tint">@color/red_500</item>
     </style>
 </resources>

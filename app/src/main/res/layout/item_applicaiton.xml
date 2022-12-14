@@ -5,24 +5,25 @@
     style="@style/Widget.Sidiay.ItemApplication.Background"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:layout_margin="10dp"
     android:background="@drawable/item_application"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/i_application_new"
         style="@style/Widget.Sidiay.Icon.Add"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="14dp"
         android:src="@drawable/ic_sharp_add_circle_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="30dp"
         style="@style/Widget.Sidiay.Icon.Error"
+        android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="14dp"
         android:src="@drawable/ic_baseline_error_24"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +39,6 @@
         android:layout_marginStart="15dp"
         android:text=""
         android:textSize="20sp"
-        android:textColor="@color/white"
         android:textStyle="bold"
         android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
