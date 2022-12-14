@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Widget.Sidiay.Icon.PrimaryColored" parent="">
+        <item name="tint">@color/colorPrimary</item>
+    </style>
+
+    <style name="Widget.Sidiay.Icon.AccentColored" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="tint">@color/colorAccent</item>
+    </style>
+
+
     <style name="Widget.Sidiay.Image" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="tint">@color/grey_400</item>
     </style>
@@ -10,14 +19,6 @@
 
     <style name="Widget.Sidiay.Image.SecondItem">
         <item name="tint">@color/grey_50</item>
-    </style>
-
-    <style name="Widget.Sidiay.Icon.SignIn.Left" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/grey_900</item>
-    </style>
-
-    <style name="Widget.Sidiay.Icon.SignIn.Right" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/grey_400</item>
     </style>
     
     <style name="Widget.Sidiay.Icon.Add" parent="Theme.AppCompat.Light.NoActionBar">

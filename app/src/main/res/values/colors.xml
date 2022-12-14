@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimaryVariant">#FFE15D</color>
+    <color name="colorPrimary">#FD841F</color>
+    <color name="colorPrimaryDark">#E14D2A</color>
+    <color name="colorSecondary">#FFFFFF</color>
+    <color name="colorSecondaryVariant">#D6D6D6</color>
+    <color name="colorAccent">#000000</color>
+
     <color name="pastel_purple">#B1B2FF</color>
     <color name="dark_purple_200">#A91079</color>
     <color name="dark_purple_500">#570A57</color>

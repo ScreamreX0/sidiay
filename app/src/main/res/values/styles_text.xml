@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Widget.Sidiay.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="Widget.Sidiay.TitleText" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/grey_400</item>

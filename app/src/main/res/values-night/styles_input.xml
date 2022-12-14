@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Widget.Sidiay.TextInputEditText" parent="">
+        <item name="backgroundTint">@color/colorPrimaryVariant</item>
+        <item name="hintTextColor">@color/colorSecondary</item>
+        <item name="android:textCursorDrawable">@color/colorPrimary</item>
+        <item name="android:background">@color/colorSecondary</item>
+    </style>
 
     <style name="Widget.Sidiay.TextInputLayer" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="backgroundTint">@color/white</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
         <item name="boxStrokeColor">@color/white</item>
-        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxBackgroundColor">@color/colorPrimary</item>
         <item name="hintTextColor">@color/white</item>
     </style>
 
