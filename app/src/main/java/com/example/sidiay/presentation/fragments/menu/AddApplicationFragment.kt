@@ -1,5 +1,6 @@
 package com.example.sidiay.presentation.fragments.menu
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -8,20 +9,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.DatePicker
-import android.widget.TimePicker
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
+import com.example.domain.models.params.DateParams
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentAddApplicationBinding
 import com.example.sidiay.presentation.viewmodels.menu.AddApplicationViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import android.icu.util.TimeZone
+import android.view.ContextThemeWrapper
 import java.util.*
 
 
@@ -31,8 +32,6 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     private val viewModel: AddApplicationViewModel by viewModels()
     lateinit var binding: FragmentAddApplicationBinding
 
-    private val expirationDateCalendar = Calendar.getInstance()
-    private val formatter = SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +55,11 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         initStatusesAdapter()
 
         // Date picker handlers
+        planeDateHandler()
         expirationDateHandler()
+        initCreationDate()
     }
+
 
     private fun backButtonHandler() {
         binding.fAddApplicationBackButton.setOnClickListener {
@@ -65,10 +67,26 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         }
     }
 
-    private fun getChip(): Chip {
-        return Chip(requireContext())
+
+    private fun addObjectHandler() {
+        binding.fAddApplicationAddObjectButton.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+
+            
+
+            binding.fAddApplicationObjectChipGroup.addView(getChip("Test text"), 0)
+        }
     }
 
+    private fun getChip(text: String): Chip {
+        val chip = Chip(ContextThemeWrapper(requireContext(), R.style.Widget_Sidiay_Chip_Object), null, 0)
+
+        chip.text = text
+
+        return chip
+    }
+
+    // Dropdown menu
     private fun <T> setupAdapter(items: MutableLiveData<List<T>>, autoCompleteTextView: AutoCompleteTextView) {
         items.observe(viewLifecycleOwner) {
             it.let {
@@ -86,8 +104,7 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     private fun initServicesTextView() {
         setupAdapter(viewModel.services, binding.fAddApplicationAutoCompleteService)
         binding.fAddApplicationAutoCompleteService.setOnItemClickListener { _, _, position, _ ->
-            binding.fAddApplicationServiceLayout.hint =
-                viewModel.services.value?.get(position)?.name
+
         }
         viewModel.initServices()
     }
@@ -95,7 +112,7 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     private fun initKindsTextView() {
         setupAdapter(viewModel.kinds, binding.fAddApplicationAutoCompleteKinds)
         binding.fAddApplicationAutoCompleteKinds.setOnItemClickListener { _, _, position, _ ->
-            binding.fAddApplicationKindLayout.hint = viewModel.kinds.value?.get(position)?.name
+
         }
         viewModel.initKinds()
     }
@@ -103,8 +120,7 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     private fun initPrioritiesAdapter() {
         setupAdapter(viewModel.priorities, binding.fAddApplicationAutoCompletePriority)
         binding.fAddApplicationAutoCompletePriority.setOnItemClickListener { _, _, position, _ ->
-            binding.fAddApplicationPriorityLayout.hint =
-                viewModel.priorities.value?.get(position)?.name
+
         }
         viewModel.initPriorities()
     }
@@ -112,33 +128,35 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     private fun initStatusesAdapter() {
         setupAdapter(viewModel.statuses, binding.fAddApplicationAutoCompleteStatus)
         binding.fAddApplicationAutoCompleteStatus.setOnItemClickListener { _, _, position, _ ->
-            binding.fAddApplicationStatusLayout.hint = viewModel.statuses.value?.get(position)?.name
+
         }
         viewModel.initStatuses()
     }
 
-    private fun addObjectHandler() {
-        binding.fAddApplicationAddObjectButton.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
+    // DateTimes
+    private var currentDateTimePicker: TextView? = null
+    private val dateParams: DateParams = DateParams(0, 0, 0)
 
-
-
-            binding.fAddApplicationObjectChipGroup.addView(getChip())
-        }
-    }
-
-    private fun datePickerHandler() {
-
-    }
-
+    private val planeDateCalendar = Calendar.getInstance()
     private fun planeDateHandler() {
         binding.fAddApplicationPlaneDateText.setOnClickListener {
+            currentDateTimePicker = binding.fAddApplicationPlaneDateText
 
+            DatePickerDialog(
+                requireContext(),
+                this,
+                planeDateCalendar.get(Calendar.YEAR),
+                planeDateCalendar.get(Calendar.MONTH),
+                planeDateCalendar.get(Calendar.DAY_OF_MONTH),
+            ).show()
         }
     }
 
+    private val expirationDateCalendar = Calendar.getInstance()
     private fun expirationDateHandler() {
         binding.fAddApplicationExpirationDateText.setOnClickListener {
+            currentDateTimePicker = binding.fAddApplicationExpirationDateText
+
             DatePickerDialog(
                 requireContext(),
                 this,
@@ -149,16 +167,12 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         }
     }
 
-    private var year = 0
-    private var month = 0
-    private var dayOfMonth = 0
-
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         expirationDateCalendar.set(year, month, dayOfMonth)
 
-        this.year = year
-        this.month = month
-        this.dayOfMonth = dayOfMonth
+        dateParams.year = year
+        dateParams.month = month
+        dateParams.day = dayOfMonth
 
         TimePickerDialog(
             requireContext(),
@@ -170,10 +184,17 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        showTime(this.year, this.month, this.dayOfMonth, hourOfDay, minute)
+        showTime(dateParams.year, dateParams.month, dateParams.day, hourOfDay, minute)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showTime(year: Int, month: Int, dayOfMonth: Int, hourOfDay: Int, minute: Int) {
-        binding.fAddApplicationExpirationDateText.text = "$year.$month.$dayOfMonth $hourOfDay:$minute"
+        currentDateTimePicker?.text = "$year.$month.$dayOfMonth $hourOfDay:$minute"
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun initCreationDate() {
+        binding.fAddApplicationCreationDateText.text = SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
+                .format(Calendar.getInstance(TimeZone.getDefault()).time)
     }
 }

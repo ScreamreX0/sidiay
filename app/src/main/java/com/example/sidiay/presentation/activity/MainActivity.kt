@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // THEME
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+3"))
 
         // LANGUAGE
         Locale.setDefault(Locale("ru_ru"))

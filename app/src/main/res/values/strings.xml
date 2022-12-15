@@ -58,4 +58,6 @@
     <string name="add_completed_work">Add completed work</string>
     <string name="select_author">Choose author</string>
     <string name="save">Save</string>
+    <string name="ok">OK</string>
+    <string name="Cancel">Cancel</string>
 </resources>

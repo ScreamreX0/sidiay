@@ -2,7 +2,7 @@ package com.example.domain.usecases.signin
 
 import com.example.domain.utils.Constants
 import com.example.domain.enums.SignInStatuses
-import com.example.domain.models.SignInParams
+import com.example.domain.models.params.SignInParams
 import javax.inject.Inject
 
 class CheckSignInFieldsUseCase @Inject constructor() {

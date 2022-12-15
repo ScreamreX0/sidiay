@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.entities.User
 import com.example.domain.enums.SignInStatuses
-import com.example.domain.models.SignInParams
+import com.example.domain.models.params.SignInParams
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.utils.Constants

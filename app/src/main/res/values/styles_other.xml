@@ -39,6 +39,7 @@
 
     <style name="Widget.Sidiay.Chip.Object" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:backgroundTint">@color/colorSecondaryVariant</item>
+        <item name="chipIcon">@drawable/ic_baseline_close_24</item>
         <item name="chipCornerRadius">100dp</item>
         <item name="chipEndPadding">5dp</item>
         <item name="chipStartPadding">5dp</item>

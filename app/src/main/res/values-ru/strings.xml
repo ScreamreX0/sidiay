@@ -57,4 +57,6 @@
     <string name="add_completed_work">Добавить работы</string>
     <string name="select_author">Выбрать автора</string>
     <string name="save">Сохранить</string>
+    <string name="ok">Ок</string>
+    <string name="Cancel">Отмена</string>
 </resources>

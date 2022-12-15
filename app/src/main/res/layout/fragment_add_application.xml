@@ -121,20 +121,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_object_subtitle">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.Sidiay.Chip.Object"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl"
-                    android:text="qlweqw"
-                    app:chipBackgroundColor="@color/grey_200"
-                    app:chipCornerRadius="100dp"
-                    app:chipEndPadding="5dp"
-                    app:chipIcon="@drawable/ic_baseline_close_24"
-                    app:chipStartPadding="5dp"
-                    app:chipStrokeWidth="0dp"
-                    app:iconEndPadding="-5dp" />
-
-                <com.google.android.material.chip.Chip
                     android:id="@+id/f_add_application_add_object_button"
                     style="@style/Widget.Sidiay.Chip.AddObject"
                     android:layout_width="wrap_content"
@@ -579,8 +565,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/white"
-                android:text="@string/select_date"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_creation_date_subtitle"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_creation_date_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/f_add_application_creation_date_subtitle" />

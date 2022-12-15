@@ -24,8 +24,6 @@ class ApplicationsAdapter(
         return ApplicationViewHolder(binding)
     }
 
-    override fun getItemCount() = applications.size
-
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(holder: ApplicationViewHolder, position: Int) {
         with(holder) {
@@ -43,10 +41,13 @@ class ApplicationsAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            val action = ApplicationsFragmentDirections.actionFragmentApplicationsToApplicationItemFragment(
-                applications[position]
-            )
+            val action =
+                ApplicationsFragmentDirections.actionFragmentApplicationsToApplicationItemFragment(
+                    applications[position]
+                )
             parent.findNavController().navigate(action)
         }
     }
+
+    override fun getItemCount() = applications.size
 }
