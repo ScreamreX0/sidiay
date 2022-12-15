@@ -25,25 +25,33 @@ import android.icu.util.TimeZone
 import android.view.ContextThemeWrapper
 import java.util.*
 
-
 @AndroidEntryPoint
 class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    // Common
     private val viewModel: AddApplicationViewModel by viewModels()
     lateinit var binding: FragmentAddApplicationBinding
 
+    // Object vars
+    private var objects: List<String> = listOf()
+    private var selectedObjects = BooleanArray(objects.size)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    // Date vars
+    private var currentDateTimePicker: TextView? = null
+    private val dateParams: DateParams = DateParams(0, 0, 0)
+    private val planeDateCalendar = Calendar.getInstance()
+    private val expirationDateCalendar = Calendar.getInstance()
+
+    // FUNS
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddApplicationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initObjects()
 
         backButtonHandler()
         addObjectHandler()
@@ -60,6 +68,38 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         initCreationDate()
     }
 
+    // Employees list
+    private fun initObjects() {
+        viewModel.initObjects()
+
+        viewModel.employees.observe(viewLifecycleOwner) {
+            viewModel.employees.value?.let {
+                objects = it
+                selectedObjects = BooleanArray(objects.size)
+            }
+        }
+    }
+
+    private fun addObjectHandler() {
+        binding.fAddApplicationAddObjectButton.setOnClickListener {
+            if (objects.isEmpty()) {
+                return@setOnClickListener
+            }
+
+            val builder = AlertDialog.Builder(requireContext())
+
+            builder.setTitle(getString(R.string.field_object))
+                .setItems(objects.toTypedArray()) { dialog, item ->
+                    if (!selectedObjects[item]) {
+                        selectedObjects[item] = true
+                        binding.fAddApplicationObjectChipGroup.addView(getChip(objects[item]), 0)
+                    }
+                }
+                .setNegativeButton(getString(R.string.Cancel)) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+        }
+    }
 
     private fun backButtonHandler() {
         binding.fAddApplicationBackButton.setOnClickListener {
@@ -67,21 +107,19 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         }
     }
 
-
-    private fun addObjectHandler() {
-        binding.fAddApplicationAddObjectButton.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-
-            
-
-            binding.fAddApplicationObjectChipGroup.addView(getChip("Test text"), 0)
-        }
-    }
-
     private fun getChip(text: String): Chip {
-        val chip = Chip(ContextThemeWrapper(requireContext(), R.style.Widget_Sidiay_Chip_Object), null, 0)
+        val chip = Chip(
+            ContextThemeWrapper(requireContext(), R.style.Widget_Sidiay_Chip_Object),
+            null,
+            0
+        )
 
         chip.text = text
+
+        chip.setOnClickListener {
+            binding.fAddApplicationObjectChipGroup.removeView(it)
+            selectedObjects[objects.indexOf(chip.text)] = false
+        }
 
         return chip
     }
@@ -134,10 +172,6 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     // DateTimes
-    private var currentDateTimePicker: TextView? = null
-    private val dateParams: DateParams = DateParams(0, 0, 0)
-
-    private val planeDateCalendar = Calendar.getInstance()
     private fun planeDateHandler() {
         binding.fAddApplicationPlaneDateText.setOnClickListener {
             currentDateTimePicker = binding.fAddApplicationPlaneDateText
@@ -152,7 +186,6 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         }
     }
 
-    private val expirationDateCalendar = Calendar.getInstance()
     private fun expirationDateHandler() {
         binding.fAddApplicationExpirationDateText.setOnClickListener {
             currentDateTimePicker = binding.fAddApplicationExpirationDateText
@@ -187,14 +220,13 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         showTime(dateParams.year, dateParams.month, dateParams.day, hourOfDay, minute)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun showTime(year: Int, month: Int, dayOfMonth: Int, hourOfDay: Int, minute: Int) {
         currentDateTimePicker?.text = "$year.$month.$dayOfMonth $hourOfDay:$minute"
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun initCreationDate() {
-        binding.fAddApplicationCreationDateText.text = SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
+        binding.fAddApplicationCreationDateText.text =
+            SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
                 .format(Calendar.getInstance(TimeZone.getDefault()).time)
     }
 }

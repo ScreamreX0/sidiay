@@ -1,6 +1,6 @@
 package com.example.domain.models.params
 
-data class PersonParams(
+data class EmployeeParams(
     val id: Int,
     val firstName: String,
     val name: String,
