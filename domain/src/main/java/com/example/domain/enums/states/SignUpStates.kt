@@ -1,6 +1,6 @@
-package com.example.domain.enums
+package com.example.domain.enums.states
 
-enum class SignUpStatuses {
+enum class SignUpStates {
     // Username
     SHORT_OR_LONG_USERNAME,
 

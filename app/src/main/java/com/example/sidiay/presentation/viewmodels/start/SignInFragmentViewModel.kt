@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.entities.User
-import com.example.domain.enums.SignInStatuses
+import com.example.domain.enums.states.SignInStates
 import com.example.domain.models.params.SignInParams
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
@@ -20,7 +20,7 @@ class SignInFragmentViewModel @Inject constructor(
     private val checkFieldsUseCase: CheckSignInFieldsUseCase,
     private val authUseCase: SignInUseCase
 ) : ViewModel() {
-    var errorResult = MutableLiveData<List<SignInStatuses>>()
+    var errorResult = MutableLiveData<List<SignInStates>>()
     var successAuth = MutableLiveData<User>()
 
     fun signIn(email: String, password: String) {
@@ -45,7 +45,7 @@ class SignInFragmentViewModel @Inject constructor(
             val authResult = authUseCase.execute(params = params)
 
             if (authResult == null) {
-                errorResult.value = listOf(SignInStatuses.WRONG_EMAIL_OR_PASSWORD)
+                errorResult.value = listOf(SignInStates.WRONG_EMAIL_OR_PASSWORD)
             } else {
                 successAuth.value = authResult!!
             }
@@ -59,7 +59,7 @@ class SignInFragmentViewModel @Inject constructor(
     private fun getAuthHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                this.errorResult.value = listOf(SignInStatuses.NO_SERVER_CONNECTION)
+                this.errorResult.value = listOf(SignInStates.NO_SERVER_CONNECTION)
             }
         }
     }

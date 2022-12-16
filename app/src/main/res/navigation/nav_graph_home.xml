@@ -31,12 +31,19 @@
             <action
                 android:id="@+id/action_fragment_applications_to_addApplicationFragment"
                 app:destination="@id/addApplicationFragment" />
+            <argument
+                android:name="user"
+                app:argType="com.example.domain.models.entities.User" />
         </fragment>
         <fragment
             android:id="@+id/addApplicationFragment"
             android:name="com.example.sidiay.presentation.fragments.menu.AddApplicationFragment"
             android:label="AddApplicationFragment"
-            tools:layout="@layout/fragment_add_application"/>
+            tools:layout="@layout/fragment_add_application">
+            <argument
+                android:name="user"
+                app:argType="com.example.domain.models.entities.User" />
+        </fragment>
     </navigation>
     <navigation
         android:id="@+id/nav_graph_scanner_nested"

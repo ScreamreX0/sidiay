@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.sidiay.presentation.viewmodels.start.SignInFragmentViewModel
-import com.example.domain.enums.SignInStatuses
+import com.example.domain.enums.states.SignInStates
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentSigninBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,13 +47,13 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
     private fun errorsHandler() {
         viewModel.errorResult.observe(viewLifecycleOwner) {
             // Connection
-            if (SignInStatuses.NO_SERVER_CONNECTION in viewModel.errorResult.value!!) {
+            if (SignInStates.NO_SERVER_CONNECTION in viewModel.errorResult.value!!) {
                 Toast.makeText(context, getString(R.string.no_server_connection), Toast.LENGTH_SHORT).show()
                 return@observe
             }
 
             // Email length
-            if (SignInStatuses.SHORT_OR_LONG_EMAIL in viewModel.errorResult.value!!) {
+            if (SignInStates.SHORT_OR_LONG_EMAIL in viewModel.errorResult.value!!) {
                 binding.fAuthEmailContainer.error = getString(R.string.short_or_long_email_briefly)
                 binding.fAuthEmailContainer.isErrorEnabled = true
             } else {
@@ -61,7 +61,7 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
             }
 
             // Password length
-            if (SignInStatuses.SHORT_OR_LONG_PASSWORD in viewModel.errorResult.value!!) {
+            if (SignInStates.SHORT_OR_LONG_PASSWORD in viewModel.errorResult.value!!) {
                 binding.fAuthPasswordContainer.error = getString(R.string.short_or_long_password_briefly)
                 binding.fAuthPasswordContainer.isErrorEnabled = true
             } else {
@@ -69,7 +69,7 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
             }
 
             // Wrong email or password
-            if (viewModel.errorResult.value!!.contains(SignInStatuses.WRONG_EMAIL_OR_PASSWORD)) {
+            if (viewModel.errorResult.value!!.contains(SignInStates.WRONG_EMAIL_OR_PASSWORD)) {
                 Toast.makeText(context, getString(R.string.wrong_email_or_password), Toast.LENGTH_SHORT).show()
                 return@observe
             }

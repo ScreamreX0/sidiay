@@ -1,8 +1,7 @@
 package com.example.sidiay.di
 
-import com.example.data.repositories.EmployeesRepository
 import com.example.data.repositories.ObjectsRepository
-import com.example.domain.enums.Services
+import com.example.data.repositories.UserRepository
 import com.example.domain.repositories.IApplicationRepository
 import com.example.domain.repositories.IUserRepository
 import com.example.domain.usecases.menu.GetApplicationUseCase
@@ -69,8 +68,8 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetEmployeesUseCase(employeesRepository: EmployeesRepository): GetEmployeesUseCase {
-        return GetEmployeesUseCase(employeesRepository = employeesRepository)
+    fun provideGetUsersUseCase(userRepository: UserRepository): GetUsersUseCase {
+        return GetUsersUseCase(userRepository = userRepository)
     }
 
     @Provides

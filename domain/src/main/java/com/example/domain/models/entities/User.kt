@@ -9,4 +9,7 @@ data class User constructor (
     val password: String = "default password",
     val username: String = "default username",
     val email: String = "default email",
+    val firstName: String = "Ikhsanov",
+    val name: String = "Ruslan",
+    val lastName: String = "Lenarovich"
 ) : Parcelable

@@ -8,7 +8,7 @@ data class Application constructor (
     val id: Int,
     val title: String = "",
     val service: String = "",
-    val executor: Employee?,
+    val executor: User?,
     val type: String = "",
     val priority: String = "",
     val status: String = "",
@@ -16,7 +16,7 @@ data class Application constructor (
     val expirationDate: String = "",
     val description: String = "",
     val completedWorks: String = "",
-    val author: Employee?,
+    val author: User?,
     val creationDate: String = "",
     val objects: List<Object>?
 ) : Parcelable

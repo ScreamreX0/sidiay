@@ -1,6 +1,6 @@
-package com.example.domain.enums
+package com.example.domain.enums.states
 
-enum class NetworkStatuses(val code: Int) {
+enum class NetworkStates(val code: Int) {
     Continue(100),
     SwitchingProtocols(101),
     Processing(102),

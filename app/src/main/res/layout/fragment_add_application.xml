@@ -531,7 +531,6 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
-                android:hint="@string/select_author"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_application_second_title_edit"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/f_add_application_author_subtitle"

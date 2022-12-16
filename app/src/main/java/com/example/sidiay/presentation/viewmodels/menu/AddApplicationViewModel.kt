@@ -3,10 +3,13 @@ package com.example.sidiay.presentation.viewmodels.menu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.enums.ApplicationStatuses
 import com.example.domain.enums.Kinds
 import com.example.domain.enums.Priorities
 import com.example.domain.enums.Services
+import com.example.domain.enums.states.AddApplicationStates
+import com.example.domain.enums.states.ApplicationStates
+import com.example.domain.models.entities.Object
+import com.example.domain.models.entities.User
 import com.example.domain.usecases.menu.create.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -21,14 +24,18 @@ class AddApplicationViewModel @Inject constructor(
     private val getStatusesUseCase: GetStatusesUseCase,
     private val getPrioritiesUseCase: GetPrioritiesUseCase,
     private val getObjectsUseCase: GetObjectsUseCase,
-    private val getEmployeesUseCase: GetEmployeesUseCase
+    private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
-
     val services: MutableLiveData<List<Services>> = MutableLiveData()
     val kinds: MutableLiveData<List<Kinds>> = MutableLiveData()
-    val statuses: MutableLiveData<List<ApplicationStatuses>> = MutableLiveData()
+    val statuses: MutableLiveData<List<ApplicationStates>> = MutableLiveData()
     val priorities: MutableLiveData<List<Priorities>> = MutableLiveData()
-    val employees: MutableLiveData<List<String>> = MutableLiveData()
+
+    // Suspend vars
+    val objects: MutableLiveData<List<Object>> = MutableLiveData()
+    val employees: MutableLiveData<List<User>> = MutableLiveData()
+
+    var errorsList: MutableLiveData<List<AddApplicationStates>> = MutableLiveData()
 
     fun initServices() {
         services.value = getServicesUseCase.execute()
@@ -47,15 +54,21 @@ class AddApplicationViewModel @Inject constructor(
     }
 
     fun initObjects() {
-        viewModelScope.launch(getEmployeesHandler()) {
-            employees.value = getObjectsUseCase.execute()
+        viewModelScope.launch(getConnectionHandler()) {
+            objects.value = getObjectsUseCase.execute()
         }
     }
 
-    private fun getEmployeesHandler(): CoroutineExceptionHandler {
+    fun initEmployees() {
+        viewModelScope.launch(getConnectionHandler()) {
+            employees.value = getUsersUseCase.execute()
+        }
+    }
+
+    private fun getConnectionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                //TODO: add exceptions
+                errorsList.value = listOf(AddApplicationStates.NO_SERVER_CONNECTION)
             }
         }
     }

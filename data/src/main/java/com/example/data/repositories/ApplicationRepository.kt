@@ -4,6 +4,7 @@ import com.example.data.api.ApiService
 import com.example.domain.models.entities.Application
 import com.example.domain.models.entities.Employee
 import com.example.domain.models.entities.Object
+import com.example.domain.models.entities.User
 import com.example.domain.repositories.IApplicationRepository
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class ApplicationRepository @Inject constructor(
             id = id,
             title = "Неисправность №$id",
             service = "Сервис №$id",
-            executor = Employee(
+            executor = User(
                 id = id,
                 firstName = "Ихсанов№${id * 2}",
                 name = "Руслан№${id * 2}",
@@ -51,7 +52,7 @@ class ApplicationRepository @Inject constructor(
             expirationDate = "11.12.2022 15:00",
             description = "Покрасить подставку под КТП, ТД, ТП, ТО",
             completedWorks = "Неисправность ЧРЭП. Выполнена замена СУ с ЧП. Электромонтер Карзохин Н.И. 22:11-23:30.",
-            author = Employee(
+            author = User(
                 id = id,
                 firstName = "Ихсанов№${id * 3}",
                 name = "Руслан№${id * 3}",
