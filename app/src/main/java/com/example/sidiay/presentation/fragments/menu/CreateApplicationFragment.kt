@@ -19,19 +19,19 @@ import androidx.navigation.fragment.navArgs
 import com.example.domain.models.params.DateParams
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentAddApplicationBinding
-import com.example.sidiay.presentation.viewmodels.menu.AddApplicationViewModel
+import com.example.sidiay.presentation.viewmodels.menu.CreateApplicationViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
+class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     // Common
-    private val viewModel: AddApplicationViewModel by viewModels()
-    lateinit var binding: FragmentAddApplicationBinding
-    private val args by navArgs<AddApplicationFragmentArgs>()
+    private val viewModel: CreateApplicationViewModel by viewModels()
+    private lateinit var binding: FragmentAddApplicationBinding
+    private val args by navArgs<CreateApplicationFragmentArgs>()
 
     // Object vars
     private var objects: List<String> = listOf()
@@ -77,16 +77,21 @@ class AddApplicationFragment : Fragment(R.layout.fragment_add_application),
         initCreationDate()
     }
 
+    private fun initAuthor() {
+        with(args.user) {
+            binding.fAddApplicationAuthorText.text = "$firstName $name $lastName"
+        }
+    }
+
+    // Buttons handlers
     private fun backButtonHandler() {
         binding.fAddApplicationBackButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }
 
-    private fun initAuthor() {
-        with(args.user) {
-            binding.fAddApplicationAuthorText.text = "$firstName $name $lastName"
-        }
+    private fun saveButtonHandler() {
+
     }
 
     // Employees list

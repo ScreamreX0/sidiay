@@ -7,7 +7,8 @@ import com.example.domain.enums.Kinds
 import com.example.domain.enums.Priorities
 import com.example.domain.enums.Services
 import com.example.domain.enums.states.AddApplicationStates
-import com.example.domain.enums.states.ApplicationStates
+import com.example.domain.enums.ApplicationStatuses
+import com.example.domain.models.entities.Employee
 import com.example.domain.models.entities.Object
 import com.example.domain.models.entities.User
 import com.example.domain.usecases.menu.create.*
@@ -15,10 +16,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.net.ConnectException
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AddApplicationViewModel @Inject constructor(
+class CreateApplicationViewModel @Inject constructor(
     private val getServicesUseCase: GetServicesUseCase,
     private val getKindsUseCase: GetKindsUseCase,
     private val getStatusesUseCase: GetStatusesUseCase,
@@ -28,7 +30,7 @@ class AddApplicationViewModel @Inject constructor(
 ) : ViewModel() {
     val services: MutableLiveData<List<Services>> = MutableLiveData()
     val kinds: MutableLiveData<List<Kinds>> = MutableLiveData()
-    val statuses: MutableLiveData<List<ApplicationStates>> = MutableLiveData()
+    val statuses: MutableLiveData<List<ApplicationStatuses>> = MutableLiveData()
     val priorities: MutableLiveData<List<Priorities>> = MutableLiveData()
 
     // Suspend vars
@@ -63,6 +65,23 @@ class AddApplicationViewModel @Inject constructor(
         viewModelScope.launch(getConnectionHandler()) {
             employees.value = getUsersUseCase.execute()
         }
+    }
+
+    fun create(
+        objects: List<Objects>,
+        service: Services,
+        executor: Employee? = null,
+        kind: Kinds,
+        status: ApplicationStatuses = ApplicationStatuses.New,
+        priority: Priorities,
+        planeDate: Date? = null,
+        expirationDate: Date? = null,
+        description: String? = null,
+        completedWork: String? = null,
+        author: Employee,
+        creationDate: Date
+    ) {
+
     }
 
     private fun getConnectionHandler(): CoroutineExceptionHandler {

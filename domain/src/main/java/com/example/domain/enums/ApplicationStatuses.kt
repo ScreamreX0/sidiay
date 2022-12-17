@@ -1,6 +1,6 @@
-package com.example.domain.enums.states
+package com.example.domain.enums
 
-enum class ApplicationStates(name: String) {
+enum class ApplicationStatuses(name: String) {
     NotFormed("Не сформирована"),
     New("Новая"),
     Accepted("Принята"),

@@ -37,7 +37,7 @@
         </fragment>
         <fragment
             android:id="@+id/addApplicationFragment"
-            android:name="com.example.sidiay.presentation.fragments.menu.AddApplicationFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.CreateApplicationFragment"
             android:label="AddApplicationFragment"
             tools:layout="@layout/fragment_add_application">
             <argument
