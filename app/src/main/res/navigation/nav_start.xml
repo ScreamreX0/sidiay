@@ -3,23 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loadFragment">
+    app:startDestination="@id/loginFragment">
 
-    <fragment
-        android:id="@+id/loadFragment"
-        android:name="com.example.sidiay.presentation.fragments.start.LoadFragment"
-        android:label="fragment_load"
-        tools:layout="@layout/fragment_load">
-        <action
-            android:id="@+id/action_loadFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@navigation/nav_start"
-            app:popUpToInclusive="true"/>
-    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.sidiay.presentation.fragments.start.SignInFragment"

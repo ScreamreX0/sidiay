@@ -33,6 +33,8 @@ class ApplicationItemFragment : Fragment(R.layout.fragment_application_item) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        onBackButtonClick()
+
         with(args.application) {
             with(binding) {
                 fApplicationItemTitle.text = "${getString(R.string.application)}№ $id"
@@ -68,7 +70,9 @@ class ApplicationItemFragment : Fragment(R.layout.fragment_application_item) {
                 }
             }
         }
+    }
 
+    private fun onBackButtonClick() {
         binding.fApplicationItemBackButton.setOnClickListener {
             findNavController().popBackStack()
         }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -22,7 +23,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
     private val viewModel: MenuFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainMenuBinding
+
+    // Navigation
     private val args: MainMenuFragmentArgs by navArgs()
+    private val fragmentNavController: NavController by lazy {
+        (childFragmentManager.findFragmentById(R.id.f_main_fragment_container) as NavHostFragment)
+            .navController
+    }
+    private val navOptions: NavOptions by lazy {
+        val builder: NavOptions.Builder = NavOptions.Builder()
+        builder.setEnterAnim(androidx.navigation.ui.R.anim.nav_default_enter_anim)
+            .setPopEnterAnim(androidx.navigation.ui.R.anim.nav_default_pop_enter_anim)
+            .setExitAnim(androidx.navigation.ui.R.anim.nav_default_exit_anim)
+            .setPopExitAnim(androidx.navigation.ui.R.anim.nav_default_pop_exit_anim)
+        builder.build()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,30 +54,13 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
     }
 
     private fun bottomNavOnClickListener() {
-        val navController =
-            (childFragmentManager.findFragmentById(R.id.f_main_fragment_container) as NavHostFragment)
-                .navController
-
         binding.fMainBottomNav.setOnItemSelectedListener {
-            val builder: NavOptions.Builder = NavOptions.Builder()
-            builder.setEnterAnim(androidx.navigation.ui.R.anim.nav_default_enter_anim)
-                .setPopEnterAnim(androidx.navigation.ui.R.anim.nav_default_pop_enter_anim)
-                .setExitAnim(androidx.navigation.ui.R.anim.nav_default_exit_anim)
-                .setPopExitAnim(androidx.navigation.ui.R.anim.nav_default_pop_exit_anim)
-            val options: NavOptions = builder.build()
-
-            navController.navigate(it.itemId, args.toBundle(), options)
-
+            fragmentNavController.navigate(it.itemId, args.toBundle(), navOptions)
             return@setOnItemSelectedListener true
         }
     }
 
     private fun initFragmentContainer() {
-        return
-        findNavController().navigate(
-            MainMenuFragmentDirections.actionMainMenuFragmentToNavGraphHome(
-                args.user
-            )
-        )
+        fragmentNavController.navigate(R.id.nav_graph_home, args.toBundle(), navOptions)
     }
 }

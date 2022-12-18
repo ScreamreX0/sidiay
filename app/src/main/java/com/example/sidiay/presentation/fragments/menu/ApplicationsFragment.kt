@@ -1,14 +1,12 @@
 package com.example.sidiay.presentation.fragments.menu
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,13 +34,13 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerViewObserver()
-        fillRecyclerView()
+        initRecyclerView()
+        recyclerViewFill()
 
-        handleAddButton()
+        addButtonHandler()
     }
 
-    private fun handleAddButton() {
+    private fun addButtonHandler() {
         binding.fApplicationAddButton.setOnClickListener {
             findNavController().navigate(ApplicationsFragmentDirections.actionFragmentApplicationsToAddApplicationFragment(
                 args.user
@@ -51,7 +49,7 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     }
 
     @SuppressLint("SimpleDateFormat", "NewApi")
-    private fun initRecyclerViewObserver() {
+    private fun initRecyclerView() {
         viewModel.applications.observe(viewLifecycleOwner) {
             val layoutManager = LinearLayoutManager(context)
             binding.fApplicationRecyclerView.layoutManager = layoutManager
@@ -62,7 +60,7 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
         }
     }
 
-    private fun fillRecyclerView() {
+    private fun recyclerViewFill() {
         viewModel.fillApplicationsList()
     }
 }

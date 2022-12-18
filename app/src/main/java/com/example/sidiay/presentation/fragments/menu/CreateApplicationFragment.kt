@@ -1,5 +1,6 @@
 package com.example.sidiay.presentation.fragments.menu
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -57,12 +58,12 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
         initAuthor()
 
         // Init suspend vars
-        initObjects()
+        initObjectsChipGroup()
         initEmployees()
 
         // Buttons
-        backButtonHandler()
-        addObjectHandler()
+        onClickBackButton()
+        addObjectButtonHandler()
         addExecutorsHandler()
 
         // Adapters
@@ -72,11 +73,12 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
         initStatusesAdapter()
 
         // DatePicker handlers
-        planeDateHandler()
-        expirationDateHandler()
+        handlePlaneDate()
+        handleExpirationDate()
         initCreationDate()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initAuthor() {
         with(args.user) {
             binding.fAddApplicationAuthorText.text = "$firstName $name $lastName"
@@ -84,7 +86,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     // Buttons handlers
-    private fun backButtonHandler() {
+    private fun onClickBackButton() {
         binding.fAddApplicationBackButton.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -124,7 +126,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     // Objects list
-    private fun initObjects() {
+    private fun initObjectsChipGroup() {
         viewModel.initObjects()
 
         viewModel.objects.observe(viewLifecycleOwner) {
@@ -135,7 +137,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
         }
     }
 
-    private fun addObjectHandler() {
+    private fun addObjectButtonHandler() {
         binding.fAddApplicationAddObjectButton.setOnClickListener {
             if (objects.isEmpty()) {
                 return@setOnClickListener
@@ -209,7 +211,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     // DateTimes
-    private fun planeDateHandler() {
+    private fun handlePlaneDate() {
         binding.fAddApplicationPlaneDateText.setOnClickListener {
             currentDateTimePicker = binding.fAddApplicationPlaneDateText
 
@@ -223,7 +225,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
         }
     }
 
-    private fun expirationDateHandler() {
+    private fun handleExpirationDate() {
         binding.fAddApplicationExpirationDateText.setOnClickListener {
             currentDateTimePicker = binding.fAddApplicationExpirationDateText
 
