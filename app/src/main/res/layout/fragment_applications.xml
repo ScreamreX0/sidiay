@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.Toolbar
-                android:layout_width="313dp"
+                android:layout_width="0dp"
                 android:layout_height="56dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,11 +45,12 @@
 
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/f_application_search_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:theme="@style/Widget.Sidiay.SearchView"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:searchIcon="@drawable/ic_baseline_search_24_white" />
 

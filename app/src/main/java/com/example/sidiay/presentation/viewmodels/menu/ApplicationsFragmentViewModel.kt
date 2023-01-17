@@ -12,7 +12,7 @@ import java.net.ConnectException
 import javax.inject.Inject
 
 @HiltViewModel
-class ApplicationFragmentViewModel @Inject constructor(
+class ApplicationsFragmentViewModel @Inject constructor(
     private val getApplicationsUseCase: GetApplicationsUseCase
 ) : ViewModel() {
     var applications = MutableLiveData<List<Application>>()

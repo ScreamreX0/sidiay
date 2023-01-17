@@ -77,9 +77,9 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
     }
 
     private fun successHandler() {
-        viewModel.successAuth.observe(viewLifecycleOwner) {
+        viewModel.successSignIn.observe(viewLifecycleOwner) {
             val action = SignInFragmentDirections.actionLoginFragmentToNavMenu(
-                    viewModel.successAuth.value!!
+                    viewModel.successSignIn.value!!
                 )
             findNavController().navigate(action)
         }

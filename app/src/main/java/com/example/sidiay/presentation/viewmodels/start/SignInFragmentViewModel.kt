@@ -18,10 +18,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInFragmentViewModel @Inject constructor(
     private val checkFieldsUseCase: CheckSignInFieldsUseCase,
-    private val authUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase
 ) : ViewModel() {
     var errorResult = MutableLiveData<List<SignInStates>>()
-    var successAuth = MutableLiveData<User>()
+    var successSignIn = MutableLiveData<User>()
 
     fun signIn(email: String, password: String) {
         val params = SignInParams(email, password)
@@ -41,22 +41,24 @@ class SignInFragmentViewModel @Inject constructor(
     }
 
     private fun signInOnline(params: SignInParams) {
-        viewModelScope.launch(getAuthHandler()) {
-            val authResult = authUseCase.execute(params = params)
+        viewModelScope.launch(getSignInHandler()) {
+            val signInResult = signInUseCase.execute(params = params)
 
-            if (authResult == null) {
+            if (signInResult == null) {
                 errorResult.value = listOf(SignInStates.WRONG_EMAIL_OR_PASSWORD)
             } else {
-                successAuth.value = authResult!!
+                signInResult.let {
+                    successSignIn.value
+                }
             }
         }
     }
 
     private fun signInOffline() {
-        successAuth.value = authUseCase.getEmptyUser() as User
+        successSignIn.value = signInUseCase.getEmptyUser() as User
     }
 
-    private fun getAuthHandler(): CoroutineExceptionHandler {
+    private fun getSignInHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
                 this.errorResult.value = listOf(SignInStates.NO_SERVER_CONNECTION)
