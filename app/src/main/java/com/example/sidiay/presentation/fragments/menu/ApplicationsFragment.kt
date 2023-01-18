@@ -1,15 +1,18 @@
 package com.example.sidiay.presentation.fragments.menu
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.enums.Priorities
 import com.example.domain.models.entities.Application
 import com.example.domain.utils.Debugger
 import com.example.sidiay.R
@@ -27,6 +30,16 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
 
     private var searchList: ArrayList<Application> = arrayListOf()
 
+    // Filter
+    private val priorities: ArrayList<Priorities> = arrayListOf(
+        Priorities.Urgent,
+        Priorities.High,
+        Priorities.Medium,
+        Priorities.Low,
+        Priorities.VeryLow,
+    )
+    private val checkedPriorities: BooleanArray = BooleanArray(priorities.size)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,12 +52,90 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         initRecyclerView()
         recyclerViewFill()
 
         addButtonHandler()
 
         initSearch()
+
+        initFilter()
+    }
+
+    private fun initFilter() {
+        initFilterIcon()
+
+        binding.fApplicationToolbar.setOnMenuItemClickListener{
+            when (it.itemId) {
+                R.id.m_home_app_bar_priority -> {
+                    createPriorityFilterDialog()
+                    true
+                }
+                R.id.m_home_app_bar_status -> {
+                    createStatusFilterDialog()
+                    true
+                }
+                R.id.m_home_app_bar_service -> {
+                    createServiceFilterDialog()
+                    true
+                }
+                R.id.m_home_app_bar_kind -> {
+                    createKindFilterDialog()
+                    true
+                }
+                R.id.m_home_app_bar_creation_date -> {
+                    createCreationDateFilterDialog()
+                    true
+                }
+                R.id.m_home_app_bar_expired -> TODO()
+                //R.id.m_home_app_bar_my_applications ->
+                R.id.m_home_app_bar_reset -> TODO()
+                else -> false
+            }
+        }
+    }
+
+    private fun createCreationDateFilterDialog() {
+        TODO("Not yet implemented")
+    }
+
+    private fun createKindFilterDialog() {
+        TODO("Not yet implemented")
+    }
+
+    private fun createServiceFilterDialog() {
+        TODO("Not yet implemented")
+    }
+
+    private fun createStatusFilterDialog() {
+        TODO("Not yet implemented")
+    }
+
+    private fun createPriorityFilterDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle(getString(R.string.by_priority))
+            .setMultiChoiceItems(
+                priorities.map { it.name }.toTypedArray(),
+                checkedPriorities
+            ) { dialog, which, isChecked ->
+                checkedPriorities[which] = isChecked
+                val currentItem = priorities[which]
+                Debugger.printInfo(currentItem.name)
+            }
+            .setPositiveButton(getString(R.string.ok)) {dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun initFilterIcon() {
+        val drawable = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.ic_baseline_filter_list_24_white
+        )
+        binding.fApplicationToolbar.overflowIcon = drawable
     }
 
     private fun initSearch() {
@@ -86,9 +177,11 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
 
     private fun addButtonHandler() {
         binding.fApplicationAddButton.setOnClickListener {
-            findNavController().navigate(ApplicationsFragmentDirections.actionFragmentApplicationsToAddApplicationFragment(
-                args.user
-            ))
+            findNavController().navigate(
+                ApplicationsFragmentDirections.actionFragmentApplicationsToAddApplicationFragment(
+                    args.user
+                )
+            )
         }
     }
 

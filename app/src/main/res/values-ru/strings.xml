@@ -58,4 +58,12 @@
     <string name="save">Сохранить</string>
     <string name="ok">Ок</string>
     <string name="Cancel">Отмена</string>
+    <string name="by_priority">По приоритету</string>
+    <string name="by_status">По статусу</string>
+    <string name="by_service">По сервису</string>
+    <string name="by_kind">По виду</string>
+    <string name="by_creation_date">По дате создания</string>
+    <string name="expired">Просроченные</string>
+    <string name="my_applications">Мои заявки</string>
+    <string name="reset_all">Сбросить все</string>
 </resources>

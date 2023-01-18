@@ -59,4 +59,12 @@
     <string name="save">Save</string>
     <string name="ok">OK</string>
     <string name="Cancel">Cancel</string>
+    <string name="by_priority">By priority</string>
+    <string name="by_status">By status</string>
+    <string name="by_service">By service</string>
+    <string name="by_kind">By kind</string>
+    <string name="by_creation_date">By creation date</string>
+    <string name="expired">Expired</string>
+    <string name="my_applications">My applications</string>
+    <string name="reset_all">Reset all</string>
 </resources>

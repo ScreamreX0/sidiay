@@ -2,7 +2,52 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:icon="@drawable/ic_baseline_filter_list_24_white"
-        android:title=""
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/m_home_app_bar_priority"
+        android:icon="@drawable/baseline_priority_high_24"
+        android:title="@string/by_priority"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_status"
+        android:icon="@drawable/baseline_checklist_24"
+        android:title="@string/by_status"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_service"
+        android:icon="@drawable/ic_baseline_miscellaneous_services_24"
+        android:title="@string/by_service"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_kind"
+        android:icon="@drawable/baseline_format_list_bulleted_24"
+        android:title="@string/by_kind"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_creation_date"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        android:title="@string/by_creation_date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_expired"
+        android:icon="@drawable/baseline_timer_off_24"
+        android:title="@string/expired"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_my_applications"
+        android:checkable="true"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/my_applications"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/m_home_app_bar_reset"
+        android:icon="@drawable/ic_baseline_close_24"
+        android:title="@string/reset_all"
+        app:showAsAction="never" />
+
 </menu>
