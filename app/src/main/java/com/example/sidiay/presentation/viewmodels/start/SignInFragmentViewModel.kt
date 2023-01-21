@@ -1,14 +1,16 @@
 package com.example.sidiay.presentation.viewmodels.start
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.entities.User
 import com.example.domain.enums.states.SignInStates
-import com.example.domain.models.params.SignInParams
+import com.example.domain.models.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.utils.Constants
+import com.example.domain.utils.Debugger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -24,8 +26,9 @@ class SignInFragmentViewModel @Inject constructor(
     var successSignIn = MutableLiveData<User>()
 
     fun signIn(email: String, password: String) {
-        val params = SignInParams(email, password)
+        val params = Credentials(email, password)
 
+        Debugger.Companion.printInfo("Check sign in credentials")
         val result = checkFieldsUseCase.execute(params = params)
 
         if (result.size != 0) {
@@ -34,21 +37,38 @@ class SignInFragmentViewModel @Inject constructor(
         }
 
         if (Constants.DEBUG_MODE) {
+            Debugger.Companion.printInfo("Offline sign in")
             signInOffline()
         } else {
+            Debugger.Companion.printInfo("Online sign in. IP:${Constants.URL}")
             signInOnline(params = params)
         }
     }
 
-    private fun signInOnline(params: SignInParams) {
+    private fun signInOnline(params: Credentials) {
         viewModelScope.launch(getSignInHandler()) {
-            val signInResult = signInUseCase.execute(params = params)
+            val signInResult: Pair<Int, User?> = signInUseCase.execute(params)
 
-            if (signInResult == null) {
-                errorResult.value = listOf(SignInStates.WRONG_EMAIL_OR_PASSWORD)
-            } else {
-                signInResult.let {
-                    successSignIn.value
+            when (signInResult.first) {
+                200 -> {
+                    Debugger.Companion.printInfo("Response code - 200. Success")
+                    signInResult.let {
+                        signInResult.second.let {
+                            successSignIn.value = it
+                        }
+                    }
+                }
+                450 -> {
+                    Debugger.Companion.printInfo("Response code - 450. Wrong credentials")
+                    errorResult.value = listOf(SignInStates.WRONG_CREDENTIALS_FORMAT)
+                }
+                451 -> {
+                    Debugger.Companion.printInfo("Response code - 451 - Wrong email or password")
+                    errorResult.value = listOf(SignInStates.WRONG_EMAIL_OR_PASSWORD)
+                }
+                else -> {
+                    Debugger.Companion.printInfo("Response code in sign in - unhandled")
+                    throw java.lang.Exception("Unhandled response code exception")
                 }
             }
         }

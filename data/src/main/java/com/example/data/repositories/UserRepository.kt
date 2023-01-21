@@ -2,10 +2,11 @@ package com.example.data.repositories
 
 import com.example.data.api.ApiService
 import com.example.domain.models.entities.User
-import com.example.domain.enums.states.NetworkStates
-import com.example.domain.models.entities.Employee
-import com.example.domain.models.params.SignInParams
+import com.example.domain.models.params.Credentials
 import com.example.domain.repositories.IUserRepository
+import com.example.domain.utils.Debugger
+import retrofit2.Call
+import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -26,14 +27,15 @@ class UserRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun emailSignIn(authParams: SignInParams): User? {
-        val response = apiService.emailIn(authParams.createBody())
+    override suspend fun signInByEmail(credentials: Credentials): Pair<Int, User?> {
+        Debugger.Companion.printInfo("Sending sign in request")
+        val body = HashMap<String, String>()
+        body["email"] = credentials.email
+        body["password"] = credentials.password
+        val response = apiService.signIn(body)
+        Debugger.Companion.printInfo("Sign in request was sent")
 
-        return when (response.code()) {
-            NetworkStates.OK.code -> response.body()
-            NetworkStates.BadRequest.code -> null
-            else -> null
-        }
+        return Pair(response.code(), response.body())
     }
 
     override fun getEmptyUser(): User {

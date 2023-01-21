@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -154,20 +152,14 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
                     searchList.clear()
                     val searchText = newText!!.lowercase(Locale.getDefault())
                     if (searchText.isNotBlank()) {
-                        Debugger.printInfo("search is not blank", "DEBUG")
                         viewModel.applications.value!!.forEach {
                             if (it.title.lowercase().contains(searchText)) {
                                 searchList.add(it)
-                                Debugger.printInfo("${it.title} added", "DEBUG")
-                            } else {
-                                Debugger.printInfo("${it.title} != $searchText", "DEBUG")
                             }
                         }
                     } else {
                         searchList.addAll(viewModel.applications.value!!)
                     }
-
-                    Debugger.printInfo("", "DEBUG")
                     fApplicationRecyclerView.adapter?.notifyDataSetChanged()
                     return false
                 }

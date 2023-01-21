@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
@@ -41,16 +42,11 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val readTimeout = 30
-        val writeTimeout = 30
-        val connectionTimeout = 10
-
-        val okHttpClientBuilder = OkHttpClient().newBuilder()
-
-        okHttpClientBuilder.connectTimeout(connectionTimeout.toLong(), TimeUnit.SECONDS)
-        okHttpClientBuilder.readTimeout(readTimeout.toLong(), TimeUnit.SECONDS)
-        okHttpClientBuilder.writeTimeout(writeTimeout.toLong(), TimeUnit.SECONDS)
-
-        return okHttpClientBuilder.build()
+        return OkHttpClient()
+            .newBuilder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
     }
 }
