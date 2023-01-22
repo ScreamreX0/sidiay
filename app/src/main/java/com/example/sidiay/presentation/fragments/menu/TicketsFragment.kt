@@ -50,9 +50,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        initRecyclerView()
+        initRecyclerViewObserver()
         recyclerViewFill()
 
         addButtonHandler()
@@ -153,7 +151,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
                     val searchText = newText!!.lowercase(Locale.getDefault())
                     if (searchText.isNotBlank()) {
                         viewModel.tickets.value!!.forEach {
-                            if (it.title.lowercase().contains(searchText)) {
+                            if (it.name.lowercase().contains(searchText)) {
                                 searchList.add(it)
                             }
                         }
@@ -177,7 +175,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
         }
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerViewObserver() {
         viewModel.tickets.observe(viewLifecycleOwner) {
             val layoutManager = LinearLayoutManager(context)
             binding.fTicketRecyclerView.layoutManager = layoutManager

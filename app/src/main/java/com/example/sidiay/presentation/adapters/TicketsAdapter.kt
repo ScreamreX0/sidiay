@@ -27,12 +27,12 @@ class TicketsAdapter(
         with(holder) {
             with(tickets[position]) {
                 binding.iTicketCompany.text = service
-                binding.iTicketPriority.text = priority
+                binding.iTicketPriority.text = priority.toString()
                 executor?.let {
                     binding.iTicketPerson.text =
                         "${it.firstName} ${it.name.first()}. ${it.lastName.first()}."
                 }
-                binding.iTicketDate.text = expirationDate
+                binding.iTicketDate.text = expirationDate.toString()
                 binding.iTicketStatus.text = status
                 binding.iTicketTitle.text = "$id№ $description"
             }

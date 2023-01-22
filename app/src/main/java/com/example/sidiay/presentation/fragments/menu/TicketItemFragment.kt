@@ -38,24 +38,24 @@ class TicketItemFragment : Fragment(R.layout.fragment_ticket_item) {
         with(args.ticket) {
             with(binding) {
                 fTicketItemTitle.text = "${getString(R.string.ticket)}№ $id"
-                fTicketItemSecondTitle.text = title
+                fTicketItemSecondTitle.text = name
 
                 fTicketItemServiceText.text = service
 
-                fTicketItemCompletedWorkText.text = completedWorks
+                fTicketItemCompletedWorkText.text = completedWork
 
-                fTicketItemCreationDateText.text = creationDate
-                fTicketItemExpirationDateText.text = expirationDate
-                fTicketItemPlaneDateText.text = plannedDate
+                fTicketItemCreationDateText.text = creationDate.toString()
+                fTicketItemExpirationDateText.text = expirationDate.toString()
+                fTicketItemPlaneDateText.text = planeDate.toString()
 
-                fTicketItemObjectText.text = objects?.joinToString(
+                fTicketItemObjectText.text = facilities.joinToString(
                     separator = "/",
                     transform = { it.name }
                 )
 
-                fTicketItemPriorityText.text = priority
+                fTicketItemPriorityText.text = priority.toString()
                 fTicketItemStatusText.text = status
-                fTicketItemKindText.text = type
+                fTicketItemKindText.text = kind.name
 
                 fTicketItemDescriptionText.text = description
 

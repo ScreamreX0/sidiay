@@ -1,6 +1,5 @@
 package com.example.data.api
 
-import com.example.domain.models.entities.Ticket
 import com.example.domain.models.entities.User
 import retrofit2.Response
 import retrofit2.http.GET
@@ -15,5 +14,5 @@ interface ApiService {
 
     @Multipart
     @GET("/tickets/get")
-    suspend fun getTickets(): Response<List<Ticket>>
+    suspend fun getTickets(): Response<HashMap<String, Any>>
 }

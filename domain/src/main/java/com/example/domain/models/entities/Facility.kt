@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Object constructor (
-    val id: Int,
+data class Facility constructor (
+    val id: Long,
     val name: String = ""
 ) : Parcelable

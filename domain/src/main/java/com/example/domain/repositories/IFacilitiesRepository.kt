@@ -1,8 +1,8 @@
 package com.example.domain.repositories
 
-import com.example.domain.models.entities.Object
+import com.example.domain.models.entities.Facility
 
 interface IFacilitiesRepository {
-    suspend fun get(): List<Object>
-    suspend fun getTest(): List<Object>
+    suspend fun get(): List<Facility>
+    suspend fun getTest(): List<Facility>
 }

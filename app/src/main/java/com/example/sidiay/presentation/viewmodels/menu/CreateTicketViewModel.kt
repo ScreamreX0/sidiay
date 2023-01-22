@@ -8,15 +8,13 @@ import com.example.domain.enums.Priorities
 import com.example.domain.enums.Services
 import com.example.domain.enums.states.AddTicketStates
 import com.example.domain.enums.TicketsStatuses
-import com.example.domain.models.entities.Employee
-import com.example.domain.models.entities.Object
+import com.example.domain.models.entities.Facility
 import com.example.domain.models.entities.User
 import com.example.domain.usecases.menu.create.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.net.ConnectException
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +32,7 @@ class CreateTicketViewModel @Inject constructor(
     val priorities: MutableLiveData<List<Priorities>> = MutableLiveData()
 
     // Suspend vars
-    val objects: MutableLiveData<List<Object>> = MutableLiveData()
+    val objects: MutableLiveData<List<Facility>> = MutableLiveData()
     val employees: MutableLiveData<List<User>> = MutableLiveData()
 
     var errorsList: MutableLiveData<List<AddTicketStates>> = MutableLiveData()
@@ -65,23 +63,6 @@ class CreateTicketViewModel @Inject constructor(
         viewModelScope.launch(getConnectionHandler()) {
             employees.value = getUsersUseCase.execute()
         }
-    }
-
-    fun create(
-        objects: List<Objects>,
-        service: Services,
-        executor: Employee? = null,
-        kind: Kinds,
-        status: TicketsStatuses = TicketsStatuses.New,
-        priority: Priorities,
-        planeDate: Date? = null,
-        expirationDate: Date? = null,
-        description: String? = null,
-        completedWork: String? = null,
-        author: Employee,
-        creationDate: Date
-    ) {
-
     }
 
     private fun getConnectionHandler(): CoroutineExceptionHandler {

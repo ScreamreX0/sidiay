@@ -68,7 +68,7 @@ class SignInFragmentViewModel @Inject constructor(
                 }
                 else -> {
                     Debugger.Companion.printInfo("Response code in sign in - unhandled")
-                    throw java.lang.Exception("Unhandled response code exception")
+                    errorResult.value = listOf(SignInStates.NO_SERVER_CONNECTION)
                 }
             }
         }

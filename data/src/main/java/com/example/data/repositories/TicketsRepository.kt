@@ -2,19 +2,22 @@ package com.example.data.repositories
 
 import com.example.data.api.ApiService
 import com.example.domain.models.entities.Ticket
-import com.example.domain.models.entities.Object
+import com.example.domain.models.entities.Facility
+import com.example.domain.models.entities.Kind
 import com.example.domain.models.entities.User
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.utils.Debugger
+import java.sql.Date
 import javax.inject.Inject
 
 class TicketsRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketsRepository {
     override suspend fun get(): Pair<Int, List<Ticket>?> {
+        Debugger.printInfo("Getting tickets from api")
         val result = apiService.getTickets()
-        Debugger.printInfo("Getting tickets from api. Result code:${result.code()}")
-        return Pair(result.code(), result.body())
+        Debugger.printInfo("Getting tickets result code:${result.code()}")
+        return Pair(result.code(), null)
     }
 
     override suspend fun get(id: Int): Ticket {
@@ -39,7 +42,7 @@ class TicketsRepository @Inject constructor(
     override suspend fun getTest(id: Int): Ticket {
         return Ticket(
             id = id,
-            title = "Неисправность №$id",
+            name = "Неисправность №$id",
             service = "Сервис №$id",
             executor = User(
                 id = id,
@@ -47,32 +50,35 @@ class TicketsRepository @Inject constructor(
                 name = "Руслан№${id * 2}",
                 lastName = "Ленарович№${id * 2}"
             ),
-            type = "Ведущий",
-            priority = "Средний",
+            priority = 3,
             status = "Не закрыта",
-            plannedDate = "11.12.2022 15:00",
-            expirationDate = "11.12.2022 15:00",
+            planeDate = Date(0),
+            expirationDate = Date(0),
             description = "Покрасить подставку под КТП, ТД, ТП, ТО",
-            completedWorks = "Неисправность ЧРЭП. Выполнена замена СУ с ЧП. Электромонтер Карзохин Н.И. 22:11-23:30.",
+            completedWork = "Неисправность ЧРЭП. Выполнена замена СУ с ЧП. Электромонтер Карзохин Н.И. 22:11-23:30.",
             author = User(
                 id = id,
                 firstName = "Ихсанов№${id * 3}",
                 name = "Руслан№${id * 3}",
                 lastName = "Ленарович№${id * 3}"
             ),
-            creationDate = "05.12.2022 00:00",
-            objects = listOf(
-                Object(
+            creationDate = Date(0),
+            facilities = listOf(
+                Facility(
                     id = 1,
                     name = "ЦДНГ-1"
-                ), Object(
+                ), Facility(
                     id = 2,
                     name = "Сунчелеевское"
-                ), Object(
+                ), Facility(
                     id = 3,
                     name = "ФФФФ-123"
                 )
             ),
+            kind = Kind(
+                id = 1,
+                name = "ТКО"
+            )
         )
     }
 
