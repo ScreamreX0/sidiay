@@ -32,7 +32,7 @@ class TicketsAdapter(
                     binding.iTicketPerson.text =
                         "${it.firstName} ${it.name.first()}. ${it.lastName.first()}."
                 }
-                binding.iTicketDate.text = expirationDate.toString()
+                binding.iTicketDate.text = expirationDate
                 binding.iTicketStatus.text = status
                 binding.iTicketTitle.text = "$id№ $description"
             }

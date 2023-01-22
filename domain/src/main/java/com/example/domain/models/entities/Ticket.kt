@@ -6,15 +6,15 @@ import java.util.*
 
 @Parcelize
 data class Ticket constructor (
-    val id: Int,
+    val id: Long,
     val facilities: List<Facility>,
     val kind: Kind,
     val author: User?,
     val executor: User?,
     val priority: Int,
-    val planeDate: java.sql.Date,
-    val expirationDate: java.sql.Date,
-    val creationDate: java.sql.Date,
+    val planeDate: String,
+    val expirationDate: String,
+    val creationDate: String,
     val completedWork: String,
     val description: String,
     val name: String,

@@ -15,7 +15,7 @@ class UserRepository @Inject constructor(
     override suspend fun getTestUsers(): List<User> {
         return List(15) {
             User(
-                id = it,
+                id = it.toLong(),
                 firstName = "Ikhsanov$it",
                 name = "Ruslan$it",
                 lastName = "Lenarovich$it"
