@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Kind constructor (
+data class KindEntity constructor (
     val id: Long,
     val name: String = ""
 ) : Parcelable

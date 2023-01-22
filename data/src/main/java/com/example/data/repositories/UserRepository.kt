@@ -1,7 +1,7 @@
 package com.example.data.repositories
 
 import com.example.data.api.ApiService
-import com.example.domain.models.entities.User
+import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.Credentials
 import com.example.domain.repositories.IUserRepository
 import com.example.domain.utils.Debugger
@@ -10,9 +10,9 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val apiService: ApiService
 ) : IUserRepository {
-    override suspend fun getTestUsers(): List<User> {
+    override suspend fun getTestUsers(): List<UserEntity> {
         return List(15) {
-            User(
+            UserEntity(
                 id = it.toLong(),
                 firstname = "Ikhsanov$it",
                 name = "Ruslan$it",
@@ -21,11 +21,11 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getUsers(): List<User> {
+    override suspend fun getUsers(): List<UserEntity> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun signInByEmail(credentials: Credentials): Pair<Int, User?> {
+    override suspend fun signInByEmail(credentials: Credentials): Pair<Int, UserEntity?> {
         Debugger.Companion.printInfo("Sending sign in request")
         val body = HashMap<String, String>()
         body["email"] = credentials.email
@@ -36,7 +36,7 @@ class UserRepository @Inject constructor(
         return Pair(response.code(), response.body())
     }
 
-    override fun getEmptyUser(): User {
-        return User()
+    override fun getEmptyUser(): UserEntity {
+        return UserEntity()
     }
 }

@@ -1,6 +1,6 @@
 package com.example.domain.enums
 
-enum class Services(name: String) {
+enum class ServiceState(name: String) {
     NPO("НПО"),
     Energo("Энерго"),
     KIP("КИП"),

@@ -3,7 +3,7 @@ package com.example.sidiay.presentation.viewmodels.menu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.models.entities.Ticket
+import com.example.domain.models.entities.TicketEntity
 import com.example.domain.usecases.menu.GetTicketsUseCase
 import com.example.domain.utils.Debugger
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class TicketsFragmentViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase
 ) : ViewModel() {
-    var tickets = MutableLiveData<List<Ticket>>()
+    var tickets = MutableLiveData<List<TicketEntity>>()
 
     fun fillTicketsList() {
         viewModelScope.launch(getTicketsHandler()) {

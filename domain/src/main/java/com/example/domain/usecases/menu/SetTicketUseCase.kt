@@ -1,6 +1,6 @@
 package com.example.domain.usecases.menu
 
-import com.example.domain.models.entities.Ticket
+import com.example.domain.models.entities.TicketEntity
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.utils.Constants
 import javax.inject.Inject
@@ -8,10 +8,10 @@ import javax.inject.Inject
 class SetTicketUseCase @Inject constructor(
     private val ticketRepository: ITicketsRepository
 ) {
-    suspend fun execute(newTicket: Ticket) : Boolean {
+    suspend fun execute(newTicketEntity: TicketEntity) : Boolean {
         if (Constants.DEBUG_MODE) {
-            return ticketRepository.setTest(newTicket = newTicket)
+            return ticketRepository.setTest(newTicketEntity = newTicketEntity)
         }
-        return ticketRepository.set(newTicket = newTicket)
+        return ticketRepository.set(newTicketEntity = newTicketEntity)
     }
 }

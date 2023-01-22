@@ -191,17 +191,17 @@ class CreateTicketFragment : Fragment(R.layout.fragment_add_ticket),
     }
 
     private fun initServicesTextView() {
-        setupAdapter(viewModel.services, binding.fAddTicketAutoCompleteService)
+        setupAdapter(viewModel.serviceState, binding.fAddTicketAutoCompleteService)
         viewModel.initServices()
     }
 
     private fun initKindsTextView() {
-        setupAdapter(viewModel.kinds, binding.fAddTicketAutoCompleteKinds)
+        setupAdapter(viewModel.kindState, binding.fAddTicketAutoCompleteKinds)
         viewModel.initKinds()
     }
 
     private fun initPrioritiesAdapter() {
-        setupAdapter(viewModel.priorities, binding.fAddTicketAutoCompletePriority)
+        setupAdapter(viewModel.priorityState, binding.fAddTicketAutoCompletePriority)
         viewModel.initPriorities()
     }
 

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class User constructor (
+data class UserEntity constructor (
     val id: Long = 0,
     val firstname: String = "",
     val name: String = "",
@@ -14,8 +14,8 @@ data class User constructor (
     val phone: String = "",
     val photo: String? = "",
 ) : Parcelable {
-    fun getEmptyUser(): User {
-        return User(
+    fun getEmptyUser(): UserEntity {
+        return UserEntity(
             id = 0,
             firstname = "Ikhsanov",
             name = "Ruslan",

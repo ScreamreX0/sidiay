@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.domain.enums.Priorities
+import com.example.domain.enums.PriorityState
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentTicketItemBinding
 import com.example.sidiay.presentation.viewmodels.menu.TicketItemViewModel
@@ -54,9 +54,9 @@ class TicketItemFragment : Fragment(R.layout.fragment_ticket_item) {
                     )
                 }
 
-                priority?.let { fTicketItemPriorityText.text = Priorities.valueOf(it).title }
+                priority?.let { fTicketItemPriorityText.text = PriorityState.valueOf(it).title }
                 status?.let { fTicketItemStatusText.text = it }
-                kind?.name.let { fTicketItemKindText.text = it }
+                kindEntity?.name.let { fTicketItemKindText.text = it }
 
                 description?.let { fTicketItemDescriptionText.text = it }
 

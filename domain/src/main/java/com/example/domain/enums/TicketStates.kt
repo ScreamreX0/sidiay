@@ -1,6 +1,6 @@
 package com.example.domain.enums
 
-enum class TicketsStatuses(name: String) {
+enum class TicketStates(name: String) {
     NotFormed("Не сформирована"),
     New("Новая"),
     Accepted("Принята"),

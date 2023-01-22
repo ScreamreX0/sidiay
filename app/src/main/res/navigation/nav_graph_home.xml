@@ -15,7 +15,7 @@
             tools:layout="@layout/fragment_ticket_item">
             <argument
                 android:name="ticket"
-                app:argType="com.example.domain.models.entities.Ticket" />
+                app:argType="com.example.domain.models.entities.TicketEntity" />
         </fragment>
         <fragment
             android:id="@+id/fragment_tickets"
@@ -33,7 +33,7 @@
                 app:destination="@id/addTicketFragment" />
             <argument
                 android:name="user"
-                app:argType="com.example.domain.models.entities.User" />
+                app:argType="com.example.domain.models.entities.UserEntity" />
         </fragment>
         <fragment
             android:id="@+id/addTicketFragment"
@@ -42,7 +42,7 @@
             tools:layout="@layout/fragment_add_ticket">
             <argument
                 android:name="user"
-                app:argType="com.example.domain.models.entities.User" />
+                app:argType="com.example.domain.models.entities.UserEntity" />
         </fragment>
     </navigation>
     <navigation

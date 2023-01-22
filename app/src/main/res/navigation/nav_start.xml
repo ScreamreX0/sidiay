@@ -26,13 +26,13 @@
         tools:layout="@layout/fragment_main_menu">
         <argument
             android:name="user"
-            app:argType="com.example.domain.models.entities.User" />
+            app:argType="com.example.domain.models.entities.UserEntity" />
         <action
             android:id="@+id/action_mainMenuFragment_to_nav_graph_home"
             app:destination="@id/nav_graph_home">
             <argument
                 android:name="user"
-                app:argType="com.example.domain.models.entities.User" />
+                app:argType="com.example.domain.models.entities.UserEntity" />
         </action>
     </fragment>
     <include app:graph="@navigation/nav_graph_home" />

@@ -10,9 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.enums.Priorities
-import com.example.domain.models.entities.Ticket
-import com.example.domain.utils.Debugger
+import com.example.domain.enums.*
+import com.example.domain.models.entities.TicketEntity
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentTicketsBinding
 import com.example.sidiay.presentation.adapters.TicketsAdapter
@@ -26,17 +25,65 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
     private lateinit var binding: FragmentTicketsBinding
     private val args: TicketsFragmentArgs by navArgs()
 
-    private var searchList: ArrayList<Ticket> = arrayListOf()
+    private var searchList: ArrayList<TicketEntity> = arrayListOf()
 
-    // Filter
-    private val priorities: ArrayList<Priorities> = arrayListOf(
-        Priorities.Urgent,
-        Priorities.High,
-        Priorities.Medium,
-        Priorities.Low,
-        Priorities.VeryLow,
+    // FILTER
+    // priorities
+    private val priorities: ArrayList<PriorityState> = arrayListOf(
+        PriorityState.Urgent,
+        PriorityState.High,
+        PriorityState.Medium,
+        PriorityState.Low,
+        PriorityState.VeryLow,
     )
     private val checkedPriorities: BooleanArray = BooleanArray(priorities.size)
+
+    // periods
+    private val periods: ArrayList<PeriodState> = arrayListOf(
+        PeriodState.Day,
+        PeriodState.ThreeDays,
+        PeriodState.Week,
+        PeriodState.Month,
+        PeriodState.AllTime,
+    )
+    private val checkedPeriods: BooleanArray = BooleanArray(periods.size)
+
+    // kinds
+    private val kinds: ArrayList<KindState> = arrayListOf(
+        KindState.Plane,
+        KindState.Current,
+        KindState.Capital,
+        KindState.TO,
+        KindState.PPR,
+        KindState.Watered,
+        KindState.SlingingWork,
+    )
+    private val checkedKinds: BooleanArray = BooleanArray(kinds.size)
+
+    // services
+    private val services: ArrayList<ServiceState> = arrayListOf(
+        ServiceState.NPO,
+        ServiceState.Energo,
+        ServiceState.KIP,
+        ServiceState.Welding,
+        ServiceState.PRS,
+        ServiceState.Research,
+        ServiceState.ConstructionWorks,
+    )
+    private val checkedServices: BooleanArray = BooleanArray(services.size)
+
+    // statuses
+    private val statuses: ArrayList<TicketStates> = arrayListOf(
+        TicketStates.NotFormed,
+        TicketStates.New,
+        TicketStates.Accepted,
+        TicketStates.Denied,
+        TicketStates.Paused,
+        TicketStates.Done,
+        TicketStates.Closed,
+        TicketStates.ForRevision,
+    )
+    private val checkedStatuses: BooleanArray = BooleanArray(services.size)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,7 +110,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
     private fun initFilter() {
         initFilterIcon()
 
-        binding.fTicketToolbar.setOnMenuItemClickListener{
+        binding.fTicketToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.m_home_app_bar_priority -> {
                     createPriorityFilterDialog()
@@ -93,22 +140,6 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
         }
     }
 
-    private fun createCreationDateFilterDialog() {
-        TODO("Not yet implemented")
-    }
-
-    private fun createKindFilterDialog() {
-        TODO("Not yet implemented")
-    }
-
-    private fun createServiceFilterDialog() {
-        TODO("Not yet implemented")
-    }
-
-    private fun createStatusFilterDialog() {
-        TODO("Not yet implemented")
-    }
-
     private fun createPriorityFilterDialog() {
         val builder = AlertDialog.Builder(requireContext())
 
@@ -116,12 +147,70 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
             .setMultiChoiceItems(
                 priorities.map { it.name }.toTypedArray(),
                 checkedPriorities
-            ) { dialog, which, isChecked ->
+            ) { _, which, isChecked ->
                 checkedPriorities[which] = isChecked
-                val currentItem = priorities[which]
-                Debugger.printInfo(currentItem.name)
             }
-            .setPositiveButton(getString(R.string.ok)) {dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun createCreationDateFilterDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle(getString(R.string.by_creation_date))
+            .setMultiChoiceItems(
+                periods.map { it.name }.toTypedArray(),
+                checkedPeriods
+            ) { _, which, isChecked ->
+                checkedPeriods[which] = isChecked
+            }
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun createKindFilterDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle(getString(R.string.by_kind))
+            .setMultiChoiceItems(
+                kinds.map { it.name }.toTypedArray(),
+                checkedKinds
+            ) { _, which, isChecked ->
+                checkedKinds[which] = isChecked
+            }
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun createServiceFilterDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle(getString(R.string.by_service))
+            .setMultiChoiceItems(
+                services.map { it.name }.toTypedArray(),
+                checkedServices
+            ) { _, which, isChecked ->
+                checkedServices[which] = isChecked
+            }
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
+    }
+
+    private fun createStatusFilterDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle(getString(R.string.by_status))
+            .setMultiChoiceItems(
+                statuses.map { it.name }.toTypedArray(),
+                checkedStatuses
+            ) { _, which, isChecked ->
+                checkedStatuses[which] = isChecked
+            }
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
     }

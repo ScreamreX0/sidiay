@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.enums.Priorities
-import com.example.domain.models.entities.Ticket
+import com.example.domain.enums.PriorityState
+import com.example.domain.models.entities.TicketEntity
 import com.example.sidiay.databinding.ItemTicketBinding
 import com.example.sidiay.presentation.fragments.menu.TicketsFragmentDirections
 
 class TicketsAdapter(
-    private val tickets: List<Ticket>,
+    private val ticketEntities: List<TicketEntity>,
     private val parent: Fragment
 ) : RecyclerView.Adapter<TicketsAdapter.TicketViewHolder>() {
     inner class TicketViewHolder(val binding: ItemTicketBinding) :
@@ -26,9 +26,9 @@ class TicketsAdapter(
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(holder: TicketViewHolder, position: Int) {
         with(holder) {
-            with(tickets[position]) {
+            with(ticketEntities[position]) {
                 service?.let { binding.iTicketCompany.text = it }
-                priority?.let { binding.iTicketPriority.text = Priorities.valueOf(it).title }
+                priority?.let { binding.iTicketPriority.text = PriorityState.valueOf(it).title }
                 executor?.let { binding.iTicketPerson.text = "${it.firstname} ${it.name.first()}. ${it.lastname.first()}." }
                 expiration_date.let { binding.iTicketDate.text = it }
                 status.let { binding.iTicketStatus.text = it }
@@ -39,11 +39,11 @@ class TicketsAdapter(
         holder.itemView.setOnClickListener {
             val action =
                 TicketsFragmentDirections.actionFragmentTicketsToTicketItemFragment(
-                    tickets[position]
+                    ticketEntities[position]
                 )
             parent.findNavController().navigate(action)
         }
     }
 
-    override fun getItemCount() = tickets.size
+    override fun getItemCount() = ticketEntities.size
 }

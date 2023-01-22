@@ -1,6 +1,6 @@
 package com.example.domain.enums
 
-enum class Kinds(name: String) {
+enum class KindState(name: String) {
     Plane("Плановые"),
     Current("Текущий"),
     Capital("Капитальный"),

@@ -3,13 +3,13 @@ package com.example.sidiay.presentation.viewmodels.menu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.enums.Kinds
-import com.example.domain.enums.Priorities
-import com.example.domain.enums.Services
+import com.example.domain.enums.KindState
+import com.example.domain.enums.PriorityState
+import com.example.domain.enums.ServiceState
 import com.example.domain.enums.states.AddTicketStates
-import com.example.domain.enums.TicketsStatuses
-import com.example.domain.models.entities.Facility
-import com.example.domain.models.entities.User
+import com.example.domain.enums.TicketStates
+import com.example.domain.models.entities.FacilityEntity
+import com.example.domain.models.entities.UserEntity
 import com.example.domain.usecases.menu.create.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -26,23 +26,23 @@ class CreateTicketViewModel @Inject constructor(
     private val getObjectsUseCase: GetObjectsUseCase,
     private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
-    val services: MutableLiveData<List<Services>> = MutableLiveData()
-    val kinds: MutableLiveData<List<Kinds>> = MutableLiveData()
-    val statuses: MutableLiveData<List<TicketsStatuses>> = MutableLiveData()
-    val priorities: MutableLiveData<List<Priorities>> = MutableLiveData()
+    val serviceState: MutableLiveData<List<ServiceState>> = MutableLiveData()
+    val kindState: MutableLiveData<List<KindState>> = MutableLiveData()
+    val statuses: MutableLiveData<List<TicketStates>> = MutableLiveData()
+    val priorityState: MutableLiveData<List<PriorityState>> = MutableLiveData()
 
     // Suspend vars
-    val objects: MutableLiveData<List<Facility>> = MutableLiveData()
-    val employees: MutableLiveData<List<User>> = MutableLiveData()
+    val objects: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
+    val employees: MutableLiveData<List<UserEntity>> = MutableLiveData()
 
     var errorsList: MutableLiveData<List<AddTicketStates>> = MutableLiveData()
 
     fun initServices() {
-        services.value = getServicesUseCase.execute()
+        serviceState.value = getServicesUseCase.execute()
     }
 
     fun initKinds() {
-        kinds.value = getKindsUseCase.execute()
+        kindState.value = getKindsUseCase.execute()
     }
 
     fun initStatuses() {
@@ -50,7 +50,7 @@ class CreateTicketViewModel @Inject constructor(
     }
 
     fun initPriorities() {
-        priorities.value = getPrioritiesUseCase.execute()
+        priorityState.value = getPrioritiesUseCase.execute()
     }
 
     fun initObjects() {

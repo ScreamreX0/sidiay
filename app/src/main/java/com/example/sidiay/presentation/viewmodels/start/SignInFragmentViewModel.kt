@@ -1,10 +1,9 @@
 package com.example.sidiay.presentation.viewmodels.start
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.models.entities.User
+import com.example.domain.models.entities.UserEntity
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.models.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
@@ -23,7 +22,7 @@ class SignInFragmentViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase
 ) : ViewModel() {
     var errorResult = MutableLiveData<List<SignInStates>>()
-    var successSignIn = MutableLiveData<User>()
+    var successSignIn = MutableLiveData<UserEntity>()
 
     fun signIn(email: String, password: String) {
         val params = Credentials(email, password)
@@ -47,7 +46,7 @@ class SignInFragmentViewModel @Inject constructor(
 
     private fun signInOnline(params: Credentials) {
         viewModelScope.launch(getSignInHandler()) {
-            val signInResult: Pair<Int, User?> = signInUseCase.execute(params)
+            val signInResult: Pair<Int, UserEntity?> = signInUseCase.execute(params)
 
             when (signInResult.first) {
                 200 -> {
@@ -75,7 +74,7 @@ class SignInFragmentViewModel @Inject constructor(
     }
 
     private fun signInOffline() {
-        successSignIn.value = signInUseCase.getEmptyUser() as User
+        successSignIn.value = signInUseCase.getEmptyUser() as UserEntity
     }
 
     private fun getSignInHandler(): CoroutineExceptionHandler {
