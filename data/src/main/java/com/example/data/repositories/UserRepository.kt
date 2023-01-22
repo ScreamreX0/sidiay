@@ -5,8 +5,6 @@ import com.example.domain.models.entities.User
 import com.example.domain.models.params.Credentials
 import com.example.domain.repositories.IUserRepository
 import com.example.domain.utils.Debugger
-import retrofit2.Call
-import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -16,9 +14,9 @@ class UserRepository @Inject constructor(
         return List(15) {
             User(
                 id = it.toLong(),
-                firstName = "Ikhsanov$it",
+                firstname = "Ikhsanov$it",
                 name = "Ruslan$it",
-                lastName = "Lenarovich$it"
+                lastname = "Lenarovich$it"
             )
         }
     }

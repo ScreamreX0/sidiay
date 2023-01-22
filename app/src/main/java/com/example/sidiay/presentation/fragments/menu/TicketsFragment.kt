@@ -150,9 +150,13 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
                     searchList.clear()
                     val searchText = newText!!.lowercase(Locale.getDefault())
                     if (searchText.isNotBlank()) {
-                        viewModel.tickets.value!!.forEach {
-                            if (it.name.lowercase().contains(searchText)) {
-                                searchList.add(it)
+                        viewModel.tickets.value?.let { itTicketList ->
+                            itTicketList.forEach { itTicket ->
+                                itTicket.name?.let { itName ->
+                                    if (itName.lowercase().contains(searchText)) {
+                                        searchList.add(itTicket)
+                                    }
+                                }
                             }
                         }
                     } else {

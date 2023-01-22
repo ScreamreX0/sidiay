@@ -6,11 +6,24 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class User constructor (
     val id: Long = 0,
-    val firstName: String = "Ikhsanov",
-    val name: String = "Ruslan",
-    val lastName: String = "Lenarovich",
-    val email: String = "default email",
-    val password: String = "default password",
-    val phone: String = "default phone",
-    val photo: String? = "default photo",
-) : Parcelable
+    val firstname: String = "",
+    val name: String = "",
+    val lastname: String = "",
+    val email: String = "",
+    val password: String = "",
+    val phone: String = "",
+    val photo: String? = "",
+) : Parcelable {
+    fun getEmptyUser(): User {
+        return User(
+            id = 0,
+            firstname = "Ikhsanov",
+            name = "Ruslan",
+            lastname = "Lenarovich",
+            email = "default email",
+            password = "default password",
+            phone = "default phone",
+            photo = "default photo",
+        )
+    }
+}

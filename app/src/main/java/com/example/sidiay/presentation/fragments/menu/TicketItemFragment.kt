@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.domain.enums.Priorities
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentTicketItemBinding
 import com.example.sidiay.presentation.viewmodels.menu.TicketItemViewModel
@@ -38,35 +39,33 @@ class TicketItemFragment : Fragment(R.layout.fragment_ticket_item) {
         with(args.ticket) {
             with(binding) {
                 fTicketItemTitle.text = "${getString(R.string.ticket)}№ $id"
-                fTicketItemSecondTitle.text = name
+                name?.let { fTicketItemSecondTitle.text = it }
+                service?.let { fTicketItemServiceText.text = it }
 
-                fTicketItemServiceText.text = service
+                completed_work?.let { fTicketItemCompletedWorkText.text = it }
+                creation_date?.let { fTicketItemCreationDateText.text = it }
+                expiration_date?.let { fTicketItemExpirationDateText.text = it }
+                plane_date?.let { fTicketItemPlaneDateText.text = it }
 
-                fTicketItemCompletedWorkText.text = completedWork
-
-                fTicketItemCreationDateText.text = creationDate.toString()
-                fTicketItemExpirationDateText.text = expirationDate.toString()
-                fTicketItemPlaneDateText.text = planeDate.toString()
-
-                fTicketItemObjectText.text = facilities.joinToString(
-                    separator = "/",
-                    transform = { it.name }
-                )
-
-                fTicketItemPriorityText.text = priority.toString()
-                fTicketItemStatusText.text = status
-                fTicketItemKindText.text = kind.name
-
-                fTicketItemDescriptionText.text = description
-
-                // Author full name
-                fTicketItemAuthorText.text = author?.let {
-                    "${author!!.firstName} ${author!!.name.first()}. ${author!!.lastName.first()}."
+                facilities?.let {
+                    fTicketItemObjectText.text = it.joinToString(
+                        separator = "/",
+                        transform = { it.name }
+                    )
                 }
 
-                // Executor full name
-                fTicketItemExecutorText.text = executor?.let {
-                    "${executor!!.firstName} ${executor!!.name.first()}. ${executor!!.lastName.first()}."
+                priority?.let { fTicketItemPriorityText.text = Priorities.valueOf(it).title }
+                status?.let { fTicketItemStatusText.text = it }
+                kind?.name.let { fTicketItemKindText.text = it }
+
+                description?.let { fTicketItemDescriptionText.text = it }
+
+                author?.let {
+                    fTicketItemAuthorText.text = "${it.firstname} ${it.name.first()}. ${it.lastname.first()}."
+                }
+
+                executor?.let {
+                    fTicketItemExecutorText.text = "${it.firstname} ${it.name.first()}. ${it.lastname.first()}."
                 }
             }
         }

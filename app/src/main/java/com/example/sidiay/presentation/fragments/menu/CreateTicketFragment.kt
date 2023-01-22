@@ -81,7 +81,7 @@ class CreateTicketFragment : Fragment(R.layout.fragment_add_ticket),
     @SuppressLint("SetTextI18n")
     private fun initAuthor() {
         with(args.user) {
-            binding.fAddTicketAuthorText.text = "$firstName $name $lastName"
+            binding.fAddTicketAuthorText.text = "$firstname $name $lastname"
         }
     }
 
@@ -102,7 +102,7 @@ class CreateTicketFragment : Fragment(R.layout.fragment_add_ticket),
 
         viewModel.employees.observe(viewLifecycleOwner) {
             viewModel.employees.value?.let { list ->
-                executors = list.map { "${it.firstName} ${it.name} ${it.lastName}" }
+                executors = list.map { "${it.firstname} ${it.name} ${it.lastname}" }
             }
         }
     }

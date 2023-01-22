@@ -7,11 +7,7 @@ import com.example.domain.models.entities.Kind
 import com.example.domain.models.entities.User
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.utils.Debugger
-import retrofit2.Call
-import retrofit2.Response
-import java.sql.Date
 import javax.inject.Inject
-import javax.security.auth.callback.Callback
 
 class TicketsRepository @Inject constructor(
     private val apiService: ApiService
@@ -49,23 +45,23 @@ class TicketsRepository @Inject constructor(
             service = "Сервис №$id",
             executor = User(
                 id = id.toLong(),
-                firstName = "Ихсанов№${id * 2}",
+                firstname = "Ихсанов№${id * 2}",
                 name = "Руслан№${id * 2}",
-                lastName = "Ленарович№${id * 2}"
+                lastname = "Ленарович№${id * 2}"
             ),
             priority = 3,
             status = "Не закрыта",
-            planeDate = "22.01.23",
-            expirationDate = "22.01.23",
+            plane_date = "22.01.23",
+            expiration_date = "22.01.23",
             description = "Покрасить подставку под КТП, ТД, ТП, ТО",
-            completedWork = "Неисправность ЧРЭП. Выполнена замена СУ с ЧП. Электромонтер Карзохин Н.И. 22:11-23:30.",
+            completed_work = "Неисправность ЧРЭП. Выполнена замена СУ с ЧП. Электромонтер Карзохин Н.И. 22:11-23:30.",
             author = User(
                 id = id.toLong(),
-                firstName = "Ихсанов№${id * 3}",
+                firstname = "Ихсанов№${id * 3}",
                 name = "Руслан№${id * 3}",
-                lastName = "Ленарович№${id * 3}"
+                lastname = "Ленарович№${id * 3}"
             ),
-            creationDate = "22.01.23",
+            creation_date = "22.01.23",
             facilities = listOf(
                 Facility(
                     id = 1,
