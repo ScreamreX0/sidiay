@@ -29,11 +29,11 @@
     </style>
 
     <!-- Chips -->
-    <style name="Widget.Sidiay.ItemApplication.ChipGroup" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Widget.Sidiay.ItemTicket.ChipGroup" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:backgroundTint">@color/white</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.Chip" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Widget.Sidiay.ItemTicket.Chip" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:backgroundTint">@color/grey_200</item>
     </style>
 

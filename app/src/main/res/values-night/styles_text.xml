@@ -18,7 +18,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Widget.Sidiay.Text.ItemApplication.Description" parent="Widget.Sidiay.Text.Description">
+    <style name="Widget.Sidiay.Text.ItemTicket.Description" parent="Widget.Sidiay.Text.Description">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textColorHint">@color/colorPrimary</item>
     </style>
@@ -30,7 +30,7 @@
         <item name="android:text">*</item>
     </style>
 
-    <style name="Widget.Sidiay.Text.ItemApplication">
+    <style name="Widget.Sidiay.Text.ItemTicket">
         <item name="android:textColor">@color/grey_200</item>
         <item name="android:backgroundTint">@color/white</item>
     </style>

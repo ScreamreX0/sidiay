@@ -19,20 +19,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.domain.models.params.DateParams
 import com.example.sidiay.R
-import com.example.sidiay.databinding.FragmentAddApplicationBinding
-import com.example.sidiay.presentation.viewmodels.menu.CreateApplicationViewModel
+import com.example.sidiay.databinding.FragmentAddTicketBinding
+import com.example.sidiay.presentation.viewmodels.menu.CreateTicketViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
+class CreateTicketFragment : Fragment(R.layout.fragment_add_ticket),
     DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     // Common
-    private val viewModel: CreateApplicationViewModel by viewModels()
-    private lateinit var binding: FragmentAddApplicationBinding
-    private val args by navArgs<CreateApplicationFragmentArgs>()
+    private val viewModel: CreateTicketViewModel by viewModels()
+    private lateinit var binding: FragmentAddTicketBinding
+    private val args by navArgs<CreateTicketFragmentArgs>()
 
     // Object vars
     private var objects: List<String> = listOf()
@@ -48,7 +48,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     private val expirationDateCalendar = Calendar.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentAddApplicationBinding.inflate(inflater, container, false)
+        binding = FragmentAddTicketBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -81,13 +81,13 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     @SuppressLint("SetTextI18n")
     private fun initAuthor() {
         with(args.user) {
-            binding.fAddApplicationAuthorText.text = "$firstName $name $lastName"
+            binding.fAddTicketAuthorText.text = "$firstName $name $lastName"
         }
     }
 
     // Buttons handlers
     private fun onClickBackButton() {
-        binding.fAddApplicationBackButton.setOnClickListener {
+        binding.fAddTicketBackButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -108,7 +108,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     private fun addExecutorsHandler() {
-        binding.fAddApplicationExecutorText.setOnClickListener {
+        binding.fAddTicketExecutorText.setOnClickListener {
             if (executors.isEmpty()) {
                 return@setOnClickListener
             }
@@ -117,7 +117,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
 
             builder.setTitle(getString(R.string.select_executor))
                 .setItems(executors.toTypedArray()) { _, item ->
-                    binding.fAddApplicationExecutorText.text = executors[item]
+                    binding.fAddTicketExecutorText.text = executors[item]
                 }
                 .setNegativeButton(getString(R.string.Cancel)) { dialog, _ -> dialog.dismiss() }
                 .create()
@@ -138,7 +138,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     private fun addObjectButtonHandler() {
-        binding.fAddApplicationAddObjectButton.setOnClickListener {
+        binding.fAddTicketAddObjectButton.setOnClickListener {
             if (objects.isEmpty()) {
                 return@setOnClickListener
             }
@@ -149,7 +149,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
                 .setItems(objects.toTypedArray()) { dialog, item ->
                     if (!selectedObjects[item]) {
                         selectedObjects[item] = true
-                        binding.fAddApplicationObjectChipGroup.addView(getChip(objects[item]), 0)
+                        binding.fAddTicketObjectChipGroup.addView(getChip(objects[item]), 0)
                     }
                 }
                 .setNegativeButton(getString(R.string.Cancel)) { dialog, _ -> dialog.dismiss() }
@@ -168,7 +168,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
         chip.text = text
 
         chip.setOnClickListener {
-            binding.fAddApplicationObjectChipGroup.removeView(it)
+            binding.fAddTicketObjectChipGroup.removeView(it)
             selectedObjects[objects.indexOf(chip.text)] = false
         }
 
@@ -181,7 +181,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
             it.let {
                 val adapter = ArrayAdapter(
                     requireContext(),
-                    R.layout.item_add_application_dropdown,
+                    R.layout.item_add_ticket_dropdown,
                     it
                 )
 
@@ -191,29 +191,29 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     private fun initServicesTextView() {
-        setupAdapter(viewModel.services, binding.fAddApplicationAutoCompleteService)
+        setupAdapter(viewModel.services, binding.fAddTicketAutoCompleteService)
         viewModel.initServices()
     }
 
     private fun initKindsTextView() {
-        setupAdapter(viewModel.kinds, binding.fAddApplicationAutoCompleteKinds)
+        setupAdapter(viewModel.kinds, binding.fAddTicketAutoCompleteKinds)
         viewModel.initKinds()
     }
 
     private fun initPrioritiesAdapter() {
-        setupAdapter(viewModel.priorities, binding.fAddApplicationAutoCompletePriority)
+        setupAdapter(viewModel.priorities, binding.fAddTicketAutoCompletePriority)
         viewModel.initPriorities()
     }
 
     private fun initStatusesAdapter() {
-        setupAdapter(viewModel.statuses, binding.fAddApplicationAutoCompleteStatus)
+        setupAdapter(viewModel.statuses, binding.fAddTicketAutoCompleteStatus)
         viewModel.initStatuses()
     }
 
     // DateTimes
     private fun handlePlaneDate() {
-        binding.fAddApplicationPlaneDateText.setOnClickListener {
-            currentDateTimePicker = binding.fAddApplicationPlaneDateText
+        binding.fAddTicketPlaneDateText.setOnClickListener {
+            currentDateTimePicker = binding.fAddTicketPlaneDateText
 
             DatePickerDialog(
                 requireContext(),
@@ -226,8 +226,8 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     private fun handleExpirationDate() {
-        binding.fAddApplicationExpirationDateText.setOnClickListener {
-            currentDateTimePicker = binding.fAddApplicationExpirationDateText
+        binding.fAddTicketExpirationDateText.setOnClickListener {
+            currentDateTimePicker = binding.fAddTicketExpirationDateText
 
             DatePickerDialog(
                 requireContext(),
@@ -264,7 +264,7 @@ class CreateApplicationFragment : Fragment(R.layout.fragment_add_application),
     }
 
     private fun initCreationDate() {
-        binding.fAddApplicationCreationDateText.text =
+        binding.fAddTicketCreationDateText.text =
             SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
                 .format(Calendar.getInstance(TimeZone.getDefault()).time)
     }

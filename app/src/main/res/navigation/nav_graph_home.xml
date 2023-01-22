@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_home"
-    app:startDestination="@id/nav_graph_home_nested">
+    app:startDestination="@id/nav_graph_home_nested"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <navigation
         android:id="@+id/nav_graph_home_nested"
-        app:startDestination="@id/fragment_applications">
+        app:startDestination="@id/fragment_tickets">
         <fragment
-            android:id="@+id/applicationItemFragment"
-            android:name="com.example.sidiay.presentation.fragments.menu.ApplicationItemFragment"
-            android:label="ApplicationItemFragment"
-            tools:layout="@layout/fragment_application_item">
+            android:id="@+id/ticketItemFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.TicketItemFragment"
+            android:label="TicketItemFragment"
+            tools:layout="@layout/fragment_ticket_item">
             <argument
-                android:name="application"
-                app:argType="com.example.domain.models.entities.Application" />
+                android:name="ticket"
+                app:argType="com.example.domain.models.entities.Ticket" />
         </fragment>
         <fragment
-            android:id="@+id/fragment_applications"
-            android:name="com.example.sidiay.presentation.fragments.menu.ApplicationsFragment"
-            tools:layout="@layout/fragment_applications">
+            android:id="@+id/fragment_tickets"
+            android:name="com.example.sidiay.presentation.fragments.menu.TicketsFragment"
+            tools:layout="@layout/fragment_tickets">
             <action
-                android:id="@+id/action_fragment_applications_to_applicationItemFragment"
-                app:destination="@id/applicationItemFragment"
+                android:id="@+id/action_fragment_tickets_to_ticketItemFragment"
+                app:destination="@id/ticketItemFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/nav_default_pop_exit_anim" />
             <action
-                android:id="@+id/action_fragment_applications_to_addApplicationFragment"
-                app:destination="@id/addApplicationFragment" />
+                android:id="@+id/action_fragment_tickets_to_addTicketFragment"
+                app:destination="@id/addTicketFragment" />
             <argument
                 android:name="user"
                 app:argType="com.example.domain.models.entities.User" />
         </fragment>
         <fragment
-            android:id="@+id/addApplicationFragment"
-            android:name="com.example.sidiay.presentation.fragments.menu.CreateApplicationFragment"
-            android:label="AddApplicationFragment"
-            tools:layout="@layout/fragment_add_application">
+            android:id="@+id/addTicketFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.CreateTicketFragment"
+            android:label="AddTicketFragment"
+            tools:layout="@layout/fragment_add_ticket">
             <argument
                 android:name="user"
                 app:argType="com.example.domain.models.entities.User" />
@@ -72,5 +72,4 @@
             android:label="SettingsFragment"
             tools:layout="@layout/fragment_settings" />
     </navigation>
-
 </navigation>

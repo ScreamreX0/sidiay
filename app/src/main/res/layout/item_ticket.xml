@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="140dp"
     style="@style/Theme.Sidiay.ItemBackground"
-    android:background="@drawable/item_application"
+    android:background="@drawable/item_ticket"
     android:padding="5dp"
     android:layout_margin="5dp">
 
     <ImageView
-        android:id="@+id/i_application_new"
+        android:id="@+id/i_ticket_new"
         style="@style/Widget.Sidiay.Icon.Add"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -28,12 +28,12 @@
         android:src="@drawable/ic_baseline_error_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/i_application_new"
+        app:layout_constraintTop_toBottomOf="@+id/i_ticket_new"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/i_application_title"
-        style="@style/Widget.Sidiay.Text.ItemApplication"
+        android:id="@+id/i_ticket_title"
+        style="@style/Widget.Sidiay.Text.ItemTicket"
         android:layout_width="0dp"
         android:layout_height="25dp"
         android:layout_marginStart="15dp"
@@ -43,116 +43,116 @@
         android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/i_application_new"
+        app:layout_constraintStart_toEndOf="@+id/i_ticket_new"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/i_application_company_icon"
+        android:id="@+id/i_ticket_company_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_baseline_fiber_manual_record_24"
         android:theme="@style/Widget.Sidiay.Image"
-        app:layout_constraintStart_toStartOf="@+id/i_application_title"
-        app:layout_constraintTop_toBottomOf="@+id/i_application_title" />
+        app:layout_constraintStart_toStartOf="@+id/i_ticket_title"
+        app:layout_constraintTop_toBottomOf="@+id/i_ticket_title" />
 
     <ImageView
-        android:id="@+id/i_application_priority_icon"
+        android:id="@+id/i_ticket_priority_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:src="@drawable/ic_baseline_arrow_outward_24"
         android:theme="@style/Widget.Sidiay.Image"
-        app:layout_constraintLeft_toLeftOf="@+id/i_application_company_icon"
-        app:layout_constraintTop_toBottomOf="@+id/i_application_company_icon" />
+        app:layout_constraintLeft_toLeftOf="@+id/i_ticket_company_icon"
+        app:layout_constraintTop_toBottomOf="@+id/i_ticket_company_icon" />
 
     <ImageView
-        android:id="@+id/i_application_person_icon"
+        android:id="@+id/i_ticket_person_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:src="@drawable/ic_baseline_person_24"
         android:theme="@style/Widget.Sidiay.Image"
-        app:layout_constraintLeft_toLeftOf="@+id/i_application_priority_icon"
-        app:layout_constraintTop_toBottomOf="@+id/i_application_priority_icon" />
+        app:layout_constraintLeft_toLeftOf="@+id/i_ticket_priority_icon"
+        app:layout_constraintTop_toBottomOf="@+id/i_ticket_priority_icon" />
 
     <TextView
-        android:id="@+id/i_application_company"
-        style="@style/Widget.Sidiay.Text.ItemApplication"
+        android:id="@+id/i_ticket_company"
+        style="@style/Widget.Sidiay.Text.ItemTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text=""
 
         android:theme="@style/Widget.Sidiay.Text"
-        app:layout_constraintEnd_toStartOf="@+id/i_application_date_icon"
-        app:layout_constraintStart_toEndOf="@+id/i_application_company_icon"
-        app:layout_constraintTop_toTopOf="@+id/i_application_company_icon" />
+        app:layout_constraintEnd_toStartOf="@+id/i_ticket_date_icon"
+        app:layout_constraintStart_toEndOf="@+id/i_ticket_company_icon"
+        app:layout_constraintTop_toTopOf="@+id/i_ticket_company_icon" />
 
     <TextView
-        android:id="@+id/i_application_priority"
-        style="@style/Widget.Sidiay.Text.ItemApplication"
+        android:id="@+id/i_ticket_priority"
+        style="@style/Widget.Sidiay.Text.ItemTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:text=""
         android:theme="@style/Widget.Sidiay.Text"
-        app:layout_constraintEnd_toStartOf="@+id/i_application_status_icon"
-        app:layout_constraintStart_toEndOf="@+id/i_application_priority_icon"
-        app:layout_constraintTop_toTopOf="@+id/i_application_priority_icon" />
+        app:layout_constraintEnd_toStartOf="@+id/i_ticket_status_icon"
+        app:layout_constraintStart_toEndOf="@+id/i_ticket_priority_icon"
+        app:layout_constraintTop_toTopOf="@+id/i_ticket_priority_icon" />
 
     <TextView
-        android:id="@+id/i_application_person"
-        style="@style/Widget.Sidiay.Text.ItemApplication"
+        android:id="@+id/i_ticket_person"
+        style="@style/Widget.Sidiay.Text.ItemTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text=""
         android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/i_application_person_icon"
-        app:layout_constraintTop_toTopOf="@+id/i_application_person_icon" />
+        app:layout_constraintStart_toEndOf="@+id/i_ticket_person_icon"
+        app:layout_constraintTop_toTopOf="@+id/i_ticket_person_icon" />
 
     <TextView
-        android:id="@+id/i_application_date"
-        style="@style/Widget.Sidiay.Text.ItemApplication"
+        android:id="@+id/i_ticket_date"
+        style="@style/Widget.Sidiay.Text.ItemTicket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/i_application_company_icon" />
+        app:layout_constraintTop_toTopOf="@+id/i_ticket_company_icon" />
 
     <ImageView
-        android:id="@+id/i_application_date_icon"
+        android:id="@+id/i_ticket_date_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:src="@drawable/ic_baseline_flag_24"
         android:theme="@style/Widget.Sidiay.Image"
-        app:layout_constraintEnd_toStartOf="@+id/i_application_date"
-        app:layout_constraintTop_toTopOf="@+id/i_application_date" />
+        app:layout_constraintEnd_toStartOf="@+id/i_ticket_date"
+        app:layout_constraintTop_toTopOf="@+id/i_ticket_date" />
 
     <TextView
-        android:id="@+id/i_application_status"
-        style="@style/Widget.Sidiay.Text.ItemApplication"
+        android:id="@+id/i_ticket_status"
+        style="@style/Widget.Sidiay.Text.ItemTicket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:text=""
         android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/i_application_date" />
+        app:layout_constraintTop_toBottomOf="@+id/i_ticket_date" />
 
     <ImageView
-        android:id="@+id/i_application_status_icon"
+        android:id="@+id/i_ticket_status_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:src="@drawable/ic_baseline_check_24"
         android:theme="@style/Widget.Sidiay.Image"
-        app:layout_constraintEnd_toStartOf="@+id/i_application_status"
-        app:layout_constraintTop_toTopOf="@+id/i_application_status" />
+        app:layout_constraintEnd_toStartOf="@+id/i_ticket_status"
+        app:layout_constraintTop_toTopOf="@+id/i_ticket_status" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

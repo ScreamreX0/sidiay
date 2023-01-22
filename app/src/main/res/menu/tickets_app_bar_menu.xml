@@ -41,7 +41,7 @@
         android:id="@+id/m_home_app_bar_my_applications"
         android:checkable="true"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/my_applications"
+        android:title="@string/my_tickets"
         app:showAsAction="never" />
 
     <item

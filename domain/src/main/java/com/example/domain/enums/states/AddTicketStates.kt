@@ -1,5 +1,5 @@
 package com.example.domain.enums.states
 
-enum class AddApplicationStates {
+enum class AddTicketStates {
     NO_SERVER_CONNECTION
 }

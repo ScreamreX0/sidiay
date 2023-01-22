@@ -1,18 +1,18 @@
 package com.example.data.repositories
 
 import com.example.data.api.ApiService
-import com.example.domain.repositories.IObjectsRepository
+import com.example.domain.repositories.IFacilitiesRepository
 import com.example.domain.models.entities.Object
 import javax.inject.Inject
 
-class ObjectsRepository @Inject constructor(
+class FacilitiesRepository @Inject constructor(
     private val apiService: ApiService
-) : IObjectsRepository {
-    override suspend fun getObjects(): List<Object> {
+) : IFacilitiesRepository {
+    override suspend fun get(): List<Object> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTestObjects(): List<Object> {
+    override suspend fun getTest(): List<Object> {
         return List(5) {
             Object(
                 id = it,

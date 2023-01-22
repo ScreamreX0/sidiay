@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Application constructor (
+data class Ticket constructor (
     val id: Int,
     val title: String = "",
     val service: String = "",

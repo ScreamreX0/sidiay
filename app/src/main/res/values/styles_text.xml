@@ -29,7 +29,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Widget.Sidiay.Text.ItemApplication.Description" parent="Widget.Sidiay.Text.Description"/>
+    <style name="Widget.Sidiay.Text.ItemTicket.Description" parent="Widget.Sidiay.Text.Description"/>
 
     <style name="Widget.Sidiay.Text.StarText">
         <item name="android:textSize">15sp</item>
@@ -38,7 +38,7 @@
         <item name="android:text">*</item>
     </style>
 
-    <style name="Widget.Sidiay.Text.ItemApplication">
+    <style name="Widget.Sidiay.Text.ItemTicket">
         <item name="android:textColor">@color/black</item>
     </style>
 

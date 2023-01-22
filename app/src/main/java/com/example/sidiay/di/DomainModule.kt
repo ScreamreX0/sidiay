@@ -1,11 +1,10 @@
 package com.example.sidiay.di
 
-import com.example.data.repositories.ObjectsRepository
+import com.example.data.repositories.FacilitiesRepository
 import com.example.data.repositories.UserRepository
-import com.example.domain.repositories.IApplicationRepository
+import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.repositories.IUserRepository
-import com.example.domain.usecases.menu.GetApplicationUseCase
-import com.example.domain.usecases.menu.GetApplicationsUseCase
+import com.example.domain.usecases.menu.GetTicketsUseCase
 import com.example.domain.usecases.menu.create.*
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
@@ -28,18 +27,13 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetApplicationsUseCase(applicationRepository: IApplicationRepository): GetApplicationsUseCase {
-        return GetApplicationsUseCase(applicationRepository = applicationRepository)
+    fun provideGetTicketsUseCase(applicationRepository: ITicketsRepository): GetTicketsUseCase {
+        return GetTicketsUseCase(ticketsRepository = applicationRepository)
     }
 
     @Provides
-    fun provideGetApplicationUseCase(applicationRepository: IApplicationRepository): GetApplicationUseCase {
-        return GetApplicationUseCase(applicationRepository = applicationRepository)
-    }
-
-    @Provides
-    fun provideSaveApplicationUseCase(applicationsRepository: IApplicationRepository): SaveApplicationUseCase {
-        return SaveApplicationUseCase(applicationRepository = applicationsRepository)
+    fun provideSaveTicketsUseCase(applicationsRepository: ITicketsRepository): SaveTicketUseCase {
+        return SaveTicketUseCase(ticketRepository = applicationsRepository)
     }
 
     @Provides
@@ -73,7 +67,7 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetObjectsUseCase(objectsRepository: ObjectsRepository): GetObjectsUseCase {
-        return GetObjectsUseCase(objectsRepository = objectsRepository)
+    fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetObjectsUseCase {
+        return GetObjectsUseCase(objectsRepository = facilitiesRepository)
     }
 }

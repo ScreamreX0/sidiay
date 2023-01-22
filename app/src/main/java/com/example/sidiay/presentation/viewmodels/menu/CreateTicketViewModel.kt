@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.enums.Kinds
 import com.example.domain.enums.Priorities
 import com.example.domain.enums.Services
-import com.example.domain.enums.states.AddApplicationStates
-import com.example.domain.enums.ApplicationStatuses
+import com.example.domain.enums.states.AddTicketStates
+import com.example.domain.enums.TicketsStatuses
 import com.example.domain.models.entities.Employee
 import com.example.domain.models.entities.Object
 import com.example.domain.models.entities.User
@@ -20,7 +20,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateApplicationViewModel @Inject constructor(
+class CreateTicketViewModel @Inject constructor(
     private val getServicesUseCase: GetServicesUseCase,
     private val getKindsUseCase: GetKindsUseCase,
     private val getStatusesUseCase: GetStatusesUseCase,
@@ -30,14 +30,14 @@ class CreateApplicationViewModel @Inject constructor(
 ) : ViewModel() {
     val services: MutableLiveData<List<Services>> = MutableLiveData()
     val kinds: MutableLiveData<List<Kinds>> = MutableLiveData()
-    val statuses: MutableLiveData<List<ApplicationStatuses>> = MutableLiveData()
+    val statuses: MutableLiveData<List<TicketsStatuses>> = MutableLiveData()
     val priorities: MutableLiveData<List<Priorities>> = MutableLiveData()
 
     // Suspend vars
     val objects: MutableLiveData<List<Object>> = MutableLiveData()
     val employees: MutableLiveData<List<User>> = MutableLiveData()
 
-    var errorsList: MutableLiveData<List<AddApplicationStates>> = MutableLiveData()
+    var errorsList: MutableLiveData<List<AddTicketStates>> = MutableLiveData()
 
     fun initServices() {
         services.value = getServicesUseCase.execute()
@@ -72,7 +72,7 @@ class CreateApplicationViewModel @Inject constructor(
         service: Services,
         executor: Employee? = null,
         kind: Kinds,
-        status: ApplicationStatuses = ApplicationStatuses.New,
+        status: TicketsStatuses = TicketsStatuses.New,
         priority: Priorities,
         planeDate: Date? = null,
         expirationDate: Date? = null,
@@ -87,7 +87,7 @@ class CreateApplicationViewModel @Inject constructor(
     private fun getConnectionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                errorsList.value = listOf(AddApplicationStates.NO_SERVER_CONNECTION)
+                errorsList.value = listOf(AddTicketStates.NO_SERVER_CONNECTION)
             }
         }
     }

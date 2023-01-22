@@ -23,7 +23,7 @@
         <item name="boxBackgroundColor">@color/colorAccent</item>
     </style>
 
-    <style name="Widget.Sidiay.ItemApplication.TextInputEditText" parent="">
+    <style name="Widget.Sidiay.ItemTicket.TextInputEditText" parent="">
         <item name="android:textCursorDrawable">@color/colorPrimary</item>
     </style>
 
@@ -33,7 +33,7 @@
         <item name="hintTextColor">@color/white</item>
     </style>
 
-    <style name="Widget.Sidiay.AddApplication.TextInputLayer" parent="Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+    <style name="Widget.Sidiay.AddTicket.TextInputLayer" parent="Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
         <item name="android:textColorHint">@color/grey_400</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">48dp</item>

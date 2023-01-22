@@ -1,41 +1,43 @@
 package com.example.data.repositories
 
 import com.example.data.api.ApiService
-import com.example.domain.models.entities.Application
-import com.example.domain.models.entities.Employee
+import com.example.domain.models.entities.Ticket
 import com.example.domain.models.entities.Object
 import com.example.domain.models.entities.User
-import com.example.domain.repositories.IApplicationRepository
+import com.example.domain.repositories.ITicketsRepository
+import com.example.domain.utils.Debugger
 import javax.inject.Inject
 
-class ApplicationRepository @Inject constructor(
-    apiService: ApiService
-) : IApplicationRepository {
-    override suspend fun getApplicationsList(): List<Application> {
+class TicketsRepository @Inject constructor(
+    private val apiService: ApiService
+) : ITicketsRepository {
+    override suspend fun get(): Pair<Int, List<Ticket>?> {
+        val result = apiService.getTickets()
+        Debugger.printInfo("Getting tickets from api. Result code:${result.code()}")
+        return Pair(result.code(), result.body())
+    }
+
+    override suspend fun get(id: Int): Ticket {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getApplication(id: Int): Application {
+    override suspend fun set(newTicket: Ticket): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun changeApplication(newApplication: Application): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun saveApplication(application: Application): Boolean {
+    override suspend fun add(ticket: Ticket): Boolean {
         TODO("Not yet implemented")
     }
 
     // Test
-    override suspend fun getTestApplicationsList(): List<Application> {
+    override suspend fun getTest(): List<Ticket> {
         return List(10) {
-            getTestApplication(it)
+            getTest(it)
         }
     }
 
-    override suspend fun getTestApplication(id: Int): Application {
-        return Application(
+    override suspend fun getTest(id: Int): Ticket {
+        return Ticket(
             id = id,
             title = "Неисправность №$id",
             service = "Сервис №$id",
@@ -74,11 +76,11 @@ class ApplicationRepository @Inject constructor(
         )
     }
 
-    override suspend fun testChangeApplication(newApplication: Application): Boolean {
+    override suspend fun setTest(newTicket: Ticket): Boolean {
         return true
     }
 
-    override suspend fun saveTestApplication(application: Application): Boolean {
+    override suspend fun addTest(ticket: Ticket): Boolean {
         return true
     }
 }

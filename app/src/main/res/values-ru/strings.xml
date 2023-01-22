@@ -20,7 +20,7 @@
     <string name="no_server_connection">Нет связи с сервером</string>
     <string name="wrong_email_or_password">Неверный логин или пароль</string>
     <string name="login_as_guest">Войти как гость</string>
-    <string name="kron_application">КРОН Заявка</string>
+    <string name="kron_ticket">КРОН Заявка</string>
     <string name="LLC">ООО \"СиДиАй\"</string>
     <string name="home">Главная</string>
     <string name="Scanner">Сканнер</string>
@@ -38,12 +38,12 @@
     <string name="date_of_creation">Дата создания</string>
     <string name="executor">Исполнитель</string>
     <string name="description">Описание</string>
-    <string name="applications">Заявки</string>
+    <string name="tickets">Заявки</string>
     <string name="author">Автор</string>
     <string name="not_filled">Не заполнено</string>
-    <string name="application">Заявка</string>
+    <string name="ticket">Заявка</string>
     <string name="add_object">Добавить объект</string>
-    <string name="add_application">Создание заявки</string>
+    <string name="ticket_creations">Создание заявки</string>
     <string name="title">Заголовок</string>
     <string name="select_service">Выбрать сервис</string>
     <string name="select_executor">Выбрать исполнителя</string>
@@ -64,6 +64,6 @@
     <string name="by_kind">По виду</string>
     <string name="by_creation_date">По дате создания</string>
     <string name="expired">Просроченные</string>
-    <string name="my_applications">Мои заявки</string>
+    <string name="my_tickets">Мои заявки</string>
     <string name="reset_all">Сбросить все</string>
 </resources>

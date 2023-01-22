@@ -11,22 +11,22 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.enums.Priorities
-import com.example.domain.models.entities.Application
+import com.example.domain.models.entities.Ticket
 import com.example.domain.utils.Debugger
 import com.example.sidiay.R
-import com.example.sidiay.databinding.FragmentApplicationsBinding
-import com.example.sidiay.presentation.adapters.ApplicationsAdapter
-import com.example.sidiay.presentation.viewmodels.menu.ApplicationsFragmentViewModel
+import com.example.sidiay.databinding.FragmentTicketsBinding
+import com.example.sidiay.presentation.adapters.TicketsAdapter
+import com.example.sidiay.presentation.viewmodels.menu.TicketsFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
-    private val viewModel: ApplicationsFragmentViewModel by viewModels()
-    private lateinit var binding: FragmentApplicationsBinding
-    private val args: ApplicationsFragmentArgs by navArgs()
+class TicketsFragment : Fragment(R.layout.fragment_tickets) {
+    private val viewModel: TicketsFragmentViewModel by viewModels()
+    private lateinit var binding: FragmentTicketsBinding
+    private val args: TicketsFragmentArgs by navArgs()
 
-    private var searchList: ArrayList<Application> = arrayListOf()
+    private var searchList: ArrayList<Ticket> = arrayListOf()
 
     // Filter
     private val priorities: ArrayList<Priorities> = arrayListOf(
@@ -43,7 +43,7 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentApplicationsBinding.inflate(inflater, container, false)
+        binding = FragmentTicketsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -65,7 +65,7 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     private fun initFilter() {
         initFilterIcon()
 
-        binding.fApplicationToolbar.setOnMenuItemClickListener{
+        binding.fTicketToolbar.setOnMenuItemClickListener{
             when (it.itemId) {
                 R.id.m_home_app_bar_priority -> {
                     createPriorityFilterDialog()
@@ -88,7 +88,7 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
                     true
                 }
                 R.id.m_home_app_bar_expired -> TODO()
-                //R.id.m_home_app_bar_my_applications ->
+                //R.id.m_home_app_bar_my_tickets ->
                 R.id.m_home_app_bar_reset -> TODO()
                 else -> false
             }
@@ -133,34 +133,34 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
             requireContext(),
             R.drawable.ic_baseline_filter_list_24_white
         )
-        binding.fApplicationToolbar.overflowIcon = drawable
+        binding.fTicketToolbar.overflowIcon = drawable
     }
 
     private fun initSearch() {
         with(binding) {
-            fApplicationSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            fTicketSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    fApplicationSearchView.clearFocus()
+                    fTicketSearchView.clearFocus()
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    if (viewModel.applications.value == null) {
+                    if (viewModel.tickets.value == null) {
                         return false
                     }
 
                     searchList.clear()
                     val searchText = newText!!.lowercase(Locale.getDefault())
                     if (searchText.isNotBlank()) {
-                        viewModel.applications.value!!.forEach {
+                        viewModel.tickets.value!!.forEach {
                             if (it.title.lowercase().contains(searchText)) {
                                 searchList.add(it)
                             }
                         }
                     } else {
-                        searchList.addAll(viewModel.applications.value!!)
+                        searchList.addAll(viewModel.tickets.value!!)
                     }
-                    fApplicationRecyclerView.adapter?.notifyDataSetChanged()
+                    fTicketRecyclerView.adapter?.notifyDataSetChanged()
                     return false
                 }
             })
@@ -168,9 +168,9 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     }
 
     private fun addButtonHandler() {
-        binding.fApplicationAddButton.setOnClickListener {
+        binding.fTicketAddButton.setOnClickListener {
             findNavController().navigate(
-                ApplicationsFragmentDirections.actionFragmentApplicationsToAddApplicationFragment(
+                TicketsFragmentDirections.actionFragmentTicketsToAddTicketFragment(
                     args.user
                 )
             )
@@ -178,19 +178,19 @@ class ApplicationsFragment : Fragment(R.layout.fragment_applications) {
     }
 
     private fun initRecyclerView() {
-        viewModel.applications.observe(viewLifecycleOwner) {
+        viewModel.tickets.observe(viewLifecycleOwner) {
             val layoutManager = LinearLayoutManager(context)
-            binding.fApplicationRecyclerView.layoutManager = layoutManager
-            binding.fApplicationRecyclerView.setHasFixedSize(true)
+            binding.fTicketRecyclerView.layoutManager = layoutManager
+            binding.fTicketRecyclerView.setHasFixedSize(true)
 
-            viewModel.applications.value?.let {
+            viewModel.tickets.value?.let {
                 searchList.addAll(it)
-                binding.fApplicationRecyclerView.adapter = ApplicationsAdapter(searchList, this)
+                binding.fTicketRecyclerView.adapter = TicketsAdapter(searchList, this)
             }
         }
     }
 
     private fun recyclerViewFill() {
-        viewModel.fillApplicationsList()
+        viewModel.fillTicketsList()
     }
 }
