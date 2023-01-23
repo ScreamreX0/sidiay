@@ -7,7 +7,7 @@ import com.example.domain.enums.ticketstates.KindState
 import com.example.domain.enums.ticketstates.PriorityState
 import com.example.domain.enums.ticketstates.ServiceState
 import com.example.domain.enums.other.AddTicketStates
-import com.example.domain.enums.ticketstates.TicketStates
+import com.example.domain.enums.ticketstates.TicketStatuses
 import com.example.domain.models.entities.FacilityEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.usecases.menu.create.*
@@ -28,7 +28,7 @@ class TicketCreateViewModel @Inject constructor(
 ) : ViewModel() {
     val serviceState: MutableLiveData<List<ServiceState>> = MutableLiveData()
     val kindState: MutableLiveData<List<KindState>> = MutableLiveData()
-    val statuses: MutableLiveData<List<TicketStates>> = MutableLiveData()
+    val statuses: MutableLiveData<List<TicketStatuses>> = MutableLiveData()
     val priorityState: MutableLiveData<List<PriorityState>> = MutableLiveData()
 
     // Suspend vars

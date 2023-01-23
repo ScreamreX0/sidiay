@@ -29,67 +29,26 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
 
     // FILTER
     // priorities
-    private val priorities: ArrayList<PriorityState> = arrayListOf(
-        PriorityState.Urgent,
-        PriorityState.High,
-        PriorityState.Medium,
-        PriorityState.Low,
-        PriorityState.VeryLow,
-    )
+    private val priorities: ArrayList<PriorityState> = PriorityState.values().toList() as ArrayList<PriorityState>
     private val checkedPriorities: BooleanArray = BooleanArray(priorities.size)
 
     // periods
-    private val periods: ArrayList<PeriodState> = arrayListOf(
-        PeriodState.Day,
-        PeriodState.ThreeDays,
-        PeriodState.Week,
-        PeriodState.Month,
-        PeriodState.AllTime,
-    )
+    private val periods: ArrayList<PeriodState> = PeriodState.values().toList() as ArrayList<PeriodState>
     private val checkedPeriods: BooleanArray = BooleanArray(periods.size)
 
     // kinds
-    private val kinds: ArrayList<KindState> = arrayListOf(
-        KindState.Plane,
-        KindState.Current,
-        KindState.Capital,
-        KindState.TO,
-        KindState.PPR,
-        KindState.Watered,
-        KindState.SlingingWork,
-    )
+    private val kinds: ArrayList<KindState> = KindState.values().toList() as ArrayList<KindState>
     private val checkedKinds: BooleanArray = BooleanArray(kinds.size)
 
     // services
-    private val services: ArrayList<ServiceState> = arrayListOf(
-        ServiceState.NPO,
-        ServiceState.Energo,
-        ServiceState.KIP,
-        ServiceState.Welding,
-        ServiceState.PRS,
-        ServiceState.Research,
-        ServiceState.ConstructionWorks,
-    )
+    private val services: ArrayList<ServiceState> = ServiceState.values().toList() as ArrayList<ServiceState>
     private val checkedServices: BooleanArray = BooleanArray(services.size)
 
     // statuses
-    private val statuses: ArrayList<TicketStates> = arrayListOf(
-        TicketStates.NotFormed,
-        TicketStates.New,
-        TicketStates.Accepted,
-        TicketStates.Denied,
-        TicketStates.Paused,
-        TicketStates.Done,
-        TicketStates.Closed,
-        TicketStates.ForRevision,
-    )
+    private val statuses: ArrayList<TicketStatuses> = TicketStatuses.values().toList() as ArrayList<TicketStatuses>
     private val checkedStatuses: BooleanArray = BooleanArray(statuses.size)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTicketsListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -99,11 +58,8 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
 
         initRecyclerViewObserver()
         recyclerViewFill()
-
         addButtonHandler()
-
         initSearch()
-
         initFilter()
     }
 
@@ -140,12 +96,11 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
         }
     }
 
-    private fun <T> createFilterDialog(
-        elements: ArrayList<T>,
-        checkedElements: BooleanArray,
-        title: String,
-        getNameFunction: (T) -> String
-    ) {
+    private fun filter() {
+        
+    }
+
+    private fun <T> createFilterDialog(elements: ArrayList<T>, checkedElements: BooleanArray, title: String, getNameFunction: (T) -> String) {
         val builder = AlertDialog.Builder(requireContext())
 
         builder.setTitle(title)

@@ -1,5 +1,7 @@
 package com.example.domain.enums.ticketstates
 
+import java.nio.file.WatchEvent.Kind
+
 enum class KindState(private val elementName: String) : ITicketStates {
     Plane("Плановые"),
     Current("Текущий"),
