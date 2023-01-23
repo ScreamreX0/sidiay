@@ -19,20 +19,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.domain.models.params.DateParams
 import com.example.sidiay.R
-import com.example.sidiay.databinding.FragmentAddTicketBinding
-import com.example.sidiay.presentation.viewmodels.menu.CreateTicketViewModel
+import com.example.sidiay.databinding.FragmentTicketCreateBinding
+import com.example.sidiay.presentation.viewmodels.menu.TicketCreateViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class CreateTicketFragment : Fragment(R.layout.fragment_add_ticket),
+class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
     DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     // Common
-    private val viewModel: CreateTicketViewModel by viewModels()
-    private lateinit var binding: FragmentAddTicketBinding
-    private val args by navArgs<CreateTicketFragmentArgs>()
+    private val viewModel: TicketCreateViewModel by viewModels()
+    private lateinit var binding: FragmentTicketCreateBinding
+    private val args by navArgs<TicketCreateFragmentArgs>()
 
     // Object vars
     private var objects: List<String> = listOf()
@@ -48,7 +48,7 @@ class CreateTicketFragment : Fragment(R.layout.fragment_add_ticket),
     private val expirationDateCalendar = Calendar.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentAddTicketBinding.inflate(inflater, container, false)
+        binding = FragmentTicketCreateBinding.inflate(inflater, container, false)
         return binding.root
     }
 

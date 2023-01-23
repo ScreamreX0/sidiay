@@ -1,6 +1,6 @@
 package com.example.domain.usecases.menu.create
 
-import com.example.domain.enums.KindState
+import com.example.domain.enums.ticketstates.KindState
 import javax.inject.Inject
 
 class GetKindsUseCase @Inject constructor() {

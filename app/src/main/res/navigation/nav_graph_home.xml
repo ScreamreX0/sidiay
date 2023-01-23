@@ -19,8 +19,8 @@
         </fragment>
         <fragment
             android:id="@+id/fragment_tickets"
-            android:name="com.example.sidiay.presentation.fragments.menu.TicketsFragment"
-            tools:layout="@layout/fragment_tickets">
+            android:name="com.example.sidiay.presentation.fragments.menu.TicketsListFragment"
+            tools:layout="@layout/fragment_tickets_list">
             <action
                 android:id="@+id/action_fragment_tickets_to_ticketItemFragment"
                 app:destination="@id/ticketItemFragment"
@@ -37,9 +37,9 @@
         </fragment>
         <fragment
             android:id="@+id/addTicketFragment"
-            android:name="com.example.sidiay.presentation.fragments.menu.CreateTicketFragment"
+            android:name="com.example.sidiay.presentation.fragments.menu.TicketCreateFragment"
             android:label="AddTicketFragment"
-            tools:layout="@layout/fragment_add_ticket">
+            tools:layout="@layout/fragment_ticket_create">
             <argument
                 android:name="user"
                 app:argType="com.example.domain.models.entities.UserEntity" />

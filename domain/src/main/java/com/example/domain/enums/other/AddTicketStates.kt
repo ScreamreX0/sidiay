@@ -1,4 +1,4 @@
-package com.example.domain.enums.states
+package com.example.domain.enums.other
 
 enum class AddTicketStates {
     NO_SERVER_CONNECTION

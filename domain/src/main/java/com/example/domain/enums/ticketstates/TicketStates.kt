@@ -1,6 +1,6 @@
-package com.example.domain.enums
+package com.example.domain.enums.ticketstates
 
-enum class TicketStates(name: String) {
+enum class TicketStates(private val elementName: String) : ITicketStates {
     NotFormed("Не сформирована"),
     New("Новая"),
     Accepted("Принята"),
@@ -8,5 +8,7 @@ enum class TicketStates(name: String) {
     Paused("Приостановлена"),
     Done("Выполнена"),
     Closed("Закрыта"),
-    ForRevision("На доработку")
+    ForRevision("На доработку");
+
+    override fun getName() = elementName
 }

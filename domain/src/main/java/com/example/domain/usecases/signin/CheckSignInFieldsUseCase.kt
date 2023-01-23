@@ -1,7 +1,7 @@
 package com.example.domain.usecases.signin
 
 import com.example.domain.utils.Constants
-import com.example.domain.enums.states.SignInStates
+import com.example.domain.enums.other.SignInStates
 import com.example.domain.models.params.Credentials
 import javax.inject.Inject
 

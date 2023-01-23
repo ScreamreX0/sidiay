@@ -1,6 +1,6 @@
 package com.example.domain.usecases.menu.create
 
-import com.example.domain.enums.ServiceState
+import com.example.domain.enums.ticketstates.ServiceState
 import javax.inject.Inject
 
 class GetServicesUseCase @Inject constructor() {

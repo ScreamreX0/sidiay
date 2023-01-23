@@ -1,6 +1,6 @@
-package com.example.domain.enums
+package com.example.domain.enums.ticketstates
 
-enum class PriorityState(val title: String, priority: Int) {
+enum class PriorityState(private val elementName: String, priority: Int) : ITicketStates {
     VeryLow("Очень низкий", 1),
     Low("Низкий", 2),
     Medium("Средний", 3),
@@ -18,4 +18,6 @@ enum class PriorityState(val title: String, priority: Int) {
             }
         }
     }
+
+    override fun getName() = elementName
 }

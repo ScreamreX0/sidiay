@@ -10,20 +10,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.enums.*
+import com.example.domain.enums.ticketstates.*
 import com.example.domain.models.entities.TicketEntity
 import com.example.sidiay.R
-import com.example.sidiay.databinding.FragmentTicketsBinding
-import com.example.sidiay.presentation.adapters.TicketsAdapter
-import com.example.sidiay.presentation.viewmodels.menu.TicketsFragmentViewModel
+import com.example.sidiay.databinding.FragmentTicketsListBinding
+import com.example.sidiay.presentation.adapters.TicketsListAdapter
+import com.example.sidiay.presentation.viewmodels.menu.TicketsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class TicketsFragment : Fragment(R.layout.fragment_tickets) {
-    private val viewModel: TicketsFragmentViewModel by viewModels()
-    private lateinit var binding: FragmentTicketsBinding
-    private val args: TicketsFragmentArgs by navArgs()
+class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
+    private val viewModel: TicketsListViewModel by viewModels()
+    private lateinit var binding: FragmentTicketsListBinding
+    private val args: TicketsListFragmentArgs by navArgs()
 
     private var searchList: ArrayList<TicketEntity> = arrayListOf()
 
@@ -83,14 +83,14 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
         TicketStates.Closed,
         TicketStates.ForRevision,
     )
-    private val checkedStatuses: BooleanArray = BooleanArray(services.size)
+    private val checkedStatuses: BooleanArray = BooleanArray(statuses.size)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTicketsBinding.inflate(inflater, container, false)
+        binding = FragmentTicketsListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -129,7 +129,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
                     true
                 }
                 R.id.m_home_app_bar_creation_date -> {
-                    createCreationDateFilterDialog()
+                    createPeriodsFilterDialog()
                     true
                 }
                 R.id.m_home_app_bar_expired -> TODO()
@@ -140,79 +140,69 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
         }
     }
 
-    private fun createPriorityFilterDialog() {
+    private fun <T> createFilterDialog(
+        elements: ArrayList<T>,
+        checkedElements: BooleanArray,
+        title: String,
+        getNameFunction: (T) -> String
+    ) {
         val builder = AlertDialog.Builder(requireContext())
 
-        builder.setTitle(getString(R.string.by_priority))
+        builder.setTitle(title)
             .setMultiChoiceItems(
-                priorities.map { it.name }.toTypedArray(),
-                checkedPriorities
+                elements.map { getNameFunction.invoke(it) }.toTypedArray(),
+                checkedElements
             ) { _, which, isChecked ->
-                checkedPriorities[which] = isChecked
+                checkedElements[which] = isChecked
             }
             .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
     }
 
-    private fun createCreationDateFilterDialog() {
-        val builder = AlertDialog.Builder(requireContext())
+    private fun createPriorityFilterDialog() {
+        createFilterDialog(
+            priorities,
+            checkedPriorities,
+            getString(R.string.by_priority),
+            ITicketStates::getName
+        )
+    }
 
-        builder.setTitle(getString(R.string.by_creation_date))
-            .setMultiChoiceItems(
-                periods.map { it.name }.toTypedArray(),
-                checkedPeriods
-            ) { _, which, isChecked ->
-                checkedPeriods[which] = isChecked
-            }
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+    private fun createPeriodsFilterDialog() {
+        createFilterDialog(
+            periods,
+            checkedPeriods,
+            getString(R.string.by_period),
+            ITicketStates::getName
+        )
     }
 
     private fun createKindFilterDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.setTitle(getString(R.string.by_kind))
-            .setMultiChoiceItems(
-                kinds.map { it.name }.toTypedArray(),
-                checkedKinds
-            ) { _, which, isChecked ->
-                checkedKinds[which] = isChecked
-            }
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+        createFilterDialog(
+            kinds,
+            checkedKinds,
+            getString(R.string.by_kind),
+            ITicketStates::getName
+        )
     }
 
     private fun createServiceFilterDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.setTitle(getString(R.string.by_service))
-            .setMultiChoiceItems(
-                services.map { it.name }.toTypedArray(),
-                checkedServices
-            ) { _, which, isChecked ->
-                checkedServices[which] = isChecked
-            }
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+        createFilterDialog(
+            services,
+            checkedServices,
+            getString(R.string.by_service),
+            ITicketStates::getName
+        )
     }
 
     private fun createStatusFilterDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-
-        builder.setTitle(getString(R.string.by_status))
-            .setMultiChoiceItems(
-                statuses.map { it.name }.toTypedArray(),
-                checkedStatuses
-            ) { _, which, isChecked ->
-                checkedStatuses[which] = isChecked
-            }
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
+        createFilterDialog(
+            statuses,
+            checkedStatuses,
+            getString(R.string.by_status),
+            ITicketStates::getName
+        )
     }
 
     private fun initFilterIcon() {
@@ -261,7 +251,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
     private fun addButtonHandler() {
         binding.fTicketAddButton.setOnClickListener {
             findNavController().navigate(
-                TicketsFragmentDirections.actionFragmentTicketsToAddTicketFragment(
+                TicketsListFragmentDirections.actionFragmentTicketsToAddTicketFragment(
                     args.user
                 )
             )
@@ -276,7 +266,7 @@ class TicketsFragment : Fragment(R.layout.fragment_tickets) {
 
             viewModel.tickets.value?.let {
                 searchList.addAll(it)
-                binding.fTicketRecyclerView.adapter = TicketsAdapter(searchList, this)
+                binding.fTicketRecyclerView.adapter = TicketsListAdapter(searchList, this)
             }
         }
     }

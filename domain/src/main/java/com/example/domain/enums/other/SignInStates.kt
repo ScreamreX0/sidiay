@@ -1,4 +1,4 @@
-package com.example.domain.enums.states
+package com.example.domain.enums.other
 
 enum class SignInStates {
     SHORT_OR_LONG_PASSWORD,

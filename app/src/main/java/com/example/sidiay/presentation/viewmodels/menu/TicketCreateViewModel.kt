@@ -3,11 +3,11 @@ package com.example.sidiay.presentation.viewmodels.menu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.enums.KindState
-import com.example.domain.enums.PriorityState
-import com.example.domain.enums.ServiceState
-import com.example.domain.enums.states.AddTicketStates
-import com.example.domain.enums.TicketStates
+import com.example.domain.enums.ticketstates.KindState
+import com.example.domain.enums.ticketstates.PriorityState
+import com.example.domain.enums.ticketstates.ServiceState
+import com.example.domain.enums.other.AddTicketStates
+import com.example.domain.enums.ticketstates.TicketStates
 import com.example.domain.models.entities.FacilityEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.usecases.menu.create.*
@@ -18,7 +18,7 @@ import java.net.ConnectException
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateTicketViewModel @Inject constructor(
+class TicketCreateViewModel @Inject constructor(
     private val getServicesUseCase: GetServicesUseCase,
     private val getKindsUseCase: GetKindsUseCase,
     private val getStatusesUseCase: GetStatusesUseCase,

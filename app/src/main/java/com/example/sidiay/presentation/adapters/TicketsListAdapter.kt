@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.enums.PriorityState
+import com.example.domain.enums.ticketstates.PriorityState
 import com.example.domain.models.entities.TicketEntity
 import com.example.sidiay.databinding.ItemTicketBinding
-import com.example.sidiay.presentation.fragments.menu.TicketsFragmentDirections
+import com.example.sidiay.presentation.fragments.menu.TicketsListFragmentDirections
 
-class TicketsAdapter(
+class TicketsListAdapter(
     private val ticketEntities: List<TicketEntity>,
     private val parent: Fragment
-) : RecyclerView.Adapter<TicketsAdapter.TicketViewHolder>() {
+) : RecyclerView.Adapter<TicketsListAdapter.TicketViewHolder>() {
     inner class TicketViewHolder(val binding: ItemTicketBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -28,7 +28,7 @@ class TicketsAdapter(
         with(holder) {
             with(ticketEntities[position]) {
                 service?.let { binding.iTicketCompany.text = it }
-                priority?.let { binding.iTicketPriority.text = PriorityState.valueOf(it).title }
+                priority?.let { binding.iTicketPriority.text = PriorityState.valueOf(it).getName() }
                 executor?.let { binding.iTicketPerson.text = "${it.firstname} ${it.name.first()}. ${it.lastname.first()}." }
                 expiration_date.let { binding.iTicketDate.text = it }
                 status.let { binding.iTicketStatus.text = it }
@@ -38,7 +38,7 @@ class TicketsAdapter(
 
         holder.itemView.setOnClickListener {
             val action =
-                TicketsFragmentDirections.actionFragmentTicketsToTicketItemFragment(
+                TicketsListFragmentDirections.actionFragmentTicketsToTicketItemFragment(
                     ticketEntities[position]
                 )
             parent.findNavController().navigate(action)

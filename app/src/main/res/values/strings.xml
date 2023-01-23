@@ -63,7 +63,7 @@
     <string name="by_status">By status</string>
     <string name="by_service">By service</string>
     <string name="by_kind">By kind</string>
-    <string name="by_creation_date">By creation date</string>
+    <string name="by_period">By creation date</string>
     <string name="expired">Expired</string>
     <string name="my_tickets">My applications</string>
     <string name="reset_all">Reset all</string>

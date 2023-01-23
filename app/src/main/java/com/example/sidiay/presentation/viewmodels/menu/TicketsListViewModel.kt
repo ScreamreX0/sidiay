@@ -13,7 +13,7 @@ import java.net.ConnectException
 import javax.inject.Inject
 
 @HiltViewModel
-class TicketsFragmentViewModel @Inject constructor(
+class TicketsListViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase
 ) : ViewModel() {
     var tickets = MutableLiveData<List<TicketEntity>>()

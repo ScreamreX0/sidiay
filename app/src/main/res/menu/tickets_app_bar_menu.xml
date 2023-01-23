@@ -28,7 +28,7 @@
     <item
         android:id="@+id/m_home_app_bar_creation_date"
         android:icon="@drawable/ic_baseline_calendar_month_24"
-        android:title="@string/by_creation_date"
+        android:title="@string/by_period"
         app:showAsAction="never" />
 
     <item

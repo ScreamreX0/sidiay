@@ -8,15 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.sidiay.presentation.viewmodels.start.SignInFragmentViewModel
-import com.example.domain.enums.states.SignInStates
+import com.example.sidiay.presentation.viewmodels.start.SignInViewModel
+import com.example.domain.enums.other.SignInStates
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentSigninBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_signin) {
-    private val viewModel: SignInFragmentViewModel by viewModels()
+    private val viewModel: SignInViewModel by viewModels()
     private lateinit var binding: FragmentSigninBinding
 
     override fun onCreateView(

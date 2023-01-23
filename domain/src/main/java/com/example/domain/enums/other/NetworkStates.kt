@@ -1,4 +1,4 @@
-package com.example.domain.enums.states
+package com.example.domain.enums.other
 
 enum class NetworkStates(val code: Int) {
     Continue(100),
