@@ -1,5 +1,6 @@
 package com.example.sidiay.presentation.fragments.menu
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
@@ -12,12 +13,15 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.enums.ticketstates.*
 import com.example.domain.models.entities.TicketEntity
+import com.example.domain.utils.Debugger
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentTicketsListBinding
 import com.example.sidiay.presentation.adapters.TicketsListAdapter
 import com.example.sidiay.presentation.viewmodels.menu.TicketsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import java.util.Collections.addAll
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
@@ -26,6 +30,8 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
     private val args: TicketsListFragmentArgs by navArgs()
 
     private var searchList: ArrayList<TicketEntity> = arrayListOf()
+    private var filteredList: ArrayList<TicketEntity> = arrayListOf()
+    private var filteredSearchedList: ArrayList<TicketEntity> = arrayListOf()
 
     // FILTER
     // priorities
@@ -96,10 +102,6 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
         }
     }
 
-    private fun filter() {
-        
-    }
-
     private fun <T> createFilterDialog(elements: ArrayList<T>, checkedElements: BooleanArray, title: String, getNameFunction: (T) -> String) {
         val builder = AlertDialog.Builder(requireContext())
 
@@ -110,7 +112,10 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             ) { _, which, isChecked ->
                 checkedElements[which] = isChecked
             }
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                Filter().filter()
+                dialog.dismiss()
+            }
             .create()
             .show()
     }
@@ -169,38 +174,45 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
     }
 
     private fun initSearch() {
-        with(binding) {
-            fTicketSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    fTicketSearchView.clearFocus()
-                    return true
-                }
+        binding.fTicketSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.fTicketSearchView.clearFocus()
+                return true
+            }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (viewModel.tickets.value == null) {
-                        return false
-                    }
-
-                    searchList.clear()
-                    val searchText = newText!!.lowercase(Locale.getDefault())
-                    if (searchText.isNotBlank()) {
-                        viewModel.tickets.value?.let { itTicketList ->
-                            itTicketList.forEach { itTicket ->
-                                itTicket.name?.let { itName ->
-                                    if (itName.lowercase().contains(searchText)) {
-                                        searchList.add(itTicket)
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        searchList.addAll(viewModel.tickets.value!!)
-                    }
-                    fTicketRecyclerView.adapter?.notifyDataSetChanged()
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (viewModel.tickets.value == null) {
                     return false
                 }
-            })
-        }
+
+                searchList.clear()
+
+                val searchText = newText!!.lowercase(Locale.getDefault())
+                if (searchText.isBlank()) {
+                    searchList.addAll(filteredList)
+                    return notifyRecyclerViewDataChanged()
+                }
+
+                filteredList.forEach { itTicket ->
+                    itTicket.name?.let { itName ->
+                        if (itName.lowercase().contains(searchText)) {
+                            searchList.add(itTicket)
+                        }
+                    }
+                }
+
+                return notifyRecyclerViewDataChanged()
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            fun notifyRecyclerViewDataChanged(): Boolean {
+                filteredSearchedList.clear()
+                filteredSearchedList.addAll(searchList)
+
+                binding.fTicketRecyclerView.adapter?.notifyDataSetChanged()
+                return false
+            }
+        })
     }
 
     private fun addButtonHandler() {
@@ -221,12 +233,67 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
 
             viewModel.tickets.value?.let {
                 searchList.addAll(it)
-                binding.fTicketRecyclerView.adapter = TicketsListAdapter(searchList, this)
+                filteredList.addAll(it)
+                filteredSearchedList.addAll(it)
+                binding.fTicketRecyclerView.adapter = TicketsListAdapter(filteredSearchedList, this)
             }
         }
     }
 
     private fun recyclerViewFill() {
         viewModel.fillTicketsList()
+    }
+
+    private inner class Filter {
+        @SuppressLint("NotifyDataSetChanged")
+        fun filter() {
+            if (viewModel.tickets.value == null) {
+                return
+            }
+
+            filteredList.clear()
+            filteredList.addAll(viewModel.tickets.value!!)
+
+
+            byPriority(priorities, checkedPriorities)
+
+
+            filteredSearchedList.clear()
+            filteredSearchedList.addAll(filteredList)
+            binding.fTicketRecyclerView.adapter?.notifyDataSetChanged()
+        }
+
+        fun byPriority(
+            priorities: ArrayList<PriorityState>,
+            checkedPriorities: BooleanArray
+        ): Filter {
+            val comparedArray = getComparedArray(priorities, checkedPriorities)
+            Debugger.printInfo("Compared priorities array: ${comparedArray.joinToString { it.name }}")
+
+            val newList: ArrayList<TicketEntity> = arrayListOf()
+            filteredList.forEach { itTicket ->
+                itTicket.priority?.let {
+                    for (necessaryPriority in comparedArray) {
+                        if (necessaryPriority.priority == itTicket.priority) {
+                            newList.add(itTicket)
+                        }
+                    }
+                }
+            }
+            Debugger.printInfo("New filtered by priorities list:${newList.joinToString { it.name.toString() }}")
+            filteredList.clear()
+            filteredList.addAll(newList)
+            return this
+        }
+
+        private fun <T> getComparedArray(array: ArrayList<T>, checkedElements: BooleanArray): ArrayList<T> {
+            val newArray = arrayListOf<T>()
+            for (index in array.indices) {
+                if (checkedElements[index]) {
+                    newArray.add(array[index])
+                }
+            }
+            return newArray
+        }
     }
 }

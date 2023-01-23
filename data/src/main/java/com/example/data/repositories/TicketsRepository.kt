@@ -8,6 +8,7 @@ import com.example.domain.models.entities.UserEntity
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.utils.Debugger
 import javax.inject.Inject
+import kotlin.random.Random
 
 class TicketsRepository @Inject constructor(
     private val apiService: ApiService
@@ -49,7 +50,7 @@ class TicketsRepository @Inject constructor(
                 name = "Руслан№${id * 2}",
                 lastname = "Ленарович№${id * 2}"
             ),
-            priority = 3,
+            priority = Random.nextInt(1, 6),
             status = "Не закрыта",
             plane_date = "22.01.23",
             expiration_date = "22.01.23",

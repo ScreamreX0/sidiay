@@ -1,6 +1,6 @@
 package com.example.domain.enums.ticketstates
 
-enum class PriorityState(private val elementName: String, priority: Int) : ITicketStates {
+enum class PriorityState(private val elementName: String, val priority: Int) : ITicketStates {
     VeryLow("Очень низкий", 1),
     Low("Низкий", 2),
     Medium("Средний", 3),
