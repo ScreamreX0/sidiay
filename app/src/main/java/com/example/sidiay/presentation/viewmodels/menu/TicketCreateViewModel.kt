@@ -28,46 +28,46 @@ class TicketCreateViewModel @Inject constructor(
     private val getUsersUseCase: GetUsersUseCase,
     private val saveTicketUseCase: SaveTicketUseCase
 ) : ViewModel() {
-    val ticketServiceEnum: MutableLiveData<List<TicketServiceEnum>> = MutableLiveData()
-    val ticketKindEnum: MutableLiveData<List<TicketKindEnum>> = MutableLiveData()
-    val statuses: MutableLiveData<List<TicketStatusEnum>> = MutableLiveData()
-    val ticketPriorityEnum: MutableLiveData<List<TicketPriorityEnum>> = MutableLiveData()
+    val mutableServices: MutableLiveData<List<TicketServiceEnum>> = MutableLiveData()
+    val mutableKinds: MutableLiveData<List<TicketKindEnum>> = MutableLiveData()
+    val mutableStatuses: MutableLiveData<List<TicketStatusEnum>> = MutableLiveData()
+    val mutablePriorities: MutableLiveData<List<TicketPriorityEnum>> = MutableLiveData()
 
     // Suspend vars
-    val facilities: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
-    val employees: MutableLiveData<List<UserEntity>> = MutableLiveData()
+    val mutableFacilities: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
+    val mutableEmployees: MutableLiveData<List<UserEntity>> = MutableLiveData()
 
-    var errorsList: MutableLiveData<List<TicketStates>> = MutableLiveData()
+    var mutableErrors: MutableLiveData<List<TicketStates>> = MutableLiveData()
 
-    var saveResult: MutableLiveData<Int> = MutableLiveData()
+    var mutableSaveResult: MutableLiveData<Int> = MutableLiveData()
 
     fun save(ticketEntity: AddTicketParams) {
         viewModelScope.launch(getConnectionHandler()) {
-            saveResult.value = saveTicketUseCase.execute(ticketEntity)
+            mutableSaveResult.value = saveTicketUseCase.execute(ticketEntity)
         }
 
     }
 
     fun initServices() {
-        ticketServiceEnum.value = getServicesUseCase.execute()
+        mutableServices.value = getServicesUseCase.execute()
     }
 
     fun initKinds() {
-        ticketKindEnum.value = getKindsUseCase.execute()
+        mutableKinds.value = getKindsUseCase.execute()
     }
 
     fun initStatuses() {
-        statuses.value = getStatusesUseCase.execute()
+        mutableStatuses.value = getStatusesUseCase.execute()
     }
 
     fun initPriorities() {
-        ticketPriorityEnum.value = getPrioritiesUseCase.execute()
+        mutablePriorities.value = getPrioritiesUseCase.execute()
     }
 
     fun initFacilities() {
         viewModelScope.launch(getConnectionHandler()) {
             getFacilitiesUseCase.execute()?.let {
-                facilities.value = it
+                mutableFacilities.value = it
             }
         }
     }
@@ -75,7 +75,7 @@ class TicketCreateViewModel @Inject constructor(
     fun initEmployees() {
         viewModelScope.launch(getConnectionHandler()) {
             getUsersUseCase.execute()?.let {
-                employees.value = it
+                mutableEmployees.value = it
             }
         }
     }
@@ -83,7 +83,7 @@ class TicketCreateViewModel @Inject constructor(
     private fun getConnectionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                errorsList.value = listOf(TicketStates.NO_SERVER_CONNECTION)
+                mutableErrors.value = listOf(TicketStates.NO_SERVER_CONNECTION)
             }
         }
     }
