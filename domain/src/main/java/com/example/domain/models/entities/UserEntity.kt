@@ -12,18 +12,5 @@ data class UserEntity constructor (
     val email: String = "",
     val password: String = "",
     val phone: String = "",
-    val photo: String? = "",
-) : Parcelable {
-    fun getEmptyUser(): UserEntity {
-        return UserEntity(
-            id = 0,
-            firstname = "Ikhsanov",
-            name = "Ruslan",
-            lastname = "Lenarovich",
-            email = "default email",
-            password = "default password",
-            phone = "default phone",
-            photo = "default photo",
-        )
-    }
-}
+    val photo: String = "",
+) : Parcelable

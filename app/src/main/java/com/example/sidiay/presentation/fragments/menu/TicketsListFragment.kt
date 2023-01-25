@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.enums.ticketstates.*
+import com.example.domain.enums.ticket.*
 import com.example.domain.models.entities.TicketEntity
 import com.example.domain.utils.Debugger
 import com.example.sidiay.R
@@ -20,7 +20,6 @@ import com.example.sidiay.presentation.adapters.TicketsListAdapter
 import com.example.sidiay.presentation.viewmodels.menu.TicketsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import java.util.Collections.addAll
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -29,29 +28,27 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
     private lateinit var binding: FragmentTicketsListBinding
     private val args: TicketsListFragmentArgs by navArgs()
 
-    private var searchList: ArrayList<TicketEntity> = arrayListOf()
-    private var filteredList: ArrayList<TicketEntity> = arrayListOf()
-    private var filteredSearchedList: ArrayList<TicketEntity> = arrayListOf()
+
 
     // FILTER
     // priorities
-    private val priorities: ArrayList<PriorityState> = PriorityState.values().toList() as ArrayList<PriorityState>
+    private val priorities: ArrayList<TicketPriorityEnum> = TicketPriorityEnum.values().toList() as ArrayList<TicketPriorityEnum>
     private val checkedPriorities: BooleanArray = BooleanArray(priorities.size)
 
     // periods
-    private val periods: ArrayList<PeriodState> = PeriodState.values().toList() as ArrayList<PeriodState>
+    private val periods: ArrayList<TicketPeriodEnum> = TicketPeriodEnum.values().toList() as ArrayList<TicketPeriodEnum>
     private val checkedPeriods: BooleanArray = BooleanArray(periods.size)
 
     // kinds
-    private val kinds: ArrayList<KindState> = KindState.values().toList() as ArrayList<KindState>
+    private val kinds: ArrayList<TicketKindEnum> = TicketKindEnum.values().toList() as ArrayList<TicketKindEnum>
     private val checkedKinds: BooleanArray = BooleanArray(kinds.size)
 
     // services
-    private val services: ArrayList<ServiceState> = ServiceState.values().toList() as ArrayList<ServiceState>
+    private val services: ArrayList<TicketServiceEnum> = TicketServiceEnum.values().toList() as ArrayList<TicketServiceEnum>
     private val checkedServices: BooleanArray = BooleanArray(services.size)
 
     // statuses
-    private val statuses: ArrayList<TicketStatuses> = TicketStatuses.values().toList() as ArrayList<TicketStatuses>
+    private val statuses: ArrayList<TicketStatusEnum> = TicketStatusEnum.values().toList() as ArrayList<TicketStatusEnum>
     private val checkedStatuses: BooleanArray = BooleanArray(statuses.size)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -96,7 +93,10 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
                 }
                 R.id.m_home_app_bar_expired -> TODO()
                 //R.id.m_home_app_bar_my_tickets ->
-                R.id.m_home_app_bar_reset -> TODO()
+                R.id.m_home_app_bar_reset -> {
+                    Filter().reset()
+                    true
+                }
                 else -> false
             }
         }
@@ -125,7 +125,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             priorities,
             checkedPriorities,
             getString(R.string.by_priority),
-            ITicketStates::getName
+            ITicketEnum::getName
         )
     }
 
@@ -134,7 +134,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             periods,
             checkedPeriods,
             getString(R.string.by_period),
-            ITicketStates::getName
+            ITicketEnum::getName
         )
     }
 
@@ -143,7 +143,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             kinds,
             checkedKinds,
             getString(R.string.by_kind),
-            ITicketStates::getName
+            ITicketEnum::getName
         )
     }
 
@@ -152,7 +152,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             services,
             checkedServices,
             getString(R.string.by_service),
-            ITicketStates::getName
+            ITicketEnum::getName
         )
     }
 
@@ -161,7 +161,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             statuses,
             checkedStatuses,
             getString(R.string.by_status),
-            ITicketStates::getName
+            ITicketEnum::getName
         )
     }
 
@@ -185,18 +185,18 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
                     return false
                 }
 
-                searchList.clear()
+                viewModel.searchList.clear()
 
                 val searchText = newText!!.lowercase(Locale.getDefault())
                 if (searchText.isBlank()) {
-                    searchList.addAll(filteredList)
+                    viewModel.searchList.addAll(viewModel.filteredList)
                     return notifyRecyclerViewDataChanged()
                 }
 
-                filteredList.forEach { itTicket ->
+                viewModel.filteredList.forEach { itTicket ->
                     itTicket.name?.let { itName ->
                         if (itName.lowercase().contains(searchText)) {
-                            searchList.add(itTicket)
+                            viewModel.searchList.add(itTicket)
                         }
                     }
                 }
@@ -206,8 +206,8 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
 
             @SuppressLint("NotifyDataSetChanged")
             fun notifyRecyclerViewDataChanged(): Boolean {
-                filteredSearchedList.clear()
-                filteredSearchedList.addAll(searchList)
+                viewModel.filteredSearchedList.clear()
+                viewModel.filteredSearchedList.addAll(viewModel.searchList)
 
                 binding.fTicketRecyclerView.adapter?.notifyDataSetChanged()
                 return false
@@ -227,16 +227,22 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
 
     private fun initRecyclerViewObserver() {
         viewModel.tickets.observe(viewLifecycleOwner) {
+            if (it == null) {
+                return@observe
+            }
+
             val layoutManager = LinearLayoutManager(context)
             binding.fTicketRecyclerView.layoutManager = layoutManager
             binding.fTicketRecyclerView.setHasFixedSize(true)
 
-            viewModel.tickets.value?.let {
-                searchList.addAll(it)
-                filteredList.addAll(it)
-                filteredSearchedList.addAll(it)
-                binding.fTicketRecyclerView.adapter = TicketsListAdapter(filteredSearchedList, this)
-            }
+            viewModel.searchList.clear()
+            viewModel.filteredList.clear()
+            viewModel.filteredSearchedList.clear()
+
+            viewModel.searchList.addAll(it)
+            viewModel.filteredList.addAll(it)
+            viewModel.filteredSearchedList.addAll(it)
+            binding.fTicketRecyclerView.adapter = TicketsListAdapter(viewModel.filteredSearchedList, this)
         }
     }
 
@@ -251,38 +257,49 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
                 return
             }
 
-            filteredList.clear()
-            filteredList.addAll(viewModel.tickets.value!!)
+            viewModel.filteredList.clear()
+            viewModel.filteredList.addAll(viewModel.tickets.value!!)
 
 
             byPriority(priorities, checkedPriorities)
 
 
-            filteredSearchedList.clear()
-            filteredSearchedList.addAll(filteredList)
+            viewModel.filteredSearchedList.clear()
+            viewModel.filteredSearchedList.addAll(viewModel.filteredList)
             binding.fTicketRecyclerView.adapter?.notifyDataSetChanged()
         }
 
-        fun byPriority(
-            priorities: ArrayList<PriorityState>,
+        @SuppressLint("NotifyDataSetChanged")
+        fun reset() {
+            if (viewModel.tickets.value == null) {
+                return
+            }
+
+            viewModel.filteredSearchedList.clear()
+            viewModel.filteredSearchedList.addAll(viewModel.tickets.value!!)
+            binding.fTicketRecyclerView.adapter?.notifyDataSetChanged()
+        }
+
+        private fun byPriority(
+            priorities: ArrayList<TicketPriorityEnum>,
             checkedPriorities: BooleanArray
         ): Filter {
             val comparedArray = getComparedArray(priorities, checkedPriorities)
             Debugger.printInfo("Compared priorities array: ${comparedArray.joinToString { it.name }}")
 
             val newList: ArrayList<TicketEntity> = arrayListOf()
-            filteredList.forEach { itTicket ->
-                itTicket.priority?.let {
+            viewModel.filteredList.forEach { itTicket ->
+                itTicket.priority.let {
                     for (necessaryPriority in comparedArray) {
-                        if (necessaryPriority.priority == itTicket.priority) {
+                        if (necessaryPriority.priority.toLong() == itTicket.priority) {
                             newList.add(itTicket)
                         }
                     }
                 }
             }
             Debugger.printInfo("New filtered by priorities list:${newList.joinToString { it.name.toString() }}")
-            filteredList.clear()
-            filteredList.addAll(newList)
+            viewModel.filteredList.clear()
+            viewModel.filteredList.addAll(newList)
             return this
         }
 

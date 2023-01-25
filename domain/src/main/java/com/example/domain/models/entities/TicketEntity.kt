@@ -5,18 +5,18 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TicketEntity constructor (
-    val id: Long? = 0,
-    val facilities: List<FacilityEntity>?,
-    val kindEntity: KindEntity?,
-    val author: UserEntity?,
-    val executor: UserEntity?,
-    val priority: Int? = 1,
-    val plane_date: String? = "",
-    val expiration_date: String? = "",
-    val creation_date: String? = "",
-    val completed_work: String? = "",
-    val description: String? = "",
-    val name: String? = "",
-    val status: String? = "",
-    val service: String? = ""
+    var id: Long? = 1,
+    var facilities: List<FacilityEntity>? = listOf(),
+    var kind: KindEntity? = KindEntity(),
+    var author: UserEntity? = UserEntity(),
+    var executor: UserEntity? = UserEntity(),
+    var priority: Long? = 1,
+    var plane_date: String? = "",
+    var expiration_date: String? = "",
+    var creation_date: String? = "",
+    var completed_work: String? = "",
+    var description: String? = "",
+    var name: String? = "",
+    var status: String? = "",
+    var service: String? = ""
 ) : Parcelable

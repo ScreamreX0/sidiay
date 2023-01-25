@@ -15,4 +15,8 @@ interface ApiService {
 
     @GET("/tickets/get")
     suspend fun getTickets(): Response<List<TicketEntity>>
+
+    @Multipart
+    @POST("/tickets/add")
+    suspend fun addTicket(@PartMap map: HashMap<String, Any>): Response<Boolean>
 }

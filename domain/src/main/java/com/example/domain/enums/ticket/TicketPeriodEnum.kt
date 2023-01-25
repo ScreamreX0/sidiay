@@ -1,6 +1,6 @@
-package com.example.domain.enums.ticketstates
+package com.example.domain.enums.ticket
 
-enum class PeriodState(private val elementName: String, val periodInDays: Int) : ITicketStates {
+enum class TicketPeriodEnum(private val elementName: String, val periodInDays: Int) : ITicketEnum {
     Day("За день", 1),
     ThreeDays("За 3 дня", 3),
     Week("За неделю", 7),

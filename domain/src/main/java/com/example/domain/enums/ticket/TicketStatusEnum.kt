@@ -1,6 +1,6 @@
-package com.example.domain.enums.ticketstates
+package com.example.domain.enums.ticket
 
-enum class TicketStatuses(private val elementName: String) : ITicketStates {
+enum class TicketStatusEnum(private val elementName: String) : ITicketEnum {
     NotFormed("Не сформирована"),
     New("Новая"),
     Accepted("Принята"),

@@ -67,7 +67,7 @@ class DomainModule {
     }
 
     @Provides
-    fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetObjectsUseCase {
-        return GetObjectsUseCase(objectsRepository = facilitiesRepository)
+    fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetFacilitiesUseCase {
+        return GetFacilitiesUseCase(objectsRepository = facilitiesRepository)
     }
 }

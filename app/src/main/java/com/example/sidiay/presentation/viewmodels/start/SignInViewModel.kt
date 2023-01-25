@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.entities.UserEntity
-import com.example.domain.enums.other.SignInStates
+import com.example.domain.enums.states.SignInStates
 import com.example.domain.models.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase

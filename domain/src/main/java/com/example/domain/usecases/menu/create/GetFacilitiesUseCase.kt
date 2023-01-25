@@ -5,7 +5,7 @@ import com.example.domain.utils.Constants
 import com.example.domain.models.entities.FacilityEntity
 import javax.inject.Inject
 
-class GetObjectsUseCase @Inject constructor(
+class GetFacilitiesUseCase @Inject constructor(
     private val objectsRepository: IFacilitiesRepository
 ) {
     suspend fun execute(): List<FacilityEntity> {

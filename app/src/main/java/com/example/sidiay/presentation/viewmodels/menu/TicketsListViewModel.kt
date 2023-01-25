@@ -18,10 +18,13 @@ class TicketsListViewModel @Inject constructor(
 ) : ViewModel() {
     var tickets = MutableLiveData<List<TicketEntity>>()
 
+    var searchList: ArrayList<TicketEntity> = arrayListOf()
+    var filteredList: ArrayList<TicketEntity> = arrayListOf()
+    var filteredSearchedList: ArrayList<TicketEntity> = arrayListOf()
+
     fun fillTicketsList() {
         viewModelScope.launch(getTicketsHandler()) {
             getTicketsUseCase.execute().second.let {
-                Debugger.printInfo("Tickets list is not null. Setting tickets list")
                 tickets.value = it
             }
         }

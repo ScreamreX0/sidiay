@@ -5,6 +5,7 @@ import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.FacilityEntity
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
+import com.example.domain.models.params.AddTicketParams
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.utils.Debugger
 import javax.inject.Inject
@@ -28,8 +29,31 @@ class TicketsRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun add(ticketEntity: TicketEntity): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun add(ticketEntity: AddTicketParams): Int {
+        Debugger.Companion.printInfo("Sending add ticket request")
+        val body = HashMap<String, Any>()
+
+        with(ticketEntity) {
+//            facilities?.let { body["facilities"] = it }
+//            executor?.let { body["executor"] = it }
+//            kind?.let { body["kind"] = it }
+//            author?.let { body["author"] = it }
+
+            priority?.let { body["priority"] = it } ?: run { body["priority"] = "1" }
+            plane_date?.let { body["plane_date"] = it } ?: run { body["plane_date"] = "" }
+            expiration_date?.let { body["expiration_date"] = it } ?: run { body["expiration_date"] = "" }
+            creation_date?.let { body["creation_date"] = it } ?: run { body["creation_date"] = "" }
+            completed_work?.let { body["completed_work"] = it } ?: run { body["completed_work"] = "" }
+            description?.let { body["description"] = it } ?: run { body["completed_work"] = "" }
+            name?.let { body["name"] = it } ?: run { body["name"] = "" }
+            status?.let { body["status"] = it } ?: run { body["status"] = "" }
+            service?.let { body["service"] = it } ?: run { body["service"] = "" }
+        }
+
+        val response = apiService.addTicket(body)
+        Debugger.Companion.printInfo("Add ticket request was sent")
+
+        return response.code()
     }
 
     // Test
@@ -50,7 +74,7 @@ class TicketsRepository @Inject constructor(
                 name = "Руслан№${id * 2}",
                 lastname = "Ленарович№${id * 2}"
             ),
-            priority = Random.nextInt(1, 6),
+            priority = Random.nextInt(1, 6).toLong(),
             status = "Не закрыта",
             plane_date = "22.01.23",
             expiration_date = "22.01.23",
@@ -75,7 +99,7 @@ class TicketsRepository @Inject constructor(
                     name = "ФФФФ-123"
                 )
             ),
-            kindEntity = KindEntity(
+            kind = KindEntity(
                 id = 1,
                 name = "ТКО"
             )
@@ -86,7 +110,7 @@ class TicketsRepository @Inject constructor(
         return true
     }
 
-    override suspend fun addTest(ticketEntity: TicketEntity): Boolean {
-        return true
+    override suspend fun addTest(): Int {
+        return 200
     }
 }

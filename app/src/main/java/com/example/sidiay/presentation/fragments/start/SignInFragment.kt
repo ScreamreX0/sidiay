@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.sidiay.presentation.viewmodels.start.SignInViewModel
-import com.example.domain.enums.other.SignInStates
+import com.example.domain.enums.states.SignInStates
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentSigninBinding
 import dagger.hilt.android.AndroidEntryPoint

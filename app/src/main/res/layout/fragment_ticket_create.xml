@@ -286,7 +286,8 @@
                     android:id="@+id/f_add_ticket_auto_complete_kinds"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    tools:ignore="LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView

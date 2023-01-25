@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.domain.enums.ticketstates.PriorityState
+import com.example.domain.enums.ticket.TicketPriorityEnum
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentTicketItemBinding
 import com.example.sidiay.presentation.viewmodels.menu.TicketItemViewModel
@@ -38,27 +38,25 @@ class TicketItemFragment : Fragment(R.layout.fragment_ticket_item) {
 
         with(args.ticket) {
             with(binding) {
-                fTicketItemTitle.text = "${getString(R.string.ticket)}№ $id"
+                id?.let { fTicketItemTitle.text = "${getString(R.string.ticket)}№ $it" }
                 name?.let { fTicketItemSecondTitle.text = it }
                 service?.let { fTicketItemServiceText.text = it }
-
                 completed_work?.let { fTicketItemCompletedWorkText.text = it }
                 creation_date?.let { fTicketItemCreationDateText.text = it }
                 expiration_date?.let { fTicketItemExpirationDateText.text = it }
                 plane_date?.let { fTicketItemPlaneDateText.text = it }
 
-                facilities?.let {
-                    fTicketItemObjectText.text = it.joinToString(
+                facilities?.let { itemFacilityEntity ->
+                    fTicketItemObjectText.text = itemFacilityEntity.joinToString(
                         separator = "/",
                         transform = { it.name }
                     )
                 }
 
-                priority?.let { fTicketItemPriorityText.text = PriorityState.valueOf(it).getName() }
+                priority?.let { fTicketItemPriorityText.text = TicketPriorityEnum.valueOf(it.toInt()).getName() }
                 status?.let { fTicketItemStatusText.text = it }
-                kindEntity?.name.let { fTicketItemKindText.text = it }
-
-                description?.let { fTicketItemDescriptionText.text = it }
+                kind?.name?.let { fTicketItemKindText.text = it }
+                description?.let { fTicketItemDescriptionText.text = it}
 
                 author?.let {
                     fTicketItemAuthorText.text = "${it.firstname} ${it.name.first()}. ${it.lastname.first()}."

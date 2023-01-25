@@ -1,6 +1,6 @@
-package com.example.domain.enums.ticketstates
+package com.example.domain.enums.ticket
 
-enum class PriorityState(private val elementName: String, val priority: Int) : ITicketStates {
+enum class TicketPriorityEnum(private val elementName: String, val priority: Int) : ITicketEnum {
     VeryLow("Очень низкий", 1),
     Low("Низкий", 2),
     Medium("Средний", 3),
@@ -8,7 +8,7 @@ enum class PriorityState(private val elementName: String, val priority: Int) : I
     Urgent("Срочный", 5);
 
     companion object {
-        fun valueOf(priority: Int): PriorityState {
+        fun valueOf(priority: Int): TicketPriorityEnum {
             return when (priority) {
                 2 -> Low
                 3 -> Medium

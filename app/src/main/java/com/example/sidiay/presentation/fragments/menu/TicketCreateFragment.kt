@@ -17,6 +17,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.domain.models.entities.FacilityEntity
+import com.example.domain.models.entities.TicketEntity
+import com.example.domain.models.entities.KindEntity
+import com.example.domain.models.entities.UserEntity
+import com.example.domain.models.params.AddTicketParams
 import com.example.domain.models.params.DateParams
 import com.example.sidiay.R
 import com.example.sidiay.databinding.FragmentTicketCreateBinding
@@ -25,21 +30,29 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
-    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    // Common
+class TicketCreateFragment :
+    Fragment(R.layout.fragment_ticket_create),
+    DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
     private val viewModel: TicketCreateViewModel by viewModels()
     private lateinit var binding: FragmentTicketCreateBinding
     private val args by navArgs<TicketCreateFragmentArgs>()
 
-    // Object vars
-    private var objects: List<String> = listOf()
-    private var selectedObjects = BooleanArray(objects.size)
+    private var selectedKind: KindEntity = KindEntity()
+    private var selectedPriority: Long = 1
+    private var selectedService: String = ""
+    private var selectedStatus: String = ""
+
+    // Facility vars
+    private var facilities: List<String> = listOf()
+    private var selectedFacilities = BooleanArray(facilities.size)
 
     // Executor vars
     private var executors: List<String> = listOf()
+    private var selectedExecutor: UserEntity = UserEntity()
 
     // Date vars
     private var currentDateTimePicker: TextView? = null
@@ -58,13 +71,14 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
         initAuthor()
 
         // Init suspend vars
-        initObjectsChipGroup()
+        initFacilitiesChipGroup()
         initEmployees()
 
         // Buttons
         onClickBackButton()
-        addObjectButtonHandler()
-        addExecutorsHandler()
+        addFacilityButtonHandler()
+        addExecutorHandler()
+        saveButtonHandler()
 
         // Adapters
         initServicesTextView()
@@ -93,10 +107,66 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
     }
 
     private fun saveButtonHandler() {
+        binding.fAddTicketSaveButton.setOnClickListener {
+            val ticket = AddTicketParams()
 
+//            // Set facilities
+//            viewModel.facilities.value?.let {
+//                val facilitiesArrayList: ArrayList<FacilityEntity> = arrayListOf()
+//                for (i in selectedFacilities.indices) {
+//                    if (selectedFacilities[i]) {
+//                        facilitiesArrayList.add(viewModel.facilities.value!![i])
+//                    }
+//                }
+//                ticket.facilities = facilitiesArrayList
+//            }
+//
+//            // Set kind
+//            ticket.kind = selectedKind
+//
+//            // Set author
+//            ticket.author = args.user
+//
+//            // Set executor
+//            ticket.executor = selectedExecutor
+
+            // Set priority
+            ticket.priority = selectedPriority
+
+            // Set status
+            ticket.status = selectedStatus
+
+            // Set service
+            ticket.service = selectedService
+
+            // Set plane date
+            if (!binding.fAddTicketPlaneDateText.text.equals(getString(R.string.select_date))) {
+                ticket.plane_date = binding.fAddTicketPlaneDateText.text.toString()
+            }
+
+            // Set expiration date
+            if (!binding.fAddTicketExpirationDateText.text.equals(getString(R.string.select_date))) {
+                ticket.expiration_date = binding.fAddTicketExpirationDateText.text.toString()
+            }
+
+            // Set creation date
+            ticket.creation_date = binding.fAddTicketCreationDateText.text.toString()
+
+            // Set completed work
+            ticket.completed_work = binding.fAddTicketCompletedWorkEdit.text.toString()
+
+            // Set description
+            ticket.description = binding.fAddTicketDescriptionEdit.text.toString()
+
+            // Set name
+            ticket.name = binding.fAddTicketSecondTitleEdit.text.toString()
+
+            viewModel.save(ticket)
+        }
     }
 
-    // Employees list
+    // USERS
+    // Employees
     private fun initEmployees() {
         viewModel.initEmployees()
 
@@ -107,17 +177,20 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
         }
     }
 
-    private fun addExecutorsHandler() {
+    //
+    // Executors
+    private fun addExecutorHandler() {
         binding.fAddTicketExecutorText.setOnClickListener {
             if (executors.isEmpty()) {
                 return@setOnClickListener
             }
 
-            val builder = AlertDialog.Builder(requireContext())
-
-            builder.setTitle(getString(R.string.select_executor))
+            AlertDialog.Builder(requireContext()).setTitle(getString(R.string.select_executor))
                 .setItems(executors.toTypedArray()) { _, item ->
                     binding.fAddTicketExecutorText.text = executors[item]
+                    viewModel.employees.value?.let {
+                        selectedExecutor = it[item]
+                    }
                 }
                 .setNegativeButton(getString(R.string.Cancel)) { dialog, _ -> dialog.dismiss() }
                 .create()
@@ -125,31 +198,31 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
         }
     }
 
-    // Objects list
-    private fun initObjectsChipGroup() {
-        viewModel.initObjects()
+    //
+    // Facilities list
+    private fun initFacilitiesChipGroup() {
+        viewModel.initFacilities()
 
-        viewModel.objects.observe(viewLifecycleOwner) {
-            viewModel.objects.value?.let { list ->
-                objects = list.map { it.name }
-                selectedObjects = BooleanArray(objects.size)
+        viewModel.facilities.observe(viewLifecycleOwner) {
+            viewModel.facilities.value?.let { list ->
+                facilities = list.map { it.name }
+                selectedFacilities = BooleanArray(facilities.size)
             }
         }
     }
 
-    private fun addObjectButtonHandler() {
+    private fun addFacilityButtonHandler() {
         binding.fAddTicketAddObjectButton.setOnClickListener {
-            if (objects.isEmpty()) {
+            if (facilities.isEmpty()) {
                 return@setOnClickListener
             }
 
-            val builder = AlertDialog.Builder(requireContext())
-
-            builder.setTitle(getString(R.string.field_object))
-                .setItems(objects.toTypedArray()) { dialog, item ->
-                    if (!selectedObjects[item]) {
-                        selectedObjects[item] = true
-                        binding.fAddTicketObjectChipGroup.addView(getChip(objects[item]), 0)
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.field_object))
+                .setItems(facilities.toTypedArray()) { _, item ->
+                    if (!selectedFacilities[item]) {
+                        selectedFacilities[item] = true
+                        binding.fAddTicketObjectChipGroup.addView(getChip(facilities[item]), 0)
                     }
                 }
                 .setNegativeButton(getString(R.string.Cancel)) { dialog, _ -> dialog.dismiss() }
@@ -169,13 +242,14 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
 
         chip.setOnClickListener {
             binding.fAddTicketObjectChipGroup.removeView(it)
-            selectedObjects[objects.indexOf(chip.text)] = false
+            selectedFacilities[facilities.indexOf(chip.text)] = false
         }
 
         return chip
     }
 
-    // Dropdown menu
+    //
+    // DROPDOWN
     private fun <T> setupAdapter(items: MutableLiveData<List<T>>, autoCompleteTextView: AutoCompleteTextView) {
         items.observe(viewLifecycleOwner) {
             it.let {
@@ -189,28 +263,52 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
             }
         }
     }
-
     private fun initServicesTextView() {
-        setupAdapter(viewModel.serviceState, binding.fAddTicketAutoCompleteService)
+        setupAdapter(viewModel.ticketServiceEnum, binding.fAddTicketAutoCompleteService)
         viewModel.initServices()
+
+        binding.fAddTicketAutoCompleteService.setOnItemClickListener { _, _, position, _ ->
+            viewModel.ticketServiceEnum.value?.let {
+                selectedService = it[position].getName()
+            }
+        }
     }
 
     private fun initKindsTextView() {
-        setupAdapter(viewModel.kindState, binding.fAddTicketAutoCompleteKinds)
+        setupAdapter(viewModel.ticketKindEnum, binding.fAddTicketAutoCompleteKinds)
         viewModel.initKinds()
+
+        binding.fAddTicketAutoCompleteKinds.setOnItemClickListener { _, _, position, _ ->
+            viewModel.ticketKindEnum.value?.let {
+                selectedKind = KindEntity(it[position].id, it[position].getName())
+            }
+        }
     }
 
     private fun initPrioritiesAdapter() {
-        setupAdapter(viewModel.priorityState, binding.fAddTicketAutoCompletePriority)
+        setupAdapter(viewModel.ticketPriorityEnum, binding.fAddTicketAutoCompletePriority)
         viewModel.initPriorities()
+
+        binding.fAddTicketAutoCompletePriority.setOnItemClickListener { _, _, position, _ ->
+            viewModel.ticketPriorityEnum.value?.let {
+                selectedPriority = it[position].priority.toLong()
+            }
+        }
     }
 
     private fun initStatusesAdapter() {
         setupAdapter(viewModel.statuses, binding.fAddTicketAutoCompleteStatus)
         viewModel.initStatuses()
+
+        binding.fAddTicketAutoCompleteStatus.setOnItemClickListener { _, _, position, _ ->
+            viewModel.statuses.value?.let {
+                selectedStatus = it[position].getName()
+            }
+        }
     }
 
-    // DateTimes
+    //
+    // DATETIME
     private fun handlePlaneDate() {
         binding.fAddTicketPlaneDateText.setOnClickListener {
             currentDateTimePicker = binding.fAddTicketPlaneDateText
@@ -225,6 +323,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
         }
     }
 
+    // Expiration date
     private fun handleExpirationDate() {
         binding.fAddTicketExpirationDateText.setOnClickListener {
             currentDateTimePicker = binding.fAddTicketExpirationDateText
@@ -259,6 +358,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create),
         showTime(dateParams.year, dateParams.month, dateParams.day, hourOfDay, minute)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showTime(year: Int, month: Int, dayOfMonth: Int, hourOfDay: Int, minute: Int) {
         currentDateTimePicker?.text = "$year.$month.$dayOfMonth $hourOfDay:$minute"
     }

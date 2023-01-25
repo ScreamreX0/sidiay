@@ -3,13 +3,15 @@ package com.example.sidiay.presentation.viewmodels.menu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.enums.ticketstates.KindState
-import com.example.domain.enums.ticketstates.PriorityState
-import com.example.domain.enums.ticketstates.ServiceState
-import com.example.domain.enums.other.AddTicketStates
-import com.example.domain.enums.ticketstates.TicketStatuses
+import com.example.domain.enums.ticket.TicketPriorityEnum
+import com.example.domain.enums.ticket.TicketServiceEnum
+import com.example.domain.enums.states.AddTicketStates
+import com.example.domain.enums.ticket.TicketKindEnum
+import com.example.domain.enums.ticket.TicketStatusEnum
 import com.example.domain.models.entities.FacilityEntity
+import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.UserEntity
+import com.example.domain.models.params.AddTicketParams
 import com.example.domain.usecases.menu.create.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -23,26 +25,36 @@ class TicketCreateViewModel @Inject constructor(
     private val getKindsUseCase: GetKindsUseCase,
     private val getStatusesUseCase: GetStatusesUseCase,
     private val getPrioritiesUseCase: GetPrioritiesUseCase,
-    private val getObjectsUseCase: GetObjectsUseCase,
-    private val getUsersUseCase: GetUsersUseCase
+    private val getFacilitiesUseCase: GetFacilitiesUseCase,
+    private val getUsersUseCase: GetUsersUseCase,
+    private val saveTicketUseCase: SaveTicketUseCase
 ) : ViewModel() {
-    val serviceState: MutableLiveData<List<ServiceState>> = MutableLiveData()
-    val kindState: MutableLiveData<List<KindState>> = MutableLiveData()
-    val statuses: MutableLiveData<List<TicketStatuses>> = MutableLiveData()
-    val priorityState: MutableLiveData<List<PriorityState>> = MutableLiveData()
+    val ticketServiceEnum: MutableLiveData<List<TicketServiceEnum>> = MutableLiveData()
+    val ticketKindEnum: MutableLiveData<List<TicketKindEnum>> = MutableLiveData()
+    val statuses: MutableLiveData<List<TicketStatusEnum>> = MutableLiveData()
+    val ticketPriorityEnum: MutableLiveData<List<TicketPriorityEnum>> = MutableLiveData()
 
     // Suspend vars
-    val objects: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
+    val facilities: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
     val employees: MutableLiveData<List<UserEntity>> = MutableLiveData()
 
     var errorsList: MutableLiveData<List<AddTicketStates>> = MutableLiveData()
 
+    var saveResult: MutableLiveData<Int> = MutableLiveData()
+
+    fun save(ticketEntity: AddTicketParams) {
+        viewModelScope.launch(getConnectionHandler()) {
+            saveResult.value = saveTicketUseCase.execute(ticketEntity)
+        }
+
+    }
+
     fun initServices() {
-        serviceState.value = getServicesUseCase.execute()
+        ticketServiceEnum.value = getServicesUseCase.execute()
     }
 
     fun initKinds() {
-        kindState.value = getKindsUseCase.execute()
+        ticketKindEnum.value = getKindsUseCase.execute()
     }
 
     fun initStatuses() {
@@ -50,12 +62,12 @@ class TicketCreateViewModel @Inject constructor(
     }
 
     fun initPriorities() {
-        priorityState.value = getPrioritiesUseCase.execute()
+        ticketPriorityEnum.value = getPrioritiesUseCase.execute()
     }
 
-    fun initObjects() {
+    fun initFacilities() {
         viewModelScope.launch(getConnectionHandler()) {
-            objects.value = getObjectsUseCase.execute()
+            facilities.value = getFacilitiesUseCase.execute()
         }
     }
 

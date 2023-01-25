@@ -1,6 +1,6 @@
-package com.example.domain.enums.ticketstates
+package com.example.domain.enums.ticket
 
-enum class ServiceState(private val elementName: String) : ITicketStates{
+enum class TicketServiceEnum(private val elementName: String) : ITicketEnum{
     NPO("НПО"),
     Energo("Энерго"),
     KIP("КИП"),
