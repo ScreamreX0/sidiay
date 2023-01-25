@@ -1,4 +1,4 @@
-package com.example.domain.usecases.menu
+package com.example.domain.usecases.home
 
 import com.example.domain.models.entities.TicketEntity
 import com.example.domain.repositories.ITicketsRepository

@@ -11,7 +11,7 @@ import com.example.domain.enums.ticket.TicketStatusEnum
 import com.example.domain.models.entities.FacilityEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
-import com.example.domain.usecases.menu.create.*
+import com.example.domain.usecases.createticket.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

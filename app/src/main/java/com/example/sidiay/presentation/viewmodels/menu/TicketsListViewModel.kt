@@ -3,11 +3,10 @@ package com.example.sidiay.presentation.viewmodels.menu
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.enums.states.SignInStates
 import com.example.domain.enums.states.TicketStates
 import com.example.domain.enums.ticket.*
 import com.example.domain.models.entities.TicketEntity
-import com.example.domain.usecases.menu.GetTicketsUseCase
+import com.example.domain.usecases.home.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

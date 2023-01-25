@@ -1,6 +1,5 @@
-package com.example.domain.usecases.menu.create
+package com.example.domain.usecases.createticket
 
-import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.params.AddTicketParams
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.utils.Constants

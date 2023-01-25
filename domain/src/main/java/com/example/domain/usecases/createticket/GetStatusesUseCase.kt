@@ -1,4 +1,4 @@
-package com.example.domain.usecases.menu.create
+package com.example.domain.usecases.createticket
 
 import com.example.domain.enums.ticket.TicketStatusEnum
 import javax.inject.Inject
