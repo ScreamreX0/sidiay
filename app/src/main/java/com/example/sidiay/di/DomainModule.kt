@@ -6,7 +6,7 @@ import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.repositories.IUserRepository
 import com.example.domain.usecases.createticket.*
 import com.example.domain.usecases.home.GetTicketsUseCase
-import com.example.domain.usecases.home.createticket.*
+import com.example.domain.usecases.home.*
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.Module
@@ -69,6 +69,6 @@ class DomainModule {
 
     @Provides
     fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetFacilitiesUseCase {
-        return GetFacilitiesUseCase(objectsRepository = facilitiesRepository)
+        return GetFacilitiesUseCase(facilitiesRepository = facilitiesRepository)
     }
 }

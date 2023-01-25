@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetUsersUseCase @Inject constructor(
     private val userRepository: IUserRepository
 ) {
-    suspend fun execute(): List<UserEntity> {
+    suspend fun execute(): List<UserEntity>? {
         if (Constants.DEBUG_MODE) {
             return userRepository.getTestUsers()
         }

@@ -8,8 +8,8 @@ import javax.inject.Inject
 class FacilitiesRepository @Inject constructor(
     private val apiService: ApiService
 ) : IFacilitiesRepository {
-    override suspend fun get(): List<FacilityEntity> {
-        TODO("Not yet implemented")
+    override suspend fun get(): List<FacilityEntity>? {
+        return apiService.getFacilities().body()
     }
 
     override suspend fun getTest(): List<FacilityEntity> {

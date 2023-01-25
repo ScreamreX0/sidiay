@@ -6,12 +6,12 @@ import com.example.domain.models.entities.FacilityEntity
 import javax.inject.Inject
 
 class GetFacilitiesUseCase @Inject constructor(
-    private val objectsRepository: IFacilitiesRepository
+    private val facilitiesRepository: IFacilitiesRepository
 ) {
-    suspend fun execute(): List<FacilityEntity> {
+    suspend fun execute(): List<FacilityEntity>? {
         if (Constants.DEBUG_MODE) {
-            return objectsRepository.getTest()
+            return facilitiesRepository.getTest()
         }
-        return objectsRepository.get()
+        return facilitiesRepository.get()
     }
 }

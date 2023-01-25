@@ -21,8 +21,8 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getUsers(): List<UserEntity> {
-        TODO("Not yet implemented")
+    override suspend fun getUsers(): List<UserEntity>? {
+        return apiService.getUsers().body()
     }
 
     override suspend fun signInByEmail(credentials: Credentials): Pair<Int, UserEntity?> {

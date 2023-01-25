@@ -66,13 +66,17 @@ class TicketCreateViewModel @Inject constructor(
 
     fun initFacilities() {
         viewModelScope.launch(getConnectionHandler()) {
-            facilities.value = getFacilitiesUseCase.execute()
+            getFacilitiesUseCase.execute()?.let {
+                facilities.value = it
+            }
         }
     }
 
     fun initEmployees() {
         viewModelScope.launch(getConnectionHandler()) {
-            employees.value = getUsersUseCase.execute()
+            getUsersUseCase.execute()?.let {
+                employees.value = it
+            }
         }
     }
 
