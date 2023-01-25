@@ -17,8 +17,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.domain.models.entities.FacilityEntity
-import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
@@ -30,7 +28,6 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class TicketCreateFragment :
@@ -255,7 +252,7 @@ class TicketCreateFragment :
             it.let {
                 val adapter = ArrayAdapter(
                     requireContext(),
-                    R.layout.item_add_ticket_dropdown,
+                    R.layout.item_ticket_create_dropdown,
                     it
                 )
 

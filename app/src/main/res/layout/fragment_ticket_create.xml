@@ -76,9 +76,9 @@
                 style="@style/Widget.Sidiay.EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="30dp"
                 android:hint="@string/title"
                 android:maxLength="255"
                 android:textSize="30sp"
@@ -397,19 +397,19 @@
             <TextView
                 android:id="@+id/f_add_ticket_plane_date_subtitle"
                 style="@style/Widget.Sidiay.Subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@string/plane_date_2nd"
+                android:text="@string/plane_date"
                 app:layout_constraintStart_toEndOf="@+id/f_add_ticket_plane_date_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_ticket_plane_date_image" />
 
             <TextView
                 android:id="@+id/f_add_ticket_expiration_date_subtitle"
                 style="@style/Widget.Sidiay.Subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/expiration_date_2nd"
+                android:text="@string/expiration_date"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_ticket_second_title_edit"
                 app:layout_constraintTop_toTopOf="@+id/f_add_ticket_plane_date_subtitle" />
 

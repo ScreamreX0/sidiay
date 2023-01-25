@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.enums.ticket.TicketPriorityEnum
 import com.example.domain.enums.ticket.TicketServiceEnum
-import com.example.domain.enums.states.AddTicketStates
+import com.example.domain.enums.states.TicketStates
 import com.example.domain.enums.ticket.TicketKindEnum
 import com.example.domain.enums.ticket.TicketStatusEnum
 import com.example.domain.models.entities.FacilityEntity
-import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
 import com.example.domain.usecases.menu.create.*
@@ -38,7 +37,7 @@ class TicketCreateViewModel @Inject constructor(
     val facilities: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
     val employees: MutableLiveData<List<UserEntity>> = MutableLiveData()
 
-    var errorsList: MutableLiveData<List<AddTicketStates>> = MutableLiveData()
+    var errorsList: MutableLiveData<List<TicketStates>> = MutableLiveData()
 
     var saveResult: MutableLiveData<Int> = MutableLiveData()
 
@@ -80,7 +79,7 @@ class TicketCreateViewModel @Inject constructor(
     private fun getConnectionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                errorsList.value = listOf(AddTicketStates.NO_SERVER_CONNECTION)
+                errorsList.value = listOf(TicketStates.NO_SERVER_CONNECTION)
             }
         }
     }
