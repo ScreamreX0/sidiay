@@ -5,7 +5,9 @@ import com.example.domain.models.params.AddTicketParams
 
 class CheckTicketUseCase {
     fun execute(ticket: AddTicketParams): List<TicketStates> {
-        if (ticket.kind == null) {
+        if (ticket.kind == null
+            || ticket.service == null
+            || ticket.priority == null) {
             return listOf(TicketStates.FILL_ALL_FIELDS_WITH_STAR)
         }
         return listOf(TicketStates.READY_TO_BE_SAVED)

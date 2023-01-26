@@ -18,6 +18,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.domain.enums.states.TicketStates
+import com.example.domain.enums.ticket.ITicketEnum
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
@@ -265,19 +266,15 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     //
     // DROPDOWN
     private fun <T> setupAutoCompleteTextViewAdapter(mutableItems: MutableLiveData<List<T>>, autoCompleteTextView: AutoCompleteTextView) {
-        mutableItems.observe(viewLifecycleOwner) {
-            it?.let {
-                autoCompleteTextView.setAdapter(ArrayAdapter(requireContext(), R.layout.item_ticket_create_dropdown, it))
+        mutableItems.observe(viewLifecycleOwner) { itListNullable ->
+            itListNullable?.let { itList ->
+                val elementsList = itList.map { (it as ITicketEnum).getName() }.toList()
+                autoCompleteTextView.setAdapter(ArrayAdapter(requireContext(), R.layout.item_ticket_create_dropdown, elementsList))
             }
         }
     }
     private fun initServicesTextView() {
-        viewModel.mutableServices.observe(viewLifecycleOwner) { itTicketServiceListNullable ->
-            itTicketServiceListNullable?.let { itTicketServiceList ->
-                val elementsList = itTicketServiceList.map { it.getName() }.toList()
-                binding.fAddTicketAutoCompleteService.setAdapter(ArrayAdapter(requireContext(), R.layout.item_ticket_create_dropdown, elementsList))
-            }
-        }
+        setupAutoCompleteTextViewAdapter(viewModel.mutableServices, binding.fAddTicketAutoCompleteService)
 
         viewModel.initServices()
 
