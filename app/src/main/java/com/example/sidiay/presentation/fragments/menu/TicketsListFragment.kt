@@ -74,7 +74,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
             }
         }
 
-        recyclerViewFill()
+        fillRecyclerViewList()
         initSearch()
         initFilter()
     }
@@ -178,7 +178,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
         })
     }
 
-    private fun recyclerViewFill() {
+    private fun fillRecyclerViewList() {
         viewModel.fillTicketsList()
     }
 

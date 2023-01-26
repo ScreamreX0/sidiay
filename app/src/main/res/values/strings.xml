@@ -67,4 +67,6 @@
     <string name="expired">Expired</string>
     <string name="my_tickets">My applications</string>
     <string name="reset_all">Reset all</string>
+    <string name="ticket_create_success">Application successfully created</string>
+    <string name="fill_all_fields_with_star">Fill all fields with star</string>
 </resources>

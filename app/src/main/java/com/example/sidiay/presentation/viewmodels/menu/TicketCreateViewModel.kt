@@ -26,7 +26,8 @@ class TicketCreateViewModel @Inject constructor(
     private val getPrioritiesUseCase: GetPrioritiesUseCase,
     private val getFacilitiesUseCase: GetFacilitiesUseCase,
     private val getUsersUseCase: GetUsersUseCase,
-    private val saveTicketUseCase: SaveTicketUseCase
+    private val saveTicketUseCase: SaveTicketUseCase,
+    private val checkTicketUseCase: CheckTicketUseCase
 ) : ViewModel() {
     val mutableServices: MutableLiveData<List<TicketServiceEnum>> = MutableLiveData()
     val mutableKinds: MutableLiveData<List<TicketKindEnum>> = MutableLiveData()
@@ -40,6 +41,8 @@ class TicketCreateViewModel @Inject constructor(
     var mutableErrors: MutableLiveData<List<TicketStates>> = MutableLiveData()
 
     var mutableSaveResult: MutableLiveData<Int> = MutableLiveData()
+
+    var mutableFieldsCheckResult: MutableLiveData<List<TicketStates>> = MutableLiveData()
 
     fun save(ticketEntity: AddTicketParams) {
         viewModelScope.launch(getConnectionHandler()) {
@@ -86,5 +89,9 @@ class TicketCreateViewModel @Inject constructor(
                 mutableErrors.value = listOf(TicketStates.NO_SERVER_CONNECTION)
             }
         }
+    }
+
+    fun checkTicketFields(ticket: AddTicketParams) {
+        mutableFieldsCheckResult.value = checkTicketUseCase.execute(ticket)
     }
 }

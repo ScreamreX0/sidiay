@@ -66,4 +66,6 @@
     <string name="expired">Просроченные</string>
     <string name="my_tickets">Мои заявки</string>
     <string name="reset_all">Сбросить все</string>
+    <string name="ticket_create_success">Заявка успешно создана</string>
+    <string name="fill_all_fields_with_star">Заполните все поля со звездой</string>
 </resources>

@@ -7,10 +7,10 @@ import com.example.domain.models.entities.UserEntity
 data class AddTicketParams(
     var id: Long? = 1,
 //    var facilities: List<FacilityEntity>? = listOf(),
-//    var kind: KindEntity? = KindEntity(),
 //    var author: UserEntity? = UserEntity(),
 //    var executor: UserEntity? = UserEntity(),
     var priority: Long? = 1,
+    var kind: KindEntity? = null,
     var plane_date: String? = "",
     var expiration_date: String? = "",
     var creation_date: String? = "",

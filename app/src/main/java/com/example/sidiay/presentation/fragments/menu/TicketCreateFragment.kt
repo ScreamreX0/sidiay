@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.domain.enums.states.TicketStates
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
@@ -36,7 +37,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     private val args by navArgs<TicketCreateFragmentArgs>()
 
     // Selected vars
-    private var selectedKind: KindEntity = KindEntity()
+    private var selectedKind: KindEntity? = null
     private var selectedPriority: Long = 1
     private var selectedService: String = ""
     private var selectedStatus: String = ""
@@ -55,6 +56,9 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     private val planeDateCalendar = Calendar.getInstance()
     private val expirationDateCalendar = Calendar.getInstance()
 
+    // Main ticket
+    private val ticket = AddTicketParams()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTicketCreateBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,6 +71,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
         initFacilitiesChipGroup()
         initEmployees()
         initAuthor()
+        initFieldsCheckResult()
 
         // Buttons
         onClickBackButton()
@@ -86,6 +91,8 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
         initCreationDate()
     }
 
+
+
     @SuppressLint("SetTextI18n")
     private fun initAuthor() {
         with(args.user) {
@@ -102,8 +109,6 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
 
     private fun onClickSaveTicket() {
         binding.fAddTicketSaveButton.setOnClickListener {
-            val ticket = AddTicketParams()
-
 //            // Set facilities
 //            viewModel.facilities.value?.let {
 //                val facilitiesArrayList: ArrayList<FacilityEntity> = arrayListOf()
@@ -115,8 +120,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
 //                ticket.facilities = facilitiesArrayList
 //            }
 //
-//            // Set kind
-//            ticket.kind = selectedKind
+//
 //
 //            // Set author
 //            ticket.author = args.user
@@ -126,6 +130,9 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
 
             // Set priority
             ticket.priority = selectedPriority
+
+            // Set kind
+            ticket.kind = selectedKind
 
             // Set status
             ticket.status = selectedStatus
@@ -155,7 +162,24 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
             // Set name
             ticket.name = binding.fAddTicketSecondTitleEdit.text.toString()
 
-            viewModel.save(ticket)
+            viewModel.checkTicketFields(ticket)
+        }
+    }
+
+    private fun initFieldsCheckResult() {
+        viewModel.mutableFieldsCheckResult.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it.contains(TicketStates.FILL_ALL_FIELDS_WITH_STAR)) {
+                    Toast.makeText(requireContext(), getText(R.string.fill_all_fields_with_star), Toast.LENGTH_SHORT).show()
+                    return@observe
+                }
+
+                if (it.contains(TicketStates.READY_TO_BE_SAVED)) {
+                    viewModel.save(ticket)
+                    Toast.makeText(requireContext(), getString(R.string.ticket_create_success), Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
+            }
         }
     }
 
@@ -240,15 +264,21 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
 
     //
     // DROPDOWN
-    private fun <T> setupAdapter(items: MutableLiveData<List<T>>, autoCompleteTextView: AutoCompleteTextView) {
-        items.observe(viewLifecycleOwner) {
+    private fun <T> setupAutoCompleteTextViewAdapter(mutableItems: MutableLiveData<List<T>>, autoCompleteTextView: AutoCompleteTextView) {
+        mutableItems.observe(viewLifecycleOwner) {
             it?.let {
                 autoCompleteTextView.setAdapter(ArrayAdapter(requireContext(), R.layout.item_ticket_create_dropdown, it))
             }
         }
     }
     private fun initServicesTextView() {
-        setupAdapter(viewModel.mutableServices, binding.fAddTicketAutoCompleteService)
+        viewModel.mutableServices.observe(viewLifecycleOwner) { itTicketServiceListNullable ->
+            itTicketServiceListNullable?.let { itTicketServiceList ->
+                val elementsList = itTicketServiceList.map { it.getName() }.toList()
+                binding.fAddTicketAutoCompleteService.setAdapter(ArrayAdapter(requireContext(), R.layout.item_ticket_create_dropdown, elementsList))
+            }
+        }
+
         viewModel.initServices()
 
         binding.fAddTicketAutoCompleteService.setOnItemClickListener { _, _, position, _ ->
@@ -259,7 +289,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     }
 
     private fun initKindsTextView() {
-        setupAdapter(viewModel.mutableKinds, binding.fAddTicketAutoCompleteKinds)
+        setupAutoCompleteTextViewAdapter(viewModel.mutableKinds, binding.fAddTicketAutoCompleteKinds)
         viewModel.initKinds()
 
         binding.fAddTicketAutoCompleteKinds.setOnItemClickListener { _, _, position, _ ->
@@ -270,7 +300,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     }
 
     private fun initPrioritiesAdapter() {
-        setupAdapter(viewModel.mutablePriorities, binding.fAddTicketAutoCompletePriority)
+        setupAutoCompleteTextViewAdapter(viewModel.mutablePriorities, binding.fAddTicketAutoCompletePriority)
         viewModel.initPriorities()
 
         binding.fAddTicketAutoCompletePriority.setOnItemClickListener { _, _, position, _ ->
@@ -281,7 +311,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     }
 
     private fun initStatusesAdapter() {
-        setupAdapter(viewModel.mutableStatuses, binding.fAddTicketAutoCompleteStatus)
+        setupAutoCompleteTextViewAdapter(viewModel.mutableStatuses, binding.fAddTicketAutoCompleteStatus)
         viewModel.initStatuses()
 
         binding.fAddTicketAutoCompleteStatus.setOnItemClickListener { _, _, position, _ ->
@@ -324,7 +354,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
         expirationDateCalendar.set(year, month, dayOfMonth)
 
         dateParams.year = year
-        dateParams.month = month
+        dateParams.month = month + 1
         dateParams.day = dayOfMonth
 
         TimePickerDialog(
@@ -336,18 +366,25 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
         ).show()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        showTime(dateParams.year, dateParams.month, dateParams.day, hourOfDay, minute)
+        currentDateTimePicker?.text = "" +
+                "${fillDateWithZeros(dateParams.day)}." +
+                "${fillDateWithZeros(dateParams.month)}." +
+                "${dateParams.year} " +
+                "${fillDateWithZeros(hourOfDay)}:" +
+                "${fillDateWithZeros(minute)}"
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showTime(year: Int, month: Int, dayOfMonth: Int, hourOfDay: Int, minute: Int) {
-        currentDateTimePicker?.text = "$year.$month.$dayOfMonth $hourOfDay:$minute"
+    private fun fillDateWithZeros(value: Int): String {
+        if (value < 10) {
+            return "0${value}"
+        }
+        return value.toString()
     }
 
     private fun initCreationDate() {
-        binding.fAddTicketCreationDateText.text =
-            SimpleDateFormat("yyyy.MM.dd hh:mm", Locale.getDefault())
-                .format(Calendar.getInstance(TimeZone.getDefault()).time)
+        binding.fAddTicketCreationDateText.text = SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.getDefault())
+            .format(Calendar.getInstance(TimeZone.getDefault()).time)
     }
 }

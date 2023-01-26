@@ -400,6 +400,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:minWidth="100dp"
                 android:text="@string/plane_date"
                 app:layout_constraintStart_toEndOf="@+id/f_add_ticket_plane_date_image"
                 app:layout_constraintTop_toTopOf="@+id/f_add_ticket_plane_date_image" />
@@ -408,6 +409,7 @@
                 android:id="@+id/f_add_ticket_expiration_date_subtitle"
                 style="@style/Widget.Sidiay.Subtitle"
                 android:layout_width="0dp"
+                android:minWidth="100dp"
                 android:layout_height="wrap_content"
                 android:text="@string/expiration_date"
                 app:layout_constraintEnd_toEndOf="@+id/f_add_ticket_second_title_edit"

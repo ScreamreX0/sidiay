@@ -10,6 +10,6 @@ object Constants {
     const val MIN_USERNAME_LENGHT = 4
     const val MAX_USERNAME_LENGHT = 32
 
-    const val URL = "https://22ad-87-117-189-231.eu.ngrok.io"
+    const val URL = "https://7469-87-117-189-231.eu.ngrok.io"
     const val LOCAL_URL = "http://localhost:8081"
 }

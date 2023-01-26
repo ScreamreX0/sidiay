@@ -13,6 +13,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.intellij.lang.annotations.PrintFormat
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -70,5 +71,10 @@ class DomainModule {
     @Provides
     fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetFacilitiesUseCase {
         return GetFacilitiesUseCase(facilitiesRepository = facilitiesRepository)
+    }
+
+    @Provides
+    fun provideCheckTicketUseCase(): CheckTicketUseCase {
+        return CheckTicketUseCase()
     }
 }
