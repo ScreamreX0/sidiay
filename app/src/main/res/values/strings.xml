@@ -69,4 +69,8 @@
     <string name="reset_all">Reset all</string>
     <string name="ticket_create_success">Application successfully created</string>
     <string name="fill_all_fields_with_star">Fill all fields with star</string>
+    <string name="change_language">Change language</string>
+    <string name="change_theme">Dark theme</string>
+    <string name="change_password">Change password</string>
+    <string name="exit">Exit</string>
 </resources>

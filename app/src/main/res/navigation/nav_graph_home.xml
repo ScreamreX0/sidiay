@@ -70,6 +70,10 @@
             android:id="@+id/settingsFragment"
             android:name="com.example.sidiay.presentation.fragments.menu.SettingsFragment"
             android:label="SettingsFragment"
-            tools:layout="@layout/fragment_settings" />
+            tools:layout="@layout/fragment_settings">
+            <argument
+                android:name="user"
+                app:argType="com.example.domain.models.entities.UserEntity" />
+        </fragment>
     </navigation>
 </navigation>

@@ -68,4 +68,8 @@
     <string name="reset_all">Сбросить все</string>
     <string name="ticket_create_success">Заявка успешно создана</string>
     <string name="fill_all_fields_with_star">Заполните все поля со звездой</string>
+    <string name="change_language">Сменить язык</string>
+    <string name="change_theme">Темная тема</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="exit">Выход</string>
 </resources>
