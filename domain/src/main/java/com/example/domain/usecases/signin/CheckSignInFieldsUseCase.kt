@@ -15,7 +15,6 @@ class CheckSignInFieldsUseCase @Inject constructor() {
         ) {
             errorList.add(SignInStates.SHORT_OR_LONG_EMAIL)
         }
-        // TODO: add regex check (mutually exclusive)
 
         // Password errors
         if (params.password.length < Constants.MIN_PASSWORD_LENGHT

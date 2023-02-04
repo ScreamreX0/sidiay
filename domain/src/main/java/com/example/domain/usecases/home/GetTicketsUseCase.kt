@@ -16,3 +16,4 @@ class GetTicketsUseCase @Inject constructor(
         return ticketsRepository.get()
     }
 }
+

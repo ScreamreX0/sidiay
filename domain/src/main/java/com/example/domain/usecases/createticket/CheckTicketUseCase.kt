@@ -13,3 +13,4 @@ class CheckTicketUseCase {
         return listOf(TicketStates.READY_TO_BE_SAVED)
     }
 }
+

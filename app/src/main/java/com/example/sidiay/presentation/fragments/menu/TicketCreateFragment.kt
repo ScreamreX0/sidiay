@@ -92,8 +92,6 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
         initCreationDate()
     }
 
-
-
     @SuppressLint("SetTextI18n")
     private fun initAuthor() {
         with(args.user) {
@@ -110,24 +108,24 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
 
     private fun onClickSaveTicket() {
         binding.fAddTicketSaveButton.setOnClickListener {
-//            // Set facilities
-//            viewModel.facilities.value?.let {
-//                val facilitiesArrayList: ArrayList<FacilityEntity> = arrayListOf()
-//                for (i in selectedFacilities.indices) {
-//                    if (selectedFacilities[i]) {
-//                        facilitiesArrayList.add(viewModel.facilities.value!![i])
-//                    }
-//                }
-//                ticket.facilities = facilitiesArrayList
-//            }
-//
-//
-//
-//            // Set author
-//            ticket.author = args.user
-//
-//            // Set executor
-//            ticket.executor = selectedExecutor
+            /*            // Set facilities
+            viewModel.facilities.value?.let {
+                val facilitiesArrayList: ArrayList<FacilityEntity> = arrayListOf()
+                for (i in selectedFacilities.indices) {
+                    if (selectedFacilities[i]) {
+                        facilitiesArrayList.add(viewModel.facilities.value!![i])
+                    }
+                }
+                ticket.facilities = facilitiesArrayList
+            }
+
+
+
+            // Set author
+            ticket.author = args.user
+
+            // Set executor
+            ticket.executor = selectedExecutor*/
 
             // Set priority
             ticket.priority = selectedPriority

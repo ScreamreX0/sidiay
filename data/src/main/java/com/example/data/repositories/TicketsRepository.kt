@@ -34,11 +34,10 @@ class TicketsRepository @Inject constructor(
         val body = HashMap<String, Any>()
 
         with(ticketEntity) {
-//            facilities?.let { body["facilities"] = it }
-//            executor?.let { body["executor"] = it }
-//            kind?.let { body["kind"] = it }
-//            author?.let { body["author"] = it }
-
+            /*            facilities?.let { body["facilities"] = it }
+            executor?.let { body["executor"] = it }
+            kind?.let { body["kind"] = it }
+            author?.let { body["author"] = it }*/
             priority?.let { body["priority"] = it } ?: run { body["priority"] = "1" }
             plane_date?.let { body["plane_date"] = it } ?: run { body["plane_date"] = "" }
             expiration_date?.let { body["expiration_date"] = it } ?: run { body["expiration_date"] = "" }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Application</string>
+    <string name="app_name">КРОН Заявки</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти</string>
     <string name="short_or_long_email">Длина E-mail должна быть от 7 до 32 символов</string>
