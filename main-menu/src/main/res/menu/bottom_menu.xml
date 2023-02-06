@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_graph"
+        android:icon="@drawable/ic_baseline_menu_24"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/scanner_graph"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:title="@string/Scanner" />
+
+    <item
+        android:id="@+id/notifications_graph"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="@string/Notifications" />
+
+    <item
+        android:id="@+id/settings_graph"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/Settings" />
+</menu>

@@ -1,7 +1,7 @@
 package com.example.domain.utils
 
 object Constants {
-    const val DEBUG_MODE = false
+    const val DEBUG_MODE = true
 
     const val MIN_EMAIL_LENGHT = 9
     const val MAX_EMAIL_LENGHT = 32

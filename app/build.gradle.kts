@@ -55,6 +55,7 @@ android {
 dependencies {
     implementation(Dependencies.Core.ktx)
     implementation(Dependencies.Core.appCompat)
+    implementation(Dependencies.Core.fragment)
     kapt(Dependencies.Kapt.kapt)
 
     implementation(Dependencies.Test.junit)
@@ -63,13 +64,11 @@ dependencies {
 
     implementation(Dependencies.DI.hilt)
     kapt(Dependencies.DI.hiltCompiler)
-    implementation(Dependencies.Core.fragment)
 
     implementation(Dependencies.Other.navigation)
     implementation(Dependencies.Other.navigationUI)
     implementation(Dependencies.Other.material)
     implementation(Dependencies.Other.liveData)
-    implementation(Dependencies.Other.material)
     implementation(Dependencies.Other.constraint)
 
     implementation(Dependencies.Network.retrofit)
@@ -79,4 +78,12 @@ dependencies {
 
     implementation(project(path = Dependencies.Modules.data))
     implementation(project(path = Dependencies.Modules.domain))
+    implementation(project(path = Dependencies.Modules.core))
+    implementation(project(path = Dependencies.Modules.signIn))
+    implementation(project(path = Dependencies.Modules.home))
+    implementation(project(path = Dependencies.Modules.notifications))
+    implementation(project(path = Dependencies.Modules.createTicket))
+    implementation(project(path = Dependencies.Modules.scanner))
+    implementation(project(path = Dependencies.Modules.settings))
+    implementation(project(path = Dependencies.Modules.mainMenu))
 }

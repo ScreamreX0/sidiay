@@ -4,6 +4,15 @@ object Dependencies {
     object Modules {
         const val domain = ":domain"
         const val data = ":data"
+        const val core = ":core"
+        const val signIn = ":signin"
+        const val app = ":app"
+        const val createTicket = ":create-ticket"
+        const val home = ":home"
+        const val notifications = ":notifications"
+        const val scanner = ":scanner"
+        const val settings = ":settings"
+        const val mainMenu = ":main-menu"
     }
 
     object AppConfig {
@@ -12,7 +21,8 @@ object Dependencies {
         val sourceCompatibility = JavaVersion.VERSION_11
         val targetCompatibility = JavaVersion.VERSION_11
         const val jvmTarget = "11"
-        const val gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
+        const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+        //"org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
         const val proguardFile = "proguard-android-optimize.txt"
         const val proguardRules = "proguard-rules.pro"
         const val isMinifyEnabled = false
@@ -78,6 +88,7 @@ object Dependencies {
         const val constraint = "2.1.4"
         const val appcompat = "1.5.1"
         const val ktx = "1.9.0"
+        const val gradle = "4.0.2"
 
         // DI
         const val di = "2.44"

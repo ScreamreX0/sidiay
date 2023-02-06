@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_home"
+    app:startDestination="@id/nav_graph_home_nested"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <navigation
+        android:id="@+id/nav_graph_home_nested"
+        app:startDestination="@id/fragment_tickets">
+        <fragment
+            android:id="@+id/ticketItemFragment"
+            android:name="com.example.home.TicketItemFragment"
+            android:label="TicketItemFragment"
+            tools:layout="@layout/fragment_ticket_item">
+            <argument
+                android:name="ticket"
+                app:argType="com.example.domain.models.entities.TicketEntity" />
+        </fragment>
+        <fragment
+            android:id="@+id/fragment_tickets"
+            android:name="com.example.home.TicketsListFragment"
+            tools:layout="@layout/fragment_tickets_list">
+            <action
+                android:id="@+id/action_fragment_tickets_to_ticketItemFragment"
+                app:destination="@id/ticketItemFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            <action
+                android:id="@+id/action_fragment_tickets_to_addTicketFragment"
+                app:destination="@id/addTicketFragment" />
+            <argument
+                android:name="user"
+                app:argType="com.example.domain.models.entities.UserEntity" />
+        </fragment>
+        <fragment
+            android:id="@+id/addTicketFragment"
+            android:name="com.example.create_ticket.TicketCreateFragment"
+            android:label="AddTicketFragment"
+            tools:layout="@layout/fragment_ticket_create">
+            <argument
+                android:name="user"
+                app:argType="com.example.domain.models.entities.UserEntity" />
+        </fragment>
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_scanner_nested"
+        app:startDestination="@id/scannerFragment">
+        <fragment
+            android:id="@+id/scannerFragment"
+            android:name="com.example.scanner.ScannerFragment"
+            android:label="ScannerFragment"
+            tools:layout="@layout/fragment_scanner" />
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_notifications_nested"
+        app:startDestination="@id/notificationsFragment">
+        <fragment
+            android:id="@+id/notificationsFragment"
+            android:name="com.example.noitifications.NotificationsFragment"
+            android:label="NotificationsFragment"
+            tools:layout="@layout/fragment_notifications" />
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_settings_nested"
+        app:startDestination="@id/settingsFragment">
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.example.settings.SettingsFragment"
+            android:label="SettingsFragment"
+            tools:layout="@layout/fragment_settings">
+            <argument
+                android:name="user"
+                app:argType="com.example.domain.models.entities.UserEntity" />
+        </fragment>
+    </navigation>
+</navigation>

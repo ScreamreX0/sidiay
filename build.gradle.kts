@@ -11,8 +11,7 @@ buildscript {
 }
 
 plugins {
-    id(Plugins.AppConfig.application) version Plugins.Versions.application apply false
-    id(Plugins.AppConfig.library) version Plugins.Versions.application apply false
-    id(Plugins.AppConfig.android) version Plugins.Versions.android apply false
+    id("com.android.library") version "7.4.1" apply false
+    id("org.jetbrains.kotlin.android") version "1.8.0" apply false
     id(Plugins.AppConfig.jvm) version Plugins.Versions.jvm apply false
 }
