@@ -93,12 +93,12 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
 
     private fun successHandler() {
         viewModel.successSignIn.observe(viewLifecycleOwner) {
-            findNavController().navigate(com.example.main_menu.R.id.main_menu_graph)
-            // TODO
-//            val action = SignInFragmentDirections.actionLoginFragmentToNavMenu(
-//                viewModel.successSignIn.value!!
-//            )
-//            findNavController().navigate(action)
+            val bundle = Bundle()
+            bundle.putParcelable("user", viewModel.successSignIn.value!!)
+            findNavController().setGraph(
+                com.example.main_menu.R.navigation.main_menu_graph,
+                bundle
+            )
         }
     }
 }

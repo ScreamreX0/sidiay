@@ -9,6 +9,6 @@
         android:id="@+id/signInFragment"
         android:name="com.example.signin.SignInFragment"
         android:label="fragment_signin"
-        tools:layout="@layout/fragment_signin">
-    </fragment>
+        tools:layout="@layout/fragment_signin"/>
+
 </navigation>

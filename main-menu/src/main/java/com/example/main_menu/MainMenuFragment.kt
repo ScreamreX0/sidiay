@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.example.main_menu.databinding.FragmentMainMenuBinding
 
@@ -20,7 +21,7 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
     private lateinit var binding: FragmentMainMenuBinding
 
     // Navigation
-    //private val args: MainMenuFragmentArgs by navArgs() TODO
+    private val args: MainMenuFragmentArgs by navArgs()
     private val fragmentNavController: NavController by lazy {
         (childFragmentManager.findFragmentById(R.id.f_main_fragment_container) as NavHostFragment).navController
     }
@@ -31,9 +32,18 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initContainer()
         setupBottomNavigation()
-        initFragmentContainer()
         bottomNavOnClickListener()
+    }
+
+    private fun initContainer() {
+        val bundle = Bundle()
+        bundle.putParcelable("user", args.user)
+        fragmentNavController.setGraph(
+            com.example.home.R.navigation.home_graph,
+            bundle
+        )
     }
 
     private fun setupBottomNavigation() {
@@ -49,15 +59,7 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
                 R.id.settings_graph -> graphId = com.example.settings.R.navigation.settings_graph
             }
             fragmentNavController.setGraph(graphId)
-
-            //fragmentNavController.navigate(it.itemId, args.toBundle(), navOptions)
-            //fragmentNavController.navigate(it.itemId, null, navOptions)
-
             return@setOnItemSelectedListener true
         }
-    }
-
-    private fun initFragmentContainer() {
-        // fragmentNavController.navigate(coreR.id.nav_graph_home, args.toBundle(), navOptions) TODO
     }
 }

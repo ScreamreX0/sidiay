@@ -7,5 +7,31 @@
     <fragment
         android:id="@+id/ticketsListFragment"
         android:name="com.example.home.TicketsListFragment"
-        android:label="TicketsListFragment" />
+        android:label="TicketsListFragment">
+        <action
+            android:id="@+id/action_ticketsListFragment_to_ticketCreateFragment"
+            app:destination="@id/ticketCreateFragment" />
+        <action
+            android:id="@+id/action_ticketsListFragment_to_ticketItemFragment2"
+            app:destination="@id/ticketItemFragment2" />
+        <argument
+            android:name="user"
+            app:argType="com.example.domain.models.entities.UserEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketCreateFragment"
+        android:name="com.example.home.TicketCreateFragment"
+        android:label="TicketCreateFragment" >
+        <argument
+            android:name="user"
+            app:argType="com.example.domain.models.entities.UserEntity" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketItemFragment2"
+        android:name="com.example.home.TicketItemFragment"
+        android:label="TicketItemFragment" >
+        <argument
+            android:name="ticket"
+            app:argType="com.example.domain.models.entities.TicketEntity" />
+    </fragment>
 </navigation>

@@ -25,7 +25,7 @@ import com.example.core.R as coreR
 class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
     private val viewModel: TicketsListViewModel by viewModels()
     private lateinit var binding: FragmentTicketsListBinding
-    //private val args: TicketsListFragmentArgs by navArgs() TODO
+    private val args: TicketsListFragmentArgs by navArgs()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTicketsListBinding.inflate(inflater, container, false)
         return binding.root
@@ -35,11 +35,11 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.fTicketAddButton.setOnClickListener {
-//            findNavController().navigate(
-//                TicketsListFragmentDirections.actionFragmentTicketsToAddTicketFragment(
-//                    args.user
-//                )
-//            ) TODO
+            findNavController().navigate(
+                TicketsListFragmentDirections.actionTicketsListFragmentToTicketCreateFragment(
+                    args.user
+                )
+            )
         }
 
         viewModel.tickets.observe(viewLifecycleOwner) {

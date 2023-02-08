@@ -1,4 +1,4 @@
-package com.example.create_ticket
+package com.example.home
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -17,24 +17,24 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.create_ticket.databinding.FragmentTicketCreateBinding
 import com.example.domain.enums.states.TicketStates
 import com.example.domain.enums.ticket.ITicketEnum
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
 import com.example.domain.models.params.DateParams
+import com.example.home.databinding.FragmentTicketCreateBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-import com.example.core.R as coreR
 import java.util.*
+import com.example.core.R as coreR
 
 @AndroidEntryPoint
 class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private val viewModel: TicketCreateViewModel by viewModels()
     private lateinit var binding: FragmentTicketCreateBinding
-    //private val args by navArgs<TicketCreateFragmentArgs>() TODO
+    private val args by navArgs<TicketCreateFragmentArgs>()
 
     // Selected vars
     private var selectedKind: KindEntity? = null
@@ -93,9 +93,9 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
 
     @SuppressLint("SetTextI18n")
     private fun initAuthor() {
-//        with(args.user) {TODO
-//            binding.fAddTicketAuthorText.text = "$firstname $name $lastname"
-//        }
+        with(args.user) {
+            binding.fAddTicketAuthorText.text = "$firstname $name $lastname"
+        }
     }
 
     // Buttons handlers
@@ -266,7 +266,8 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
         mutableItems.observe(viewLifecycleOwner) { itListNullable ->
             itListNullable?.let { itList ->
                 val elementsList = itList.map { (it as ITicketEnum).getName() }.toList()
-                autoCompleteTextView.setAdapter(ArrayAdapter(requireContext(), R.layout.item_ticket_create_dropdown, elementsList))
+                autoCompleteTextView.setAdapter(ArrayAdapter(requireContext(),
+                    R.layout.item_ticket_create_dropdown, elementsList))
             }
         }
     }

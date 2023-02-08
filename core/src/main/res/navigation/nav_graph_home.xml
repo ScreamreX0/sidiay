@@ -37,7 +37,7 @@
         </fragment>
         <fragment
             android:id="@+id/addTicketFragment"
-            android:name="com.example.create_ticket.TicketCreateFragment"
+            android:name="com.example.home.TicketCreateFragment"
             android:label="AddTicketFragment"
             tools:layout="@layout/fragment_ticket_create">
             <argument

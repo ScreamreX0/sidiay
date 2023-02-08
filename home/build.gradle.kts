@@ -72,5 +72,4 @@ dependencies {
     implementation(project(path = Dependencies.Modules.data))
     implementation(project(path = Dependencies.Modules.domain))
     implementation(project(path = Dependencies.Modules.core))
-    implementation(project(path = Dependencies.Modules.createTicket))
 }

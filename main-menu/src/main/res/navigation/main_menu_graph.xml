@@ -6,10 +6,9 @@
     <fragment
         android:id="@+id/mainMenuFragment2"
         android:name="com.example.main_menu.MainMenuFragment"
-        android:label="MainMenuFragment" />
-
-    <include app:graph="@navigation/home_graph"/>
-    <include app:graph="@navigation/scanner_graph"/>
-    <include app:graph="@navigation/notifications_graph"/>
-    <include app:graph="@navigation/settings_graph"/>
+        android:label="MainMenuFragment" >
+        <argument
+            android:name="user"
+            app:argType="com.example.domain.models.entities.UserEntity" />
+    </fragment>
 </navigation>

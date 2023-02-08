@@ -15,8 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:name="androidx.navigation.fragment.NavHostFragment"
-
-            app:navGraph="@navigation/home_graph"
             app:layout_constraintBottom_toTopOf="@+id/f_main_bottom_nav"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

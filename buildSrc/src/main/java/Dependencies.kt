@@ -7,7 +7,6 @@ object Dependencies {
         const val core = ":core"
         const val signIn = ":signin"
         const val app = ":app"
-        const val createTicket = ":create-ticket"
         const val home = ":home"
         const val notifications = ":notifications"
         const val scanner = ":scanner"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.enums.ticket.TicketPriorityEnum
 import com.example.domain.models.entities.TicketEntity
@@ -39,9 +40,13 @@ class TicketsListAdapter(
             }
         }
 
-//        holder.itemView.setOnClickListener {
-//            parent.findNavController().navigate(TicketsListFragmentDirections.actionFragmentTicketsToTicketItemFragment(ticketEntities[position]))
-//        } todo
+        holder.itemView.setOnClickListener {
+            parent.findNavController().navigate(
+                TicketsListFragmentDirections.actionTicketsListFragmentToTicketItemFragment2(
+                    ticketEntities[position]
+                )
+            )
+        }
     }
 
     override fun getItemCount() = ticketEntities.size

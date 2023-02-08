@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/create_ticket_graph">
+    android:id="@+id/create_ticket_graph"
+    app:startDestination="@id/ticketCreateFragment">
 
+    <fragment
+        android:id="@+id/ticketCreateFragment"
+        android:name="com.example.home.TicketCreateFragment"
+        android:label="TicketCreateFragment" >
+        <argument
+            android:name="user"
+            app:argType="com.example.domain.models.entities.UserEntity" />
+    </fragment>
 </navigation>

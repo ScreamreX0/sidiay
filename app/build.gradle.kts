@@ -82,7 +82,6 @@ dependencies {
     implementation(project(path = Dependencies.Modules.signIn))
     implementation(project(path = Dependencies.Modules.home))
     implementation(project(path = Dependencies.Modules.notifications))
-    implementation(project(path = Dependencies.Modules.createTicket))
     implementation(project(path = Dependencies.Modules.scanner))
     implementation(project(path = Dependencies.Modules.settings))
     implementation(project(path = Dependencies.Modules.mainMenu))
