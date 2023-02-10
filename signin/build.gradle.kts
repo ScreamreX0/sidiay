@@ -42,32 +42,63 @@ android {
 
     buildFeatures {
         viewBinding = Dependencies.Other.viewBinding
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.Versions.compose
     }
 }
 
 dependencies {
-    implementation(Dependencies.Core.ktx)
-    implementation(Dependencies.Core.appCompat)
-    implementation(Dependencies.Core.fragment)
+    implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
+    Dependencies.Core.apply {
+        implementation(ktx)
+        implementation(appCompat)
+        implementation(fragment)
+    }
+
     kapt(Dependencies.Kapt.kapt)
 
-    implementation(Dependencies.Test.junit)
-    testImplementation(Dependencies.Test.jupiter)
-    androidTestImplementation(Dependencies.Test.androidJunit)
+    Dependencies.Test.apply {
+        implementation(junit)
+        testImplementation(jupiter)
+        androidTestImplementation(androidJunit)
+    }
 
-    implementation(Dependencies.DI.hilt)
-    kapt(Dependencies.DI.hiltCompiler)
+    Dependencies.DI.apply {
+        implementation(hilt)
+        kapt(hiltCompiler)
+    }
 
-    implementation(Dependencies.Other.navigation)
-    implementation(Dependencies.Other.navigationUI)
-    implementation(Dependencies.Other.material)
-    implementation(Dependencies.Other.liveData)
-    implementation(Dependencies.Other.constraint)
+    Dependencies.Other.apply {
+        implementation(navigation)
+        implementation(navigationUI)
+        implementation(material)
+        implementation(liveData)
+        implementation(constraint)
+    }
 
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.retrofitGson)
+    Dependencies.Network.apply {
+        implementation(retrofit)
+        implementation(retrofitGson)
+    }
 
-    implementation(Dependencies.Multithreading.coroutines)
+    Dependencies.Multithreading.apply {
+        implementation(coroutines)
+    }
+
+    Dependencies.Compose.apply {
+        val composeBom = platform(bom)
+        implementation(composeBom)
+        androidTestImplementation(composeBom)
+        implementation(liveData)
+        implementation(material)
+        implementation(viewModel)
+        implementation(constraint)
+        debugImplementation(preview)
+    }
+
 
     implementation(project(path = Dependencies.Modules.data))
     implementation(project(path = Dependencies.Modules.domain))

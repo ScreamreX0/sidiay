@@ -5,38 +5,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.domain.enums.states.SignInStates
 import com.example.signin.databinding.FragmentSigninBinding
+import com.example.signin.ui.SignIn
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.core.R as coreR
-import com.example.signin.R as R
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_signin) {
     private val viewModel: SignInViewModel by viewModels()
     private lateinit var binding: FragmentSigninBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                SignIn()
+            }
+        }
         binding = FragmentSigninBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
+    }
 
+    private fun init() {
         // BUTTONS
-        enterButtonHandler()        // Auth button
-
-        // OBSERVERS
-        errorsHandler()             // Errors observing
-        successHandler()            // Success observing
+//        enterButtonHandler()
+//
+//        // OBSERVERS
+//        errorsHandler()
+//        successHandler()
     }
 
     private fun enterButtonHandler() {
@@ -65,7 +70,8 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
 
             // Email length
             if (SignInStates.SHORT_OR_LONG_EMAIL in viewModel.errorResult.value!!) {
-                binding.fAuthEmailContainer.error = getString(coreR.string.short_or_long_email_briefly)
+                binding.fAuthEmailContainer.error =
+                    getString(coreR.string.short_or_long_email_briefly)
                 binding.fAuthEmailContainer.isErrorEnabled = true
             } else {
                 binding.fAuthEmailContainer.isErrorEnabled = false
@@ -73,7 +79,8 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
 
             // Password length
             if (SignInStates.SHORT_OR_LONG_PASSWORD in viewModel.errorResult.value!!) {
-                binding.fAuthPasswordContainer.error = getString(coreR.string.short_or_long_password_briefly)
+                binding.fAuthPasswordContainer.error =
+                    getString(coreR.string.short_or_long_password_briefly)
                 binding.fAuthPasswordContainer.isErrorEnabled = true
             } else {
                 binding.fAuthPasswordContainer.isErrorEnabled = false

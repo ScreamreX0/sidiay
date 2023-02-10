@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Widget.Sidiay.Icon.PrimaryColored" parent="">
-        <item name="tint">@color/colorPrimary</item>
+        <item name="android:tint">@color/colorPrimary</item>
     </style>
 
     <style name="Widget.Sidiay.Icon.AccentColored" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/colorAccent</item>
+        <item name="android:tint">@color/colorAccent</item>
     </style>
 
 
     <style name="Widget.Sidiay.Image" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/grey_400</item>
+        <item name="android:tint">@color/grey_400</item>
     </style>
 
     <style name="Widget.Sidiay.Image.Item">
-        <item name="tint">@color/grey_400</item>
+        <item name="android:tint">@color/grey_400</item>
     </style>
 
     <style name="Widget.Sidiay.Image.SecondItem">
-        <item name="tint">@color/colorPrimary</item>
+        <item name="android:tint">@color/colorPrimary</item>
     </style>
 
     <style name="Widget.Sidiay.Icon.Add" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/pastel_purple</item>
+        <item name="android:tint">@color/pastel_purple</item>
     </style>
 
     <style name="Widget.Sidiay.Icon.Error" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/red_500</item>
+        <item name="android:tint">@color/red_500</item>
     </style>
 </resources>

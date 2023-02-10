@@ -82,9 +82,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text=""
-
-        android:theme="@style/Widget.Sidiay.Text"
         app:layout_constraintEnd_toStartOf="@+id/i_ticket_date_icon"
         app:layout_constraintStart_toEndOf="@+id/i_ticket_company_icon"
         app:layout_constraintTop_toTopOf="@+id/i_ticket_company_icon" />

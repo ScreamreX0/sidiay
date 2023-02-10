@@ -10,7 +10,8 @@
         android:label="TicketsListFragment">
         <action
             android:id="@+id/action_ticketsListFragment_to_ticketCreateFragment"
-            app:destination="@id/ticketCreateFragment" />
+            app:destination="@id/ticketCreateFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_ticketsListFragment_to_ticketItemFragment2"
             app:destination="@id/ticketItemFragment2" />

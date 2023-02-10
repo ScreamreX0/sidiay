@@ -49,40 +49,70 @@ android {
 
     buildFeatures {
         viewBinding = Dependencies.Other.viewBinding
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.Versions.compose
     }
 }
 
 dependencies {
-    implementation(Dependencies.Core.ktx)
-    implementation(Dependencies.Core.appCompat)
-    implementation(Dependencies.Core.fragment)
+    Dependencies.Core.apply {
+        implementation(ktx)
+        implementation(appCompat)
+        implementation(fragment)
+    }
+
     kapt(Dependencies.Kapt.kapt)
 
-    implementation(Dependencies.Test.junit)
-    testImplementation(Dependencies.Test.jupiter)
-    androidTestImplementation(Dependencies.Test.androidJunit)
+    Dependencies.Test.apply {
+        implementation(junit)
+        testImplementation(jupiter)
+        androidTestImplementation(androidJunit)
+    }
 
-    implementation(Dependencies.DI.hilt)
-    kapt(Dependencies.DI.hiltCompiler)
+    Dependencies.DI.apply {
+        implementation(hilt)
+        kapt(hiltCompiler)
+    }
 
-    implementation(Dependencies.Other.navigation)
-    implementation(Dependencies.Other.navigationUI)
-    implementation(Dependencies.Other.material)
-    implementation(Dependencies.Other.liveData)
-    implementation(Dependencies.Other.constraint)
+    Dependencies.Other.apply {
+        implementation(navigation)
+        implementation(navigationUI)
+        implementation(material)
+        implementation(liveData)
+        implementation(constraint)
+    }
 
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.retrofitGson)
+    Dependencies.Network.apply {
+        implementation(retrofit)
+        implementation(retrofitGson)
+    }
 
-    implementation(Dependencies.Multithreading.coroutines)
+    Dependencies.Multithreading.apply {
+        implementation(coroutines)
+    }
 
-    implementation(project(path = Dependencies.Modules.data))
-    implementation(project(path = Dependencies.Modules.domain))
-    implementation(project(path = Dependencies.Modules.core))
-    implementation(project(path = Dependencies.Modules.signIn))
-    implementation(project(path = Dependencies.Modules.home))
-    implementation(project(path = Dependencies.Modules.notifications))
-    implementation(project(path = Dependencies.Modules.scanner))
-    implementation(project(path = Dependencies.Modules.settings))
-    implementation(project(path = Dependencies.Modules.mainMenu))
+    Dependencies.Compose.apply {
+        val composeBom = platform(bom)
+        implementation(composeBom)
+        androidTestImplementation(composeBom)
+        implementation(liveData)
+        implementation(material)
+        implementation(viewModel)
+        implementation(constraint)
+    }
+
+    Dependencies.Modules.apply {
+        implementation(project(path = data))
+        implementation(project(path = domain))
+        implementation(project(path = core))
+        implementation(project(path = signIn))
+        implementation(project(path = home))
+        implementation(project(path = notifications))
+        implementation(project(path = scanner))
+        implementation(project(path = settings))
+        implementation(project(path = mainMenu))
+    }
 }

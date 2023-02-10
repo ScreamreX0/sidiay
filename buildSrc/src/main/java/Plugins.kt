@@ -19,7 +19,6 @@ object Plugins {
     object Versions {
         const val application = "7.4.1"
         const val android = "1.8.10"
-        const val jvm = "1.7.10"
     }
 }
 

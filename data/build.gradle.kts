@@ -45,5 +45,8 @@ dependencies {
     implementation(Dependencies.Network.retrofit)
     implementation(Dependencies.Network.retrofitGson)
 
+    implementation(Dependencies.Test.junit)
+    implementation(Dependencies.Test.androidJunit)
+
     implementation(project(path = Dependencies.Modules.domain))
 }

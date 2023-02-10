@@ -21,7 +21,6 @@ object Dependencies {
         val targetCompatibility = JavaVersion.VERSION_11
         const val jvmTarget = "11"
         const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
-        //"org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
         const val proguardFile = "proguard-android-optimize.txt"
         const val proguardRules = "proguard-rules.pro"
         const val isMinifyEnabled = false
@@ -61,10 +60,18 @@ object Dependencies {
         const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     }
 
+    object Compose {
+        val bom = "androidx.compose:compose-bom:2022.12.00"
+        val material = "androidx.compose.material3:material3"
+        val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+        val liveData = "androidx.compose.runtime:runtime-livedata"
+        val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+        val preview = "androidx.compose.ui:ui-tooling:1.1.1"
+    }
+
     object Other {
         const val viewBinding = true
-        const val safeArgs =
-            "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+        const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
         const val material = "com.google.android.material:material:${Versions.material}"
         const val constraint = "androidx.constraintlayout:constraintlayout:${Versions.constraint}"
         const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
@@ -74,7 +81,6 @@ object Dependencies {
 
     object Versions {
         // CORE
-        internal const val kotlinVersion = "1.8.10"
         const val minSdk = 24
         const val targetSdk = 33
         const val compileSdk = 33
@@ -107,6 +113,9 @@ object Dependencies {
 
         // MULTITHREADING
         const val coroutines = "1.6.1"
+
+        // COMPOSE
+        const val compose = "1.3.2"
     }
 }
 

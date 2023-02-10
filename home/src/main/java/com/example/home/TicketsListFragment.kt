@@ -35,6 +35,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.fTicketAddButton.setOnClickListener {
+
             findNavController().navigate(
                 TicketsListFragmentDirections.actionTicketsListFragmentToTicketCreateFragment(
                     args.user

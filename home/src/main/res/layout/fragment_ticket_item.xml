@@ -7,9 +7,9 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/f_ticket_item_app_bar"
-        style="@style/Widget.Sidiay.AppBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        style="@style/Widget.Sidiay.AppBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
