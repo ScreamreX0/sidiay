@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
+import com.example.core.navigation.Destinations
 
 @Composable
 fun SignInScreen(navController: NavController) {
@@ -17,7 +18,7 @@ fun SignInScreen(navController: NavController) {
             .background(Color.White)
     ) {
         Button(onClick = {
-
+            navController.navigate(Destinations.MAIN_MENU)
         }) {
 
         }

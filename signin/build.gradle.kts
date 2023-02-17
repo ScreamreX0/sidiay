@@ -15,7 +15,6 @@ android {
 
     defaultConfig {
         minSdk = Dependencies.Versions.Core.MIN_SDK
-        targetSdk = Dependencies.Versions.Core.TARGET_SDK
 
         testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
         consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)

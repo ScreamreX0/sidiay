@@ -1,9 +1,10 @@
 package com.example.main_menu.ui
 
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import androidx.compose.ui.tooling.preview.Preview
 
+@Preview
 @Composable
-fun MainMenuScreen(navController: NavController) {
-
+fun MainMenuScreen() {
 }

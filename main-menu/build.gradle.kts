@@ -15,7 +15,6 @@ android {
 
     defaultConfig {
         minSdk = Dependencies.Versions.Core.MIN_SDK
-        targetSdk = Dependencies.Versions.Core.TARGET_SDK
 
         testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
         consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)
@@ -31,6 +30,11 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding = Dependencies.Other.VIEW_BINDING
+        compose = true
+    }
+
     compileOptions {
         sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
         targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
@@ -40,8 +44,8 @@ android {
         jvmTarget = Dependencies.Config.JVM_TARGET
     }
 
-    buildFeatures {
-        viewBinding = Dependencies.Other.VIEW_BINDING
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.VERSION
     }
 }
 
@@ -92,6 +96,7 @@ dependencies {
         implementation(VIEW_MODEL)
         implementation(CONSTRAINT)
         debugImplementation(PREVIEW)
+        debugImplementation(NAVIGATION)
     }
 
     Dependencies.Modules.apply {
