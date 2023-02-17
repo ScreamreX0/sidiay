@@ -8,45 +8,54 @@ plugins {
 
 android {
     namespace = "com.example.domain"
-    compileSdk = Dependencies.Versions.compileSdk
+    compileSdk = Dependencies.Versions.Core.COMPILE_SDK
 
     defaultConfig {
-        minSdk = Dependencies.Versions.minSdk
-        targetSdk = Dependencies.Versions.targetSdk
+        minSdk = Dependencies.Versions.Core.MIN_SDK
+        targetSdk = Dependencies.Versions.Core.TARGET_SDK
 
-        testInstrumentationRunner = Dependencies.AppConfig.testInstrumentationRunner
-        consumerProguardFiles(Dependencies.AppConfig.proguardRules)
+        testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = Dependencies.AppConfig.isMinifyEnabled
+            isMinifyEnabled = Dependencies.Config.IS_MINIFY_ENABLED
             proguardFiles(
-                getDefaultProguardFile(Dependencies.AppConfig.proguardFile),
-                Dependencies.AppConfig.proguardRules
+                getDefaultProguardFile(Dependencies.Config.PRODUARG_FILE),
+                Dependencies.Config.PROGUARG_RULES
             )
         }
     }
     compileOptions {
-        sourceCompatibility = Dependencies.AppConfig.sourceCompatibility
-        targetCompatibility = Dependencies.AppConfig.targetCompatibility
+        sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
     }
     kotlinOptions {
-        jvmTarget = Dependencies.AppConfig.jvmTarget
+        jvmTarget = Dependencies.Config.JVM_TARGET
     }
 }
 
 dependencies {
-    implementation(Dependencies.Core.ktx)
-    implementation(Dependencies.Core.appCompat)
-    implementation(Dependencies.Core.fragment)
+    Dependencies.Core.apply {
+        implementation(KTX)
+        implementation(APP_COMPAT)
+        implementation(FRAGMENT)
+    }
 
-    implementation(Dependencies.DI.hilt)
 
-    implementation(Dependencies.Other.material)
+    Dependencies.DI.apply {
+        implementation(HILT)
+    }
 
-    androidTestImplementation(Dependencies.Test.androidJunit)
-    androidTestImplementation(Dependencies.Test.espresso)
-    testImplementation(Dependencies.Test.jupiter)
-    testImplementation(Dependencies.Test.junit)
+    Dependencies.UI.apply {
+        implementation(MATERIAL)
+    }
+
+    Dependencies.Test.apply {
+        androidTestImplementation(ANDROID_JUNIT)
+        androidTestImplementation(ESPRESSO)
+        testImplementation(JUPITER)
+        testImplementation(JUNIT)
+    }
 }

@@ -11,97 +11,97 @@ plugins {
 
 android {
     namespace = "com.example.signin"
-    compileSdk = Dependencies.Versions.compileSdk
+    compileSdk = Dependencies.Versions.Core.COMPILE_SDK
 
     defaultConfig {
-        minSdk = Dependencies.Versions.minSdk
-        targetSdk = Dependencies.Versions.targetSdk
+        minSdk = Dependencies.Versions.Core.MIN_SDK
+        targetSdk = Dependencies.Versions.Core.TARGET_SDK
 
-        testInstrumentationRunner = Dependencies.AppConfig.testInstrumentationRunner
-        consumerProguardFiles(Dependencies.AppConfig.proguardRules)
+        testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = Dependencies.AppConfig.isMinifyEnabled
+            isMinifyEnabled = Dependencies.Config.IS_MINIFY_ENABLED
             proguardFiles(
-                getDefaultProguardFile(Dependencies.AppConfig.proguardFile),
-                Dependencies.AppConfig.proguardRules
+                getDefaultProguardFile(Dependencies.Config.PRODUARG_FILE),
+                Dependencies.Config.PROGUARG_RULES
             )
         }
     }
 
-    compileOptions {
-        sourceCompatibility = Dependencies.AppConfig.sourceCompatibility
-        targetCompatibility = Dependencies.AppConfig.targetCompatibility
-    }
-
-    kotlinOptions {
-        jvmTarget = Dependencies.AppConfig.jvmTarget
-    }
-
     buildFeatures {
-        viewBinding = Dependencies.Other.viewBinding
+        viewBinding = Dependencies.Other.VIEW_BINDING
         compose = true
     }
 
+    compileOptions {
+        sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
+    }
+
+    kotlinOptions {
+        jvmTarget = Dependencies.Config.JVM_TARGET
+    }
+
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Versions.compose
+        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.VERSION
     }
 }
 
 dependencies {
-    implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
     Dependencies.Core.apply {
-        implementation(ktx)
-        implementation(appCompat)
-        implementation(fragment)
+        implementation(KTX)
+        implementation(APP_COMPAT)
+        implementation(FRAGMENT)
     }
 
-    kapt(Dependencies.Kapt.kapt)
+    kapt(Dependencies.Kapt.KAPT)
 
     Dependencies.Test.apply {
-        implementation(junit)
-        testImplementation(jupiter)
-        androidTestImplementation(androidJunit)
+        implementation(JUNIT)
+        testImplementation(JUPITER)
+        androidTestImplementation(ANDROID_JUNIT)
     }
 
     Dependencies.DI.apply {
-        implementation(hilt)
-        kapt(hiltCompiler)
+        implementation(HILT)
+        kapt(HILT_COMPILER)
     }
 
-    Dependencies.Other.apply {
-        implementation(navigation)
-        implementation(navigationUI)
-        implementation(material)
-        implementation(liveData)
-        implementation(constraint)
-    }
-
-    Dependencies.Network.apply {
-        implementation(retrofit)
-        implementation(retrofitGson)
+    Dependencies.UI.apply {
+        implementation(NAVIGATION)
+        implementation(NAVIGATION_UI)
+        implementation(MATERIAL)
+        implementation(LIVE_DATA)
+        implementation(CONSTRAINT)
     }
 
     Dependencies.Multithreading.apply {
-        implementation(coroutines)
+        implementation(COROUTINES)
     }
 
-    Dependencies.Compose.apply {
-        val composeBom = platform(bom)
+    Dependencies.Network.apply {
+        implementation(RETROFIT)
+        implementation(RETROFIT_GSON)
+    }
+
+    Dependencies.UI.Compose.apply {
+        val composeBom = platform(BOM)
         implementation(composeBom)
         androidTestImplementation(composeBom)
-        implementation(liveData)
-        implementation(material)
-        implementation(viewModel)
-        implementation(constraint)
-        debugImplementation(preview)
+        implementation(LIVE_DATA)
+        implementation(MATERIAL)
+        implementation(VIEW_MODEL)
+        implementation(CONSTRAINT)
+        debugImplementation(PREVIEW)
     }
 
-
-    implementation(project(path = Dependencies.Modules.data))
-    implementation(project(path = Dependencies.Modules.domain))
-    implementation(project(path = Dependencies.Modules.core))
-    implementation(project(path = Dependencies.Modules.mainMenu))
+    Dependencies.Modules.apply {
+        implementation(project(path = DATA))
+        implementation(project(path = DOMAIN))
+        implementation(project(path = CORE))
+        implementation(project(path = MAIN_MENU))
+    }
 }

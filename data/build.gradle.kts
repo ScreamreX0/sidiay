@@ -8,45 +8,53 @@ plugins {
 
 android {
     namespace = "com.example.data"
-    compileSdk = Dependencies.Versions.compileSdk
+    compileSdk = Dependencies.Versions.Core.COMPILE_SDK
 
     defaultConfig {
-        minSdk = Dependencies.Versions.minSdk
-        testInstrumentationRunner = Dependencies.AppConfig.testInstrumentationRunner
-        consumerProguardFiles(Dependencies.AppConfig.proguardRules)
+        minSdk = Dependencies.Versions.Core.MIN_SDK
+        testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = Dependencies.AppConfig.isMinifyEnabled
+            isMinifyEnabled = Dependencies.Config.IS_MINIFY_ENABLED
             proguardFiles(
-                getDefaultProguardFile(Dependencies.AppConfig.proguardFile),
-                Dependencies.AppConfig.proguardRules
+                getDefaultProguardFile(Dependencies.Config.PRODUARG_FILE),
+                Dependencies.Config.PROGUARG_RULES
             )
         }
     }
     compileOptions {
-        sourceCompatibility = Dependencies.AppConfig.sourceCompatibility
-        targetCompatibility = Dependencies.AppConfig.targetCompatibility
+        sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
     }
     kotlinOptions {
-        jvmTarget = Dependencies.AppConfig.jvmTarget
+        jvmTarget = Dependencies.Config.JVM_TARGET
     }
 }
 
 dependencies {
-    implementation(Dependencies.Core.ktx)
-    implementation(Dependencies.Core.fragment)
+    Dependencies.Core.apply {
+        implementation(FRAGMENT)
+        implementation(KTX)
 
-    implementation(Dependencies.Multithreading.coroutines)
-
-    implementation(Dependencies.DI.hilt)
-
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.retrofitGson)
-
-    implementation(Dependencies.Test.junit)
-    implementation(Dependencies.Test.androidJunit)
-
-    implementation(project(path = Dependencies.Modules.domain))
+    }
+    Dependencies.Multithreading.apply {
+        implementation(COROUTINES)
+    }
+    Dependencies.DI.apply {
+        implementation(HILT)
+    }
+    Dependencies.Network.apply {
+        implementation(RETROFIT)
+        implementation(RETROFIT_GSON)
+    }
+    Dependencies.Test.apply {
+        implementation(JUNIT)
+        implementation(ANDROID_JUNIT)
+    }
+    Dependencies.Modules.apply {
+        implementation(project(path = DOMAIN))
+    }
 }

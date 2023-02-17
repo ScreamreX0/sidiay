@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
+import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.example.main_menu.databinding.FragmentMainMenuBinding
-
+import com.example.main_menu.navigation.NavState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,12 +58,13 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
         binding.fMainBottomNav.setOnItemSelectedListener {
             var graphId = com.example.home.R.navigation.home_graph
             when (it.itemId) {
-                R.id.scanner_graph -> graphId = com.example.scanner.R.navigation.scanner_graph
-                R.id.notifications_graph -> graphId = com.example.notifications.R.navigation.notifications_graph
-                R.id.settings_graph -> graphId = com.example.settings.R.navigation.settings_graph
+                com.example.scanner.R.id.scanner_graph -> graphId = com.example.scanner.R.navigation.scanner_graph
+                com.example.notifications.R.id.notifications_graph -> graphId = com.example.notifications.R.navigation.notifications_graph
+                com.example.settings.R.id.settings_graph -> graphId = com.example.settings.R.navigation.settings_graph
             }
             fragmentNavController.setGraph(graphId)
             return@setOnItemSelectedListener true
         }
     }
 }
+

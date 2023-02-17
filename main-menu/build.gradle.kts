@@ -11,69 +11,96 @@ plugins {
 
 android {
     namespace = "com.example.main_menu"
-    compileSdk = Dependencies.Versions.compileSdk
+    compileSdk = Dependencies.Versions.Core.COMPILE_SDK
 
     defaultConfig {
-        minSdk = Dependencies.Versions.minSdk
-        targetSdk = Dependencies.Versions.targetSdk
+        minSdk = Dependencies.Versions.Core.MIN_SDK
+        targetSdk = Dependencies.Versions.Core.TARGET_SDK
 
-        testInstrumentationRunner = Dependencies.AppConfig.testInstrumentationRunner
-        consumerProguardFiles(Dependencies.AppConfig.proguardRules)
+        testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = Dependencies.AppConfig.isMinifyEnabled
+            isMinifyEnabled = Dependencies.Config.IS_MINIFY_ENABLED
             proguardFiles(
-                getDefaultProguardFile(Dependencies.AppConfig.proguardFile),
-                Dependencies.AppConfig.proguardRules
+                getDefaultProguardFile(Dependencies.Config.PRODUARG_FILE),
+                Dependencies.Config.PROGUARG_RULES
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = Dependencies.AppConfig.sourceCompatibility
-        targetCompatibility = Dependencies.AppConfig.targetCompatibility
+        sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
     }
 
     kotlinOptions {
-        jvmTarget = Dependencies.AppConfig.jvmTarget
+        jvmTarget = Dependencies.Config.JVM_TARGET
     }
 
     buildFeatures {
-        viewBinding = Dependencies.Other.viewBinding
+        viewBinding = Dependencies.Other.VIEW_BINDING
     }
 }
 
 dependencies {
-    implementation(Dependencies.Core.ktx)
-    implementation(Dependencies.Core.appCompat)
-    implementation(Dependencies.Core.fragment)
-    kapt(Dependencies.Kapt.kapt)
+    Dependencies.Core.apply {
+        implementation(KTX)
+        implementation(APP_COMPAT)
+        implementation(FRAGMENT)
+    }
 
-    implementation(Dependencies.Test.junit)
-    testImplementation(Dependencies.Test.jupiter)
-    androidTestImplementation(Dependencies.Test.androidJunit)
+    kapt(Dependencies.Kapt.KAPT)
 
-    implementation(Dependencies.DI.hilt)
-    kapt(Dependencies.DI.hiltCompiler)
+    Dependencies.Test.apply {
+        implementation(JUNIT)
+        testImplementation(JUPITER)
+        androidTestImplementation(ANDROID_JUNIT)
+    }
 
-    implementation(Dependencies.Other.navigation)
-    implementation(Dependencies.Other.navigationUI)
-    implementation(Dependencies.Other.material)
-    implementation(Dependencies.Other.liveData)
-    implementation(Dependencies.Other.constraint)
+    Dependencies.DI.apply {
+        implementation(HILT)
+        kapt(HILT_COMPILER)
+    }
 
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.retrofitGson)
+    Dependencies.UI.apply {
+        implementation(NAVIGATION)
+        implementation(NAVIGATION_UI)
+        implementation(MATERIAL)
+        implementation(LIVE_DATA)
+        implementation(CONSTRAINT)
+    }
 
-    implementation(Dependencies.Multithreading.coroutines)
+    Dependencies.Network.apply {
+        implementation(RETROFIT)
+        implementation(RETROFIT_GSON)
+    }
 
-    implementation(project(path = Dependencies.Modules.data))
-    implementation(project(path = Dependencies.Modules.domain))
-    implementation(project(path = Dependencies.Modules.core))
-    implementation(project(path = Dependencies.Modules.home))
-    implementation(project(path = Dependencies.Modules.scanner))
-    implementation(project(path = Dependencies.Modules.notifications))
-    implementation(project(path = Dependencies.Modules.settings))
+
+    Dependencies.Multithreading.apply {
+        implementation(COROUTINES)
+    }
+
+    Dependencies.UI.Compose.apply {
+        val composeBom = platform(BOM)
+        implementation(composeBom)
+        androidTestImplementation(composeBom)
+        implementation(LIVE_DATA)
+        implementation(MATERIAL)
+        implementation(VIEW_MODEL)
+        implementation(CONSTRAINT)
+        debugImplementation(PREVIEW)
+    }
+
+    Dependencies.Modules.apply {
+        implementation(project(path = DATA))
+        implementation(project(path = DOMAIN))
+        implementation(project(path = CORE))
+        implementation(project(path = HOME))
+        implementation(project(path = SCANNER))
+        implementation(project(path = NOTIFICATIONS))
+        implementation(project(path = SETTINGS))
+    }
 }

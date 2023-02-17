@@ -11,65 +11,79 @@ plugins {
 
 android {
     namespace = "com.example.notifications"
-    compileSdk = Dependencies.Versions.compileSdk
+    compileSdk = Dependencies.Versions.Core.COMPILE_SDK
 
     defaultConfig {
-        minSdk = Dependencies.Versions.minSdk
-        targetSdk = Dependencies.Versions.targetSdk
+        minSdk = Dependencies.Versions.Core.MIN_SDK
+        targetSdk = Dependencies.Versions.Core.TARGET_SDK
 
-        testInstrumentationRunner = Dependencies.AppConfig.testInstrumentationRunner
-        consumerProguardFiles(Dependencies.AppConfig.proguardRules)
+        testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles(Dependencies.Config.PROGUARG_RULES)
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = Dependencies.AppConfig.isMinifyEnabled
+            isMinifyEnabled = Dependencies.Config.IS_MINIFY_ENABLED
             proguardFiles(
-                getDefaultProguardFile(Dependencies.AppConfig.proguardFile),
-                Dependencies.AppConfig.proguardRules
+                getDefaultProguardFile(Dependencies.Config.PRODUARG_FILE),
+                Dependencies.Config.PROGUARG_RULES
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = Dependencies.AppConfig.sourceCompatibility
-        targetCompatibility = Dependencies.AppConfig.targetCompatibility
+        sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
     }
 
     kotlinOptions {
-        jvmTarget = Dependencies.AppConfig.jvmTarget
+        jvmTarget = Dependencies.Config.JVM_TARGET
     }
 
     buildFeatures {
-        viewBinding = Dependencies.Other.viewBinding
+        viewBinding = Dependencies.Other.VIEW_BINDING
     }
 }
 
 dependencies {
-    implementation(Dependencies.Core.ktx)
-    implementation(Dependencies.Core.appCompat)
-    implementation(Dependencies.Core.fragment)
-    kapt(Dependencies.Kapt.kapt)
+    Dependencies.Core.apply {
+        implementation(KTX)
+        implementation(APP_COMPAT)
+        implementation(FRAGMENT)
+    }
+    kapt(Dependencies.Kapt.KAPT)
 
-    implementation(Dependencies.Test.junit)
-    testImplementation(Dependencies.Test.jupiter)
-    androidTestImplementation(Dependencies.Test.androidJunit)
+    Dependencies.Test.apply {
+        implementation(JUNIT)
+        testImplementation(JUPITER)
+        androidTestImplementation(ANDROID_JUNIT)
+    }
 
-    implementation(Dependencies.DI.hilt)
-    kapt(Dependencies.DI.hiltCompiler)
+    Dependencies.DI.apply {
+        implementation(HILT)
+        kapt(HILT_COMPILER)
+    }
 
-    implementation(Dependencies.Other.navigation)
-    implementation(Dependencies.Other.navigationUI)
-    implementation(Dependencies.Other.material)
-    implementation(Dependencies.Other.liveData)
-    implementation(Dependencies.Other.constraint)
+    Dependencies.UI.apply {
+        implementation(NAVIGATION)
+        implementation(NAVIGATION_UI)
+        implementation(MATERIAL)
+        implementation(LIVE_DATA)
+        implementation(CONSTRAINT)
+    }
 
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.retrofitGson)
+    Dependencies.Network.apply {
+        implementation(RETROFIT)
+        implementation(RETROFIT_GSON)
+    }
 
-    implementation(Dependencies.Multithreading.coroutines)
+    Dependencies.Multithreading.apply {
+        implementation(COROUTINES)
+    }
 
-    implementation(project(path = Dependencies.Modules.data))
-    implementation(project(path = Dependencies.Modules.domain))
-    implementation(project(path = Dependencies.Modules.core))
+    Dependencies.Modules.apply {
+        implementation(project(path = DATA))
+        implementation(project(path = DOMAIN))
+        implementation(project(path = CORE))
+    }
 }

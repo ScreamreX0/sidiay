@@ -11,108 +11,95 @@ plugins {
 
 android {
     namespace = "com.example.sidiay"
-    compileSdk = Dependencies.Versions.compileSdk
+    compileSdk = Dependencies.Versions.Core.COMPILE_SDK
 
     defaultConfig {
-        applicationId = Dependencies.AppConfig.applicationId
-        minSdk = Dependencies.Versions.minSdk
-        targetSdk = Dependencies.Versions.targetSdk
-        versionCode = Dependencies.Versions.versionCode
-        versionName = Dependencies.Versions.versionName
-
-        testInstrumentationRunner = Dependencies.AppConfig.testInstrumentationRunner
+        applicationId = Dependencies.Config.APPLICATION_ID
+        minSdk = Dependencies.Versions.Core.MIN_SDK
+        targetSdk = Dependencies.Versions.Core.TARGET_SDK
+        versionCode = Dependencies.Versions.Core.VERSION_CODE
+        versionName = Dependencies.Versions.Core.VERSION_NAME
+        testInstrumentationRunner = Dependencies.Config.TEST_INSTRUMENTATION_RUNNER
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = Dependencies.AppConfig.isMinifyEnabled
+            isMinifyEnabled = Dependencies.Config.IS_MINIFY_ENABLED
             proguardFiles(
-                getDefaultProguardFile(Dependencies.AppConfig.proguardFile),
-                Dependencies.AppConfig.proguardRules
+                getDefaultProguardFile(Dependencies.Config.PRODUARG_FILE),
+                Dependencies.Config.PROGUARG_RULES
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = Dependencies.AppConfig.sourceCompatibility
-        targetCompatibility = Dependencies.AppConfig.targetCompatibility
+        sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
+        targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
     }
 
     kotlinOptions {
-        jvmTarget = Dependencies.AppConfig.jvmTarget
+        jvmTarget = Dependencies.Config.JVM_TARGET
     }
 
     kapt {
-        generateStubs = Dependencies.Kapt.generateStubs
-        correctErrorTypes = Dependencies.Kapt.correctErrorTypes
+        generateStubs = Dependencies.Kapt.GENERATE_STUBS
+        correctErrorTypes = Dependencies.Kapt.CORRECT_ERROR_TYPES
     }
 
     buildFeatures {
-        viewBinding = Dependencies.Other.viewBinding
+        viewBinding = Dependencies.Other.VIEW_BINDING
         compose = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Versions.compose
+        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.VERSION
     }
 }
 
 dependencies {
     Dependencies.Core.apply {
-        implementation(ktx)
-        implementation(appCompat)
-        implementation(fragment)
+        implementation(KTX)
+        implementation(APP_COMPAT)
+        implementation(FRAGMENT)
     }
 
-    kapt(Dependencies.Kapt.kapt)
-
-    Dependencies.Test.apply {
-        implementation(junit)
-        testImplementation(jupiter)
-        androidTestImplementation(androidJunit)
-    }
+    kapt(Dependencies.Kapt.KAPT)
 
     Dependencies.DI.apply {
-        implementation(hilt)
-        kapt(hiltCompiler)
+        implementation(HILT)
+        kapt(HILT_COMPILER)
     }
 
-    Dependencies.Other.apply {
-        implementation(navigation)
-        implementation(navigationUI)
-        implementation(material)
-        implementation(liveData)
-        implementation(constraint)
+    Dependencies.UI.apply {
+        implementation(NAVIGATION)
+        implementation(NAVIGATION_UI)
+        implementation(MATERIAL)
+        implementation(LIVE_DATA)
+        implementation(CONSTRAINT)
+    }
+
+    Dependencies.UI.Compose.apply {
+        val composeBom = platform(BOM)
+        implementation(composeBom)
+        implementation(FRAMEWORK)
+        implementation(NAVIGATION)
+        implementation(ACTIVITY)
     }
 
     Dependencies.Network.apply {
-        implementation(retrofit)
-        implementation(retrofitGson)
-    }
-
-    Dependencies.Multithreading.apply {
-        implementation(coroutines)
-    }
-
-    Dependencies.Compose.apply {
-        val composeBom = platform(bom)
-        implementation(composeBom)
-        androidTestImplementation(composeBom)
-        implementation(liveData)
-        implementation(material)
-        implementation(viewModel)
-        implementation(constraint)
+        implementation(RETROFIT)
+        implementation(RETROFIT_GSON)
     }
 
     Dependencies.Modules.apply {
-        implementation(project(path = data))
-        implementation(project(path = domain))
-        implementation(project(path = core))
-        implementation(project(path = signIn))
-        implementation(project(path = home))
-        implementation(project(path = notifications))
-        implementation(project(path = scanner))
-        implementation(project(path = settings))
-        implementation(project(path = mainMenu))
+        implementation(project(path = DATA))
+        implementation(project(path = DOMAIN))
+        implementation(project(path = CORE))
+        implementation(project(path = SIGN_IN))
+        implementation(project(path = HOME))
+        implementation(project(path = NOTIFICATIONS))
+        implementation(project(path = SCANNER))
+        implementation(project(path = SETTINGS))
+        implementation(project(path = MAIN_MENU))
     }
 }

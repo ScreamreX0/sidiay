@@ -1,121 +1,137 @@
 import org.gradle.api.JavaVersion
 
 object Dependencies {
-    object Modules {
-        const val domain = ":domain"
-        const val data = ":data"
-        const val core = ":core"
-        const val signIn = ":signin"
-        const val app = ":app"
-        const val home = ":home"
-        const val notifications = ":notifications"
-        const val scanner = ":scanner"
-        const val settings = ":settings"
-        const val mainMenu = ":main-menu"
-    }
-
-    object AppConfig {
-        const val applicationId = "com.example.sidiay"
-        const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        val sourceCompatibility = JavaVersion.VERSION_11
-        val targetCompatibility = JavaVersion.VERSION_11
-        const val jvmTarget = "11"
-        const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
-        const val proguardFile = "proguard-android-optimize.txt"
-        const val proguardRules = "proguard-rules.pro"
-        const val isMinifyEnabled = false
+    object Config {
+        const val APPLICATION_ID = "com.example.sidiay"
+        const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
+        val SOURCE_COMPATIBILITY = JavaVersion.VERSION_11
+        val TARGET_COMPATIBILITY = JavaVersion.VERSION_11
+        const val JVM_TARGET = Versions.Core.JVM
+        const val GRADLE = "com.android.tools.build:gradle:${Versions.Core.GRADLE}"
+        const val PRODUARG_FILE = "proguard-android-optimize.txt"
+        const val PROGUARG_RULES = "proguard-rules.pro"
+        const val IS_MINIFY_ENABLED = false
     }
 
     object Core {
-        const val ktx = "androidx.core:core-ktx:${Versions.ktx}"
-        const val fragment = "androidx.fragment:fragment-ktx:${Versions.fragment}"
-        const val appCompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+        const val KTX = "androidx.core:core-ktx:${Versions.Core.KTX}"
+        const val FRAGMENT = "androidx.fragment:fragment-ktx:${Versions.DI.DI_FRAGMENT}"
+        const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.Core.APP_COMPAT}"
     }
 
     object Kapt {
-        const val generateStubs = true
-        const val correctErrorTypes = true
-        const val kapt = "org.jetbrains.kotlinx:kotlinx-metadata-jvm:${Versions.kapt}"
+        const val GENERATE_STUBS = true
+        const val CORRECT_ERROR_TYPES = true
+        const val KAPT = "org.jetbrains.kotlinx:kotlinx-metadata-jvm:${Versions.Core.KAPT}"
     }
 
     object DI {
-        const val hilt = "com.google.dagger:hilt-android:${Versions.di}"
-        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.di}"
+        const val HILT = "com.google.dagger:hilt-android:${Versions.DI.VERSION}"
+        const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.DI.VERSION}"
     }
 
     object Network {
-        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-        const val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+        const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.Network.RETROFIT}"
+        const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:${Versions.Network.RETROFIT}"
     }
 
     object Multithreading {
-        const val coroutines =
-            "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+        const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Multithreading.COROUTINES}"
     }
 
     object Test {
-        const val junit = "androidx.test.ext:junit-ktx:${Versions.junit}"
-        const val jupiter = "org.junit.jupiter:junit-jupiter"
-        const val androidJunit = "junit:junit:${Versions.androidJunit}"
-        const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+        const val JUNIT = "androidx.test.ext:junit-ktx:${Versions.Testing.JUNIT}"
+        const val JUPITER = "org.junit.jupiter:junit-jupiter"
+        const val ANDROID_JUNIT = "junit:junit:${Versions.Testing.ANDROID_JUNIT}"
+        const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.Testing.ESPRESSO}"
     }
 
-    object Compose {
-        val bom = "androidx.compose:compose-bom:2022.12.00"
-        val material = "androidx.compose.material3:material3"
-        val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
-        val liveData = "androidx.compose.runtime:runtime-livedata"
-        val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-        val preview = "androidx.compose.ui:ui-tooling:1.1.1"
+    object UI {
+        const val MATERIAL = "com.google.android.material:material:${Versions.UI.MATERIAL}"
+        const val CONSTRAINT = "androidx.constraintlayout:constraintlayout:${Versions.UI.CONSTRAINT}"
+        const val LIVE_DATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Core.LIFECYCLE}"
+        const val NAVIGATION = "androidx.navigation:navigation-fragment-ktx:${Versions.UI.NAVIGATION}"
+        const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.UI.NAVIGATION}"
+        object Compose {
+            const val BOM = "androidx.compose:compose-bom:2022.12.00"
+            const val FRAMEWORK = "androidx.ui:ui-framework:${Versions.UI.Compose.FRAMEWORK}"
+            const val MATERIAL = "androidx.compose.material3:material3"
+            const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.UI.Compose.VIEW_MODEL}"
+            const val LIVE_DATA = "androidx.compose.runtime:runtime-livedata"
+            const val CONSTRAINT = "androidx.constraintlayout:constraintlayout-compose:${Versions.UI.Compose.CONSTRAINT}"
+            const val PREVIEW = "androidx.compose.ui:ui-tooling:${Versions.UI.Compose.PREVIEW}"
+            const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.UI.Compose.NAVIGATION}"
+            const val ACTIVITY = "androidx.activity:activity-compose:${Versions.UI.Compose.ACTIVITY}"
+        }
     }
 
     object Other {
-        const val viewBinding = true
-        const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
-        const val material = "com.google.android.material:material:${Versions.material}"
-        const val constraint = "androidx.constraintlayout:constraintlayout:${Versions.constraint}"
-        const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
-        const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-        const val navigationUI = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+        const val VIEW_BINDING = true
+        const val SAFE_ARGS = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.UI.NAVIGATION}"
     }
 
+    object Modules {
+        const val DOMAIN = ":domain"
+        const val DATA = ":data"
+        const val CORE = ":core"
+        const val SIGN_IN = ":signin"
+        const val APP = ":app"
+        const val HOME = ":home"
+        const val NOTIFICATIONS = ":notifications"
+        const val SCANNER = ":scanner"
+        const val SETTINGS = ":settings"
+        const val MAIN_MENU = ":main-menu"
+    }
     object Versions {
-        // CORE
-        const val minSdk = 24
-        const val targetSdk = 33
-        const val compileSdk = 33
-        const val versionCode = 1
-        const val versionName = "1.0.0"
-        const val buildToolsVersion = "29.0.3"
-        const val lifecycle = "2.6.0-alpha03"
-        const val material = "1.7.0"
-        const val kapt = "0.5.0"
-        const val constraint = "2.1.4"
-        const val appcompat = "1.5.1"
-        const val ktx = "1.9.0"
-        const val gradle = "4.0.2"
+        object Core {
+            const val MIN_SDK = 24
+            const val TARGET_SDK = 33
+            const val COMPILE_SDK = 33
+            const val VERSION_CODE = 1
+            const val VERSION_NAME = "1.0.0"
+            const val BUILD_TOOLS_VERSION = "29.0.3"
+            const val KAPT = "0.5.0"
+            const val APP_COMPAT = "1.5.1"
+            const val KTX = "1.9.0"
+            const val GRADLE = "7.4.1"
+            const val LIFECYCLE = "2.6.0-alpha03"
+            const val JVM = "11"
+        }
 
-        // DI
-        const val di = "2.44"
-        const val fragment = "1.5.5"
+        object DI {
+            const val VERSION = "2.44"
+            const val DI_FRAGMENT = "1.5.5"
+        }
 
-        // NAVIGATION
-        const val navigation = "2.5.3"
+        object Testing {
+            const val JUNIT = "1.1.5"
+            const val ANDROID_JUNIT = "4.12"
+            const val ESPRESSO = "3.5.0"
+        }
 
-        // TESTING
-        const val junit = "1.1.5"
-        const val androidJunit = "4.12"
-        const val espresso = "3.5.0"
+        object Network {
+            const val RETROFIT = "2.9.0"
+            const val OKHTTP = "4.5.0"
+        }
 
-        // NETWORK
-        const val retrofit = "2.9.0"
-        const val okhttp = "4.5.0"
+        object Multithreading {
+            const val COROUTINES = "1.6.1"
+        }
 
-        // MULTITHREADING
-        const val coroutines = "1.6.1"
-
-        // COMPOSE
-        const val compose = "1.3.2"
+        object UI {
+            const val MATERIAL = "1.7.0"
+            const val NAVIGATION = "2.5.3"
+            const val CONSTRAINT = "2.1.4"
+            object Compose {
+                const val VERSION = "1.3.2"
+                const val FRAMEWORK = "0.1.0-dev03"
+                const val NAVIGATION = "2.5.3"
+                const val VIEW_MODEL = "2.5.1"
+                const val CONSTRAINT = "1.0.1"
+                const val PREVIEW = "1.1.1"
+                const val ACTIVITY = "1.5.1"
+            }
+        }
     }
 }
 
