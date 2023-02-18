@@ -91,10 +91,11 @@ dependencies {
         implementation(composeBom)
         androidTestImplementation(composeBom)
         implementation(LIVE_DATA)
-        implementation(MATERIAL)
+        implementation(MATERIAL3)
         implementation(VIEW_MODEL)
         implementation(CONSTRAINT)
         debugImplementation(PREVIEW)
+        debugImplementation(NAVIGATION)
     }
 
     Dependencies.Modules.apply {

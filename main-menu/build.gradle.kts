@@ -92,6 +92,7 @@ dependencies {
         implementation(composeBom)
         androidTestImplementation(composeBom)
         implementation(LIVE_DATA)
+        implementation(MATERIAL3)
         implementation(MATERIAL)
         implementation(VIEW_MODEL)
         implementation(CONSTRAINT)

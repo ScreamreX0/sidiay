@@ -55,7 +55,8 @@ object Dependencies {
         object Compose {
             const val BOM = "androidx.compose:compose-bom:2022.12.00"
             const val FRAMEWORK = "androidx.ui:ui-framework:${Versions.UI.Compose.FRAMEWORK}"
-            const val MATERIAL = "androidx.compose.material3:material3"
+            const val MATERIAL3 = "androidx.compose.material3:material3"
+            const val MATERIAL = "androidx.compose.material:material:${Versions.UI.Compose.MATERIAL}"
             const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.UI.Compose.VIEW_MODEL}"
             const val LIVE_DATA = "androidx.compose.runtime:runtime-livedata"
             const val CONSTRAINT = "androidx.constraintlayout:constraintlayout-compose:${Versions.UI.Compose.CONSTRAINT}"
@@ -130,6 +131,7 @@ object Dependencies {
                 const val CONSTRAINT = "1.0.1"
                 const val PREVIEW = "1.1.1"
                 const val ACTIVITY = "1.5.1"
+                const val MATERIAL = "1.3.1"
             }
         }
     }

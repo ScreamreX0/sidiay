@@ -1,28 +1,27 @@
 package com.example.sidiay.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.core.navigation.Destinations
+import com.example.core.navigation.Graphs
 import com.example.main_menu.ui.MainMenuScreen
-import com.example.signin.ui.SignInScreen
+import com.example.signin.navigation.Authentication
+import com.example.signin.navigation.authenticationGraph
 
 
 @Composable
-fun RootNavGraph() {
-    val navController = rememberNavController()
+fun RootNavGraph(navController: NavHostController) {
     NavHost(
+        route = Graphs.ROOT,
         navController = navController,
-        startDestination = Destinations.SIGN_IN
+        startDestination = Graphs.SIGN_IN
     ) {
-        composable(route = Destinations.SIGN_IN) {
-            SignInScreen(navController = navController)
-        }
+        authenticationGraph(navController = navController)
         composable(
-            route = Destinations.MAIN_MENU,
+            route = Graphs.MAIN_MENU,
             arguments = listOf(
                 navArgument("userId") {
                     type = NavType.LongType
