@@ -41,7 +41,6 @@ object Dependencies {
 
     object Test {
         const val JUNIT = "androidx.test.ext:junit-ktx:${Versions.Testing.JUNIT}"
-        const val JUPITER = "org.junit.jupiter:junit-jupiter"
         const val ANDROID_JUNIT = "junit:junit:${Versions.Testing.ANDROID_JUNIT}"
         const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.Testing.ESPRESSO}"
     }
@@ -54,15 +53,18 @@ object Dependencies {
         const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.UI.NAVIGATION}"
         object Compose {
             const val BOM = "androidx.compose:compose-bom:2022.12.00"
+            const val LIVE_DATA = "androidx.compose.runtime:runtime-livedata:${Versions.UI.Compose.FRAMEWORK}"
+            const val MATERIAL3 = "androidx.compose.material3:material3:${Versions.UI.Compose.MATERIAL3}"
             const val FRAMEWORK = "androidx.ui:ui-framework:${Versions.UI.Compose.FRAMEWORK}"
-            const val MATERIAL3 = "androidx.compose.material3:material3"
             const val MATERIAL = "androidx.compose.material:material:${Versions.UI.Compose.MATERIAL}"
             const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.UI.Compose.VIEW_MODEL}"
-            const val LIVE_DATA = "androidx.compose.runtime:runtime-livedata"
             const val CONSTRAINT = "androidx.constraintlayout:constraintlayout-compose:${Versions.UI.Compose.CONSTRAINT}"
-            const val PREVIEW = "androidx.compose.ui:ui-tooling:${Versions.UI.Compose.PREVIEW}"
-            const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.UI.Compose.NAVIGATION}"
+            const val PREVIEW = "androidx.compose.ui:ui-tooling:${Versions.UI.Compose.FRAMEWORK}"
+            const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.UI.NAVIGATION}"
             const val ACTIVITY = "androidx.activity:activity-compose:${Versions.UI.Compose.ACTIVITY}"
+            const val FOUNDATION = "androidx.compose.foundation:foundation:${Versions.UI.Compose.FOUNDATION}"
+            const val RUNTIME = "androidx.compose.runtime:runtime:${Versions.UI.Compose.RUNTIME}"
+            const val UI = "androidx.compose.ui:ui:${Versions.UI.Compose.UI}"
         }
     }
 
@@ -124,7 +126,7 @@ object Dependencies {
             const val NAVIGATION = "2.5.3"
             const val CONSTRAINT = "2.1.4"
             object Compose {
-                const val VERSION = "1.3.2"
+                const val COMPILER = "1.3.2"
                 const val FRAMEWORK = "0.1.0-dev03"
                 const val NAVIGATION = "2.5.3"
                 const val VIEW_MODEL = "2.5.1"
@@ -132,6 +134,10 @@ object Dependencies {
                 const val PREVIEW = "1.1.1"
                 const val ACTIVITY = "1.5.1"
                 const val MATERIAL = "1.3.1"
+                const val MATERIAL3 = "1.0.1"
+                const val FOUNDATION = "1.3.1"
+                const val RUNTIME = "1.3.3"
+                const val UI = "1.3.3"
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.sidiay
+package com.example.sidiay.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

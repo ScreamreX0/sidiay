@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
+/*
 import com.example.main_menu.databinding.FragmentMainMenuBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,3 +63,4 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
     }
 }
 
+*/

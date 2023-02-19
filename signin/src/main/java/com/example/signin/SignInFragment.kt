@@ -19,9 +19,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.domain.enums.states.SignInStates
-import com.example.signin.databinding.FragmentSigninBinding
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.core.R as coreR
+/*
 
 @AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_signin) {
@@ -118,3 +118,4 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
     }
 }
 
+*/

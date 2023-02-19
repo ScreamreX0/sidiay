@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+
 plugins {
     id(Plugins.AppConfig.library)
     id(Plugins.AppConfig.android)
@@ -26,6 +27,11 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding = Dependencies.Other.VIEW_BINDING
+        compose = true
+    }
+
     compileOptions {
         sourceCompatibility = Dependencies.Config.SOURCE_COMPATIBILITY
         targetCompatibility = Dependencies.Config.TARGET_COMPATIBILITY
@@ -35,8 +41,8 @@ android {
         jvmTarget = Dependencies.Config.JVM_TARGET
     }
 
-    buildFeatures {
-        viewBinding = Dependencies.Other.VIEW_BINDING
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.COMPILER
     }
 }
 
@@ -49,6 +55,8 @@ dependencies {
         implementation(NAVIGATION)
         implementation(NAVIGATION_UI)
         implementation(MATERIAL)
+        implementation(LIVE_DATA)
+        implementation(CONSTRAINT)
     }
 
     Dependencies.UI.Compose.apply {
@@ -57,8 +65,14 @@ dependencies {
         androidTestImplementation(composeBom)
         implementation(LIVE_DATA)
         implementation(MATERIAL3)
+        implementation(MATERIAL)
         implementation(VIEW_MODEL)
         implementation(CONSTRAINT)
+        implementation(FRAMEWORK)
+        implementation(FOUNDATION)
+        implementation(UI)
+        implementation(RUNTIME)
         debugImplementation(PREVIEW)
+        debugImplementation(NAVIGATION)
     }
 }

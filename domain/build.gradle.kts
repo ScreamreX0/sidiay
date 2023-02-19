@@ -55,7 +55,6 @@ dependencies {
     Dependencies.Test.apply {
         androidTestImplementation(ANDROID_JUNIT)
         androidTestImplementation(ESPRESSO)
-        testImplementation(JUPITER)
         testImplementation(JUNIT)
     }
 }

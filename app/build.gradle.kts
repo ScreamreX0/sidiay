@@ -52,7 +52,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.VERSION
+        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.COMPILER
     }
 }
 

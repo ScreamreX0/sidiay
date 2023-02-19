@@ -45,7 +45,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.VERSION
+        kotlinCompilerExtensionVersion = Dependencies.Versions.UI.Compose.COMPILER
     }
 }
 
@@ -60,7 +60,6 @@ dependencies {
 
     Dependencies.Test.apply {
         implementation(JUNIT)
-        testImplementation(JUPITER)
         androidTestImplementation(ANDROID_JUNIT)
     }
 
@@ -92,8 +91,13 @@ dependencies {
         androidTestImplementation(composeBom)
         implementation(LIVE_DATA)
         implementation(MATERIAL3)
+        implementation(MATERIAL)
         implementation(VIEW_MODEL)
         implementation(CONSTRAINT)
+        implementation(FOUNDATION)
+        implementation(FRAMEWORK)
+        implementation(UI)
+        implementation(RUNTIME)
         debugImplementation(PREVIEW)
         debugImplementation(NAVIGATION)
     }

@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
+import com.example.main_menu.ui.AppTheme
 import com.example.main_menu.ui.MainMenuScreen
-import com.example.signin.navigation.Authentication
 import com.example.signin.navigation.authenticationGraph
 
 
@@ -65,7 +65,9 @@ fun RootNavGraph(navController: NavHostController) {
                 }
             )
         ) {
-            MainMenuScreen()
+            AppTheme(false) {
+                MainMenuScreen()
+            }
         }
     }
 }
