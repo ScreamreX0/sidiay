@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
-import com.example.main_menu.ui.AppTheme
+import com.example.core.ui.theme.AppTheme
 import com.example.main_menu.ui.MainMenuScreen
 import com.example.signin.navigation.authenticationGraph
 
