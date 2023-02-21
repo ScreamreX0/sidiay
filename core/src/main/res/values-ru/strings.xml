@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">КРОН Заявки</string>
+    <string name="app_name">ПЗС КРОН</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти</string>
     <string name="short_or_long_email">Длина E-mail должна быть от 7 до 32 символов</string>
@@ -20,7 +20,7 @@
     <string name="no_server_connection">Нет связи с сервером</string>
     <string name="wrong_email_or_password">Неверный логин или пароль</string>
     <string name="login_as_guest">Войти как гость</string>
-    <string name="kron_ticket">КРОН Заявка</string>
+    <string name="kron_ticket">ПЗС КРОН</string>
     <string name="LLC">ООО \"СиДиАй\"</string>
     <string name="home">Главная</string>
     <string name="Scanner">Сканнер</string>
@@ -73,4 +73,8 @@
     <string name="change_password">Изменить пароль</string>
     <string name="exit">Выход</string>
     <string name="title_activity_main">Заголовок</string>
+    <string name="offline_mode">Автономный режим</string>
+    <string name="remember_me">Запомнить</string>
+    <string name="auth_title_1">ПЗС</string>
+    <string name="auth_title_2">КРОН</string>
 </resources>

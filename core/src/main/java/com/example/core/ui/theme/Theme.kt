@@ -17,35 +17,36 @@ import androidx.compose.ui.unit.sp
 private val LightThemeColors = lightColors(
     primary = CustomColors.Orange700,
     primaryVariant = CustomColors.Orange780,
-    onPrimary = CustomColors.Grey700,
+    onPrimary = Color.White,
 
-    secondary = CustomColors.Grey700,
-    secondaryVariant = CustomColors.Grey780,
+    secondary = Color.Black,
+    secondaryVariant = Color.White,
 
     error = CustomColors.DarkRed700,
-    onError = CustomColors.Grey900,
+    onError = Color.White,
 
     background = Color.White,
-    onBackground = CustomColors.Orange620,
+    onBackground = CustomColors.Orange700,
 
     surface = Color.White,
 )
 
+@SuppressLint("ConflictingOnColor")
 private val DarkThemeColors = darkColors(
     primary = CustomColors.Grey700,
     primaryVariant = CustomColors.Grey780,
-    onPrimary = CustomColors.Orange700,
+    onPrimary = Color.White,
 
-    secondary = CustomColors.Orange700,
-    secondaryVariant = CustomColors.Orange780,
+    secondary = Color.White,
+    secondaryVariant = Color.Black,
 
     error = CustomColors.LightRed700,
-    onError = CustomColors.Grey500,
+    onError = Color.White,
 
-    background = CustomColors.Grey500,
-    onBackground = CustomColors.Grey620,
+    background = CustomColors.Grey700,
+    onBackground = CustomColors.Orange700,
 
-    surface = CustomColors.Grey540,
+    surface = CustomColors.Grey620,
 )
 
 @Composable
@@ -69,14 +70,35 @@ fun AppTheme(
 @Composable
 fun DefaultButtonStyle(content: @Composable () -> Unit) {
     MaterialTheme(
-        shapes = MaterialTheme.shapes.copy(small = RoundedCornerShape(8.dp)),
+        shapes = MaterialTheme.shapes.copy(small = RoundedCornerShape(15.dp)),
         typography = MaterialTheme.typography.copy(
             button = MaterialTheme.typography.button.merge(
                 TextStyle(
                     fontSize = MaterialTheme.typography.button.fontSize,
                     fontWeight = MaterialTheme.typography.button.fontWeight,
+
                 )
             )
+        ),
+        colors = MaterialTheme.colors.copy(
+            primary = MaterialTheme.colors.primary,
+            onPrimary = MaterialTheme.colors.onPrimary
+        )
+    ) {
+        content()
+    }
+}
+
+@Composable
+fun DefaultTextStyle(content: @Composable () -> Unit) {
+    MaterialTheme(
+        typography = MaterialTheme.typography.copy(
+            h1 = MaterialTheme.typography.h1,
+            h2 = MaterialTheme.typography.h2,
+            h3 = MaterialTheme.typography.h3,
+            h4 = MaterialTheme.typography.h4,
+            h5 = MaterialTheme.typography.h5,
+            h6 = MaterialTheme.typography.h6,
         ),
         colors = MaterialTheme.colors.copy(
             primary = MaterialTheme.colors.primary,

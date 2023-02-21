@@ -1,12 +1,13 @@
-package com.example.signin.ui.screens
+package com.example.signin.ui.signin
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -14,111 +15,97 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
-import com.example.signin.ui.signin.*
 
 @Composable
 fun SignInScreen(navController: NavHostController) {
-    AppTheme {
+    val isDarkTheme = remember { mutableStateOf(false) }
+
+    AppTheme(isDarkTheme.value) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colors.background)
         ) {
             val (
-                emailTextField,
-                passwordTextField,
-                enterButton,
-                offlineEnterButton,
-                rememberMeCheckBox,
-                rememberMeText,
-                forgotPasswordButton
+                titleComponentRefs,
+                emailComponentRef,
+                passwordComponentRef,
+                enterComponentRef,
+                offlineComponentRef,
+                rememberComponentRef,
+                forgotComponentRef,
             ) = createRefs()
 
             val email = remember { mutableStateOf("") }
             val password = remember { mutableStateOf("") }
             val rememberMe = remember { mutableStateOf(false) }
 
-            EmailTextField(
-                email = email,
+            TitleComponent(
                 modifier = Modifier
-                    .constrainAs(emailTextField) {
-                        start.linkTo(parent.start, margin = 30.dp)
-                        end.linkTo(parent.end, margin = 30.dp)
-                        linkTo(parent.top, parent.bottom, bias = 0.3F)
-                    }
-                    .fillMaxWidth(),
+                    .constrainAs(titleComponentRefs) {
+                        linkTo(parent.start, parent.end, bias = 0.5F)
+                        linkTo(parent.top, parent.bottom, bias = 0.15F)
+                    },
+                isDarkTheme = isDarkTheme
             )
 
-            PasswordTextField(
+            EmailTextFieldComponent(
+                modifier = Modifier
+                    .constrainAs(emailComponentRef) {
+                        top.linkTo(titleComponentRefs.bottom, margin = 90.dp)
+                    },
+                email = email
+            )
+
+            PasswordTextFieldComponent(
                 password = password,
                 modifier = Modifier
-                    .constrainAs(passwordTextField) {
-                        start.linkTo(parent.start, margin = 30.dp)
-                        end.linkTo(parent.end, margin = 30.dp)
-                        top.linkTo(emailTextField.bottom)
-                    })
+                    .constrainAs(passwordComponentRef) {
+                        top.linkTo(emailComponentRef.bottom, margin = 10.dp)
+                    },
+            )
 
-            EnterButton(
+            EnterButtonComponent(
                 navController = navController,
                 modifier = Modifier
-                    .constrainAs(enterButton) {
-                        bottom.linkTo(offlineEnterButton.top, margin = 8.dp)
-                        linkTo(
-                            offlineEnterButton.start,
-                            offlineEnterButton.end,
-                            bias = 0F
-                        )
+                    .constrainAs(enterComponentRef) {
+                        top.linkTo(passwordComponentRef.bottom, margin = 80.dp)
                     },
                 email = email,
                 password = password,
                 rememberMe = rememberMe
             )
 
-            RememberMeCheckBox(
+            RememberComponent(
                 modifier = Modifier
-                    .constrainAs(rememberMeCheckBox) {
-                        start.linkTo(enterButton.end)
-                        linkTo(enterButton.top, enterButton.bottom, bias = 0.5F)
+                    .constrainAs(rememberComponentRef) {
+                        bottom.linkTo(enterComponentRef.top)
+                        start.linkTo(parent.start, margin = 50.dp)
                     },
                 rememberMe = rememberMe,
             )
 
-            OfflineModeButton(
+            ForgotPasswordComponent(
                 navController = navController,
                 modifier = Modifier
-                    .constrainAs(offlineEnterButton) {
-                        top.linkTo(passwordTextField.bottom, margin = 80.dp)
-                        linkTo(
-                            passwordTextField.start,
-                            passwordTextField.end,
-                            bias = 0.5F
-                        )
-                    },
+                    .constrainAs(forgotComponentRef) {
+                        end.linkTo(enterComponentRef.end, 55.dp)
+                        top.linkTo(enterComponentRef.bottom, 10.dp)
+                    }
             )
 
-            ForgotPassword(
+            OfflineModeComponent(
                 navController = navController,
                 modifier = Modifier
-                    .constrainAs(forgotPasswordButton) {
-                        linkTo(
-                            offlineEnterButton.start,
-                            offlineEnterButton.end,
-                            bias = 0.5F
-                        )
-                        top.linkTo(offlineEnterButton.bottom, margin = 16.dp)
-                    }
+                    .constrainAs(offlineComponentRef) {
+                        linkTo(forgotComponentRef.bottom, parent.bottom, bias = 0.7F)
+                        linkTo(parent.start, parent.end, bias = 0.5F)
+                    },
             )
         }
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    locale = "ru",
-    device = Devices.NEXUS_5
-)
+@Preview(showBackground = true, locale = "ru", device = Devices.PIXEL_2, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun SignInScreenPreview1() {
-    SignInScreen(navController = rememberNavController())
-}
+fun SignInScreenPreview1() { SignInScreen(navController = rememberNavController()) }

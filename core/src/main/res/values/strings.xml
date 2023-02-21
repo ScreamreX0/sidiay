@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KRON Tickets</string>
+    <string name="app_name">KRON Ticket</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
@@ -21,7 +21,7 @@
     <string name="wrong_email_or_password">Wrong email or password</string>
     <string name="login_as_guest">Login as guest</string>
     <string name="kron_ticket">KRON Ticket</string>
-    <string name="LLC">LLC \"CDIA\"</string>
+    <string name="LLC">LLC \"CDI\"</string>
     <string name="home">Home</string>
     <string name="Scanner">Scanner</string>
     <string name="Notifications">Notifications</string>
@@ -74,4 +74,8 @@
     <string name="change_password">Change password</string>
     <string name="exit">Exit</string>
     <string name="title_activity_main">Title</string>
+    <string name="offline_mode">Offline mode</string>
+    <string name="remember_me">Remember me</string>
+    <string name="auth_title_1">PAS</string>
+    <string name="auth_title_2">KRON</string>
 </resources>

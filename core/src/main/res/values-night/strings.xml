@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="kron_ticket">KRON Ticket</string>
-    <string name="LLC">LLC \"CDIA\"</string>
+    <string name="LLC">LLC \"CDI\"</string>
     <string name="home">Home</string>
     <string name="Scanner">Scanner</string>
     <string name="Notifications">Notifications</string>
