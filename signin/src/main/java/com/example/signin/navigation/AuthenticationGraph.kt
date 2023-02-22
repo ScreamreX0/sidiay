@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.core.navigation.Graphs
-import com.example.signin.ui.signin.SignInScreen
+import com.example.signin.ui.sign_in.SignIn
 
 fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
     navigation(
@@ -13,7 +13,7 @@ fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
         startDestination = Authentication.SignInScreen.route
     ) {
         composable(route = Authentication.SignInScreen.route) {
-            SignInScreen(navController = navController)
+            SignIn().SignInScreen(navController = navController)
         }
     }
 }

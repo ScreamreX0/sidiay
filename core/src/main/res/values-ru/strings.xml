@@ -77,4 +77,6 @@
     <string name="remember_me">Запомнить</string>
     <string name="auth_title_1">ПЗС</string>
     <string name="auth_title_2">КРОН</string>
+    <string name="default_connection">Стандартное соединение</string>
+    <string name="auto_auth">Входить автоматически</string>
 </resources>

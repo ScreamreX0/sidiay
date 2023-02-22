@@ -78,4 +78,6 @@
     <string name="remember_me">Remember me</string>
     <string name="auth_title_1">PAS</string>
     <string name="auth_title_2">KRON</string>
+    <string name="default_connection">Default connection</string>
+    <string name="auto_auth">Auto authenticate</string>
 </resources>
