@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
 import com.example.main_menu.ui.MainMenuScreen
-import com.example.signin.navigation.authenticationGraph
+import com.example.signin.presentation.navigation.authenticationGraph
 
 
 @Composable

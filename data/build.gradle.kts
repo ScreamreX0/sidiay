@@ -56,5 +56,6 @@ dependencies {
     }
     Dependencies.Modules.apply {
         implementation(project(path = DOMAIN))
+        implementation(project(path = CORE))
     }
 }

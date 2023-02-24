@@ -58,7 +58,7 @@
     <string name="add_completed_work">Add completed work</string>
     <string name="save">Save</string>
     <string name="ok">OK</string>
-    <string name="Cancel">Cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="by_priority">By priority</string>
     <string name="by_status">By status</string>
     <string name="by_service">By service</string>
@@ -80,4 +80,14 @@
     <string name="auth_title_2">KRON</string>
     <string name="default_connection">Default connection</string>
     <string name="auto_auth">Auto authenticate</string>
+    <string name="check_connection">Check connection</string>
+    <string name="connections">connections</string>
+    <string name="connection_name">Connection name</string>
+    <string name="ip_address">IP-address</string>
+    <string name="clear_all">Clear all</string>
+    <string name="fill_all_fields">Fill all fields</string>
+    <string name="too_many_connections">Too many connections</string>
+    <string name="connection_added">Connection added</string>
+    <string name="add">Add</string>
+    <string name="changes_saved_successfully">Changes saved successfully</string>
 </resources>

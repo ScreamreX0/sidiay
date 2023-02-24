@@ -65,6 +65,7 @@ dependencies {
 
     Dependencies.DI.apply {
         implementation(HILT)
+        implementation(NAVIGATION)
         kapt(HILT_COMPILER)
     }
 
@@ -100,6 +101,10 @@ dependencies {
         implementation(RUNTIME)
         debugImplementation(PREVIEW)
         debugImplementation(NAVIGATION)
+    }
+
+    Dependencies.Other.apply {
+        implementation(DATA_STORE)
     }
 
     Dependencies.Modules.apply {

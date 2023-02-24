@@ -19,62 +19,44 @@ import org.intellij.lang.annotations.PrintFormat
 @InstallIn(SingletonComponent::class)
 class DomainModule {
     @Provides
-    fun provideCheckSignInFieldsUseCase(): CheckSignInFieldsUseCase {
-        return CheckSignInFieldsUseCase()
-    }
+    fun provideCheckSignInFieldsUseCase(): CheckSignInFieldsUseCase = CheckSignInFieldsUseCase()
 
     @Provides
-    fun provideSignInUseCase(userRepository: IUserRepository): SignInUseCase {
-        return SignInUseCase(userRepository)
-    }
+    fun provideSignInUseCase(userRepository: IUserRepository): SignInUseCase =
+        SignInUseCase(userRepository)
 
     @Provides
-    fun provideGetTicketsUseCase(applicationRepository: ITicketsRepository): GetTicketsUseCase {
-        return GetTicketsUseCase(ticketsRepository = applicationRepository)
-    }
+    fun provideGetTicketsUseCase(applicationRepository: ITicketsRepository): GetTicketsUseCase =
+        GetTicketsUseCase(ticketsRepository = applicationRepository)
+
 
     @Provides
-    fun provideSaveTicketsUseCase(applicationsRepository: ITicketsRepository): SaveTicketUseCase {
-        return SaveTicketUseCase(ticketRepository = applicationsRepository)
-    }
+    fun provideSaveTicketsUseCase(applicationsRepository: ITicketsRepository): SaveTicketUseCase =
+        SaveTicketUseCase(ticketRepository = applicationsRepository)
 
     @Provides
-    fun provideGetServicesUseCase(): GetServicesUseCase {
-        return GetServicesUseCase()
-    }
+    fun provideGetServicesUseCase(): GetServicesUseCase = GetServicesUseCase()
 
     @Provides
-    fun provideGetKindsUseCase(): GetKindsUseCase {
-        return GetKindsUseCase()
-    }
+    fun provideGetKindsUseCase(): GetKindsUseCase = GetKindsUseCase()
 
     @Provides
-    fun provideGetPrioritiesUseCase(): GetPrioritiesUseCase {
-        return GetPrioritiesUseCase()
-    }
+    fun provideGetPrioritiesUseCase(): GetPrioritiesUseCase = GetPrioritiesUseCase()
 
     @Provides
-    fun provideGetPeriodsUseCase(): GetPeriodsUseCase {
-        return GetPeriodsUseCase()
-    }
+    fun provideGetPeriodsUseCase(): GetPeriodsUseCase = GetPeriodsUseCase()
 
     @Provides
-    fun provideGetStatusesUseCase(): GetStatusesUseCase {
-        return GetStatusesUseCase()
-    }
+    fun provideGetStatusesUseCase(): GetStatusesUseCase = GetStatusesUseCase()
 
     @Provides
-    fun provideGetUsersUseCase(userRepository: UserRepository): GetUsersUseCase {
-        return GetUsersUseCase(userRepository = userRepository)
-    }
+    fun provideGetUsersUseCase(userRepository: UserRepository): GetUsersUseCase =
+        GetUsersUseCase(userRepository = userRepository)
 
     @Provides
-    fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetFacilitiesUseCase {
-        return GetFacilitiesUseCase(facilitiesRepository = facilitiesRepository)
-    }
+    fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetFacilitiesUseCase =
+        GetFacilitiesUseCase(facilitiesRepository = facilitiesRepository)
 
     @Provides
-    fun provideCheckTicketUseCase(): CheckTicketUseCase {
-        return CheckTicketUseCase()
-    }
+    fun provideCheckTicketUseCase(): CheckTicketUseCase = CheckTicketUseCase()
 }

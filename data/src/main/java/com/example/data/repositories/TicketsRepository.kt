@@ -1,5 +1,6 @@
 package com.example.data.repositories
 
+import com.example.core.ui.utils.Debugger
 import com.example.data.api.ApiService
 import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.FacilityEntity
@@ -7,7 +8,6 @@ import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
 import com.example.domain.repositories.ITicketsRepository
-import com.example.domain.utils.Debugger
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -30,7 +30,7 @@ class TicketsRepository @Inject constructor(
     }
 
     override suspend fun add(ticketEntity: AddTicketParams): Int {
-        Debugger.Companion.printInfo("Sending add ticket request")
+        com.example.core.ui.utils.Debugger.Companion.printInfo("Sending add ticket request")
         val body = HashMap<String, Any>()
 
         with(ticketEntity) {
@@ -50,7 +50,7 @@ class TicketsRepository @Inject constructor(
         }
 
         val response = apiService.addTicket(body)
-        Debugger.Companion.printInfo("Add ticket request was sent")
+        com.example.core.ui.utils.Debugger.Companion.printInfo("Add ticket request was sent")
 
         return response.code()
     }

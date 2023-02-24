@@ -1,11 +1,11 @@
-package com.example.signin.navigation
+package com.example.signin.presentation.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.core.navigation.Graphs
-import com.example.signin.ui.sign_in.SignIn
+import com.example.signin.presentation.ui.sign_in.SignIn
 
 fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
     navigation(

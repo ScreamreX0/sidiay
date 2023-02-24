@@ -208,7 +208,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
                         selectedExecutor = it[item]
                     }
                 }
-                .setNegativeButton(getString(coreR.string.Cancel)) { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton(getString(coreR.string.cancel)) { dialog, _ -> dialog.dismiss() }
                 .create()
                 .show()
         }
@@ -241,7 +241,7 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
                         binding.fAddTicketObjectChipGroup.addView(getChip(facilities[item]), 0)
                     }
                 }
-                .setNegativeButton(getString(coreR.string.Cancel)) { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton(getString(coreR.string.cancel)) { dialog, _ -> dialog.dismiss() }
                 .create()
                 .show()
         }

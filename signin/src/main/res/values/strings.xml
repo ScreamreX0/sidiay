@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connections">Connections</string>
+    <string name="connection_name">Connection name</string>
+    <string name="ip_address">IP-address</string>
+    <string name="clear_all">Clear all</string>
+    <string name="fill_all_fields">Fill all fields</string>
+    <string name="too_many_connections">Too many connections</string>
+    <string name="connection_added">Connection added</string>
+</resources>

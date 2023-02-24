@@ -43,7 +43,6 @@ dependencies {
         implementation(FRAGMENT)
     }
 
-
     Dependencies.DI.apply {
         implementation(HILT)
     }
@@ -56,5 +55,9 @@ dependencies {
         androidTestImplementation(ANDROID_JUNIT)
         androidTestImplementation(ESPRESSO)
         testImplementation(JUNIT)
+    }
+
+    Dependencies.Modules.apply {
+        implementation(project(path = CORE))
     }
 }

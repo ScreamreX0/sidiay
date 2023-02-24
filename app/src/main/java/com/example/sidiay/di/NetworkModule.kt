@@ -1,7 +1,7 @@
 package com.example.sidiay.di
 
 import com.example.data.api.ApiService
-import com.example.domain.utils.Constants
+import com.example.core.ui.utils.Constants
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides

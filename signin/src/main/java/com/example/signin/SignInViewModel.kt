@@ -1,17 +1,21 @@
 package com.example.signin
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.models.entities.UserEntity
+import com.example.core.ui.utils.Constants
+import com.example.core.ui.utils.Debugger
 import com.example.domain.enums.states.SignInStates
+import com.example.domain.models.entities.UserEntity
+import com.example.domain.models.params.ConnectionParams
 import com.example.domain.models.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
-import com.example.domain.utils.Constants
-import com.example.domain.utils.Debugger
+import com.example.signin.data.ConnectionsDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.net.ConnectException
 import javax.inject.Inject
@@ -19,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val checkFieldsUseCase: CheckSignInFieldsUseCase,
-    private val signInUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase,
+    private val connectionsDataStore: ConnectionsDataStore,
 ) : ViewModel() {
     var errorResult = MutableLiveData<List<SignInStates>>()
     var successSignIn = MutableLiveData<UserEntity>()
@@ -41,6 +46,20 @@ class SignInViewModel @Inject constructor(
         } else {
             Debugger.Companion.printInfo("Online sign in. IP:${Constants.URL}")
             signInOnline(params = params)
+        }
+    }
+
+    suspend fun saveConnections(connectionsList: List<ConnectionParams>) {
+        connectionsDataStore.saveConnections(connectionsList)
+    }
+
+    var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
+
+    init {
+        viewModelScope.launch {
+            connectionsList = mutableStateOf(
+                connectionsDataStore.getConnections.first() as List<ConnectionParams>
+            )
         }
     }
 

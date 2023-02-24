@@ -28,6 +28,7 @@ object Dependencies {
     object DI {
         const val HILT = "com.google.dagger:hilt-android:${Versions.DI.VERSION}"
         const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.DI.VERSION}"
+        const val NAVIGATION = "androidx.hilt:hilt-navigation-compose:${Versions.DI.NAVIGATION}"
     }
 
     object Network {
@@ -71,6 +72,7 @@ object Dependencies {
     object Other {
         const val VIEW_BINDING = true
         const val SAFE_ARGS = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.UI.NAVIGATION}"
+        const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.Data.DATA_STORE}"
     }
 
     object Modules {
@@ -104,6 +106,7 @@ object Dependencies {
         object DI {
             const val VERSION = "2.44"
             const val DI_FRAGMENT = "1.5.5"
+            const val NAVIGATION = "1.0.0-alpha03"
         }
 
         object Testing {
@@ -139,6 +142,10 @@ object Dependencies {
                 const val RUNTIME = "1.3.3"
                 const val UI = "1.3.3"
             }
+        }
+
+        object Data {
+            const val DATA_STORE = "1.0.0"
         }
     }
 }
