@@ -25,7 +25,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
+    fun provideRetrofit(): Retrofit {
         val url: String = if (Constants.DEBUG_MODE) {
             Constants.LOCAL_URL
         } else {
@@ -34,7 +34,6 @@ class NetworkModule {
 
         return Retrofit.Builder()
             .baseUrl(url)
-            .client(client)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
     }

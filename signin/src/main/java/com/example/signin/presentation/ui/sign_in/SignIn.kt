@@ -1,5 +1,6 @@
 package com.example.signin.presentation.ui.sign_in
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -81,7 +82,7 @@ class SignIn {
         connectionsList: KMutableProperty0<MutableState<List<ConnectionParams>>>,
 
         checkConnectionFunction: suspend (url: String) -> Unit = {},
-        checkConnectionResult: KProperty0<MutableState<ConnectionState>>,
+        checkConnectionResult: KProperty0<MutableState<Pair<ConnectionState, Int>>>,
     ) {
         // Default connection resource
         val name = stringResource(R.string.default_connection)
@@ -192,8 +193,7 @@ class SignIn {
                         .constrainAs(enterComponentRef) {
                             top.linkTo(passwordComponentRef.bottom, margin = 80.dp)
                             linkTo(passwordComponentRef.start, passwordComponentRef.end)
-                            width = Dimension.fillToConstraints
-                                .atLeastWrapContent
+                            width = Dimension.fillToConstraints.atLeastWrapContent
                         },
                     email = remember { mutableStateOf("") },
                     password = password,
@@ -217,8 +217,8 @@ class SignIn {
     /** PREVIEWS */
     private var emptyConnectionsList: MutableState<List<ConnectionParams>> =
         mutableStateOf(listOf())
-    private var checkConnectionResult: MutableState<ConnectionState> =
-        mutableStateOf(ConnectionState.WAITING)
+    private var checkConnectionResult: MutableState<Pair<ConnectionState, Int>> =
+        mutableStateOf(Pair(ConnectionState.WAITING, 0))
 
     @ScreenPreview
     @Composable
@@ -253,42 +253,55 @@ private class TitleComponent {
                         height = 65.dp
                     ),
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(end = 5.dp),
-                    letterSpacing = 2.sp,
-                    color = MaterialTheme.colors.secondary,
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    text = stringResource(id = R.string.auth_title_1),
-                )
-
-                Text(
-                    modifier = Modifier
-                        .padding(end = 5.dp),
-                    fontSize = 40.sp,
-                    letterSpacing = 2.sp,
-                    color = MaterialTheme.colors.onBackground,
-                    fontWeight = FontWeight.Bold,
-                    text = stringResource(id = R.string.auth_title_2),
-                )
-
-                val interactionSource = remember { MutableInteractionSource() }
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null
-                        ) {
-                            isDarkTheme.value = !isDarkTheme.value
-                        },
-                    contentScale = ContentScale.Inside,
-                    painter = painterResource(id = R.drawable.ic_logo),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
-                    contentDescription = ""
-                )
+                HaederFirstPart()
+                HeaderSecondPart()
+                Icon(isDarkTheme = isDarkTheme)
             }
+        }
+
+        @Composable
+        private fun HaederFirstPart() {
+            Text(
+                modifier = Modifier
+                    .padding(end = 5.dp),
+                letterSpacing = 2.sp,
+                color = MaterialTheme.colors.secondary,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                text = stringResource(id = R.string.auth_title_1),
+            )
+        }
+
+        @Composable
+        private fun HeaderSecondPart() {
+            Text(
+                modifier = Modifier
+                    .padding(end = 5.dp),
+                fontSize = 40.sp,
+                letterSpacing = 2.sp,
+                color = MaterialTheme.colors.onBackground,
+                fontWeight = FontWeight.Bold,
+                text = stringResource(id = R.string.auth_title_2),
+            )
+        }
+
+        @Composable
+        private fun Icon(isDarkTheme: MutableState<Boolean>) {
+            val interactionSource = remember { MutableInteractionSource() }
+            Image(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) {
+                        isDarkTheme.value = !isDarkTheme.value
+                    },
+                contentScale = ContentScale.Inside,
+                painter = painterResource(id = R.drawable.ic_logo),
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                contentDescription = ""
+            )
         }
     }
 }
@@ -303,24 +316,27 @@ private class ConnectionComponent {
         ) {
             OutlinedButton(
                 modifier = modifier,
-                onClick = {
-                    isConnectionDialogOpened.value = true
-                },
+                onClick = { isConnectionDialogOpened.value = true },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.background,
                 ),
                 border = BorderStroke(1.dp, MaterialTheme.colors.onBackground),
                 shape = RoundedCornerShape(25),
             ) {
-                Text(
-                    text = selectedConnection.value.name,
-                    fontSize = MaterialTheme.typography.h3.fontSize,
-                    color = MaterialTheme.colors.onBackground,
-                    modifier = Modifier
-                        .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp),
-                    textAlign = TextAlign.Start
-                )
+                ButtonText(selectedConnection = selectedConnection)
             }
+        }
+
+        @Composable
+        private fun ButtonText(selectedConnection: MutableState<ConnectionParams>) {
+            Text(
+                text = selectedConnection.value.name,
+                fontSize = MaterialTheme.typography.h3.fontSize,
+                color = MaterialTheme.colors.onBackground,
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp),
+                textAlign = TextAlign.Start
+            )
         }
     }
 }
@@ -332,19 +348,16 @@ private class CheckConnectionComponent {
             modifier: Modifier,
             selectedConnection: MutableState<ConnectionParams>,
             checkConnection: suspend (String) -> Unit,
-            checkConnectionResult: KProperty0<MutableState<ConnectionState>>
+            checkConnectionResult: KProperty0<MutableState<Pair<ConnectionState, Int>>>
         ) {
             val scope = rememberCoroutineScope()
-            val context = LocalContext.current
 
+            val context = LocalContext.current
             val checkResult = remember { checkConnectionResult.get() }
-            if (checkResult.value != ConnectionState.WAITING) {
-                Toast.makeText(
-                    context,
-                    stringResource(checkResult.value.nameId!!),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            SnackBar(
+                checkResult = checkResult,
+                context = context,
+            )
 
             DefaultTextStyle {
                 Text(
@@ -360,6 +373,22 @@ private class CheckConnectionComponent {
                     color = MaterialTheme.colors.onBackground,
                 )
             }
+        }
+
+        @Composable
+        private fun SnackBar(
+            checkResult: MutableState<Pair<ConnectionState, Int>>,
+            context: Context,
+        ) {
+            if (checkResult.value.first == ConnectionState.WAITING) {
+                return
+            }
+
+            Toast.makeText(
+                context,
+                stringResource(checkResult.value.first.nameId!!),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.net.ConnectException
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
@@ -41,12 +42,17 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    val checkConnectionResult = mutableStateOf(ConnectionState.WAITING)
+    val checkConnectionResult = mutableStateOf(Pair(ConnectionState.WAITING, 0))
     suspend fun checkConnection(url: String) {
+        if (url.last().toString() != "/") {
+            url.plus("/")
+        }
+
         checkConnectionResult.value = if (checkConnectionUseCase.execute(url = url)) {
-            ConnectionState.ESTABLISHED
+            // Random need to force update mutable state
+            Pair(ConnectionState.ESTABLISHED, Random.nextInt())
         } else {
-            ConnectionState.NOT_ESTABLISHED
+            Pair(ConnectionState.NOT_ESTABLISHED, Random.nextInt())
         }
     }
 

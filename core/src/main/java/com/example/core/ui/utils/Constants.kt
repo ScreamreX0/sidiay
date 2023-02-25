@@ -1,7 +1,7 @@
 package com.example.core.ui.utils
 
 object Constants {
-    const val DEBUG_MODE = true
+    const val DEBUG_MODE = false
 
     const val MIN_EMAIL_LENGHT = 9
     const val MAX_EMAIL_LENGHT = 32

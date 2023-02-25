@@ -8,7 +8,6 @@ class CheckConnectionUseCase @Inject constructor(
 ) {
     suspend fun execute(url: String): Boolean {
         val checkResult = authRepository.checkConnection(url)
-
-        return checkResult.first == 200 || checkResult.first == 404
+        return checkResult == 200
     }
 }
