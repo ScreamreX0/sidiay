@@ -1,6 +1,5 @@
 package com.example.domain.usecases.signin
 
-import com.example.core.ui.utils.Constants
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.models.params.Credentials
 import javax.inject.Inject

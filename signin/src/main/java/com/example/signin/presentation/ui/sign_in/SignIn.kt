@@ -1,5 +1,6 @@
 package com.example.signin.presentation.ui.sign_in
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,14 +13,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,11 +40,15 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.ui.utils.ComponentPreview
-import com.example.core.ui.utils.Debugger
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
 import com.example.domain.models.params.ConnectionParams
 import com.example.signin.SignInViewModel
+import com.example.signin.domain.states.ConnectionState
+import kotlinx.coroutines.launch
+import kotlin.reflect.KMutableProperty0
+import kotlin.reflect.KProperty0
+
 
 class SignIn {
     @Composable
@@ -59,8 +62,12 @@ class SignIn {
             navController = navController,
             darkMode = darkMode,
             isConnectionDialogOpened = isConnectionDialogOpened,
-            connectionsList = signInViewModel.connectionsList,
+
             saveConnectionsFunction = signInViewModel::saveConnections,
+            connectionsList = signInViewModel::connectionsList,
+
+            checkConnectionFunction = signInViewModel::checkConnection,
+            checkConnectionResult = signInViewModel::checkConnectionResult
         )
     }
 
@@ -69,12 +76,17 @@ class SignIn {
         navController: NavHostController = rememberNavController(),
         darkMode: MutableState<Boolean> = remember { mutableStateOf(false) },
         isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-        connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
+
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
+        connectionsList: KMutableProperty0<MutableState<List<ConnectionParams>>>,
+
+        checkConnectionFunction: suspend (url: String) -> Unit = {},
+        checkConnectionResult: KProperty0<MutableState<ConnectionState>>,
     ) {
+        // Default connection resource
         val name = stringResource(R.string.default_connection)
         val selectedConnection: MutableState<ConnectionParams> = remember {
-            mutableStateOf(ConnectionParams(name, Variables.DEFAULT_CONNECTION_IP))
+            mutableStateOf(ConnectionParams(name, Variables.DEFAULT_CONNECTION_URL))
         }
         AppTheme(darkMode.value) {
             ConstraintLayout(
@@ -93,14 +105,15 @@ class SignIn {
                     rememberComponentRef,
                 ) = createRefs()
 
-                /** Connections dialog */
+                /** Dialog (connections) */
                 ConnectionsDialog().ConnectionsDialogScreen(
                     isDialogOpened = isConnectionDialogOpened,
                     selectedConnection = selectedConnection,
                     saveDataFunction = saveConnectionsFunction,
-                    connectionsList = connectionsList,
+                    connectionsList = connectionsList.get(),
                 )
 
+                /** Title (header with icon) */
                 TitleComponent.Content(
                     modifier = Modifier
                         .constrainAs(titleComponentRef) {
@@ -110,6 +123,8 @@ class SignIn {
                     isDarkTheme = darkMode
                 )
 
+                /** Button (connections)
+                 * Click -> show connections dialog */
                 ConnectionComponent.Content(
                     modifier = Modifier
                         .constrainAs(connectionComponentRef) {
@@ -121,14 +136,20 @@ class SignIn {
                     selectedConnection = selectedConnection
                 )
 
+                /** Text (check connection)
+                 * Click -> check current connection to validity */
                 CheckConnectionComponent.Content(
                     modifier = Modifier
                         .constrainAs(checkConnectionComponentRef) {
                             top.linkTo(connectionComponentRef.bottom, margin = 3.dp)
                             end.linkTo(connectionComponentRef.end)
-                        }
+                        },
+                    selectedConnection = selectedConnection,
+                    checkConnection = checkConnectionFunction,
+                    checkConnectionResult = checkConnectionResult
                 )
 
+                /** TextField (email) */
                 val email = remember { mutableStateOf("") }
                 EmailComponent.Content(
                     modifier = Modifier
@@ -140,6 +161,7 @@ class SignIn {
                     email = email
                 )
 
+                /** TextField (password) */
                 val password = remember { mutableStateOf("") }
                 PasswordComponent.Content(
                     modifier = Modifier
@@ -151,6 +173,7 @@ class SignIn {
                     password = password,
                 )
 
+                /** Checkbox (auto authentication) */
                 val autoAuth = remember { mutableStateOf(false) }
                 AutoAuthComponent.Content(
                     modifier = Modifier
@@ -161,6 +184,8 @@ class SignIn {
                     autoAuth = autoAuth,
                 )
 
+                /** Button
+                 * Click -> entering */
                 EnterComponent.Content(
                     navController = navController,
                     modifier = Modifier
@@ -175,6 +200,8 @@ class SignIn {
                     rememberMe = autoAuth,
                 )
 
+                /** Text (offline mode)
+                 * Click -> entering with offline mode */
                 OfflineModeComponent.Content(
                     navController = navController,
                     modifier = Modifier
@@ -188,10 +215,18 @@ class SignIn {
     }
 
     /** PREVIEWS */
+    private var emptyConnectionsList: MutableState<List<ConnectionParams>> =
+        mutableStateOf(listOf())
+    private var checkConnectionResult: MutableState<ConnectionState> =
+        mutableStateOf(ConnectionState.WAITING)
+
     @ScreenPreview
     @Composable
     private fun ScreenPreview() {
-        Content()
+        Content(
+            connectionsList = this::emptyConnectionsList,
+            checkConnectionResult = this::checkConnectionResult
+        )
     }
 
     @ComponentPreview
@@ -294,13 +329,35 @@ private class CheckConnectionComponent {
     companion object {
         @Composable
         fun Content(
-            modifier: Modifier
+            modifier: Modifier,
+            selectedConnection: MutableState<ConnectionParams>,
+            checkConnection: suspend (String) -> Unit,
+            checkConnectionResult: KProperty0<MutableState<ConnectionState>>
         ) {
+            val scope = rememberCoroutineScope()
+            val context = LocalContext.current
+
+            val checkResult = remember { checkConnectionResult.get() }
+            if (checkResult.value != ConnectionState.WAITING) {
+                Toast.makeText(
+                    context,
+                    stringResource(checkResult.value.nameId!!),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
             DefaultTextStyle {
                 Text(
-                    modifier = modifier,
+                    modifier = modifier
+                        .clickable {
+                            scope.launch {
+                                checkConnection.invoke(
+                                    selectedConnection.value.url,
+                                )
+                            }
+                        },
                     text = stringResource(id = R.string.check_connection),
-                    color = MaterialTheme.colors.onBackground
+                    color = MaterialTheme.colors.onBackground,
                 )
             }
         }

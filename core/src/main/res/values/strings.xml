@@ -83,11 +83,13 @@
     <string name="check_connection">Check connection</string>
     <string name="connections">connections</string>
     <string name="connection_name">Connection name</string>
-    <string name="ip_address">IP-address</string>
+    <string name="url" translatable="false">URL</string>
     <string name="clear_all">Clear all</string>
     <string name="fill_all_fields">Fill all fields</string>
     <string name="too_many_connections">Too many connections</string>
     <string name="connection_added">Connection added</string>
     <string name="add">Add</string>
     <string name="changes_saved_successfully">Changes saved successfully</string>
+    <string name="connection_established">The connection is established</string>
+    <string name="connection_not_established">The connection is not established</string>
 </resources>

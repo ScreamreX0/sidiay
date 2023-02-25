@@ -13,6 +13,8 @@ import com.example.domain.models.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.signin.data.ConnectionsDataStore
+import com.example.signin.domain.states.ConnectionState
+import com.example.signin.domain.usecases.CheckConnectionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.first
@@ -25,10 +27,36 @@ class SignInViewModel @Inject constructor(
     private val checkFieldsUseCase: CheckSignInFieldsUseCase,
     private val signInUseCase: SignInUseCase,
     private val connectionsDataStore: ConnectionsDataStore,
+    private val checkConnectionUseCase: CheckConnectionUseCase
 ) : ViewModel() {
+
+    /** Connections */
+    var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
+
+    init {
+        viewModelScope.launch {
+            connectionsList = mutableStateOf(
+                connectionsDataStore.getConnections.first() as List<ConnectionParams>
+            )
+        }
+    }
+
+    val checkConnectionResult = mutableStateOf(ConnectionState.WAITING)
+    suspend fun checkConnection(url: String) {
+        checkConnectionResult.value = if (checkConnectionUseCase.execute(url = url)) {
+            ConnectionState.ESTABLISHED
+        } else {
+            ConnectionState.NOT_ESTABLISHED
+        }
+    }
+
+    suspend fun saveConnections(connectionsList: List<ConnectionParams>) {
+        connectionsDataStore.saveConnections(connectionsList)
+    }
+
+    /** SignIn */
     var errorResult = MutableLiveData<List<SignInStates>>()
     var successSignIn = MutableLiveData<UserEntity>()
-
     fun signIn(email: String, password: String) {
         val params = Credentials(email, password)
 
@@ -46,20 +74,6 @@ class SignInViewModel @Inject constructor(
         } else {
             Debugger.Companion.printInfo("Online sign in. IP:${Constants.URL}")
             signInOnline(params = params)
-        }
-    }
-
-    suspend fun saveConnections(connectionsList: List<ConnectionParams>) {
-        connectionsDataStore.saveConnections(connectionsList)
-    }
-
-    var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
-
-    init {
-        viewModelScope.launch {
-            connectionsList = mutableStateOf(
-                connectionsDataStore.getConnections.first() as List<ConnectionParams>
-            )
         }
     }
 

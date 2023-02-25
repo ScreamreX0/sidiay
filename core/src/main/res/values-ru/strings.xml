@@ -81,7 +81,6 @@
     <string name="auto_auth">Входить автоматически</string>
     <string name="check_connection">Проверить соединение</string>
     <string name="connection_name">Название соединения</string>
-    <string name="ip_address">IP-адрес</string>
     <string name="clear_all">Очистить все</string>
     <string name="fill_all_fields">Заполните все поля</string>
     <string name="too_many_connections">Слишком много соединений</string>
@@ -89,4 +88,6 @@
     <string name="connection_added">Соединение добавлено</string>
     <string name="add">Добавить</string>
     <string name="changes_saved_successfully">Изменения успешно сохранены</string>
+    <string name="connection_established">Соединение установлено</string>
+    <string name="connection_not_established">Соединение не установлено</string>
 </resources>

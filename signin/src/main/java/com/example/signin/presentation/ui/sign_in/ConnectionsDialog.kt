@@ -22,7 +22,6 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.ui.utils.ComponentPreview
-import com.example.core.ui.utils.Debugger
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
 import com.example.domain.models.params.ConnectionParams
@@ -82,7 +81,7 @@ class ConnectionsDialog {
         AppTheme(isSystemInDarkTheme()) {
             val name = stringResource(id = R.string.default_connection)
             val defaultConnection = remember {
-                mutableStateOf(ConnectionParams(name, Variables.DEFAULT_CONNECTION_IP))
+                mutableStateOf(ConnectionParams(name, Variables.DEFAULT_CONNECTION_URL))
             }
 
             ConnectionsDialogScreen(
@@ -126,7 +125,7 @@ private class AddConnectionComponent {
             Column {
                 val context = LocalContext.current
                 val connectionName = remember { mutableStateOf("") }
-                val ipAddress = remember { mutableStateOf("") }
+                val url = remember { mutableStateOf("") }
 
                 /** Connection name text field */
                 TextField(
@@ -144,10 +143,10 @@ private class AddConnectionComponent {
                     label = { Text(text = stringResource(R.string.connection_name)) },
                 )
 
-                /** Connection IP-address text field */
+                /** Connection url text field */
                 TextField(
                     modifier = Modifier.padding(bottom = 5.dp),
-                    value = ipAddress.value,
+                    value = url.value,
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = MaterialTheme.colors.onBackground,
                         unfocusedBorderColor = MaterialTheme.colors.onBackground,
@@ -156,8 +155,8 @@ private class AddConnectionComponent {
                         unfocusedLabelColor = MaterialTheme.colors.onBackground,
                         cursorColor = MaterialTheme.colors.onBackground,
                     ),
-                    onValueChange = { ipAddress.value = it },
-                    label = { Text(text = stringResource(R.string.ip_address)) },
+                    onValueChange = { url.value = it },
+                    label = { Text(text = stringResource(R.string.url)) },
                 )
 
                 Row(
@@ -196,7 +195,7 @@ private class AddConnectionComponent {
                                 contentColor = MaterialTheme.colors.onPrimary
                             ),
                             onClick = {
-                                if (connectionName.value.isBlank() || ipAddress.value.isBlank()) {
+                                if (connectionName.value.isBlank() || url.value.isBlank()) {
                                     Toast.makeText(
                                         context, fillAllFields, Toast.LENGTH_SHORT
                                     ).show()
@@ -212,10 +211,10 @@ private class AddConnectionComponent {
 
                                 connectionsList.value = connectionsList.value
                                     .plus(
-                                        ConnectionParams(connectionName.value, ipAddress.value)
+                                        ConnectionParams(connectionName.value, url.value)
                                     )
                                 connectionName.value = ""
-                                ipAddress.value = ""
+                                url.value = ""
 
                                 Toast.makeText(
                                     context, connectionAdded, Toast.LENGTH_SHORT
@@ -248,7 +247,7 @@ private class DefaultConnectionComponent {
                     .padding(top = 5.dp)
                     .clickable(onClick = {
                         selectedConnection.value = ConnectionParams(
-                            name = defaultConnectionName, ip = Variables.DEFAULT_CONNECTION_IP
+                            name = defaultConnectionName, url = Variables.DEFAULT_CONNECTION_URL
                         )
                         isDialogOpened.value = false
                     }), verticalAlignment = Alignment.CenterVertically
@@ -266,7 +265,7 @@ private class DefaultConnectionComponent {
                 val context = LocalContext.current
                 IconButton(onClick = {
                     Toast.makeText(
-                        context, "IP: ${Variables.DEFAULT_CONNECTION_IP}", Toast.LENGTH_SHORT
+                        context, "URL: ${Variables.DEFAULT_CONNECTION_URL}", Toast.LENGTH_SHORT
                     ).show()
                 }) {
                     Icon(
@@ -324,7 +323,7 @@ private class ConnectionsListComponent {
                         val context = LocalContext.current
                         IconButton(onClick = {
                             Toast.makeText(
-                                context, "IP: ${connectionItem.ip}", Toast.LENGTH_SHORT
+                                context, "URL: ${connectionItem.url}", Toast.LENGTH_SHORT
                             ).show()
                         }) {
                             Icon(
