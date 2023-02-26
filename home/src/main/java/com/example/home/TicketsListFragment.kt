@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.enums.states.TicketStates
+import com.example.domain.enums.states.TicketCreateStates
 import com.example.domain.enums.ticket.*
 import com.example.domain.models.entities.TicketEntity
 import com.example.home.databinding.FragmentTicketsListBinding
@@ -67,7 +67,7 @@ class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
                 return@observe
             }
 
-            if (viewModel.errorResult.value!!.contains(TicketStates.NO_SERVER_CONNECTION)) {
+            if (viewModel.errorResult.value!!.contains(TicketCreateStates.NO_SERVER_CONNECTION)) {
                 Toast.makeText(requireContext(), getString(coreR.string.no_server_connection), Toast.LENGTH_SHORT).show()
                 return@observe
             }

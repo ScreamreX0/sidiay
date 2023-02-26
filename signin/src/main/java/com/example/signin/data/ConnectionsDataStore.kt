@@ -18,8 +18,10 @@ class ConnectionsDataStore(private val context: Context) {
         val USER_CONNECTIONS = stringPreferencesKey("user_connections")
     }
 
-    val getConnections: Flow<Collection<ConnectionParams>> =
-        context.dataStore.data.map { preferences ->
+    val getConnections: Flow<Collection<ConnectionParams>> = context
+        .dataStore
+        .data
+        .map { preferences ->
             val gson = Gson()
             gson.fromJson<List<ConnectionParams>>(
                 preferences[USER_CONNECTIONS] ?: "",
@@ -27,7 +29,6 @@ class ConnectionsDataStore(private val context: Context) {
             )
         }
 
-    // to save the email
     suspend fun saveConnections(connections: Collection<ConnectionParams>) {
         context.dataStore.edit { preferences ->
             val gson = Gson()

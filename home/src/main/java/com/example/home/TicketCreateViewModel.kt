@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.enums.ticket.TicketPriorityEnum
 import com.example.domain.enums.ticket.TicketServiceEnum
-import com.example.domain.enums.states.TicketStates
+import com.example.domain.enums.states.TicketCreateStates
 import com.example.domain.enums.ticket.TicketKindEnum
 import com.example.domain.enums.ticket.TicketStatusEnum
 import com.example.domain.models.entities.FacilityEntity
@@ -38,11 +38,11 @@ class TicketCreateViewModel @Inject constructor(
     val mutableFacilities: MutableLiveData<List<FacilityEntity>> = MutableLiveData()
     val mutableEmployees: MutableLiveData<List<UserEntity>> = MutableLiveData()
 
-    var mutableErrors: MutableLiveData<List<TicketStates>> = MutableLiveData()
+    var mutableErrors: MutableLiveData<List<TicketCreateStates>> = MutableLiveData()
 
     var mutableSaveResult: MutableLiveData<Int> = MutableLiveData()
 
-    var mutableFieldsCheckResult: MutableLiveData<List<TicketStates>> = MutableLiveData()
+    var mutableFieldsCheckResult: MutableLiveData<List<TicketCreateStates>> = MutableLiveData()
 
     fun save(ticketEntity: AddTicketParams) {
         viewModelScope.launch(getConnectionHandler()) {
@@ -86,7 +86,7 @@ class TicketCreateViewModel @Inject constructor(
     private fun getConnectionHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                mutableErrors.value = listOf(TicketStates.NO_SERVER_CONNECTION)
+                mutableErrors.value = listOf(TicketCreateStates.NO_SERVER_CONNECTION)
             }
         }
     }

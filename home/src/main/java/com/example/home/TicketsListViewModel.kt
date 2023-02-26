@@ -3,7 +3,7 @@ package com.example.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.enums.states.TicketStates
+import com.example.domain.enums.states.TicketCreateStates
 import com.example.domain.enums.ticket.*
 import com.example.domain.models.entities.TicketEntity
 import com.example.domain.usecases.home.GetTicketsUseCase
@@ -23,7 +23,7 @@ class TicketsListViewModel @Inject constructor(
     var searchList: ArrayList<TicketEntity> = arrayListOf()
     var filterSearchList: ArrayList<TicketEntity> = arrayListOf()
 
-    var errorResult = MutableLiveData<List<TicketStates>>()
+    var errorResult = MutableLiveData<List<TicketCreateStates>>()
 
     // FILTER
     val priorities: ArrayList<TicketPriorityEnum> = TicketPriorityEnum.values().toList() as ArrayList<TicketPriorityEnum>
@@ -52,7 +52,7 @@ class TicketsListViewModel @Inject constructor(
     private fun getTicketsHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                this.errorResult.value = listOf(TicketStates.NO_SERVER_CONNECTION)
+                this.errorResult.value = listOf(TicketCreateStates.NO_SERVER_CONNECTION)
             }
         }
     }

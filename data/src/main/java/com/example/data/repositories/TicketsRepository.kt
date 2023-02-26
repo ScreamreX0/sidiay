@@ -2,9 +2,9 @@ package com.example.data.repositories
 
 import com.example.core.ui.utils.Debugger
 import com.example.data.api.ApiService
-import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.FacilityEntity
 import com.example.domain.models.entities.KindEntity
+import com.example.domain.models.entities.TicketEntity
 import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.AddTicketParams
 import com.example.domain.repositories.ITicketsRepository
@@ -30,14 +30,14 @@ class TicketsRepository @Inject constructor(
     }
 
     override suspend fun add(ticketEntity: AddTicketParams): Int {
-        com.example.core.ui.utils.Debugger.Companion.printInfo("Sending add ticket request")
+        Debugger.Companion.printInfo("Sending add ticket request")
         val body = HashMap<String, Any>()
 
         with(ticketEntity) {
-            /*            facilities?.let { body["facilities"] = it }
-            executor?.let { body["executor"] = it }
-            kind?.let { body["kind"] = it }
-            author?.let { body["author"] = it }*/
+            // facilities?.let { body["facilities"] = it }
+            // executor?.let { body["executor"] = it }
+            // kind?.let { body["kind"] = it }
+            // author?.let { body["author"] = it }
             priority?.let { body["priority"] = it } ?: run { body["priority"] = "1" }
             plane_date?.let { body["plane_date"] = it } ?: run { body["plane_date"] = "" }
             expiration_date?.let { body["expiration_date"] = it } ?: run { body["expiration_date"] = "" }
@@ -50,12 +50,11 @@ class TicketsRepository @Inject constructor(
         }
 
         val response = apiService.addTicket(body)
-        com.example.core.ui.utils.Debugger.Companion.printInfo("Add ticket request was sent")
+        Debugger.Companion.printInfo("Add ticket request was sent")
 
         return response.code()
     }
 
-    // Test
     override suspend fun getTest(): List<TicketEntity> {
         return List(10) {
             getTest(it)

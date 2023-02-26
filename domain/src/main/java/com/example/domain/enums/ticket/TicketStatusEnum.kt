@@ -1,14 +1,17 @@
 package com.example.domain.enums.ticket
 
-enum class TicketStatusEnum(private val elementName: String, val id: Int) : ITicketEnum {
-    NotFormed("Не сформирована", 1),
-    New("Новая", 2),
-    Accepted("Принята", 3),
-    Denied("Отказано", 4),
-    Paused("Приостановлена", 5),
-    Done("Выполнена", 6),
-    Closed("Закрыта", 7),
-    ForRevision("На доработку", 8);
+enum class TicketStatusEnum(
+    val id: Int,
+    private val elementName: String
+) : ITicketEnum {
+    NotFormed(elementName = "Не сформирована", id = 1),
+    New(elementName = "Новая", id = 2),
+    Accepted(elementName = "Принята", id = 3),
+    Denied(elementName = "Отказано", id = 4),
+    Paused(elementName = "Приостановлена", id = 5),
+    Done(elementName = "Выполнена", id = 6),
+    Closed(elementName = "Закрыта", id = 7),
+    ForRevision(elementName = "На доработку", id = 8);
 
     override fun getName() = elementName
 }

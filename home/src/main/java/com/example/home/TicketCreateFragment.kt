@@ -17,7 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.domain.enums.states.TicketStates
+import com.example.domain.enums.states.TicketCreateStates
 import com.example.domain.enums.ticket.ITicketEnum
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.UserEntity
@@ -167,12 +167,12 @@ class TicketCreateFragment : Fragment(R.layout.fragment_ticket_create), DatePick
     private fun initFieldsCheckResult() {
         viewModel.mutableFieldsCheckResult.observe(viewLifecycleOwner) {
             it?.let {
-                if (it.contains(TicketStates.FILL_ALL_FIELDS_WITH_STAR)) {
+                if (it.contains(TicketCreateStates.FILL_ALL_FIELDS_WITH_STAR)) {
                     Toast.makeText(requireContext(), getText(coreR.string.fill_all_fields_with_star), Toast.LENGTH_SHORT).show()
                     return@observe
                 }
 
-                if (it.contains(TicketStates.READY_TO_BE_SAVED)) {
+                if (it.contains(TicketCreateStates.READY_TO_BE_SAVED)) {
                     viewModel.save(ticket)
                     Toast.makeText(requireContext(), getString(coreR.string.ticket_create_success), Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()

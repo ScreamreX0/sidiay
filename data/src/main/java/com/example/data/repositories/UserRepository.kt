@@ -10,6 +10,10 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val apiService: ApiService
 ) : IUserRepository {
+    override suspend fun getUsers(): List<UserEntity>? {
+        return apiService.getUsers().body()
+    }
+
     override suspend fun getTestUsers(): List<UserEntity> {
         return List(15) {
             UserEntity(
@@ -21,17 +25,15 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getUsers(): List<UserEntity>? {
-        return apiService.getUsers().body()
-    }
-
     override suspend fun signInByEmail(credentials: Credentials): Pair<Int, UserEntity?> {
-        com.example.core.ui.utils.Debugger.Companion.printInfo("Sending sign in request")
+        Debugger.printInfo("Sending sign in request")
+
         val body = HashMap<String, String>()
         body["email"] = credentials.email
         body["password"] = credentials.password
-        val response = apiService.signIn(body)
-        com.example.core.ui.utils.Debugger.Companion.printInfo("Sign in request was sent")
+
+        val response = apiService.signIn("", body)
+        Debugger.printInfo("Sign in request was sent")
 
         return Pair(response.code(), response.body())
     }
