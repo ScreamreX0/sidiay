@@ -28,7 +28,7 @@ private val LightThemeColors = lightColors(
     background = Color.White,
     onBackground = CustomColors.Orange700,
 
-    surface = Color.White,
+    surface = CustomColors.Grey900,
 )
 
 @SuppressLint("ConflictingOnColor")
@@ -46,7 +46,7 @@ private val DarkThemeColors = darkColors(
     background = CustomColors.Grey700,
     onBackground = CustomColors.Orange700,
 
-    surface = CustomColors.Grey620,
+    surface = CustomColors.Grey700,
 )
 
 @Composable

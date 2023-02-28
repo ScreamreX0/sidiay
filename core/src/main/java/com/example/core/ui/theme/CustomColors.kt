@@ -18,7 +18,7 @@ object CustomColors {
     val Orange540 = Color(0xff8b3503)
     val Orange500 = Color(0xff742c02)
 
-    val Grey900  = Color(0xFF989797)
+    val Grey900  = Color(0xFFD9D9D9)
     val Grey860  = Color(0xFF848282)
     val Grey820  = Color(0xFF6f6e6e)
     val Grey780  = Color(0xFF5a5959)

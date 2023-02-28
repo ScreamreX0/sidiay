@@ -1,5 +1,6 @@
 package com.example.domain
 
+import com.example.domain.usecases.other.GenerateURLUseCase
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +12,7 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun generateUrl_isCorrect() {
+
     }
 }

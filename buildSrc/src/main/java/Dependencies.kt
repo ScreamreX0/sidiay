@@ -52,6 +52,7 @@ object Dependencies {
         const val LIVE_DATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.Core.LIFECYCLE}"
         const val NAVIGATION = "androidx.navigation:navigation-fragment-ktx:${Versions.UI.NAVIGATION}"
         const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.UI.NAVIGATION}"
+        const val PAGINATION = "androidx.paging:paging-runtime:${Versions.UI.PAGINATION}"
         object Compose {
             const val BOM = "androidx.compose:compose-bom:2022.12.00"
             const val LIVE_DATA = "androidx.compose.runtime:runtime-livedata:${Versions.UI.Compose.FRAMEWORK}"
@@ -66,6 +67,7 @@ object Dependencies {
             const val FOUNDATION = "androidx.compose.foundation:foundation:${Versions.UI.Compose.FOUNDATION}"
             const val RUNTIME = "androidx.compose.runtime:runtime:${Versions.UI.Compose.RUNTIME}"
             const val UI = "androidx.compose.ui:ui:${Versions.UI.Compose.UI}"
+            const val PAGINATION = "androidx.paging:paging-compose:${Versions.UI.Compose.PAGINATION}"
         }
     }
 
@@ -76,7 +78,7 @@ object Dependencies {
     }
 
     object Modules {
-        const val DOMAIN = ":domain"
+        const val DOMAIN =  ":domain"
         const val DATA = ":data"
         const val CORE = ":core"
         const val SIGN_IN = ":signin"
@@ -128,6 +130,7 @@ object Dependencies {
             const val MATERIAL = "1.7.0"
             const val NAVIGATION = "2.5.3"
             const val CONSTRAINT = "2.1.4"
+            const val PAGINATION = "3.1.1"
             object Compose {
                 const val COMPILER = "1.3.2"
                 const val FRAMEWORK = "0.1.0-dev03"
@@ -141,6 +144,7 @@ object Dependencies {
                 const val FOUNDATION = "1.3.1"
                 const val RUNTIME = "1.3.3"
                 const val UI = "1.3.3"
+                const val PAGINATION = "1.0.0-alpha18"
             }
         }
 

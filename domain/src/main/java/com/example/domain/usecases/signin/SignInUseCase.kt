@@ -1,18 +1,18 @@
 package com.example.domain.usecases.signin
 
-import com.example.domain.models.params.Credentials
 import com.example.domain.models.entities.UserEntity
-import com.example.domain.repositories.IUserRepository
+import com.example.domain.models.params.Credentials
+import com.example.domain.repositories.IAuthRepository
 import javax.inject.Inject
 
 class SignInUseCase @Inject constructor(
-    private val userRepository: IUserRepository
+    private val authRepository: IAuthRepository
 ) {
-    suspend fun execute(credentials: Credentials): Pair<Int, UserEntity?> {
-        return userRepository.signInByEmail(credentials)
+    suspend fun execute(url: String, credentials: Credentials): Pair<Int, UserEntity?> {
+        return authRepository.signIn(url, credentials)
     }
 
     fun getEmptyUser(): Any {
-        return userRepository.getEmptyUser()
+        return authRepository.getEmptyUser()
     }
 }

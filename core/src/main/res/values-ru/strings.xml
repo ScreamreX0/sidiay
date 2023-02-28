@@ -3,9 +3,9 @@
     <string name="app_name">ПЗС КРОН</string>
     <string name="password">Пароль</string>
     <string name="sign_in">Войти</string>
-    <string name="short_or_long_email">Длина E-mail должна быть от 7 до 32 символов</string>
+    <string name="short_or_long_email">Длина E-mail должна быть от 9 до 32 символов</string>
     <string name="short_or_long_password">Длина пароля должна быть от 6 до 32 символов</string>
-    <string name="short_or_long_email_briefly">Длина E-mail &lt; 7</string>
+    <string name="short_or_long_email_briefly">Длина E-mail &lt; 9</string>
     <string name="short_or_long_password_briefly">Длина пароля &lt; 6</string>
     <string name="create_account">Создать аккаунт</string>
     <string name="forgot_password">Забыли пароль?</string>

@@ -1,6 +1,6 @@
 package com.example.data.repositories
 
-import com.example.data.api.ApiService
+import com.example.data.network.api.ApiService
 import com.example.domain.repositories.IFacilitiesRepository
 import com.example.domain.models.entities.FacilityEntity
 import javax.inject.Inject

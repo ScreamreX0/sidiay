@@ -7,6 +7,7 @@ import com.example.domain.models.params.AddTicketParams
 interface ITicketsRepository {
     suspend fun get(): Pair<Int, List<TicketEntity>?>
     suspend fun get(id: Int): TicketEntity
+    suspend fun get(url: String, start: Int, end: Int): Pair<Int, List<TicketEntity>?>
     suspend fun set(newTicketEntity: TicketEntity): Boolean
     suspend fun add(ticketEntity: AddTicketParams): Int
 

@@ -1,7 +1,7 @@
 package com.example.data.repositories
 
 import com.example.core.ui.utils.Debugger
-import com.example.data.api.ApiService
+import com.example.data.network.api.ApiService
 import com.example.domain.models.entities.FacilityEntity
 import com.example.domain.models.entities.KindEntity
 import com.example.domain.models.entities.TicketEntity
@@ -23,6 +23,11 @@ class TicketsRepository @Inject constructor(
 
     override suspend fun get(id: Int): TicketEntity {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun get(url: String, start: Int, end: Int): Pair<Int, List<TicketEntity>?> {
+        val result = apiService.getTickets("${url}?start=$start&end=$end")
+        return Pair(result.code(), result.body())
     }
 
     override suspend fun set(newTicketEntity: TicketEntity): Boolean {

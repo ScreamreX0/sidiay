@@ -50,6 +50,9 @@ dependencies {
         implementation(RETROFIT)
         implementation(RETROFIT_GSON)
     }
+    Dependencies.Other.apply {
+        implementation(DATA_STORE)
+    }
     Dependencies.Test.apply {
         implementation(JUNIT)
         implementation(ANDROID_JUNIT)

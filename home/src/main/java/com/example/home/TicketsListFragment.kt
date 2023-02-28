@@ -16,6 +16,7 @@ import com.example.domain.enums.states.TicketCreateStates
 import com.example.domain.enums.ticket.*
 import com.example.domain.models.entities.TicketEntity
 import com.example.home.databinding.FragmentTicketsListBinding
+import com.example.home.ui.tickets_list.TicketsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
