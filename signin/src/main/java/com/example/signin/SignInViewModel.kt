@@ -3,6 +3,7 @@ package com.example.signin
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.utils.Constants
@@ -59,13 +60,16 @@ class SignInViewModel @Inject constructor(
     }
 
     /** SignIn */
-    var signInErrors: MutableState<List<SignInStates>?> = mutableStateOf(null, neverEqualPolicy())
-    var signInSuccess: MutableState<UserEntity?> = mutableStateOf(null, neverEqualPolicy())
+    var signInErrors: MutableLiveData<List<SignInStates>> =
+        MutableLiveData(listOf())
+    var signInSuccess: MutableLiveData<UserEntity> =
+        MutableLiveData(UserEntity(id = -1))
+
     fun signIn(url: String, email: String, password: String) {
         val params = Credentials(email, password)
         val result = checkFieldsUseCase.execute(params = params)
         if (result.size != 0 && Constants.CHECK_SIGN_IN_FIELDS) {
-            this.signInErrors.value = result
+            signInErrors.value = result
             return
         }
 
@@ -104,7 +108,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signInOffline() {
-        signInSuccess.value = signInUseCase.getEmptyUser() as UserEntity
+        signInSuccess.value = UserEntity()
     }
 
     private fun getSignInHandler(): CoroutineExceptionHandler {

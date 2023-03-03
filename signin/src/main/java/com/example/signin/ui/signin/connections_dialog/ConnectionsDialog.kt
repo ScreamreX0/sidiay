@@ -44,12 +44,10 @@ internal class ConnectionsDialog {
                         .background(MaterialTheme.colors.background)
                         .padding(20.dp),
                 ) {
-                    val tempConnectionsList = remember { connectionsList }
-
                     DialogTitle.TitleContent()
 
                     AddConnection.Content(
-                        connectionsList = tempConnectionsList
+                        connectionsList = connectionsList
                     )
 
                     DefaultConnection.Content(
@@ -58,14 +56,14 @@ internal class ConnectionsDialog {
                     )
 
                     ConnectionsList.Content(
-                        connectionsList = tempConnectionsList,
+                        connectionsList = connectionsList,
                         selectedConnection = selectedConnection,
                         isDialogOpened = isDialogOpened
                     )
 
                     BottomButtons.Content(
                         saveDataFunction = saveDataFunction,
-                        connectionsList = tempConnectionsList,
+                        connectionsList = connectionsList,
                         isDialogOpened = isDialogOpened,
                     )
                 }

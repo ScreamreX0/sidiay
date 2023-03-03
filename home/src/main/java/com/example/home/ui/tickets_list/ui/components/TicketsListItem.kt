@@ -17,13 +17,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
 
 class TicketsListItem {
     companion object {
         @Composable
-        internal fun Content(isDarkTheme: Boolean) {
+        internal fun Content(
+            navController: NavHostController = rememberNavController(),
+            isDarkTheme: Boolean
+        ) {
             val surfaceColor = if (isDarkTheme) {
                 Color(0XFF464343)
             } else {
@@ -248,13 +253,13 @@ class TicketsListItem {
                     .background(textColor)
             )
         }
-    }
 
-    @Composable
-    @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
-    private fun ContentPreview() {
-        AppTheme {
-            Content(false)
+        @Composable
+        @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+        private fun ContentPreview() {
+            AppTheme {
+                Content(isDarkTheme = false)
+            }
         }
     }
 }

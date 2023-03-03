@@ -7,8 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
-import com.example.core.ui.theme.AppTheme
-import com.example.main_menu.ui.MainMenuScreen
+import com.example.main_menu.ui.MainMenu
 import com.example.signin.navigation.authenticationGraph
 
 
@@ -17,11 +16,11 @@ fun RootNavGraph(navController: NavHostController) {
     NavHost(
         route = Graphs.ROOT,
         navController = navController,
-        startDestination = Graphs.SIGN_IN
+        startDestination = Graphs.AUTHENTICATION
     ) {
         authenticationGraph(navController = navController)
         composable(
-            route = Graphs.MAIN_MENU,
+            route = Graphs.HOME,
             arguments = listOf(
                 navArgument("userId") {
                     type = NavType.LongType
@@ -65,9 +64,7 @@ fun RootNavGraph(navController: NavHostController) {
                 }
             )
         ) {
-            AppTheme(false) {
-                MainMenuScreen()
-            }
+            MainMenu.Content()
         }
     }
 }

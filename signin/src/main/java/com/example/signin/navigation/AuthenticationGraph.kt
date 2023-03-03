@@ -1,5 +1,7 @@
 package com.example.signin.navigation
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,11 +11,14 @@ import com.example.signin.ui.signin.SignIn
 
 fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
     navigation(
-        route = Graphs.SIGN_IN,
+        route = Graphs.AUTHENTICATION,
         startDestination = Authentication.SignInScreen.route
     ) {
         composable(route = Authentication.SignInScreen.route) {
-            SignIn().SignInScreen(navController = navController)
+            SignIn().SignInScreen(
+                navController = navController,
+                darkMode = remember { mutableStateOf(false) }
+            )
         }
     }
 }

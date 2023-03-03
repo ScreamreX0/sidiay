@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.R
+import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.domain.models.params.ConnectionParams
 
@@ -24,18 +25,17 @@ internal class Enter {
         @Composable
         fun Content(
             modifier: Modifier = Modifier,
-            navController: NavHostController = rememberNavController(),
             email: MutableState<String>,
             password: MutableState<String>,
             rememberMe: MutableState<Boolean> = remember { mutableStateOf(false) },
             selectedConnection: MutableState<ConnectionParams>,
-            signInFunction: (url: String, email: String, password: String) -> Unit
+            signInFunction: (String, String, String) -> Unit
         ) {
             DefaultButtonStyle {
                 Button(
                     modifier = modifier,
                     onClick = {
-                        signInFunction.invoke(
+                        signInFunction(
                             selectedConnection.value.url,
                             email.value,
                             password.value,

@@ -9,7 +9,7 @@ class GetTicketsUseCase @Inject constructor(
     private val ticketsRepository: ITicketsRepository
 ) {
     suspend fun execute(): Pair<Int, List<TicketEntity>?> {
-        if (com.example.core.ui.utils.Constants.DEBUG_MODE) {
+        if (Constants.DEBUG_MODE) {
             return Pair(200, ticketsRepository.getTest())
         }
 
