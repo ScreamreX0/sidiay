@@ -13,4 +13,8 @@ object Constants {
 
     const val URL = "https://03d4-87-117-189-231.eu.ngrok.io"
     const val LOCAL_URL = "http://localhost:8081"
+
+    const val NULL = "NULL"
+    const val DARK_MODE = "DARK_MODE"
+    const val LIGHT_MODE = "LIGHT_MODE"
 }

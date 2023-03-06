@@ -16,8 +16,7 @@ fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
     ) {
         composable(route = Authentication.SignInScreen.route) {
             SignIn().SignInScreen(
-                navController = navController,
-                darkMode = remember { mutableStateOf(false) }
+                navController = navController
             )
         }
     }

@@ -1,4 +1,4 @@
-package com.example.data.datastores
+package com.example.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -18,21 +18,14 @@ class ConnectionsDataStore(private val context: Context) {
         val USER_CONNECTIONS = stringPreferencesKey("user_connections")
     }
 
-    val getConnections: Flow<Collection<ConnectionParams>> = context
-        .dataStore
-        .data
-        .map { preferences ->
-            val gson = Gson()
-            gson.fromJson<List<ConnectionParams>>(
-                preferences[USER_CONNECTIONS] ?: "",
+    val getConnections: Flow<Collection<ConnectionParams>> = context.dataStore.data
+        .map {
+            Gson().fromJson<List<ConnectionParams>>(
+                it[USER_CONNECTIONS] ?: "",
                 (object : TypeToken<List<ConnectionParams>>() {}).type
             )
         }
 
-    suspend fun saveConnections(connections: Collection<ConnectionParams>) {
-        context.dataStore.edit { preferences ->
-            val gson = Gson()
-            preferences[USER_CONNECTIONS] = gson.toJson(connections)
-        }
-    }
+    suspend fun saveConnections(connections: Collection<ConnectionParams>) =
+        context.dataStore.edit { it[USER_CONNECTIONS] = Gson().toJson(connections) }
 }

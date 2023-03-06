@@ -3,7 +3,6 @@ package com.example.signin
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.utils.Constants
@@ -13,7 +12,8 @@ import com.example.domain.models.entities.UserEntity
 import com.example.domain.models.params.ConnectionParams
 import com.example.domain.models.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
-import com.example.data.datastores.ConnectionsDataStore
+import com.example.data.datastore.ConnectionsDataStore
+import com.example.data.datastore.ThemeDataStore
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.usecases.signin.CheckConnectionUseCase
 import com.example.domain.usecases.signin.SignInUseCase
@@ -26,23 +26,50 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    // UseCases
     private val checkFieldsUseCase: CheckSignInFieldsUseCase,
     private val signInUseCase: SignInUseCase,
+    private val checkConnectionUseCase: CheckConnectionUseCase,
+
+    // Stores
     private val connectionsDataStore: ConnectionsDataStore,
-    private val checkConnectionUseCase: CheckConnectionUseCase
+    private val themeDataStore: ThemeDataStore,
 ) : ViewModel() {
-    /** Connections */
+    var darkMode: MutableState<String> = mutableStateOf(Constants.NULL)
+
     var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
+    val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
+
+    var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
+    var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(id = -1))
 
     init {
+        viewModelScope.launch { updateConnections() }
+        viewModelScope.launch { updateUIModeVar() }
+    }
+
+    /** UIMode */
+    fun changeUIMode() {
         viewModelScope.launch {
-            connectionsList = mutableStateOf(
-                connectionsDataStore.getConnections.first() as List<ConnectionParams>
-            )
+            if (darkMode.value == Constants.NULL) {
+                themeDataStore.saveMode(Constants.LIGHT_MODE)
+            } else {
+                val mode = if (darkMode.value == Constants.LIGHT_MODE) {
+                    Constants.DARK_MODE
+                } else {
+                    Constants.LIGHT_MODE
+                }
+                themeDataStore.saveMode(mode)
+            }
+            updateUIModeVar()
         }
     }
 
-    val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
+    suspend fun updateUIModeVar() {
+        darkMode.value = themeDataStore.getMode.first()
+    }
+
+    /** Connections */
     suspend fun checkConnection(url: String) {
         if (url.last().toString() != "/") {
             url.plus("/")
@@ -59,12 +86,12 @@ class SignInViewModel @Inject constructor(
         connectionsDataStore.saveConnections(connectionsList)
     }
 
-    /** SignIn */
-    var signInErrors: MutableLiveData<List<SignInStates>> =
-        MutableLiveData(listOf())
-    var signInSuccess: MutableLiveData<UserEntity> =
-        MutableLiveData(UserEntity(id = -1))
+    private suspend fun updateConnections() {
+        connectionsList.value = connectionsDataStore.getConnections.first()
+                as List<ConnectionParams>
+    }
 
+    /** SignIn */
     fun signIn(url: String, email: String, password: String) {
         val params = Credentials(email, password)
         val result = checkFieldsUseCase.execute(params = params)
@@ -80,6 +107,8 @@ class SignInViewModel @Inject constructor(
             Debugger.Companion.printInfo("Online sign in. IP:${Constants.URL}")
             signInOnline(url = url, params = params)
         }
+
+
     }
 
     private fun signInOnline(url: String, params: Credentials) {
@@ -111,11 +140,8 @@ class SignInViewModel @Inject constructor(
         signInSuccess.value = UserEntity()
     }
 
-    private fun getSignInHandler(): CoroutineExceptionHandler {
-        return CoroutineExceptionHandler { _, throwable ->
-            if (throwable::class == ConnectException::class) {
-                this.signInErrors.value = listOf(SignInStates.NO_SERVER_CONNECTION)
-            }
-        }
+    private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->
+        if (throwable::class == ConnectException::class) this.signInErrors.value =
+            listOf(SignInStates.NO_SERVER_CONNECTION)
     }
 }

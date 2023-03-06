@@ -2,11 +2,11 @@ package com.example.sidiay.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
+import com.example.domain.types.UserType
 import com.example.main_menu.ui.MainMenu
 import com.example.signin.navigation.authenticationGraph
 
@@ -20,51 +20,10 @@ fun RootNavGraph(navController: NavHostController) {
     ) {
         authenticationGraph(navController = navController)
         composable(
-            route = Graphs.HOME,
-            arguments = listOf(
-                navArgument("userId") {
-                    type = NavType.LongType
-                    defaultValue = 0
-                    nullable = false
-                },
-                navArgument("userFirstName") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = false
-                },
-                navArgument("userName") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = false
-                },
-                navArgument("userLastName") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = true
-                },
-                navArgument("userEmail") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = false
-                },
-                navArgument("userPassword") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = false
-                },
-                navArgument("userPhone") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = true
-                },
-                navArgument("userPhoto") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                    nullable = true
-                }
-            )
+            route = "${Graphs.HOME}/{user}",
+            arguments = listOf(navArgument("user") { type = UserType() })
         ) {
-            MainMenu.Content()
+            MainMenu().Content(user = it.arguments?.getParcelable("user"))
         }
     }
 }

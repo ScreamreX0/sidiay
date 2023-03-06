@@ -1,11 +1,11 @@
 package com.example.signin.ui.signin
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -14,14 +14,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.asFlow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ComponentPreview
-import com.example.core.ui.utils.Debugger
+import com.example.core.ui.utils.Constants
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
 import com.example.domain.enums.states.ConnectionState
@@ -30,6 +29,7 @@ import com.example.domain.models.params.ConnectionParams
 import com.example.signin.SignInViewModel
 import com.example.signin.ui.signin.components.*
 import com.example.signin.ui.signin.connections_dialog.ConnectionsDialog
+import com.google.gson.Gson
 import kotlin.reflect.KMutableProperty0
 import kotlin.reflect.KProperty0
 
@@ -38,25 +38,30 @@ internal class SignIn {
     @Composable
     fun SignInScreen(
         navController: NavHostController,
-        darkMode: MutableState<Boolean> = mutableStateOf(false),
         signInViewModel: SignInViewModel = hiltViewModel(),
     ) {
-        /** Success handler */
-        val success = signInViewModel.signInSuccess.observeAsState()
-        success.value?.let {
+        val darkMode = signInViewModel.darkMode
+
+        if (darkMode.value == Constants.NULL) {
+            return
+        }
+
+        val context = LocalContext.current
+        val success = signInViewModel.signInSuccess
+        val errors = signInViewModel.signInErrors
+
+        success.value.let {
             if (it.id != -1L) {
                 LaunchedEffect(it) {
-                    Debugger.printInfo("Entering")
+                    val jsonUser = Uri.encode(Gson().toJson(it))
                     navController.popBackStack()
-                    navController.navigate(Graphs.HOME)
+                    navController.navigate(
+                        route = "${Graphs.HOME}/$jsonUser",
+                    )
                 }
             }
         }
-
-        /** Errors handler */
-        val context = LocalContext.current
-        val errors = signInViewModel.signInErrors.value
-        errors?.let {
+        errors.value.let {
             if (it.contains(SignInStates.NO_SERVER_CONNECTION)) {
                 Toast.makeText(
                     context,
@@ -78,7 +83,6 @@ internal class SignIn {
             }
         }
 
-
         Content(
             navController = navController,
             darkMode = darkMode,
@@ -90,13 +94,15 @@ internal class SignIn {
             checkConnectionResult = signInViewModel::checkConnectionResult,
 
             signInFunction = signInViewModel::signIn,
+
+            changeUIMode = signInViewModel::changeUIMode,
         )
     }
 
     @Composable
     fun Content(
         navController: NavHostController = rememberNavController(),
-        darkMode: MutableState<Boolean> = remember { mutableStateOf(false) },
+        darkMode: MutableState<String> = remember { mutableStateOf(Constants.LIGHT_MODE) },
 
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
         connectionsList: KMutableProperty0<MutableState<List<ConnectionParams>>>,
@@ -105,13 +111,20 @@ internal class SignIn {
         checkConnectionResult: KProperty0<MutableState<ConnectionState>>,
 
         signInFunction: (String, String, String) -> Unit = { _, _, _ -> },
+
+        changeUIMode: () -> Unit = {}
     ) {
         val defaultConnection = stringResource(R.string.default_connection)
         val selectedConnection: MutableState<ConnectionParams> = remember {
             mutableStateOf(ConnectionParams(defaultConnection, Variables.DEFAULT_CONNECTION_URL))
         }
         val isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) }
-        AppTheme(darkMode.value) {
+
+        val email = remember { mutableStateOf("") }
+        val password = remember { mutableStateOf("") }
+        val autoAuth = remember { mutableStateOf(false) }
+
+        AppTheme(darkMode.value == Constants.DARK_MODE) {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
@@ -143,7 +156,7 @@ internal class SignIn {
                             linkTo(parent.start, parent.end, bias = 0.5F)
                             linkTo(parent.top, parent.bottom, bias = 0.2F)
                         },
-                    isDarkTheme = darkMode
+                    changeUIMode = changeUIMode
                 )
 
                 /** Button (connections)
@@ -151,9 +164,10 @@ internal class SignIn {
                 Connection.Content(
                     modifier = Modifier
                         .constrainAs(connectionComponentRef) {
-                            top.linkTo(titleComponentRef.bottom, 60.dp)
-                            linkTo(parent.start, parent.end, bias = 0.5F)
-                            width = Dimension.percent(0.8F)
+                            bottom.linkTo(checkConnectionComponentRef.top, margin = 3.dp)
+                            start.linkTo(emailComponentRef.start)
+                            end.linkTo(emailComponentRef.end)
+                            width = Dimension.fillToConstraints
                         },
                     isConnectionDialogOpened = isConnectionDialogOpened,
                     selectedConnection = selectedConnection
@@ -164,8 +178,8 @@ internal class SignIn {
                 CheckConnection.Content(
                     modifier = Modifier
                         .constrainAs(checkConnectionComponentRef) {
-                            top.linkTo(connectionComponentRef.bottom, margin = 3.dp)
-                            end.linkTo(connectionComponentRef.end)
+                            bottom.linkTo(emailComponentRef.top, margin = 3.dp)
+                            end.linkTo(emailComponentRef.end)
                         },
                     selectedConnection = selectedConnection,
                     checkConnection = checkConnectionFunction,
@@ -173,19 +187,17 @@ internal class SignIn {
                 )
 
                 /** TextField (email) */
-                val email = remember { mutableStateOf("") }
                 Email.Content(
                     modifier = Modifier
                         .constrainAs(emailComponentRef) {
-                            top.linkTo(connectionComponentRef.bottom, margin = 30.dp)
-                            linkTo(connectionComponentRef.start, connectionComponentRef.end)
-                            width = Dimension.fillToConstraints
+                            linkTo(parent.start, parent.end, bias = 0.5F)
+                            linkTo(parent.top, parent.bottom, bias = 0.5F)
+                            width = Dimension.percent(0.8F)
                         },
                     email = email
                 )
 
                 /** TextField (password) */
-                val password = remember { mutableStateOf("") }
                 Password.Content(
                     modifier = Modifier
                         .constrainAs(passwordComponentRef) {
@@ -196,17 +208,16 @@ internal class SignIn {
                     password = password,
                 )
 
-//                /** Checkbox (auto authentication) */
-//                val autoAuth = remember { mutableStateOf(false) }
-//                AutoAuthComponent.Content(
-//                    modifier = Modifier
-//                        .constrainAs(rememberComponentRef) {
-//                            bottom.linkTo(enterComponentRef.top)
-//                            start.linkTo(parent.start, margin = 50.dp)
-//                        },
-//                    autoAuth = autoAuth,
-//                )
-
+                /** Checkbox (auto authentication) */
+                // TODO
+                AutoAuth.Content(
+                    modifier = Modifier
+                        .constrainAs(rememberComponentRef) {
+                            bottom.linkTo(enterComponentRef.top)
+                            start.linkTo(enterComponentRef.start)
+                        },
+                    autoAuth = autoAuth,
+                )
 
                 /** Button
                  * Click -> entering */
@@ -225,6 +236,7 @@ internal class SignIn {
 
                 /** Text (offline mode)
                  * Click -> entering with offline mode */
+                // TODO
                 OfflineMode.Content(
                     navController = navController,
                     modifier = Modifier
@@ -242,6 +254,7 @@ internal class SignIn {
         mutableStateOf(listOf())
     private var checkConnectionResult: MutableState<ConnectionState> =
         mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
+    private var uiMode: MutableState<Boolean>? = mutableStateOf(false)
 
     @ScreenPreview
     @Composable

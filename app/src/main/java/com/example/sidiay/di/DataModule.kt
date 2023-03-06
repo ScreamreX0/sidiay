@@ -6,7 +6,8 @@ import com.example.data.repositories.TicketsRepository
 import com.example.data.repositories.UserRepository
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.repositories.IUserRepository
-import com.example.data.datastores.ConnectionsDataStore
+import com.example.data.datastore.ConnectionsDataStore
+import com.example.data.datastore.ThemeDataStore
 import com.example.data.repositories.AuthRepository
 import com.example.domain.repositories.IAuthRepository
 import dagger.Module
@@ -23,7 +24,9 @@ class DataModule {
     @Provides
     fun provideTicketRepository(apiService: ApiService): ITicketsRepository = TicketsRepository(apiService)
     @Provides
-    fun provideDataStore(@ApplicationContext context: Context): ConnectionsDataStore = ConnectionsDataStore(context)
+    fun provideConnectionsDataStore(@ApplicationContext context: Context): ConnectionsDataStore = ConnectionsDataStore(context)
+    @Provides
+    fun provideThemeDataStore(@ApplicationContext context: Context): ThemeDataStore = ThemeDataStore(context)
     @Provides
     fun provideAuthRepository(apiService: ApiService): IAuthRepository = AuthRepository(apiService)
 }

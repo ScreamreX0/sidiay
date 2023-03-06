@@ -5,10 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 
 
-@Composable
-fun TicketInfoScreen() {
-    Text(
-        text = "Ticket info",
-        fontWeight = FontWeight.Bold
-    )
+class TicketUpdateScreen {
+    @Composable
+    fun Content() {
+        Text(text = "Ticket update")
+    }
 }

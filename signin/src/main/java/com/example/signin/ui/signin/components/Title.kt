@@ -29,7 +29,7 @@ internal class Title {
         @Composable
         fun Content(
             modifier: Modifier = Modifier,
-            isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) }
+            changeUIMode: () -> Unit
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -41,7 +41,9 @@ internal class Title {
             ) {
                 HeaderFirstPart()
                 HeaderSecondPart()
-                Icon(isDarkTheme = isDarkTheme)
+                Icon(
+                    onClick = { changeUIMode() },
+                )
             }
         }
 
@@ -72,7 +74,7 @@ internal class Title {
         }
 
         @Composable
-        private fun Icon(isDarkTheme: MutableState<Boolean>) {
+        private fun Icon(onClick: () -> Unit = {}) {
             val interactionSource = remember { MutableInteractionSource() }
             Image(
                 modifier = Modifier
@@ -80,9 +82,7 @@ internal class Title {
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null
-                    ) {
-                        isDarkTheme.value = !isDarkTheme.value
-                    },
+                    ) { onClick() },
                 contentScale = ContentScale.Inside,
                 painter = painterResource(id = R.drawable.ic_logo),
                 colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),

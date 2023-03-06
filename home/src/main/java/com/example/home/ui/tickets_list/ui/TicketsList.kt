@@ -1,7 +1,13 @@
 package com.example.home.ui.tickets_list.ui
 
+import android.widget.ListView
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -20,17 +26,20 @@ import kotlin.reflect.KMutableProperty0
 
 class TicketsList {
     @Composable
-    fun Screen(
+    fun TicketsListScreen(
         ticketsListViewModel: TicketsListViewModel = hiltViewModel(),
         navController: NavHostController = rememberNavController(),
-        isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) }
+        isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) },
+        paddingValues: PaddingValues = PaddingValues()
     ) {
         AppTheme {
             Content(
+                modifier = Modifier.padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding()
+                ),
                 navController = navController,
                 isDarkTheme = isDarkTheme.value,
-
-                // Tickets
                 tickets = ticketsListViewModel::tickets
             )
         }
@@ -38,25 +47,38 @@ class TicketsList {
 
     @Composable
     private fun Content(
+        modifier: Modifier = Modifier,
         navController: NavHostController,
         isDarkTheme: Boolean,
         tickets: KMutableProperty0<MutableState<List<TicketEntity>>>
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            userScrollEnabled = true,
+        Column(
+            modifier = modifier
+                .fillMaxSize()
         ) {
-            items(tickets.get().value.size) {
-                TicketsListItem.Content(
-                    navController,
-                    isDarkTheme = isDarkTheme
-                )
+            TopAppBar(
+                contentColor = MaterialTheme.colors.onBackground,
+                backgroundColor = MaterialTheme.colors.background
+            ) {
+
+            }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                userScrollEnabled = true,
+            ) {
+                items(tickets.get().value.size) {
+                    TicketsListItem.Content(
+                        navController,
+                        isDarkTheme = isDarkTheme
+                    )
+                }
             }
         }
     }
 
     var tickets: MutableState<List<TicketEntity>> = mutableStateOf(listOf())
+
     @ScreenPreview
     @Composable
     private fun TicketsListPreview() {

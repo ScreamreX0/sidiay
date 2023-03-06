@@ -51,6 +51,17 @@ dependencies {
         implementation(MATERIAL)
     }
 
+    Dependencies.UI.Compose.apply {
+        val composeBom = platform(BOM)
+        implementation(composeBom)
+        androidTestImplementation(composeBom)
+        debugImplementation(NAVIGATION)
+    }
+
+    Dependencies.Network.apply {
+        implementation(RETROFIT_GSON)
+    }
+
     Dependencies.Test.apply {
         androidTestImplementation(ANDROID_JUNIT)
         androidTestImplementation(ESPRESSO)
