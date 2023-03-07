@@ -1,4 +1,4 @@
-package com.example.home.ui.tickets_list.ui.components
+package com.example.home.ui.tickets_list.ui.components.list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,11 +7,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,14 +22,17 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.core.R
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
+import com.example.domain.models.entities.TicketEntity
 
-class TicketsListItem {
+class TicketsListItemComponent {
     companion object {
         @Composable
         internal fun Content(
             navController: NavHostController = rememberNavController(),
+            ticket: TicketEntity,
             isDarkTheme: Boolean
         ) {
             val surfaceColor = if (isDarkTheme) {
@@ -78,7 +84,7 @@ class TicketsListItem {
                                     start.linkTo(parent.start, margin = 10.dp)
                                 }
                                 .fillMaxHeight(0.15F),
-                            text = "№1000",
+                            text = "№${ticket.id}",
                             fontSize = MaterialTheme.typography.h3.fontSize,
                             color = textColor,
                         )
@@ -95,7 +101,7 @@ class TicketsListItem {
                                     width = Dimension.fillToConstraints
                                 }
                                 .fillMaxHeight(0.25F),
-                            text = "Заголовокqweqweqweqweqweqweqwe",
+                            text = ticket.name ?: stringResource(id = R.string.ticket),
                             fontSize = MaterialTheme.typography.h4.fontSize,
                             color = textColor,
                             overflow = TextOverflow.Ellipsis,
@@ -119,7 +125,7 @@ class TicketsListItem {
                         Text(
                             modifier = Modifier
                                 .padding(start = 5.dp),
-                            text = "Энергоqweqweqweqwqweqweqweqweqweqweq",
+                            text = ticket.service ?: "Сервис не назначен",
                             fontSize = MaterialTheme.typography.h2.fontSize,
                             color = textColor,
                             overflow = TextOverflow.Ellipsis
@@ -143,7 +149,7 @@ class TicketsListItem {
                         Text(
                             modifier = Modifier
                                 .padding(start = 5.dp),
-                            text = "Участокqweqweqweqweqweqwe",
+                            text = ticket.executor?.getFullName() ?: "Исполнитель не назначен",
                             fontSize = MaterialTheme.typography.h2.fontSize,
                             color = textColor,
                             maxLines = 1,
@@ -159,7 +165,7 @@ class TicketsListItem {
                                     top.linkTo(numberRef.top)
                                     end.linkTo(parent.end, margin = 10.dp)
                                 },
-                            text = "27.02.23 (Вс)",
+                            text = ticket.expiration_date ?: "",
                             fontSize = MaterialTheme.typography.h3.fontSize,
                             color = textColor,
                         )
@@ -182,7 +188,7 @@ class TicketsListItem {
                         Text(
                             modifier = Modifier
                                 .padding(start = 5.dp),
-                            text = "Статусjhkhkjhjkhkjhkjkjkjhkjhkjh",
+                            text = ticket.status ?: "Статус неизвестен",
                             fontSize = MaterialTheme.typography.h2.fontSize,
                             color = textColor,
                             maxLines = 1,
@@ -207,7 +213,7 @@ class TicketsListItem {
                         Text(
                             modifier = Modifier
                                 .padding(start = 5.dp),
-                            text = "Приоритет",
+                            text = ticket.priority.toString(),
                             fontSize = MaterialTheme.typography.h2.fontSize,
                             color = textColor,
                             maxLines = 1,
@@ -221,14 +227,31 @@ class TicketsListItem {
                     modifier = Modifier
                         .weight(0.02F),
                     isDarkTheme = isDarkTheme,
+                    ticket.priority
                 )
             }
         }
 
         /** Status bar */
         @Composable
-        private fun StatusBar(modifier: Modifier, isDarkTheme: Boolean) {
-            val statusColor = if (isDarkTheme) Color(0XFF610000) else Color(0xFFFF4F4F)
+        private fun StatusBar(modifier: Modifier, isDarkTheme: Boolean, priority: Long?) {
+            val statusColor = if (isDarkTheme) {
+                when (priority) {
+                    5L -> Color(0XFF610000)
+                    4L -> Color(0XFF5F6100)
+                    3L -> Color(0XFF224487)
+                    2L -> Color(0XFF00610A)
+                    else -> Color(0XFF8F8F8F)
+                }
+            } else {
+                when (priority) {
+                    5L -> Color(0XFFFF4F4F)
+                    4L -> Color(0XFFDADE00)
+                    3L -> Color(0XFF4764CB)
+                    2L -> Color(0XFF00D215)
+                    else -> Color(0XFFA6A6A6)
+                }
+            }
             Row(
                 modifier = modifier
                     .fillMaxSize()
@@ -258,7 +281,7 @@ class TicketsListItem {
         @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
         private fun ContentPreview() {
             AppTheme {
-                Content(isDarkTheme = false)
+                Content(isDarkTheme = false, ticket = TicketEntity())
             }
         }
     }

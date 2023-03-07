@@ -19,7 +19,7 @@ import com.example.domain.enums.states.ConnectionState
 import kotlinx.coroutines.launch
 import kotlin.reflect.KProperty0
 
-internal class CheckConnection {
+internal class CheckConnectionComponent {
     companion object {
         @Composable
         fun Content(

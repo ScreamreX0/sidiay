@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.core.R
 
-internal class AutoAuth {
+internal class AutoAuthComponent {
     companion object {
         @Composable
         fun Content(

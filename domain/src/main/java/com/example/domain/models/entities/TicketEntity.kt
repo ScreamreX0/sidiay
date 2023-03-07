@@ -10,7 +10,7 @@ data class TicketEntity constructor (
     var kind: KindEntity? = KindEntity(),
     var author: UserEntity? = UserEntity(),
     var executor: UserEntity? = UserEntity(),
-    var priority: Long? = 1,
+    var priority: Long? = 1,  // 1-5 (1 - very low)
     var plane_date: String? = "",
     var expiration_date: String? = "",
     var creation_date: String? = "",

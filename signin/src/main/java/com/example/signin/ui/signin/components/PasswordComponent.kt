@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.core.R
 
-internal class Password {
+internal class PasswordComponent {
     companion object {
         @Composable
         fun Content(

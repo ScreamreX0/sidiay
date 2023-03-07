@@ -4,13 +4,9 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -24,13 +20,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.theme.CustomColors
 import com.example.core.ui.utils.ComponentPreview
 import com.example.core.ui.utils.Constants
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
 import com.example.domain.enums.states.ConnectionState
-import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.models.params.ConnectionParams
 import com.example.signin.SignInViewModel
@@ -158,7 +152,7 @@ internal class SignIn {
             )
 
             /** Title (header with icon) */
-            Title.Content(
+            TitleComponent.Content(
                 modifier = Modifier
                     .constrainAs(titleComponentRef) {
                         linkTo(parent.start, parent.end, bias = 0.5F)
@@ -169,7 +163,7 @@ internal class SignIn {
 
             /** Button (connections)
              * Click -> show connections dialog */
-            Connection.Content(
+            ConnectionComponent.Content(
                 modifier = Modifier
                     .constrainAs(connectionComponentRef) {
                         bottom.linkTo(checkConnectionComponentRef.top, margin = 3.dp)
@@ -183,7 +177,7 @@ internal class SignIn {
 
             /** Text (check connection)
              * Click -> check current connection to validity */
-            CheckConnection.Content(
+            CheckConnectionComponent.Content(
                 modifier = Modifier
                     .constrainAs(checkConnectionComponentRef) {
                         bottom.linkTo(emailComponentRef.top, margin = 3.dp)
@@ -196,7 +190,7 @@ internal class SignIn {
 
             /** TextField (email) */
             val email = remember { mutableStateOf("") }
-            Email.Content(
+            EmailComponent.Content(
                 modifier = Modifier
                     .constrainAs(emailComponentRef) {
                         linkTo(parent.start, parent.end, bias = 0.5F)
@@ -208,7 +202,7 @@ internal class SignIn {
 
             /** TextField (password) */
             val password = remember { mutableStateOf("") }
-            Password.Content(
+            PasswordComponent.Content(
                 modifier = Modifier
                     .constrainAs(passwordComponentRef) {
                         top.linkTo(emailComponentRef.bottom, margin = 10.dp)
@@ -221,7 +215,7 @@ internal class SignIn {
             /** Checkbox (auto authentication) */
             // TODO
             val autoAuth = remember { mutableStateOf(false) }
-            AutoAuth.Content(
+            AutoAuthComponent.Content(
                 modifier = Modifier
                     .constrainAs(rememberComponentRef) {
                         bottom.linkTo(enterComponentRef.top)
@@ -232,7 +226,7 @@ internal class SignIn {
 
             /** Button
              * Click -> entering */
-            Enter.Content(
+            EnterComponent.Content(
                 modifier = Modifier
                     .constrainAs(enterComponentRef) {
                         top.linkTo(passwordComponentRef.bottom, margin = 80.dp)
@@ -248,7 +242,7 @@ internal class SignIn {
             /** Text (offline mode)
              * Click -> entering with offline mode */
             // TODO
-            OfflineMode.Content(
+            OfflineModeComponent.Content(
                 navController = navController,
                 modifier = Modifier
                     .constrainAs(offlineComponentRef) {

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.core.R
 
-internal class Email {
+internal class EmailComponent {
     companion object {
         @Composable
         fun Content(

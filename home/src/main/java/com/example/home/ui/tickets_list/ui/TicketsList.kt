@@ -1,16 +1,11 @@
 package com.example.home.ui.tickets_list.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.zIndex
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -18,9 +13,8 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ScreenPreview
 import com.example.domain.models.entities.TicketEntity
 import com.example.home.ui.tickets_list.TicketsListViewModel
-import com.example.home.ui.tickets_list.ui.components.TicketsListItem
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.example.home.ui.tickets_list.ui.components.list.TicketsListComponent
+import com.example.home.ui.tickets_list.ui.components.top_bar.SearchComponent
 import kotlin.reflect.KMutableProperty0
 
 
@@ -45,102 +39,79 @@ class TicketsList {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     private fun Content(
         modifier: Modifier = Modifier,
         navController: NavHostController,
         isDarkTheme: Boolean,
-        tickets: KMutableProperty0<MutableState<List<TicketEntity>>>
+        tickets: KMutableProperty0<MutableState<List<TicketEntity>>>,
+        isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
+        searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
     ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
         ) {
+            /** App bar */
             TopAppBar(
                 contentColor = MaterialTheme.colors.onBackground,
                 backgroundColor = MaterialTheme.colors.background,
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = com.example.core.R.drawable.ic_baseline_search_24_white),
-                            contentDescription = "Search in tickets list",
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    }
+                if (isSearchEnabled.value) {
+                    SearchComponent().Content(
+                        isSearchEnabled = isSearchEnabled,
+                        textState = searchText,
+                    )
+                } else {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        IconButton(onClick = { isSearchEnabled.value = true }) {
+                            Icon(
+                                painter = painterResource(id = com.example.core.R.drawable.ic_baseline_search_24_white),
+                                contentDescription = "Search in tickets list",
+                                tint = MaterialTheme.colors.onBackground
+                            )
+                        }
 
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = com.example.core.R.drawable.baseline_expand_24),
-                            contentDescription = "Expand tickets list items",
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    }
+                        IconButton(onClick = { TODO("Expand tickets") }) {
+                            Icon(
+                                painter = painterResource(id = com.example.core.R.drawable.baseline_expand_24),
+                                contentDescription = "Expand tickets list items",
+                                tint = MaterialTheme.colors.onBackground
+                            )
+                        }
 
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = com.example.core.R.drawable.ic_baseline_filter_list_24_white),
-                            contentDescription = "Filter tickets list",
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    }
+                        IconButton(onClick = { TODO("Filter tickets") }) {
+                            Icon(
+                                painter = painterResource(id = com.example.core.R.drawable.ic_baseline_filter_list_24_white),
+                                contentDescription = "Filter tickets list",
+                                tint = MaterialTheme.colors.onBackground
+                            )
+                        }
 
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = com.example.core.R.drawable.ic_baseline_add_24_white),
-                            contentDescription = "Refresh tickets list",
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    }
-                }
-            }
-
-            val refreshScope = rememberCoroutineScope()
-            var refreshing by remember { mutableStateOf(false) }
-
-            fun refresh() = refreshScope.launch {
-                refreshing = true
-                delay(1500)
-                refreshing = false
-            }
-            val state = rememberPullRefreshState(refreshing, ::refresh)
-            Box(
-                modifier = Modifier
-                    .pullRefresh(state)
-                    .zIndex(-1F),
-            ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    userScrollEnabled = true,
-                ) {
-                    if (!refreshing) {
-                        items(tickets.get().value.size) {
-                            TicketsListItem.Content(
-                                navController,
-                                isDarkTheme = isDarkTheme
+                        IconButton(onClick = { TODO("Add ticket") }) {
+                            Icon(
+                                painter = painterResource(id = com.example.core.R.drawable.ic_baseline_add_24_white),
+                                contentDescription = "Refresh tickets list",
+                                tint = MaterialTheme.colors.onBackground
                             )
                         }
                     }
                 }
-                PullRefreshIndicator(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter),
-                    refreshing = refreshing,
-                    state = state,
-                    contentColor = MaterialTheme.colors.onBackground,
-                    backgroundColor = MaterialTheme.colors.background
-                )
             }
+
+            TicketsListComponent().Content(
+                navController = navController,
+                isDarkTheme = isDarkTheme,
+                tickets = tickets,
+            )
         }
     }
 
-    var tickets: MutableState<List<TicketEntity>> = mutableStateOf(listOf())
+    private var tickets: MutableState<List<TicketEntity>> = mutableStateOf(listOf())
 
     @ScreenPreview
     @Composable

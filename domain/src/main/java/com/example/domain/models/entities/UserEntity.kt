@@ -13,4 +13,6 @@ data class UserEntity constructor (
     val password: String = "",
     val phone: String = "",
     val photo: String = "",
-) : Parcelable
+) : Parcelable {
+    fun getFullName() = "${firstname} ${name.first()}. ${lastname.first()}."
+}

@@ -22,7 +22,7 @@ class TicketsRepository @Inject constructor(
     }
 
     override suspend fun get(id: Int): TicketEntity {
-        TODO("Not yet implemented")
+        TODO("Get ticket by id")
     }
 
     override suspend fun get(url: String, start: Int, end: Int): Pair<Int, List<TicketEntity>?> {
@@ -31,7 +31,7 @@ class TicketsRepository @Inject constructor(
     }
 
     override suspend fun set(newTicketEntity: TicketEntity): Boolean {
-        TODO("Not yet implemented")
+        TODO("Set ticket by entity")
     }
 
     override suspend fun add(ticketEntity: AddTicketParams): Int {

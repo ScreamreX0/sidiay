@@ -16,7 +16,6 @@ import com.example.core.R as coreR
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val viewModel: SettingsViewModel by viewModels()
     private lateinit var binding: FragmentSettingsBinding
-//    private val args by navArgs<SettingsFragmentArgs>() TODO
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root

@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Graphs
 
-internal class OfflineMode {
+internal class OfflineModeComponent {
     companion object {
         @Composable
         fun Content(

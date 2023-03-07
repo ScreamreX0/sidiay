@@ -13,14 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.core.R
-import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.domain.models.params.ConnectionParams
 
-internal class Enter {
+internal class EnterComponent {
     companion object {
         @Composable
         fun Content(

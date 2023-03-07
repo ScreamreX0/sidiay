@@ -102,7 +102,7 @@ import com.example.core.R as coreR
 //                    createFilterDialog(viewModel.periods, viewModel.checkedPeriods, getString(coreR.string.by_period), ITicketEnum::getName)
 //                    true
 //                }
-//                coreR.id.m_home_app_bar_expired -> TODO()
+//                coreR.id.m_home_app_bar_expired ->
 //                //R.id.m_home_app_bar_my_tickets ->
 //                coreR.id.m_home_app_bar_reset -> {
 //                    Filter().reset()
@@ -223,7 +223,7 @@ import com.example.core.R as coreR
 //        }
 //
 //        private fun byPeriod() {
-//            // TODO
+//
 //        }
 //
 //        private fun byService() {

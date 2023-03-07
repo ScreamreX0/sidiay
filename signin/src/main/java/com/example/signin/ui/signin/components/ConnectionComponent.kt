@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.params.ConnectionParams
 
-internal class Connection {
+internal class ConnectionComponent {
     companion object {
         @Composable
         fun Content(
