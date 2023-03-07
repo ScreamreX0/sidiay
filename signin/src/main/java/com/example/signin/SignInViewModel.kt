@@ -15,6 +15,7 @@ import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
 import com.example.domain.enums.states.ConnectionState
+import com.example.domain.enums.states.LoadingState
 import com.example.domain.usecases.signin.CheckConnectionUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,21 +36,21 @@ class SignInViewModel @Inject constructor(
     private val connectionsDataStore: ConnectionsDataStore,
     private val themeDataStore: ThemeDataStore,
 ) : ViewModel() {
-    var darkMode: MutableState<String> = mutableStateOf(Constants.NULL)
+    internal var darkMode: MutableState<String> = mutableStateOf(Constants.NULL)
 
-    var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
-    val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
+    internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
+    internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
 
-    var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
-    var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(id = -1))
+    internal var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
+    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(id = -1))
 
     init {
-        viewModelScope.launch { updateConnections() }
+        viewModelScope.launch { updateConnectionsVar() }
         viewModelScope.launch { updateUIModeVar() }
     }
 
     /** UIMode */
-    fun changeUIMode() {
+    internal fun changeUIMode() {
         viewModelScope.launch {
             if (darkMode.value == Constants.NULL) {
                 themeDataStore.saveMode(Constants.LIGHT_MODE)
@@ -65,12 +66,12 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateUIModeVar() {
+    internal suspend fun updateUIModeVar() {
         darkMode.value = themeDataStore.getMode.first()
     }
 
     /** Connections */
-    suspend fun checkConnection(url: String) {
+    internal suspend fun checkConnection(url: String) {
         if (url.last().toString() != "/") {
             url.plus("/")
         }
@@ -82,17 +83,16 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    suspend fun saveConnections(connectionsList: List<ConnectionParams>) {
+    internal suspend fun saveConnections(connectionsList: List<ConnectionParams>) {
         connectionsDataStore.saveConnections(connectionsList)
     }
 
-    private suspend fun updateConnections() {
-        connectionsList.value = connectionsDataStore.getConnections.first()
-                as List<ConnectionParams>
+    internal suspend fun updateConnectionsVar() {
+        connectionsList.value = connectionsDataStore.getConnections.first() as List<ConnectionParams>
     }
 
     /** SignIn */
-    fun signIn(url: String, email: String, password: String) {
+    internal fun signIn(url: String, email: String, password: String) {
         val params = Credentials(email, password)
         val result = checkFieldsUseCase.execute(params = params)
         if (result.size != 0 && Constants.CHECK_SIGN_IN_FIELDS) {

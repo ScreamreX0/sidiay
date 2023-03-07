@@ -25,7 +25,7 @@ internal class BottomButtons {
         fun Content(
             isDialogOpened: MutableState<Boolean>,
             connectionsList: State<List<ConnectionParams>?>,
-            saveDataFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit,
+            saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit,
         ) {
             val scope = rememberCoroutineScope()
             Row {
@@ -41,7 +41,7 @@ internal class BottomButtons {
                         onClick = {
                             scope.launch {
                                 connectionsList.value?.let {
-                                    saveDataFunction.invoke(it)
+                                    saveConnectionsFunction.invoke(it)
                                     isDialogOpened.value = false
                                 }
                             }

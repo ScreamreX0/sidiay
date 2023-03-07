@@ -5,10 +5,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -18,24 +15,35 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ComponentPreview
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
+import com.example.domain.enums.states.LoadingState
 import com.example.domain.models.params.ConnectionParams
 import com.example.signin.ui.signin.connections_dialog.components.AddConnection
 import com.example.signin.ui.signin.connections_dialog.components.BottomButtons
 import com.example.signin.ui.signin.connections_dialog.components.ConnectionsList
 import com.example.signin.ui.signin.connections_dialog.components.DefaultConnection
 import com.example.signin.ui.signin.connections_dialog.components.DialogTitle
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 internal class ConnectionsDialog {
     companion object {
         @Composable
         internal fun ConnectionsDialogScreen(
-            isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(true) },
+            isDialogOpened: MutableState<Boolean> = mutableStateOf(true),
             selectedConnection: MutableState<ConnectionParams>,
-            connectionsList: MutableState<List<ConnectionParams>> = remember { mutableStateOf(listOf()) },
-            saveDataFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
+            connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
+            saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
+            updateConnectionsList: suspend () -> Unit = {}
         ) {
             if (!isDialogOpened.value) {
                 return
+            }
+
+            val scope = rememberCoroutineScope()
+            LaunchedEffect("dialog_key") {
+                scope.launch {
+                    updateConnectionsList.invoke()
+                }
             }
 
             Dialog(onDismissRequest = { isDialogOpened.value = false }, content = {
@@ -62,7 +70,7 @@ internal class ConnectionsDialog {
                     )
 
                     BottomButtons.Content(
-                        saveDataFunction = saveDataFunction,
+                        saveConnectionsFunction = saveConnectionsFunction,
                         connectionsList = connectionsList,
                         isDialogOpened = isDialogOpened,
                     )
