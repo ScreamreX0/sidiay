@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.example.domain.models.entities.TicketEntity
-import com.example.home.ui.tickets_list.ui.components.list.components.TicketsListItemComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.reflect.KMutableProperty0
@@ -26,7 +25,7 @@ internal class TicketsListComponent {
         navController: NavHostController,
         isDarkTheme: Boolean,
         tickets: KMutableProperty0<MutableState<List<TicketEntity>>>,
-        refreshing: MutableState<Boolean> = remember { mutableStateOf(false) }
+        refreshing: MutableState<Boolean> = remember { mutableStateOf(false) },
     ) {
         /** Refreshing */
         val refreshScope = rememberCoroutineScope()
@@ -53,10 +52,10 @@ internal class TicketsListComponent {
             ) {
                 if (!refreshing.value) {
                     items(ticketsList.value.size) {
-                        TicketsListItemComponent.Content(
+                        TicketsListItemComponent().Content(
                             navController,
                             isDarkTheme = isDarkTheme,
-                            ticket = ticketsList.value[it]
+                            ticket = ticketsList.value[it],
                         )
                     }
                 }

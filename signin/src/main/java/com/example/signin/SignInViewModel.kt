@@ -42,7 +42,7 @@ class SignInViewModel @Inject constructor(
     internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
 
     internal var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
-    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(id = -1))
+    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity())
 
     init {
         viewModelScope.launch { updateConnectionsVar() }
@@ -137,7 +137,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signInOffline() {
-        signInSuccess.value = UserEntity()
+        signInSuccess.value = UserEntity(id = 1)
     }
 
     private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->

@@ -18,13 +18,13 @@ import com.example.home.ui.tickets_list.ui.components.top_bar.SearchComponent
 import kotlin.reflect.KMutableProperty0
 
 
-class TicketsList {
+class Home {
     @Composable
-    fun TicketsListScreen(
+    fun HomeScreen(
         ticketsListViewModel: TicketsListViewModel = hiltViewModel(),
         navController: NavHostController = rememberNavController(),
         isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) },
-        paddingValues: PaddingValues = PaddingValues()
+        paddingValues: PaddingValues = PaddingValues(),
     ) {
         AppTheme {
             Content(
@@ -47,6 +47,7 @@ class TicketsList {
         tickets: KMutableProperty0<MutableState<List<TicketEntity>>>,
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
+        expandAll: MutableState<Boolean> = remember { mutableStateOf(false) },
     ) {
         Column(
             modifier = modifier
@@ -72,14 +73,6 @@ class TicketsList {
                             Icon(
                                 painter = painterResource(id = com.example.core.R.drawable.ic_baseline_search_24_white),
                                 contentDescription = "Search in tickets list",
-                                tint = MaterialTheme.colors.onBackground
-                            )
-                        }
-
-                        IconButton(onClick = { TODO("Expand tickets") }) {
-                            Icon(
-                                painter = painterResource(id = com.example.core.R.drawable.baseline_expand_24),
-                                contentDescription = "Expand tickets list items",
                                 tint = MaterialTheme.colors.onBackground
                             )
                         }

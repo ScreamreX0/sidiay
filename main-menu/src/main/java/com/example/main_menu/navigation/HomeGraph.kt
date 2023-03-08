@@ -11,7 +11,7 @@ import com.example.core.navigation.BottomBarNav
 import com.example.core.navigation.Graphs
 import com.example.home.ui.ticket_create.TicketCreateScreen
 import com.example.home.ui.ticket_update.TicketUpdateScreen
-import com.example.home.ui.tickets_list.ui.TicketsList
+import com.example.home.ui.tickets_list.ui.Home
 
 @Composable
 fun HomeNavGraph(
@@ -24,7 +24,7 @@ fun HomeNavGraph(
         startDestination = BottomBarNav.Home.route
     ) {
         composable(route = BottomBarNav.Home.route) {
-            TicketsList().TicketsListScreen(paddingValues = paddingValues)
+            Home().HomeScreen(paddingValues = paddingValues)
         }
         composable(route = BottomBarNav.Scanner.route) {
 
