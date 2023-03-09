@@ -1,4 +1,4 @@
-package com.example.home.ui.ticket_update
+package com.example.home.ui.tickets_filter
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Text
@@ -8,16 +8,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.core.navigation.BottomBarNav
 import com.example.domain.models.params.AuthParams
+import com.example.home.ui.ticket_create.TicketCreateViewModel
 
 
-class TicketUpdate {
+class TicketFilter {
     @Composable
-    fun TicketUpdateScreen(
+    fun TicketFilterScreen(
         navController: NavHostController,
         authParams: AuthParams?,
-        ticketUpdateViewModel: TicketUpdateViewModel = hiltViewModel(),
+        ticketsFilterViewModel: TicketsFilterViewModel = hiltViewModel()
     ) {
-        Content(navController = navController, authParams = authParams)
+        Content(
+            navController = navController,
+            authParams = authParams
+        )
     }
 
     @Composable
@@ -26,14 +30,12 @@ class TicketUpdate {
         authParams: AuthParams?
     ) {
         Text(
-            modifier = Modifier
-                .clickable {
-                    navController.popBackStack(
-                        BottomBarNav.Home.route,
-                        inclusive = false
-                    )
-                },
-            text = "Ticket update")
-
+            modifier = Modifier.clickable {
+                navController.popBackStack(
+                    BottomBarNav.Home.route,
+                    inclusive = false
+                )
+            },
+            text = "Ticket create")
     }
 }

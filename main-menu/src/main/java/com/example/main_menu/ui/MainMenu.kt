@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ScreenPreview
-import com.example.domain.models.entities.UserEntity
-import com.example.main_menu.navigation.HomeNavGraph
+import com.example.domain.models.params.AuthParams
+import com.example.main_menu.navigation.MainMenuGraph
 import com.example.main_menu.ui.components.BottomBar
 
 
@@ -19,15 +19,16 @@ class MainMenu {
     fun Content(
         isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) },
         navController: NavHostController = rememberNavController(),
-        user: UserEntity? = UserEntity()
+        authParams: AuthParams? = AuthParams()
     ) {
         AppTheme(isDarkTheme.value) {
             Scaffold(
                 bottomBar = { BottomBar().Content(navController = navController) },
             ) {
-                HomeNavGraph(
+                MainMenuGraph(
                     paddingValues = it,
-                    navController = navController
+                    navController = navController,
+                    authParams = authParams
                 )
             }
         }

@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
-import com.example.domain.types.UserType
+import com.example.domain.types.AuthParamsType
 import com.example.main_menu.ui.MainMenu
 import com.example.signin.navigation.authenticationGraph
 
@@ -20,10 +20,10 @@ fun RootNavGraph(navController: NavHostController) {
     ) {
         authenticationGraph(navController = navController)
         composable(
-            route = "${Graphs.HOME}/{user}",
-            arguments = listOf(navArgument("user") { type = UserType() })
+            route = "${Graphs.MAIN_MENU}/{params}",
+            arguments = listOf(navArgument("params") { type = AuthParamsType() })
         ) {
-            MainMenu().Content(user = it.arguments?.getParcelable("user"))
+            MainMenu().Content(authParams = it.arguments?.getParcelable("params"))
         }
     }
 }

@@ -1,13 +1,9 @@
-package com.example.home.ui.tickets_list
+package com.example.home.ui.home
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.ui.utils.Debugger
 import com.example.domain.enums.states.TicketCreateStates
-import com.example.domain.enums.ticket.*
 import com.example.domain.models.entities.TicketEntity
 import com.example.domain.usecases.home.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

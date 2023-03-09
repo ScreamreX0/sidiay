@@ -10,3 +10,10 @@ object Graphs {
     const val SCANNER = "SCANNER_GRAPH"
     const val SETTINGS = "SETTINGS_GRAPH"
 }
+object Screens {
+    object Home {
+        const val TICKET_UPDATE = "TICKET_UPDATE"
+        const val TICKET_CREATE = "TICKET_CREATE"
+        const val TICKET_FILTER = "TICKET_FILTER"
+    }
+}

@@ -1,4 +1,4 @@
-package com.example.home
+package com.example.home.ui.ticket_create
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

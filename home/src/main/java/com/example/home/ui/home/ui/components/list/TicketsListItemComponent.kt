@@ -1,4 +1,4 @@
-package com.example.home.ui.tickets_list.ui.components.list
+package com.example.home.ui.home.ui.components.list
 
 import android.content.Context
 import android.widget.Toast
@@ -8,7 +8,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -30,6 +32,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.R
+import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.ui.utils.ComponentPreview
@@ -105,8 +108,7 @@ internal class TicketsListItemComponent {
                 ) {
                     CustomCircle(textColor)
                     Text(
-                        modifier = Modifier
-                            .padding(start = 5.dp),
+                        modifier = Modifier.padding(start = 5.dp),
                         text = ticket.service ?: "[Сервис не указан]",
                         fontSize = MaterialTheme.typography.h2.fontSize,
                         color = textColor,
@@ -123,8 +125,7 @@ internal class TicketsListItemComponent {
                 ) {
                     CustomCircle(textColor)
                     Text(
-                        modifier = Modifier
-                            .padding(start = 5.dp),
+                        modifier = Modifier.padding(start = 5.dp),
                         text = ticket.executor?.getFullName() ?: "[Исполнитель не назначен]",
                         fontSize = MaterialTheme.typography.h2.fontSize,
                         color = textColor,
@@ -148,7 +149,7 @@ internal class TicketsListItemComponent {
                 /** Update button */
                 IconButton(
                     modifier = Modifier.layoutId("updateRef"),
-                    onClick = { TODO("Open update ticket") }
+                    onClick = { navController.navigate(Screens.Home.TICKET_UPDATE) }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_create_24),
@@ -168,8 +169,7 @@ internal class TicketsListItemComponent {
                 ) {
                     CustomCircle(textColor)
                     Text(
-                        modifier = Modifier
-                            .padding(start = 5.dp),
+                        modifier = Modifier.padding(start = 5.dp),
                         text = ticket.status ?: "[Статус неизвестен]",
                         fontSize = MaterialTheme.typography.h2.fontSize,
                         color = textColor,
@@ -206,8 +206,7 @@ internal class TicketsListItemComponent {
                 ) {
                     CustomCircle(textColor)
                     Text(
-                        modifier = Modifier
-                            .padding(start = 5.dp),
+                        modifier = Modifier.padding(start = 5.dp),
                         text = TicketPriorityEnum.valueOf(ticket.priority).getName(),
                         fontSize = MaterialTheme.typography.h2.fontSize,
                         color = textColor,

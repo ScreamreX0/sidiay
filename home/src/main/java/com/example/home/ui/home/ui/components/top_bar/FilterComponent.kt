@@ -1,4 +1,4 @@
-package com.example.home.ui.tickets_list.ui.components.top_bar
+package com.example.home.ui.home.ui.components.top_bar
 
 import androidx.compose.runtime.Composable
 

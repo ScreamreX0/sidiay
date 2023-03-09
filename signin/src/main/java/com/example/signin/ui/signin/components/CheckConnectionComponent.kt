@@ -17,7 +17,6 @@ import com.example.core.ui.theme.DefaultTextStyle
 import com.example.domain.models.params.ConnectionParams
 import com.example.domain.enums.states.ConnectionState
 import kotlinx.coroutines.launch
-import kotlin.reflect.KProperty0
 
 internal class CheckConnectionComponent {
     companion object {
@@ -26,14 +25,13 @@ internal class CheckConnectionComponent {
             modifier: Modifier,
             selectedConnection: MutableState<ConnectionParams>,
             checkConnection: suspend (String) -> Unit,
-            checkConnectionResult: KProperty0<MutableState<ConnectionState>>
+            checkConnectionResult: MutableState<ConnectionState>
         ) {
             val scope = rememberCoroutineScope()
 
             val context = LocalContext.current
-            val checkResult = remember { checkConnectionResult.get() }
             SnackBar(
-                checkResult = checkResult,
+                checkResult = checkConnectionResult,
                 context = context,
             )
 

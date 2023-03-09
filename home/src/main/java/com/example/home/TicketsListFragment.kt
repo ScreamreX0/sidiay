@@ -1,27 +1,5 @@
 package com.example.home
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.os.Bundle
-import android.view.*
-import android.widget.Toast
-import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.enums.states.TicketCreateStates
-import com.example.domain.enums.ticket.*
-import com.example.domain.models.entities.TicketEntity
-import com.example.home.databinding.FragmentTicketsListBinding
-import com.example.home.ui.tickets_list.TicketsListViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.collections.ArrayList
-import com.example.core.R as coreR
-
 //@AndroidEntryPoint
 //class TicketsListFragment : Fragment(R.layout.fragment_tickets_list) {
 //    private val viewModel: TicketsListViewModel by viewModels()

@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.net.ConnectException
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,21 +53,18 @@ class SignInViewModel @Inject constructor(
     /** UIMode */
     internal fun changeUIMode() {
         viewModelScope.launch {
-            if (darkMode.value == Constants.NULL) {
-                themeDataStore.saveMode(Constants.LIGHT_MODE)
-            } else {
-                val mode = if (darkMode.value == Constants.LIGHT_MODE) {
+            themeDataStore.saveMode(
+                if (darkMode.value == Constants.LIGHT_MODE) {
                     Constants.DARK_MODE
                 } else {
                     Constants.LIGHT_MODE
                 }
-                themeDataStore.saveMode(mode)
-            }
+            )
             updateUIModeVar()
         }
     }
 
-    internal suspend fun updateUIModeVar() {
+    private suspend fun updateUIModeVar() {
         darkMode.value = themeDataStore.getMode.first()
     }
 
@@ -88,7 +86,8 @@ class SignInViewModel @Inject constructor(
     }
 
     internal suspend fun updateConnectionsVar() {
-        connectionsList.value = connectionsDataStore.getConnections.first() as List<ConnectionParams>
+        connectionsList.value =
+            connectionsDataStore.getConnections.first() as List<ConnectionParams>
     }
 
     /** SignIn */
@@ -113,20 +112,14 @@ class SignInViewModel @Inject constructor(
 
     private fun signInOnline(url: String, params: Credentials) {
         viewModelScope.launch(getSignInHandler()) {
-            val signInResult: Pair<Int, UserEntity?> = signInUseCase.execute(url, params)
+            val signInResult = signInUseCase.execute(url, params)
 
             when (signInResult.first) {
-                200 -> {
-                    Debugger.Companion.printInfo("Response code - 200. Success")
+                HttpURLConnection.HTTP_OK -> {
                     signInResult.second?.let { signInSuccess.value = it }
                 }
-                450 -> {
-                    Debugger.Companion.printInfo("Response code - 450. Wrong credentials")
+                HttpURLConnection.HTTP_UNAUTHORIZED -> {
                     signInErrors.value = listOf(SignInStates.WRONG_CREDENTIALS_FORMAT)
-                }
-                451 -> {
-                    Debugger.Companion.printInfo("Response code - 451 - Wrong email or password")
-                    signInErrors.value = listOf(SignInStates.WRONG_EMAIL_OR_PASSWORD)
                 }
                 else -> {
                     Debugger.Companion.printInfo("Response code in sign in - ${signInResult.first} (unhandled)")
