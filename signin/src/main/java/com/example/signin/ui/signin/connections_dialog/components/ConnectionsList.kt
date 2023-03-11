@@ -13,7 +13,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultTextStyle
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.params.ConnectionParams
 
 internal class ConnectionsList {
     companion object {

@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.params.ConnectionParams
 
 internal class AddConnection {
     companion object {

@@ -1,8 +1,7 @@
 package com.example.domain.usecases.createticket
 
 import com.example.domain.repositories.IFacilitiesRepository
-import com.example.core.ui.utils.Constants
-import com.example.domain.models.entities.FacilityEntity
+import com.example.domain.data_classes.entities.FacilityEntity
 import javax.inject.Inject
 
 class GetFacilitiesUseCase @Inject constructor(

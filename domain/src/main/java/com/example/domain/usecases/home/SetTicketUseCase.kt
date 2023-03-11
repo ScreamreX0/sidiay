@@ -1,8 +1,7 @@
 package com.example.domain.usecases.home
 
-import com.example.domain.models.entities.TicketEntity
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.repositories.ITicketsRepository
-import com.example.core.ui.utils.Constants
 import javax.inject.Inject
 
 class SetTicketUseCase @Inject constructor(

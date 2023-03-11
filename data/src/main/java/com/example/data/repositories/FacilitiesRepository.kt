@@ -2,7 +2,7 @@ package com.example.data.repositories
 
 import com.example.data.network.api.ApiService
 import com.example.domain.repositories.IFacilitiesRepository
-import com.example.domain.models.entities.FacilityEntity
+import com.example.domain.data_classes.entities.FacilityEntity
 import javax.inject.Inject
 
 class FacilitiesRepository @Inject constructor(

@@ -15,14 +15,12 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ComponentPreview
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
-import com.example.domain.enums.states.LoadingState
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.params.ConnectionParams
 import com.example.signin.ui.signin.connections_dialog.components.AddConnection
 import com.example.signin.ui.signin.connections_dialog.components.BottomButtons
 import com.example.signin.ui.signin.connections_dialog.components.ConnectionsList
 import com.example.signin.ui.signin.connections_dialog.components.DefaultConnection
 import com.example.signin.ui.signin.connections_dialog.components.DialogTitle
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 internal class ConnectionsDialog {

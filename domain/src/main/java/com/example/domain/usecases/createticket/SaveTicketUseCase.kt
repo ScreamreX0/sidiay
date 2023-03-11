@@ -1,8 +1,7 @@
 package com.example.domain.usecases.createticket
 
-import com.example.domain.models.params.AddTicketParams
+import com.example.domain.data_classes.params.AddTicketParams
 import com.example.domain.repositories.ITicketsRepository
-import com.example.core.ui.utils.Constants
 import javax.inject.Inject
 
 class SaveTicketUseCase @Inject constructor(

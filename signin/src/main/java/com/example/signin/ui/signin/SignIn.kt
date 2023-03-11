@@ -28,9 +28,9 @@ import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.enums.states.SignInStates
-import com.example.domain.models.entities.UserEntity
-import com.example.domain.models.params.AuthParams
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.entities.UserEntity
+import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.data_classes.params.ConnectionParams
 import com.example.signin.SignInViewModel
 import com.example.signin.ui.signin.components.*
 import com.example.signin.ui.signin.connections_dialog.ConnectionsDialog
@@ -77,7 +77,8 @@ internal class SignIn {
         signInSuccess: MutableState<UserEntity> = remember { mutableStateOf(UserEntity()) },
         signInErrors: MutableState<List<SignInStates>> = remember { mutableStateOf(listOf()) },
         isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-        checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(ConnectionState.WAITING) },
+        checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(
+            ConnectionState.WAITING) },
 
         checkConnectionFunction: suspend (url: String) -> Unit = {},
         updateConnectionsListFunction: suspend () -> Unit = {},

@@ -10,6 +10,6 @@
         android:label="TicketCreateFragment" >
         <argument
             android:name="user"
-            app:argType="com.example.domain.models.entities.UserEntity" />
+            app:argType="com.example.domain.params.entities.UserEntity" />
     </fragment>
 </navigation>

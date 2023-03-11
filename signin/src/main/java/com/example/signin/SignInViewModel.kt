@@ -8,14 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.utils.Constants
 import com.example.core.ui.utils.Debugger
 import com.example.domain.enums.states.SignInStates
-import com.example.domain.models.entities.UserEntity
-import com.example.domain.models.params.ConnectionParams
-import com.example.domain.models.params.Credentials
+import com.example.domain.data_classes.entities.UserEntity
+import com.example.domain.data_classes.params.ConnectionParams
+import com.example.domain.data_classes.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
 import com.example.domain.enums.states.ConnectionState
-import com.example.domain.enums.states.LoadingState
 import com.example.domain.usecases.signin.CheckConnectionUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

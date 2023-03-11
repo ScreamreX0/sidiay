@@ -2,8 +2,7 @@ package com.example.domain.types
 
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.example.domain.models.entities.UserEntity
-import com.example.domain.models.params.AuthParams
+import com.example.domain.data_classes.params.AuthParams
 import com.google.gson.Gson
 
 

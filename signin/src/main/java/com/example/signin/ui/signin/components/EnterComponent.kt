@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.params.ConnectionParams
 
 internal class EnterComponent {
     companion object {

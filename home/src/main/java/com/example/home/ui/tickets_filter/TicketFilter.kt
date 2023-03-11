@@ -7,8 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.core.navigation.BottomBarNav
-import com.example.domain.models.params.AuthParams
-import com.example.home.ui.ticket_create.TicketCreateViewModel
+import com.example.domain.data_classes.params.AuthParams
 
 
 class TicketFilter {

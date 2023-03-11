@@ -2,11 +2,11 @@ package com.example.data.repositories
 
 import com.example.core.ui.utils.Debugger
 import com.example.data.network.api.ApiService
-import com.example.domain.models.entities.FacilityEntity
-import com.example.domain.models.entities.KindEntity
-import com.example.domain.models.entities.TicketEntity
-import com.example.domain.models.entities.UserEntity
-import com.example.domain.models.params.AddTicketParams
+import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.KindEntity
+import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
+import com.example.domain.data_classes.params.AddTicketParams
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
 import kotlin.random.Random
@@ -77,7 +77,7 @@ class TicketsRepository @Inject constructor(
                 name = "Руслан№${id * 2}",
                 lastname = "Ленарович№${id * 2}"
             ),
-            priority = Random.nextInt(1, 6).toLong(),
+            priority = Random.nextInt(1, 6),
             status = "Не закрыта",
             plane_date = "22.01.23",
             expiration_date = "22.01.23",

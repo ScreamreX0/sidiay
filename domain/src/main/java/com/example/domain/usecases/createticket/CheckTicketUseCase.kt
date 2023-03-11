@@ -1,7 +1,7 @@
 package com.example.domain.usecases.createticket
 
 import com.example.domain.enums.states.TicketCreateStates
-import com.example.domain.models.params.AddTicketParams
+import com.example.domain.data_classes.params.AddTicketParams
 
 class CheckTicketUseCase {
     fun execute(ticket: AddTicketParams): List<TicketCreateStates> {

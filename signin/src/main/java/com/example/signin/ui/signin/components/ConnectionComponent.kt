@@ -12,7 +12,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.params.ConnectionParams
 
 internal class ConnectionComponent {
     companion object {

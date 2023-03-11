@@ -1,6 +1,6 @@
 package com.example.domain.usecases.createticket
 
-import com.example.domain.enums.ticket.TicketKindEnum
+import com.example.domain.enums.TicketKindEnum
 import javax.inject.Inject
 
 class GetKindsUseCase @Inject constructor() {

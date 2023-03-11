@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
-import com.example.domain.models.params.ConnectionParams
+import com.example.domain.data_classes.params.ConnectionParams
 import kotlinx.coroutines.launch
 
 internal class BottomButtons {

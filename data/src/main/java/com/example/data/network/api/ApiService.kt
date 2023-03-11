@@ -1,8 +1,8 @@
 package com.example.data.network.api
 
-import com.example.domain.models.entities.FacilityEntity
-import com.example.domain.models.entities.TicketEntity
-import com.example.domain.models.entities.UserEntity
+import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import retrofit2.Response
 import retrofit2.http.*
 

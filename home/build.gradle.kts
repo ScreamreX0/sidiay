@@ -98,6 +98,7 @@ dependencies {
         implementation(FRAMEWORK)
         implementation(UI)
         implementation(RUNTIME)
+        implementation(TAB_PAGING)
         debugImplementation(PREVIEW)
         debugImplementation(NAVIGATION)
     }

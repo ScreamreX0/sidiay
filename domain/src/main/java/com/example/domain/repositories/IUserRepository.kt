@@ -1,7 +1,7 @@
 package com.example.domain.repositories
 
-import com.example.domain.models.params.Credentials
-import com.example.domain.models.entities.UserEntity
+import com.example.domain.data_classes.params.Credentials
+import com.example.domain.data_classes.entities.UserEntity
 
 interface IUserRepository {
     suspend fun getTestUsers(): List<UserEntity>

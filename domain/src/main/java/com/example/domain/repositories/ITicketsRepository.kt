@@ -1,7 +1,7 @@
 package com.example.domain.repositories
 
-import com.example.domain.models.entities.TicketEntity
-import com.example.domain.models.params.AddTicketParams
+import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.params.AddTicketParams
 
 
 interface ITicketsRepository {

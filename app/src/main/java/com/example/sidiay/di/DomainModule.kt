@@ -24,13 +24,13 @@ class DomainModule {
         SignInUseCase(userRepository)
 
     @Provides
-    fun provideGetTicketsUseCase(applicationRepository: ITicketsRepository): GetTicketsUseCase =
-        GetTicketsUseCase(ticketsRepository = applicationRepository)
+    fun provideGetTicketsUseCase(ticketsRepository: ITicketsRepository): GetTicketsUseCase =
+        GetTicketsUseCase(ticketsRepository = ticketsRepository)
 
 
     @Provides
-    fun provideSaveTicketsUseCase(applicationsRepository: ITicketsRepository): SaveTicketUseCase =
-        SaveTicketUseCase(ticketRepository = applicationsRepository)
+    fun provideSaveTicketsUseCase(ticketsRepository: ITicketsRepository): SaveTicketUseCase =
+        SaveTicketUseCase(ticketRepository = ticketsRepository)
 
     @Provides
     fun provideGetServicesUseCase(): GetServicesUseCase = GetServicesUseCase()
@@ -57,4 +57,8 @@ class DomainModule {
 
     @Provides
     fun provideCheckTicketUseCase(): CheckTicketUseCase = CheckTicketUseCase()
+
+    @Provides
+    fun provideGetDraftsUseCase(ticketsRepository: ITicketsRepository): GetDraftsUseCase =
+        GetDraftsUseCase(ticketsRepository)
 }

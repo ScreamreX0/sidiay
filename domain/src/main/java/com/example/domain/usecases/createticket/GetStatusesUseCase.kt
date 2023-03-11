@@ -1,6 +1,6 @@
 package com.example.domain.usecases.createticket
 
-import com.example.domain.enums.ticket.TicketStatusEnum
+import com.example.domain.enums.TicketStatusEnum
 import javax.inject.Inject
 
 class GetStatusesUseCase @Inject constructor() {

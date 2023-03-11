@@ -2,8 +2,8 @@ package com.example.data.repositories
 
 import com.example.core.ui.utils.Debugger
 import com.example.data.network.api.ApiService
-import com.example.domain.models.entities.UserEntity
-import com.example.domain.models.params.Credentials
+import com.example.domain.data_classes.entities.UserEntity
+import com.example.domain.data_classes.params.Credentials
 import com.example.domain.repositories.IAuthRepository
 import javax.inject.Inject
 

@@ -8,14 +8,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import com.example.core.navigation.BottomBarNav
 import com.example.core.navigation.Graphs
 import com.example.core.navigation.Screens
-import com.example.domain.models.params.AuthParams
+import com.example.domain.data_classes.params.AuthParams
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
-import com.example.home.ui.home.ui.Home
+import com.example.home.ui.home.Home
 import com.example.home.ui.tickets_filter.TicketFilter
 
 @Composable

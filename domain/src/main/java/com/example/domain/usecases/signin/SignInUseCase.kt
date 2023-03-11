@@ -1,7 +1,7 @@
 package com.example.domain.usecases.signin
 
-import com.example.domain.models.entities.UserEntity
-import com.example.domain.models.params.Credentials
+import com.example.domain.data_classes.entities.UserEntity
+import com.example.domain.data_classes.params.Credentials
 import com.example.domain.repositories.IAuthRepository
 import javax.inject.Inject
 

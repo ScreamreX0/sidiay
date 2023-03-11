@@ -1,14 +1,5 @@
 package com.example.home
 
-import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ListAdapter
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.enums.ticket.TicketPriorityEnum
-import com.example.home.databinding.ItemTicketBinding
-
 //class TicketsListAdapter() : RecyclerView.Adapter<TicketsListAdapter.TicketViewHolder>(), ListAdapter {
 //    inner class TicketViewHolder(val binding: ItemTicketBinding) :
 //        RecyclerView.ViewHolder(binding.root)

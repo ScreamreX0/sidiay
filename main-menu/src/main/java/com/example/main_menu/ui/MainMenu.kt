@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ScreenPreview
-import com.example.domain.models.params.AuthParams
+import com.example.domain.data_classes.params.AuthParams
 import com.example.main_menu.navigation.MainMenuGraph
 import com.example.main_menu.ui.components.BottomBar
 
