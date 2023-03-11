@@ -37,9 +37,7 @@ internal class SearchComponent {
                     modifier = Modifier
                         .padding(15.dp)
                         .size(24.dp)
-                        .clickable {
-                            isSearchEnabled.value = false
-                        },
+                        .clickable { isSearchEnabled.value = false },
                     contentDescription = null,
                 )
             },

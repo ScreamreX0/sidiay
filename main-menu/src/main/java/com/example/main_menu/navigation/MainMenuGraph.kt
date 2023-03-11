@@ -8,9 +8,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.example.core.navigation.BottomBarNav
 import com.example.core.navigation.Graphs
 import com.example.core.navigation.Screens
+import com.example.core.ui.theme.AppTheme
 import com.example.domain.data_classes.params.AuthParams
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
@@ -26,15 +28,8 @@ fun MainMenuGraph(
     NavHost(
         navController = navController,
         route = Graphs.MAIN_MENU,
-        startDestination = BottomBarNav.Home.route
+        startDestination = Graphs.HOME
     ) {
-        composable(route = BottomBarNav.Home.route) {
-            Home().HomeScreen(
-                navController = navController,
-                authParams = remember { mutableStateOf(authParams) },
-                paddingValues = paddingValues,
-            )
-        }
         composable(route = BottomBarNav.Scanner.route) {
 
         }
@@ -47,6 +42,7 @@ fun MainMenuGraph(
         homeNavGraph(
             navController = navController,
             authParams = authParams,
+            paddingValues = paddingValues,
         )
     }
 }
@@ -54,24 +50,43 @@ fun MainMenuGraph(
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController,
     authParams: AuthParams?,
+    paddingValues: PaddingValues,
 ) {
-    composable(route = Screens.Home.TICKET_UPDATE) {
-        TicketUpdate().TicketUpdateScreen(
-            navController = navController,
-            authParams = authParams,
-        )
-    }
-    composable(route = Screens.Home.TICKET_CREATE) {
-        TicketCreate().TicketCreateScreen(
-            navController = navController,
-            authParams = authParams,
-        )
-    }
-    composable(route = Screens.Home.TICKET_FILTER) {
-        TicketFilter().TicketFilterScreen(
-            navController = navController,
-            authParams = authParams,
-        )
+    navigation(
+        route = Graphs.HOME,
+        startDestination = BottomBarNav.Home.route
+    ) {
+        composable(route = BottomBarNav.Home.route) {
+            Home().HomeScreen(
+                navController = navController,
+                authParams = remember { mutableStateOf(authParams) },
+                paddingValues = paddingValues,
+            )
+        }
+        composable(route = Screens.Home.TICKET_UPDATE) {
+            AppTheme {
+                TicketUpdate().TicketUpdateScreen(
+                    navController = navController,
+                    authParams = authParams,
+                )
+            }
+        }
+        composable(route = Screens.Home.TICKET_CREATE) {
+            AppTheme {
+                TicketCreate().TicketCreateScreen(
+                    navController = navController,
+                    authParams = authParams,
+                )
+            }
+        }
+        composable(route = Screens.Home.TICKET_FILTER) {
+            AppTheme {
+                TicketFilter().TicketFilterScreen(
+                    navController = navController,
+                    authParams = authParams,
+                )
+            }
+        }
     }
 }
 

@@ -5,7 +5,7 @@ import com.example.domain.repositories.ITicketsRepository
 import com.example.core.ui.utils.Constants
 import javax.inject.Inject
 
-// TODO ("Переделать")
+// TODO ("Переделать под черновики")
 class GetDraftsUseCase @Inject constructor(
     private val ticketsRepository: ITicketsRepository
 ) {

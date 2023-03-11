@@ -9,8 +9,8 @@ class SetTicketUseCase @Inject constructor(
 ) {
     suspend fun execute(newTicketEntity: TicketEntity) : Boolean {
         if (com.example.core.ui.utils.Constants.DEBUG_MODE) {
-            return ticketRepository.setTest(newTicketEntity = newTicketEntity)
+            return ticketRepository.updateTest(newTicketEntity = newTicketEntity)
         }
-        return ticketRepository.set(newTicketEntity = newTicketEntity)
+        return ticketRepository.update(newTicketEntity = newTicketEntity)
     }
 }

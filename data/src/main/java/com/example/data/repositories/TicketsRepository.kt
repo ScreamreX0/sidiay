@@ -21,16 +21,12 @@ class TicketsRepository @Inject constructor(
         return Pair(result.code(), result.body())
     }
 
-    override suspend fun get(id: Int): TicketEntity {
-        TODO("Get ticket by id")
-    }
-
     override suspend fun get(url: String, start: Int, end: Int): Pair<Int, List<TicketEntity>?> {
         val result = apiService.getTickets("${url}?start=$start&end=$end")
         return Pair(result.code(), result.body())
     }
 
-    override suspend fun set(newTicketEntity: TicketEntity): Boolean {
+    override suspend fun update(newTicketEntity: TicketEntity): Boolean {
         TODO("Set ticket by entity")
     }
 
@@ -109,7 +105,7 @@ class TicketsRepository @Inject constructor(
         )
     }
 
-    override suspend fun setTest(newTicketEntity: TicketEntity): Boolean {
+    override suspend fun updateTest(newTicketEntity: TicketEntity): Boolean {
         return true
     }
 

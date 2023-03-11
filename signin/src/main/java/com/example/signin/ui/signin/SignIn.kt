@@ -187,7 +187,7 @@ internal class SignIn {
             )
 
             /** Checkbox (auto authentication) */
-            // TODO
+            // TODO("Добавить функцию автоматического входа")
             val autoAuth = remember { mutableStateOf(false) }
             AutoAuthComponent.Content(
                 modifier = Modifier.layoutId("rememberComponentRef"),
@@ -206,7 +206,7 @@ internal class SignIn {
 
             /** Text (offline mode)
              * Click -> entering with offline mode */
-            // TODO
+            // TODO("добавить функцию автономного входа")
             OfflineModeComponent.Content(
                 navController = navController,
                 modifier = Modifier.layoutId("offlineComponentRef"),

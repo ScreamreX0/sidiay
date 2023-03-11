@@ -62,6 +62,7 @@ internal class TicketsListItemComponent {
             //  (1.6 - очень большой, 1.3 - большой, 1 - средний, 0.8 - мелкий)")
             defaultTextSize = defaultTextSize.times(1)
 
+            // TODO(Отображение планового простоя)
             ConstraintLayout(
                 constraintSet = getConstraints(expanded = expanded),
                 modifier = Modifier

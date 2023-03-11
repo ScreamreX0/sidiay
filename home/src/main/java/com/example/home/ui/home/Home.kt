@@ -1,5 +1,6 @@
 package com.example.home.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -13,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
+import com.example.core.ui.utils.Debugger
 import com.example.core.ui.utils.ScreenPreview
 import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.enums.MainMenuTabEnum
@@ -88,24 +90,30 @@ class Home {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    MainMenuTopAppBarEnum.values().forEach {
-                        IconButton(onClick = { selectedTopApp.value = it }) {
-                            Icon(
-                                painter = painterResource(id = it.icon),
-                                contentDescription = null
-                            )
-                        }
-                    }
+                    Icon(
+                        modifier = Modifier.clickable { isSearchEnabled.value = true },
+                        painter = painterResource(id = MainMenuTopAppBarEnum.SEARCH.icon),
+                        contentDescription = null
+                    )
+                    Icon(
+                        modifier = Modifier.clickable { navController.navigate(Screens.Home.TICKET_FILTER) },
+                        painter = painterResource(id = MainMenuTopAppBarEnum.FILTER.icon),
+                        contentDescription = null
+                    )
+                    Icon(
+                        modifier = Modifier.clickable { navController.navigate(Screens.Home.TICKET_CREATE) },
+                        painter = painterResource(id = MainMenuTopAppBarEnum.CREATE.icon),
+                        contentDescription = null
+                    )
+                    Icon(
+                        modifier = Modifier.clickable { TODO("Refreshing") },
+                        painter = painterResource(id = MainMenuTopAppBarEnum.REFRESH.icon),
+                        contentDescription = null
+                    )
                 }
             }
 
-            when (selectedTopApp.value?.id) {
-                0 -> isSearchEnabled.value = true  // Search
-                1 -> navController.navigate(Screens.Home.TICKET_FILTER)  // Filter
-                2 -> navController.navigate(Screens.Home.TICKET_CREATE)  // Create
-            }
-
-            /** Tabs */
+            /** Tabs */  // TODO("При нажатии на таб должно открываться соответствующее окно")
             TabRow(
                 modifier = Modifier.height(40.dp),
                 backgroundColor = MaterialTheme.colors.background,
