@@ -1,5 +1,6 @@
 package com.example.signin.ui.signin.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -30,7 +31,7 @@ internal class PasswordComponent {
                 shape = RoundedCornerShape(15.dp),
                 label = {
                     Text(
-                        text = stringResource(R.string.password),
+                        text = "Пароль",
                         fontSize = MaterialTheme.typography.h3.fontSize,
                     )
                 },
@@ -56,13 +57,13 @@ internal class PasswordComponent {
                         R.drawable.baseline_visibility_off_24
                     }
 
-                    IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
-                        Icon(
-                            painter = painterResource(id = image),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    }
+                    Icon(
+                        modifier = Modifier
+                            .clickable { passwordVisible.value = !passwordVisible.value },
+                        painter = painterResource(id = image),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.onBackground
+                    )
                 }
             )
         }

@@ -36,7 +36,7 @@ internal class EmailComponent {
                 ),
                 label = {
                     Text(
-                        text = stringResource(R.string.email),
+                        text = "Email",
                         fontSize = MaterialTheme.typography.h3.fontSize
                     )
                 },

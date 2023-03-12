@@ -30,17 +30,15 @@ internal class ConnectionsList {
             selectedConnection: MutableState<ConnectionParams>,
             isDialogOpened: MutableState<Boolean>
         ) {
-            LazyColumn(
-                modifier = Modifier.height(150.dp),
-            ) {
-                items(
-                    items = connectionsList.value
-                ) { connectionItem ->
+            val context = LocalContext.current
+            LazyColumn(modifier = Modifier.height(150.dp)) {
+                items(items = connectionsList.value) { connectionItem ->
                     Row(
                         modifier = Modifier.clickable {
                             selectedConnection.value = connectionItem
                             isDialogOpened.value = false
-                        }, verticalAlignment = Alignment.CenterVertically
+                        },
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         DefaultTextStyle {
                             Text(
@@ -52,29 +50,31 @@ internal class ConnectionsList {
                                 color = MaterialTheme.colors.onBackground
                             )
                         }
-                        IconButton(onClick = {
-                            connectionsList.value = connectionsList.value
-                                .filter { it != connectionItem }
-                                .toMutableList()
-                        }) {
-                            Icon(
-                                painter = painterResource(R.drawable.baseline_delete_24),
-                                contentDescription = null,
-                                tint = MaterialTheme.colors.onBackground
-                            )
-                        }
-                        val context = LocalContext.current
-                        IconButton(onClick = {
-                            Toast.makeText(
-                                context, "URL: ${connectionItem.url}", Toast.LENGTH_SHORT
-                            ).show()
-                        }) {
-                            Icon(
-                                painter = painterResource(R.drawable.baseline_help_outline_24),
-                                contentDescription = null,
-                                tint = MaterialTheme.colors.onBackground
-                            )
-                        }
+                        Icon(
+                            modifier = Modifier
+                                .clickable {
+                                    connectionsList.value = connectionsList.value
+                                        .filter { it != connectionItem }
+                                        .toMutableList()
+                                },
+                            painter = painterResource(R.drawable.baseline_delete_24),
+                            contentDescription = "Delete connection",
+                            tint = MaterialTheme.colors.onBackground,
+                        )
+
+                        Icon(
+                            modifier = Modifier
+                                .clickable {
+                                    Toast.makeText(
+                                        context,
+                                        "URL: ${connectionItem.url}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                },
+                            painter = painterResource(R.drawable.baseline_help_outline_24),
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.onBackground
+                        )
                     }
                 }
             }

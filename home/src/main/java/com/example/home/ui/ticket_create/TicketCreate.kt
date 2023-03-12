@@ -3,18 +3,14 @@ package com.example.home.ui.ticket_create
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -22,102 +18,131 @@ import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.utils.Debugger
 import com.example.core.ui.utils.ScreenPreview
 import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.data_classes.params.AuthParams
-import com.example.core.R
+import com.example.domain.data_classes.params.TicketCreateParams
+import com.example.domain.enums.states.LoadingState
+import com.example.home.ui.ticket_create.components.BottomAppBar
+import com.example.home.ui.ticket_create.components.Facilities
+import com.example.home.ui.ticket_create.components.TopAppBar
 
 
 class TicketCreate {
     @Composable
     fun TicketCreateScreen(
         navController: NavHostController,
-        authParams: AuthParams?,
+        authParams: AuthParams = AuthParams(),
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
         draft: MutableState<DraftEntity> = remember { mutableStateOf(DraftEntity()) },
     ) {
+        if (authParams.onlineMode) {
+            ticketCreateViewModel.initFields()
+        } else {
+            ticketCreateViewModel.offlineInitFields()
+        }
+
         Content(
             navController = navController,
             authParams = authParams,
             draft = draft,
+            fields = ticketCreateViewModel.fields,
+            fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
         )
     }
 
     @Composable
     private fun Content(
         navController: NavHostController = rememberNavController(),
-        authParams: AuthParams? = AuthParams(),
-        draft: MutableState<DraftEntity> = remember { mutableStateOf(DraftEntity()) }
+        authParams: AuthParams = AuthParams(),
+        draft: MutableState<DraftEntity> = remember { mutableStateOf(DraftEntity()) },
+        fields: MutableState<TicketCreateParams?> = remember { mutableStateOf(TicketCreateParams()) },
+        fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) }
     ) {
         ConstraintLayout(
             constraintSet = getConstraints(),
             modifier = Modifier.fillMaxSize(),
         ) {
-            /** Top app bar */
-            Row(
-                modifier = Modifier
-                    .layoutId("topAppBarRef")
-                    .height(60.dp)
-                    .background(MaterialTheme.colors.primary),
+            //
+            // Top app bar
+            //
+            val iconsVisible = remember { mutableStateOf(false) }
+            TopAppBar().Content(
+                modifier = Modifier.layoutId("topAppBarRef"),
+                navController = navController,
+                iconsVisible = iconsVisible
+            )
+
+            if (fieldsLoadingState.value == LoadingState.LOADING
+                || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT
             ) {
-                Icon(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .clickable {
-                            Debugger.printInfo("Clicked")
-                            navController.popBackStack(
-                                route = BottomBarNav.Home.route,
-                                inclusive = false
-                            )
-                        },
-                    painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colors.onPrimary,
+                CircularProgressIndicator(
+                    modifier = Modifier.layoutId("centralMiddleRef"),
+                    color = MaterialTheme.colors.primary
                 )
-
-                Icon(
-                    modifier = Modifier
-                        .fillMaxHeight(),
-                    painter = painterResource(id = R.drawable.baseline_save_as_24),
-                    contentDescription = "Save draft",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
-
-                Icon(
-                    modifier = Modifier
-                        .fillMaxHeight(),
-                    painter = painterResource(id = R.drawable.baseline_format_clear_24),
-                    contentDescription = "Clear all fields",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
+                return@ConstraintLayout
             }
 
+            if (fieldsLoadingState.value == LoadingState.ERROR) {
+                Text(
+                    modifier = Modifier.layoutId("centralMiddleRef"),
+                    color = MaterialTheme.colors.primary,
+                    text = if (authParams.onlineMode) {
+                        "Нет подключения к интернету.\nВойдите в автономный режим"
+                    } else {
+                        "Нет данных для автономного режима.\nНужно хотя-бы раз войти в онлайн режим"
+                    }
+                )
+                return@ConstraintLayout
+            }
 
-            /** Middle section */
+            // Set icons on top app bar visible
+            iconsVisible.value = true
+
+            //
+            // Middle section
+            //
             val scrollableState = rememberScrollState()
             Column(
                 modifier = Modifier
                     .layoutId("ticketCreateRef")
                     .background(MaterialTheme.colors.background)
-                .verticalScroll(scrollableState),
+                    .verticalScroll(scrollableState),
             ) {
+                // Required fields
                 Title(
-                    modifier = Modifier
-                        .layoutId("requiredFieldsRef"),
+                    modifier = Modifier.layoutId("requiredFieldsRef"),
                     text = "Обязательные поля",
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
 
-                Text(
-                    modifier = Modifier
-                        .layoutId("objectsRef"),
-                    text = "Объекты",
-                    fontSize = MaterialTheme.typography.h5.fontSize
+                // Objects
+                val isDialogOpened = remember { mutableStateOf(false) }
+                val facilitiesScrollState = rememberScrollState()
+                val selectedFacilities = remember {
+                    mutableStateListOf(
+                        *(BooleanArray(fields.value?.facilities?.size ?: 0).toTypedArray())
+                    )
+                }
+
+                if (isDialogOpened.value) {
+                    Facilities().FacilitiesDialog(
+                        facilitiesScrollState = facilitiesScrollState,
+                        isDialogOpened = isDialogOpened,
+                        fields = fields,
+                        draft = draft,
+                        selectedFacilities = selectedFacilities,
+                    )
+                }
+
+                Facilities().Content(
+                    modifier = Modifier.layoutId("objectsRef"),
+                    draft = draft,
+                    isDialogOpened = isDialogOpened,
                 )
 
+                // Services
                 Text(
                     modifier = Modifier
                         .layoutId("serviceRef"),
@@ -125,9 +150,19 @@ class TicketCreate {
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
 
+                // Kind
+                // Priority
+
+                // OptionalFields
+                Title(
+                    modifier = Modifier.layoutId("optionalFieldsRef"),
+                    text = "Необязательные поля",
+                    fontSize = MaterialTheme.typography.h5.fontSize
+                )
+
+                // Name
                 TextField(
-                    modifier = Modifier
-                        .layoutId("nameRef"),
+                    modifier = Modifier.layoutId("nameRef"),
                     value = draft.value.name ?: "",
                     label = { Text("[Название заявки]") },
                     onValueChange = {},
@@ -141,49 +176,53 @@ class TicketCreate {
                         disabledIndicatorColor = MaterialTheme.colors.onPrimary
                     )
                 )
+
+                // Executor
+                // Brigade
+                // PlaneDate
+                // ExpirationDate
+                // Description
+
+                // AutomaticFields
+                Title(
+                    modifier = Modifier.layoutId("automaticFieldsRef"),
+                    text = "Автоматические поля",
+                    fontSize = MaterialTheme.typography.h5.fontSize
+                )
+
+                // Status
+                // Author
+                // CreationDate
+
             }
 
-            /** Bottom app bar */
-            Row(
-                modifier = Modifier
-                    .layoutId("bottomAppBarRef")
-                    .height(50.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(0.5F)
-                        .background(MaterialTheme.colors.primary),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = "Сохранить",
-                        color = MaterialTheme.colors.onPrimary
-                    )
-                }
+            // Bottom app bar
+            BottomAppBar().Content(modifier = Modifier.layoutId("bottomAppBarRef"))
+        }
+    }
 
-                // Divider
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(1.dp)
-                        .background(MaterialTheme.colors.background)
-                ) {}
+    @Composable
+    internal fun TicketCreateItem(
+        title: String,
+        icon: Int,
+        item: @Composable () -> Unit
+    ) {
+        Row {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = null,
+                tint = MaterialTheme.colors.primary
+            )
+            Column {
+                // Subtitle
+                Text(
+                    text = title,
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+                    fontSize = MaterialTheme.typography.h3.fontSize
+                )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(0.5F)
-                        .background(MaterialTheme.colors.primary),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = "Отмена",
-                        color = MaterialTheme.colors.onPrimary
-                    )
-                }
+                // Item
+                item.invoke()
             }
         }
     }
@@ -204,10 +243,18 @@ class TicketCreate {
     }
 
     private fun getConstraints() = ConstraintSet {
+        val centralMiddleRef = createRefFor("centralMiddleRef")
+        constrain(centralMiddleRef) {
+            linkTo(parent.start, parent.end, bias = 0.5F)
+            linkTo(parent.top, parent.bottom, bias = 0.5F)
+        }
+
+        //
+        // Main sections
+        //
         val topAppBarRef = createRefFor("topAppBarRef")
         val ticketCreateRef = createRefFor("ticketCreateRef")
         val bottomAppBarRef = createRefFor("bottomAppBarRef")
-
         constrain(topAppBarRef) {
             top.linkTo(parent.top)
             start.linkTo(parent.start)
@@ -229,54 +276,40 @@ class TicketCreate {
             height = Dimension.fillToConstraints
         }
 
-//        // Required fields
-//        val requiredFieldsRef = createRefFor("requiredFieldsRef")
-//        val objectsRef = createRefFor("objectsRef")
-//        val serviceRef = createRefFor("serviceRef")
-//        val kindRef = createRefFor("kindRef")
-//        val priorityRef = createRefFor("priorityRef")
-//
-//        // Optional fields
-//        val optionalFieldsRef = createRefFor("optionalFieldsRef")
-//        val nameRef = createRefFor("nameRef")
-//        val completedWorkRef = createRefFor("completedWorkRef")
-//        val executorRef = createRefFor("executorRef")
-//        val brigadeRef = createRefFor("brigadeRef")
-//        val planeDateRef = createRefFor("planeDateRef")
-//        val expirationDateRef = createRefFor("expirationDateRef")
-//        val descriptionRef = createRefFor("descriptionRef")
-//
-//        // Automatic fields
-//        val automaticFieldsRef = createRefFor("automaticFieldsRef")
-//        val statusRef = createRefFor("statusRef")
-//        val authorRef = createRefFor("authorRef")
-//        val creationDateRef = createRefFor("creationDateRef")
-//
-//        constrain(requiredFieldsRef) {
-//            start.linkTo(parent.start, margin = 10.dp)
-//            end.linkTo(parent.end, margin = 10.dp)
-//            top.linkTo(parent.top, margin = 5.dp)
-//            width = Dimension.fillToConstraints
-//        }
-//
-//        constrain(objectsRef) {
-//            start.linkTo(parent.start, margin = 10.dp)
-//            end.linkTo(parent.end, margin = 10.dp)
-//            top.linkTo(requiredFieldsRef.top, margin = 5.dp)
-//            width = Dimension.fillToConstraints
-//        }
-//
-//        constrain(serviceRef) {
-//            start.linkTo(parent.start, margin = 10.dp)
-//            end.linkTo(parent.end, margin = 10.dp)
-//            top.linkTo(objectsRef.top, margin = 5.dp)
-//            width = Dimension.fillToConstraints
-//        }
+        //
+        // Required fields
+        //
+        val requiredFieldsRef = createRefFor("requiredFieldsRef")
+        val objectsRef = createRefFor("objectsRef")
+        val serviceRef = createRefFor("serviceRef")
+        val kindRef = createRefFor("kindRef")
+        val priorityRef = createRefFor("priorityRef")
+
+        //
+        // Optional fields
+        //
+        val optionalFieldsRef = createRefFor("optionalFieldsRef")
+        val nameRef = createRefFor("nameRef")
+        val executorRef = createRefFor("executorRef")
+        val brigadeRef = createRefFor("brigadeRef")
+        val planeDateRef = createRefFor("planeDateRef")
+        val expirationDateRef = createRefFor("expirationDateRef")
+        val descriptionRef = createRefFor("descriptionRef")
+
+        //
+        // Automatic fields
+        //
+        val automaticFieldsRef = createRefFor("automaticFieldsRef")
+        val statusRef = createRefFor("statusRef")
+        val authorRef = createRefFor("authorRef")
+        val creationDateRef = createRefFor("creationDateRef")
     }
 
     @Composable
     @ScreenPreview
     private fun Preview() {
-        AppTheme(isSystemInDarkTheme()) { Content() }
+        AppTheme(isSystemInDarkTheme()) {
+            Content()
+        }
     }
 }

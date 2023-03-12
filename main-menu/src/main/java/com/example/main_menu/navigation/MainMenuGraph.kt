@@ -23,7 +23,7 @@ import com.example.home.ui.tickets_filter.TicketFilter
 fun MainMenuGraph(
     navController: NavHostController,
     paddingValues: PaddingValues,
-    authParams: AuthParams?
+    authParams: AuthParams
 ) {
     NavHost(
         navController = navController,
@@ -49,7 +49,7 @@ fun MainMenuGraph(
 
 fun NavGraphBuilder.homeNavGraph(
     navController: NavHostController,
-    authParams: AuthParams?,
+    authParams: AuthParams,
     paddingValues: PaddingValues,
 ) {
     navigation(

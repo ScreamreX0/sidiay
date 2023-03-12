@@ -1,15 +1,15 @@
 package com.example.data.repositories
 
 import com.example.data.network.api.ApiService
-import com.example.domain.repositories.IFacilitiesRepository
+import com.example.domain.repositories.IFacilityRepository
 import com.example.domain.data_classes.entities.FacilityEntity
 import javax.inject.Inject
 
-class FacilitiesRepository @Inject constructor(
+class FacilityRepository @Inject constructor(
     private val apiService: ApiService
-) : IFacilitiesRepository {
-    override suspend fun get(): List<FacilityEntity>? {
-        return apiService.getFacilities().body()
+) : IFacilityRepository {
+    override suspend fun get(): List<FacilityEntity> {
+        return apiService.getFacilities().body() ?: emptyList()
     }
 
     override suspend fun getTest(): List<FacilityEntity> {

@@ -19,7 +19,7 @@ class MainMenu {
     fun Content(
         isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) },
         navController: NavHostController = rememberNavController(),
-        authParams: AuthParams? = AuthParams()
+        authParams: AuthParams = AuthParams()
     ) {
         AppTheme(isDarkTheme.value) {
             Scaffold(

@@ -10,8 +10,8 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val apiService: ApiService
 ) : IUserRepository {
-    override suspend fun getUsers(): List<UserEntity>? {
-        return apiService.getUsers().body()
+    override suspend fun getUsers(): List<UserEntity> {
+        return apiService.getUsers().body() ?: emptyList()
     }
 
     override suspend fun getTestUsers(): List<UserEntity> {

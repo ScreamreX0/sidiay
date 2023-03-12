@@ -48,7 +48,7 @@ internal class BottomButtons {
                         },
                     ) {
                         Text(
-                            text = stringResource(R.string.save),
+                            text = "Сохранить",
                             fontSize = MaterialTheme.typography.h4.fontSize
                         )
                     }
@@ -62,11 +62,9 @@ internal class BottomButtons {
                             backgroundColor = MaterialTheme.colors.onBackground,
                             contentColor = MaterialTheme.colors.onPrimary
                         ),
-                        onClick = {
-                            isDialogOpened.value = false
-                        }) {
+                        onClick = { isDialogOpened.value = false }) {
                         Text(
-                            text = stringResource(R.string.cancel),
+                            text = "Отмена",
                             fontSize = MaterialTheme.typography.h4.fontSize
                         )
                     }

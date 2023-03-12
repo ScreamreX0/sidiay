@@ -1,9 +1,9 @@
 package com.example.sidiay.di
 
-import com.example.data.repositories.FacilitiesRepository
-import com.example.data.repositories.UserRepository
 import com.example.domain.repositories.IAuthRepository
+import com.example.domain.repositories.IFacilityRepository
 import com.example.domain.repositories.ITicketsRepository
+import com.example.domain.repositories.IUserRepository
 import com.example.domain.usecases.createticket.*
 import com.example.domain.usecases.home.*
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
@@ -33,27 +33,13 @@ class DomainModule {
         SaveTicketUseCase(ticketRepository = ticketsRepository)
 
     @Provides
-    fun provideGetServicesUseCase(): GetServicesUseCase = GetServicesUseCase()
-
-    @Provides
-    fun provideGetKindsUseCase(): GetKindsUseCase = GetKindsUseCase()
-
-    @Provides
-    fun provideGetPrioritiesUseCase(): GetPrioritiesUseCase = GetPrioritiesUseCase()
-
-    @Provides
-    fun provideGetPeriodsUseCase(): GetPeriodsUseCase = GetPeriodsUseCase()
-
-    @Provides
-    fun provideGetStatusesUseCase(): GetStatusesUseCase = GetStatusesUseCase()
-
-    @Provides
-    fun provideGetUsersUseCase(userRepository: UserRepository): GetUsersUseCase =
-        GetUsersUseCase(userRepository = userRepository)
-
-    @Provides
-    fun provideGetObjectsUseCase(facilitiesRepository: FacilitiesRepository): GetFacilitiesUseCase =
-        GetFacilitiesUseCase(facilitiesRepository = facilitiesRepository)
+    fun provideGetTicketCreateFieldsUseCase(
+        facilitiesRepository: IFacilityRepository,
+        userRepository: IUserRepository,
+    ): GetTicketCreateFieldsUseCase = GetTicketCreateFieldsUseCase(
+        facilitiesRepository = facilitiesRepository,
+        userRepository = userRepository,
+    )
 
     @Provides
     fun provideCheckTicketUseCase(): CheckTicketUseCase = CheckTicketUseCase()

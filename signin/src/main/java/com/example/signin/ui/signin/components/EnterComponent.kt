@@ -43,12 +43,11 @@ internal class EnterComponent {
                     )
                 ) {
                     Text(
-                        text = stringResource(R.string.sign_in),
+                        text = "Войти",
                         fontSize = MaterialTheme.typography.h3.fontSize,
                         color = MaterialTheme.colors.onPrimary,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .padding(top = 10.dp, bottom = 10.dp)
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
                     )
                 }
             }

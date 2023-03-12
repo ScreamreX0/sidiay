@@ -37,55 +37,38 @@ internal class TitleComponent {
                         height = 65.dp
                     ),
             ) {
-                HeaderFirstPart()
-                HeaderSecondPart()
-                Icon(
-                    onClick = { changeUIMode() },
+                Text(
+                    modifier = Modifier.padding(end = 5.dp),
+                    letterSpacing = 2.sp,
+                    color = MaterialTheme.colors.secondary,
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    text = stringResource(id = R.string.auth_title_1),
+                )
+
+                Text(
+                    modifier = Modifier.padding(end = 5.dp),
+                    fontSize = 40.sp,
+                    letterSpacing = 2.sp,
+                    color = MaterialTheme.colors.onBackground,
+                    fontWeight = FontWeight.Bold,
+                    text = stringResource(id = R.string.auth_title_2),
+                )
+
+                val interactionSource = remember { MutableInteractionSource() }
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null
+                        ) { changeUIMode() },
+                    contentScale = ContentScale.Inside,
+                    painter = painterResource(id = R.drawable.ic_logo),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
+                    contentDescription = "App logo"
                 )
             }
-        }
-
-        @Composable
-        private fun HeaderFirstPart() {
-            Text(
-                modifier = Modifier
-                    .padding(end = 5.dp),
-                letterSpacing = 2.sp,
-                color = MaterialTheme.colors.secondary,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.Bold,
-                text = stringResource(id = R.string.auth_title_1),
-            )
-        }
-
-        @Composable
-        private fun HeaderSecondPart() {
-            Text(
-                modifier = Modifier
-                    .padding(end = 5.dp),
-                fontSize = 40.sp,
-                letterSpacing = 2.sp,
-                color = MaterialTheme.colors.onBackground,
-                fontWeight = FontWeight.Bold,
-                text = stringResource(id = R.string.auth_title_2),
-            )
-        }
-
-        @Composable
-        private fun Icon(onClick: () -> Unit = {}) {
-            val interactionSource = remember { MutableInteractionSource() }
-            Image(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null
-                    ) { onClick() },
-                contentScale = ContentScale.Inside,
-                painter = painterResource(id = R.drawable.ic_logo),
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
-                contentDescription = ""
-            )
         }
     }
 }

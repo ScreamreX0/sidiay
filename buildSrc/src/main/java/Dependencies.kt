@@ -68,8 +68,9 @@ object Dependencies {
             const val RUNTIME = "androidx.compose.runtime:runtime:${Versions.UI.Compose.RUNTIME}"
             const val UI = "androidx.compose.ui:ui:${Versions.UI.Compose.UI}"
             const val PAGINATION = "androidx.paging:paging-compose:${Versions.UI.Compose.PAGINATION}"
-            const val TAB_PAGING = "com.google.accompanist:accompanist-pager:${Versions.UI.Compose.TAB_PAGING}"
-            const val TAB_PAGING_INDICATORS = "com.google.accompanist:accompanist-pager-indicators:${Versions.UI.Compose.TAB_PAGING}"
+            const val TAB_PAGING = "com.google.accompanist:accompanist-pager:${Versions.UI.Compose.ACCOMPANIST}"
+            const val TAB_PAGING_INDICATORS = "com.google.accompanist:accompanist-pager-indicators:${Versions.UI.Compose.ACCOMPANIST}"
+            const val FLOW_LAYOUTS = "com.google.accompanist:accompanist-flowlayout:${Versions.UI.Compose.ACCOMPANIST}"
         }
     }
 
@@ -147,7 +148,7 @@ object Dependencies {
                 const val RUNTIME = "1.3.3"
                 const val UI = "1.3.3"
                 const val PAGINATION = "1.0.0-alpha18"
-                const val TAB_PAGING = "0.27.1"
+                const val ACCOMPANIST = "0.28.0"
             }
         }
 

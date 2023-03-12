@@ -70,10 +70,8 @@ class Home {
         selectedTopApp: MutableState<MainMenuTopAppBarEnum?> = remember { mutableStateOf(null) },
         pagerState: PagerState = rememberPagerState()
     ) {
-
-
         Column(modifier = modifier.fillMaxSize()) {
-            /** App bar */
+            // App bar
             TopAppBar(
                 contentColor = MaterialTheme.colors.onBackground,
                 backgroundColor = MaterialTheme.colors.background,
@@ -113,7 +111,8 @@ class Home {
                 }
             }
 
-            /** Tabs */  // TODO("При нажатии на таб должно открываться соответствующее окно")
+            // Tabs
+            // TODO("При нажатии на таб должно открываться соответствующее окно")
             TabRow(
                 modifier = Modifier.height(40.dp),
                 backgroundColor = MaterialTheme.colors.background,
@@ -157,7 +156,6 @@ class Home {
         }
     }
 
-    /** Preview */
     @OptIn(ExperimentalPagerApi::class)
     @ScreenPreview
     @Composable

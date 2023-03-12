@@ -31,20 +31,19 @@ internal class ConnectionComponent {
                 border = BorderStroke(1.dp, MaterialTheme.colors.onBackground),
                 shape = RoundedCornerShape(25),
             ) {
-                ButtonText(selectedConnection = selectedConnection)
+                Text(
+                    text = selectedConnection.value.name,
+                    fontSize = MaterialTheme.typography.h3.fontSize,
+                    color = MaterialTheme.colors.onBackground,
+                    modifier = Modifier.padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        top = 10.dp,
+                        bottom = 10.dp
+                    ),
+                    textAlign = TextAlign.Start
+                )
             }
-        }
-
-        @Composable
-        private fun ButtonText(selectedConnection: MutableState<ConnectionParams>) {
-            Text(
-                text = selectedConnection.value.name,
-                fontSize = MaterialTheme.typography.h3.fontSize,
-                color = MaterialTheme.colors.onBackground,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp),
-                textAlign = TextAlign.Start
-            )
         }
     }
 }

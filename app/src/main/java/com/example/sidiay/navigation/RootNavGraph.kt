@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.navigation.Graphs
+import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.types.AuthParamsType
 import com.example.main_menu.ui.MainMenu
 import com.example.signin.navigation.authenticationGraph
@@ -23,7 +24,9 @@ fun RootNavGraph(navController: NavHostController) {
             route = "${Graphs.MAIN_MENU}/{params}",
             arguments = listOf(navArgument("params") { type = AuthParamsType() })
         ) {
-            MainMenu().Content(authParams = it.arguments?.getParcelable("params"))
+            MainMenu().Content(
+                authParams = it.arguments?.getParcelable("params") ?: AuthParams()
+            )
         }
     }
 }

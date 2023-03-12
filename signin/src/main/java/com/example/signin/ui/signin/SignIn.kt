@@ -140,7 +140,7 @@ internal class SignIn {
                 }
             }
 
-            /** Dialog (connections) */
+            // Dialog
             ConnectionsDialog.ConnectionsDialogScreen(
                 isDialogOpened = isConnectionDialogOpened,
                 selectedConnection = selectedConnection,
@@ -149,22 +149,20 @@ internal class SignIn {
                 updateConnectionsList = updateConnectionsListFunction
             )
 
-            /** Title (header with icon) */
+            // Title
             TitleComponent.Content(
                 modifier = Modifier.layoutId("titleComponentRef"),
                 changeUIMode = changeUIModeFunction
             )
 
-            /** Button (connections)
-             * Click -> show connections dialog */
+            // Default connection button
             ConnectionComponent.Content(
                 modifier = Modifier.layoutId("connectionComponentRef"),
                 isConnectionDialogOpened = isConnectionDialogOpened,
                 selectedConnection = selectedConnection
             )
 
-            /** Text (check connection)
-             * Click -> check current connection to validity */
+            // Check connection
             CheckConnectionComponent.Content(
                 modifier = Modifier.layoutId("checkConnectionComponentRef"),
                 selectedConnection = selectedConnection,
@@ -172,30 +170,29 @@ internal class SignIn {
                 checkConnectionResult = checkConnectionResult
             )
 
-            /** TextField (email) */
+            // Email
             val email = remember { mutableStateOf("") }
             EmailComponent.Content(
                 modifier = Modifier.layoutId("emailComponentRef"),
                 email = email
             )
 
-            /** TextField (password) */
+            // Password
             val password = remember { mutableStateOf("") }
             PasswordComponent.Content(
                 modifier = Modifier.layoutId("passwordComponentRef"),
                 password = password,
             )
 
-            /** Checkbox (auto authentication) */
-            // TODO("Добавить функцию автоматического входа")
+            // Auto auth
+            // TODO("Add auto auth function")
             val autoAuth = remember { mutableStateOf(false) }
             AutoAuthComponent.Content(
                 modifier = Modifier.layoutId("rememberComponentRef"),
                 autoAuth = autoAuth,
             )
 
-            /** Button
-             * Click -> entering */
+            // Enter
             EnterComponent.Content(
                 modifier = Modifier.layoutId("enterComponentRef"),
                 email = email,
@@ -204,9 +201,8 @@ internal class SignIn {
                 signInFunction = signInFunction,
             )
 
-            /** Text (offline mode)
-             * Click -> entering with offline mode */
-            // TODO("добавить функцию автономного входа")
+            // Offline mode
+            // TODO("Add offline mode function")
             OfflineModeComponent.Content(
                 navController = navController,
                 modifier = Modifier.layoutId("offlineComponentRef"),
@@ -264,20 +260,11 @@ internal class SignIn {
         }
     }
 
-    /** PREVIEWS */
     @ScreenPreview
     @Composable
     private fun ScreenPreview() {
         AppTheme(isSystemInDarkTheme()) {
             Content()
-        }
-    }
-
-    @ComponentPreview
-    @Composable
-    private fun ComponentsPreview() {
-        AppTheme {
-            // Components
         }
     }
 }

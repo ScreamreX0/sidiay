@@ -31,7 +31,7 @@ internal class OfflineModeComponent {
                         navController.popBackStack()
                         navController.navigate(Graphs.MAIN_MENU)
                     },
-                text = stringResource(id = R.string.offline_mode),
+                text = "Автономный режим",
                 color = MaterialTheme.colors.onBackground,
                 fontWeight = FontWeight.Bold
             )

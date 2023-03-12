@@ -38,7 +38,7 @@ internal class ConnectionsDialog {
             }
 
             val scope = rememberCoroutineScope()
-            LaunchedEffect("dialog_key") {
+            LaunchedEffect(true) {
                 scope.launch {
                     updateConnectionsList.invoke()
                 }
@@ -52,9 +52,7 @@ internal class ConnectionsDialog {
                 ) {
                     DialogTitle.TitleContent()
 
-                    AddConnection.Content(
-                        connectionsList = connectionsList
-                    )
+                    AddConnection.Content(connectionsList = connectionsList)
 
                     DefaultConnection.Content(
                         selectedConnection = selectedConnection,
@@ -77,12 +75,11 @@ internal class ConnectionsDialog {
         }
     }
 
-    /** Previews */
     @ScreenPreview
     @Composable
     private fun ScreenPreview() {
         AppTheme(isSystemInDarkTheme()) {
-            val name = stringResource(id = R.string.default_connection)
+            val name = "Стандартное соединение"
             val defaultConnection = remember {
                 mutableStateOf(ConnectionParams(name, Variables.DEFAULT_CONNECTION_URL))
             }
@@ -90,14 +87,6 @@ internal class ConnectionsDialog {
             ConnectionsDialogScreen(
                 selectedConnection = defaultConnection,
             )
-        }
-    }
-
-    @ComponentPreview
-    @Composable
-    private fun ComponentsPreview() {
-        AppTheme {
-            // Components
         }
     }
 }

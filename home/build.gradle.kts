@@ -99,6 +99,7 @@ dependencies {
         implementation(UI)
         implementation(RUNTIME)
         implementation(TAB_PAGING)
+        implementation(FLOW_LAYOUTS)
         debugImplementation(PREVIEW)
         debugImplementation(NAVIGATION)
     }

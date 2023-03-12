@@ -3,7 +3,7 @@ package com.example.domain.data_classes.params
 import com.example.domain.enums.TicketStatusEnum
 import com.example.domain.data_classes.entities.KindEntity
 
-data class AddTicketParams(
+data class CreateTicketParams(
     var id: Long? = 1,
 //    var facilities: List<FacilityEntity>? = listOf(),
 //    var author: UserEntity? = UserEntity(),

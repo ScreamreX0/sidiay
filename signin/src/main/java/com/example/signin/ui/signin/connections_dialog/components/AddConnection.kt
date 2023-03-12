@@ -18,20 +18,42 @@ internal class AddConnection {
     companion object {
         @Composable
         fun Content(
-            connectionsList: MutableState<List<ConnectionParams>>
+            connectionsList: MutableState<List<ConnectionParams>>,
+            connectionName: MutableState<String> = remember { mutableStateOf("") },
+            url: MutableState<String> = remember { mutableStateOf("") }
         ) {
+            val context = LocalContext.current
             Column {
-                val context = LocalContext.current
-                val connectionName = remember { mutableStateOf("") }
-                val url = remember { mutableStateOf("") }
-
-                ConnectionNameTextField(
-                    connectionName = connectionName
+                // Name
+                TextField(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    value = connectionName.value,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = MaterialTheme.colors.onBackground,
+                        unfocusedBorderColor = MaterialTheme.colors.onBackground,
+                        textColor = MaterialTheme.colors.onBackground,
+                        focusedLabelColor = MaterialTheme.colors.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colors.onBackground,
+                        cursorColor = MaterialTheme.colors.onBackground,
+                    ),
+                    onValueChange = { connectionName.value = it },
+                    label = { Text(text = "Название соединения") },
                 )
 
-                /** Connection url text field */
-                ConnectionURLTextField(
-                    url = url
+                // Url
+                TextField(
+                    modifier = Modifier.padding(bottom = 5.dp),
+                    value = url.value,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = MaterialTheme.colors.onBackground,
+                        unfocusedBorderColor = MaterialTheme.colors.onBackground,
+                        textColor = MaterialTheme.colors.onBackground,
+                        focusedLabelColor = MaterialTheme.colors.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colors.onBackground,
+                        cursorColor = MaterialTheme.colors.onBackground,
+                    ),
+                    onValueChange = { url.value = it },
+                    label = { Text(text = "URL") },
                 )
 
                 Row(
@@ -39,127 +61,66 @@ internal class AddConnection {
                         .fillMaxWidth()
                         .padding(top = 10.dp, bottom = 10.dp)
                 ) {
-                    /** Clear all connections button */
-                    ClearAllConnectionsButton(
-                        connectionsList = connectionsList
-                    )
-
-                    /** Add connection button */
-                    AddConnectionButton(
-                        connectionName = connectionName,
-                        context = context,
-                        connectionsList = connectionsList,
-                        url = url
-                    )
-                }
-            }
-        }
-
-        @Composable
-        private fun ConnectionNameTextField(connectionName: MutableState<String>) {
-            TextField(
-                modifier = Modifier.padding(bottom = 10.dp),
-                value = connectionName.value,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colors.onBackground,
-                    unfocusedBorderColor = MaterialTheme.colors.onBackground,
-                    textColor = MaterialTheme.colors.onBackground,
-                    focusedLabelColor = MaterialTheme.colors.onBackground,
-                    unfocusedLabelColor = MaterialTheme.colors.onBackground,
-                    cursorColor = MaterialTheme.colors.onBackground,
-                ),
-                onValueChange = { connectionName.value = it },
-                label = { Text(text = stringResource(R.string.connection_name)) },
-            )
-        }
-
-        @Composable
-        private fun ConnectionURLTextField(url: MutableState<String>) {
-            TextField(
-                modifier = Modifier.padding(bottom = 5.dp),
-                value = url.value,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = MaterialTheme.colors.onBackground,
-                    unfocusedBorderColor = MaterialTheme.colors.onBackground,
-                    textColor = MaterialTheme.colors.onBackground,
-                    focusedLabelColor = MaterialTheme.colors.onBackground,
-                    unfocusedLabelColor = MaterialTheme.colors.onBackground,
-                    cursorColor = MaterialTheme.colors.onBackground,
-                ),
-                onValueChange = { url.value = it },
-                label = { Text(text = stringResource(R.string.url)) },
-            )
-        }
-
-        @Composable
-        private fun ClearAllConnectionsButton(connectionsList: MutableState<List<ConnectionParams>>) {
-            DefaultButtonStyle {
-                Button(modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.onBackground,
-                    contentColor = MaterialTheme.colors.onPrimary
-                ), onClick = {
-                    connectionsList.value = listOf()
-                }) {
-                    DefaultTextStyle {
-                        Text(
-                            text = stringResource(R.string.clear_all),
-                            fontSize = MaterialTheme.typography.h3.fontSize
-                        )
+                    // Clear all
+                    DefaultButtonStyle {
+                        Button(modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.onBackground,
+                            contentColor = MaterialTheme.colors.onPrimary
+                        ), onClick = {
+                            connectionsList.value = listOf()
+                        }) {
+                            DefaultTextStyle {
+                                Text(
+                                    text = "Очистить все",
+                                    fontSize = MaterialTheme.typography.h3.fontSize
+                                )
+                            }
+                        }
                     }
-                }
-            }
-        }
 
-        @Composable
-        private fun AddConnectionButton(
-            connectionName: MutableState<String>,
-            context: Context,
-            connectionsList: MutableState<List<ConnectionParams>>,
-            url: MutableState<String>
-        ) {
-            DefaultButtonStyle {
-                val fillAllFields = stringResource(R.string.fill_all_fields)
-                val tooManyConnections = stringResource(R.string.too_many_connections)
-                val connectionAdded = stringResource(R.string.connection_added)
-                Button(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-                    .padding(start = 10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.onBackground,
-                        contentColor = MaterialTheme.colors.onPrimary
-                    ),
-                    onClick = {
-                        if (connectionName.value.isBlank() || url.value.isBlank()) {
-                            Toast.makeText(
-                                context, fillAllFields, Toast.LENGTH_SHORT
-                            ).show()
-                            return@Button
+                    // Add connection
+                    DefaultButtonStyle {
+                        Button(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                            .padding(start = 10.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.onBackground,
+                                contentColor = MaterialTheme.colors.onPrimary
+                            ),
+                            onClick = {
+                                if (connectionName.value.isBlank() || url.value.isBlank()) {
+                                    Toast.makeText(
+                                        context, "Заполните все поля", Toast.LENGTH_SHORT
+                                    ).show()
+                                    return@Button
+                                }
+
+                                if (connectionsList.value.size > 10) {
+                                    Toast.makeText(
+                                        context, "Слишком много соединений", Toast.LENGTH_SHORT
+                                    ).show()
+                                    return@Button
+                                }
+
+                                connectionsList.value = connectionsList.value
+                                    .plus(
+                                        ConnectionParams(connectionName.value, url.value)
+                                    )
+                                connectionName.value = ""
+                                url.value = ""
+
+                                Toast.makeText(
+                                    context, "Соединение добавлено", Toast.LENGTH_SHORT
+                                ).show()
+                            }) {
+                            DefaultTextStyle {
+                                Text(
+                                    text = "Добавить",
+                                    fontSize = MaterialTheme.typography.h3.fontSize
+                                )
+                            }
                         }
-
-                        if (connectionsList.value.size > 10) {
-                            Toast.makeText(
-                                context, tooManyConnections, Toast.LENGTH_SHORT
-                            ).show()
-                            return@Button
-                        }
-
-                        connectionsList.value = connectionsList.value
-                            .plus(
-                                ConnectionParams(connectionName.value, url.value)
-                            )
-                        connectionName.value = ""
-                        url.value = ""
-
-                        Toast.makeText(
-                            context, connectionAdded, Toast.LENGTH_SHORT
-                        ).show()
-                    }) {
-                    DefaultTextStyle {
-                        Text(
-                            text = stringResource(R.string.add),
-                            fontSize = MaterialTheme.typography.h3.fontSize
-                        )
                     }
                 }
             }

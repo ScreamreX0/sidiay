@@ -6,7 +6,7 @@ import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.KindEntity
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
-import com.example.domain.data_classes.params.AddTicketParams
+import com.example.domain.data_classes.params.CreateTicketParams
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
 import kotlin.random.Random
@@ -30,7 +30,7 @@ class TicketsRepository @Inject constructor(
         TODO("Set ticket by entity")
     }
 
-    override suspend fun add(ticketEntity: AddTicketParams): Int {
+    override suspend fun add(ticketEntity: CreateTicketParams): Int {
         Debugger.Companion.printInfo("Sending add ticket request")
         val body = HashMap<String, Any>()
 

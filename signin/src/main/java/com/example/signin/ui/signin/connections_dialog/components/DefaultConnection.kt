@@ -29,24 +29,24 @@ internal class DefaultConnection {
             selectedConnection: MutableState<ConnectionParams>,
             isDialogOpened: MutableState<Boolean>
         ) {
-            val defaultConnectionName = stringResource(id = R.string.default_connection)
-
             Row(
                 modifier = Modifier
                     .padding(top = 5.dp)
                     .clickable(onClick = {
                         selectedConnection.value = ConnectionParams(
-                            name = defaultConnectionName, url = Variables.DEFAULT_CONNECTION_URL
+                            name = "Стандартное соединение",
+                            url = Variables.DEFAULT_CONNECTION_URL
                         )
                         isDialogOpened.value = false
-                    }), verticalAlignment = Alignment.CenterVertically
+                    }),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 DefaultTextStyle {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(0.8F),
-                        text = defaultConnectionName,
+                        text = "Стандартное соединение",
                         fontSize = MaterialTheme.typography.h3.fontSize,
                         color = MaterialTheme.colors.onBackground
                     )
@@ -54,7 +54,9 @@ internal class DefaultConnection {
                 val context = LocalContext.current
                 IconButton(onClick = {
                     Toast.makeText(
-                        context, "URL: ${Variables.DEFAULT_CONNECTION_URL}", Toast.LENGTH_SHORT
+                        context,
+                        "URL: ${Variables.DEFAULT_CONNECTION_URL}",
+                        Toast.LENGTH_SHORT
                     ).show()
                 }) {
                     Icon(
