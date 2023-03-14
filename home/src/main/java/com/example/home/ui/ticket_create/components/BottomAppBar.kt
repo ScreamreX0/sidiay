@@ -24,7 +24,7 @@ internal class BottomAppBar {
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(0.5F)
-                    .background(MaterialTheme.colors.primary),
+                    .background(MaterialTheme.colors.onBackground),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ) {
@@ -46,7 +46,7 @@ internal class BottomAppBar {
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(0.5F)
-                    .background(MaterialTheme.colors.primary),
+                    .background(MaterialTheme.colors.onBackground),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
             ) {

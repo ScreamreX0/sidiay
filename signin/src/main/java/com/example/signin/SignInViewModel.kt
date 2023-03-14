@@ -36,7 +36,7 @@ class SignInViewModel @Inject constructor(
     private val connectionsDataStore: ConnectionsDataStore,
     private val themeDataStore: ThemeDataStore,
 ) : ViewModel() {
-    internal var darkMode: MutableState<String> = mutableStateOf(Constants.NULL)
+    internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
 
     internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
     internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
@@ -52,19 +52,13 @@ class SignInViewModel @Inject constructor(
     /** UIMode */
     internal fun changeUIMode() {
         viewModelScope.launch {
-            themeDataStore.saveMode(
-                if (darkMode.value == Constants.LIGHT_MODE) {
-                    Constants.DARK_MODE
-                } else {
-                    Constants.LIGHT_MODE
-                }
-            )
+            themeDataStore.saveMode(darkMode.value?.let { !it } ?: true)
             updateUIModeVar()
         }
     }
 
     private suspend fun updateUIModeVar() {
-        darkMode.value = themeDataStore.getMode.first()
+        darkMode.value = themeDataStore.getMode.first().toBoolean()
     }
 
     /** Connections */

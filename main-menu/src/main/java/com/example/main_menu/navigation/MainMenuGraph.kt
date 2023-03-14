@@ -57,14 +57,16 @@ fun NavGraphBuilder.homeNavGraph(
         startDestination = BottomBarNav.Home.route
     ) {
         composable(route = BottomBarNav.Home.route) {
-            Home().HomeScreen(
-                navController = navController,
-                authParams = remember { mutableStateOf(authParams) },
-                paddingValues = paddingValues,
-            )
+            AppTheme(authParams.darkMode ?: false) {
+                Home().HomeScreen(
+                    navController = navController,
+                    authParams = remember { mutableStateOf(authParams) },
+                    paddingValues = paddingValues,
+                )
+            }
         }
         composable(route = Screens.Home.TICKET_UPDATE) {
-            AppTheme {
+            AppTheme(authParams.darkMode ?: false) {
                 TicketUpdate().TicketUpdateScreen(
                     navController = navController,
                     authParams = authParams,
@@ -72,7 +74,7 @@ fun NavGraphBuilder.homeNavGraph(
             }
         }
         composable(route = Screens.Home.TICKET_CREATE) {
-            AppTheme {
+            AppTheme(authParams.darkMode ?: false) {
                 TicketCreate().TicketCreateScreen(
                     navController = navController,
                     authParams = authParams,
@@ -80,7 +82,7 @@ fun NavGraphBuilder.homeNavGraph(
             }
         }
         composable(route = Screens.Home.TICKET_FILTER) {
-            AppTheme {
+            AppTheme(authParams.darkMode ?: false) {
                 TicketFilter().TicketFilterScreen(
                     navController = navController,
                     authParams = authParams,

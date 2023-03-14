@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -34,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
+import com.example.core.ui.theme.CustomColors
 import com.example.core.ui.utils.ComponentPreview
 import com.example.domain.enums.TicketPriorityEnum
 import com.example.domain.data_classes.entities.TicketEntity
@@ -43,95 +45,108 @@ internal class TicketsListItemComponent {
     fun Content(
         navController: NavHostController = rememberNavController(),
         ticket: TicketEntity,
-        isDarkTheme: Boolean,
+        isDarkMode: Boolean,
         expanded: MutableState<Boolean> = remember { mutableStateOf(false) },
     ) {
-        val textColor = getTextColor(isDarkTheme)
-        val surfaceColor = getSurfaceColor(isDarkTheme)
         val context = LocalContext.current
+
+        val textColor = if (isDarkMode) {
+            Color.White
+        } else {
+            CustomColors.Grey780
+        }
+        val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
+        val dividerColor = CustomColors.Orange700.copy(alpha = 0.8F)
+        val surfaceColor = if (isDarkMode) {
+            MaterialTheme.colors.background.copy(alpha = 0.8F)
+        } else {
+            MaterialTheme.colors.background
+        }
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp)
+                .padding(start = 10.dp, end = 10.dp, bottom = 5.dp, top = 5.dp)
                 .shadow(elevation = 3.dp)
         ) {
             var defaultTextSize: TextUnit = MaterialTheme.typography.h2.fontSize
 
             // TODO("Возможность изменения размера шрифта
-            //  (1.6 - очень большой, 1.3 - большой, 1 - средний, 0.8 - мелкий)")
+            //  (1.6 - очень большой, 1.4 - большой, 1.2 - средний, 1 - мелкий)")
             defaultTextSize = defaultTextSize.times(1)
 
-            // TODO(Отображение планового простоя)
             ConstraintLayout(
                 constraintSet = getConstraints(expanded = expanded),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp)
-                    .background(surfaceColor),
+                    .background(surfaceColor)
+                    .clip(RoundedCornerShape(10.dp)),
             ) {
-                /** Number */
+                // Number
                 ItemText(
                     modifier = Modifier.layoutId("numberRef"),
                     context = context,
                     text = "№${ticket.id}",
                     hint = "Номер заявки",
-                    circleColor = textColor,
+                    circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize.times(1.3),
                     isCircleEnabled = false,
                 )
 
-                /** Title */
+                // Title
                 ItemText(
                     modifier = Modifier.layoutId("titleRef"),
                     context = context,
                     text = ticket.name ?: "[Заголовок]",
                     hint = "Заголовок",
-                    circleColor = textColor,
+                    circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize.times(1.6),
                     isCircleEnabled = false,
                 )
 
-                /** Service */
+                // Service
                 ItemText(
                     modifier = Modifier.layoutId("serviceRef"),
                     context = context,
                     text = ticket.service ?: "[Сервис не указан]",
                     hint = "Сервис",
-                    circleColor = textColor,
+                    circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
                 )
 
-                /** Executor */
+                // Executor
                 ItemText(
-                    modifier = Modifier.layoutId("executorRef"),
+                    modifier = Modifier
+                        .layoutId("executorRef")
+                        .padding(bottom = 10.dp),
                     context = context,
                     text = ticket.executor?.getFullName() ?: "[Исполнитель не назначен]",
                     hint = "Исполнитель заявки",
-                    circleColor = textColor,
+                    circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
                 )
 
-                /** Plane date */
+                // Plane date TODO(Отображение планового простоя)
                 ItemText(
                     modifier = Modifier.layoutId("dateRef"),
                     context = context,
                     text = ticket.plane_date ?: "[Плановая дата не назначена]",
                     hint = "Плановая дата заявки",
-                    circleColor = textColor,
+                    circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
                     isCircleEnabled = false
                 )
 
-                /** Update button */
+                // Update button
                 Icon(
                     modifier = Modifier
                         .layoutId("updateRef")
+                        .padding(start = 5.dp)
                         .clickable(
                             interactionSource = MutableInteractionSource(),
                             indication = null
@@ -140,10 +155,10 @@ internal class TicketsListItemComponent {
                         },
                     painter = painterResource(id = R.drawable.baseline_create_24),
                     contentDescription = null,
-                    tint = textColor
+                    tint = CustomColors.Orange700,
                 )
 
-                /** Status */
+                // Status
                 ItemText(
                     modifier = Modifier
                         .layoutId("statusRef")
@@ -151,15 +166,16 @@ internal class TicketsListItemComponent {
                     context = context,
                     text = ticket.status ?: "[Статус неизвестен]",
                     hint = "Статус заявки",
-                    circleColor = textColor,
+                    circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
                 )
 
-                /** Expand button */
+                // Expand button
                 Icon(
                     modifier = Modifier
                         .layoutId("expandRef")
+                        .padding(bottom = 10.dp)
                         .clickable(
                             interactionSource = MutableInteractionSource(),
                             indication = null
@@ -173,35 +189,35 @@ internal class TicketsListItemComponent {
                             R.drawable.baseline_keyboard_arrow_down_24
                         }
                     ),
-                    contentDescription = null,
-                    tint = textColor
+                    contentDescription = "Expand ticket",
+                    tint = CustomColors.Orange700,
                 )
 
-                /** Priority */
-                val priorityColor = getPriorityColor(isDarkTheme, ticket.priority)
+                // Priority
                 ItemText(
                     modifier = Modifier
                         .layoutId("priorityRef")
+                        .padding(bottom = 10.dp)
                         .fillMaxWidth(0.3F),
                     context = context,
                     text = TicketPriorityEnum.get(ticket.priority).title,
                     hint = "Приоритет заявки",
-                    circleColor = priorityColor,
-                    textColor = priorityColor,
+                    circleColor = circleColor,
+                    textColor = getPriorityColor(isDarkMode, ticket.priority),
                     fontSize = defaultTextSize,
                 )
 
-                /** Expansion */
+                // Expansion
                 if (expanded.value) {
-                    /** Divider */
+                    // Divider
                     Box(
                         modifier = Modifier
                             .layoutId("dividerRef")
                             .height(1.dp)
-                            .background(textColor)
+                            .background(dividerColor)
                     )
 
-                    /** Author */
+                    // Author
                     ItemText(
                         modifier = Modifier
                             .layoutId("authorRef")
@@ -209,12 +225,12 @@ internal class TicketsListItemComponent {
                         context = context,
                         text = ticket.author?.getFullName() ?: "[Автор не указан]",
                         hint = "Автор заявки",
-                        circleColor = textColor,
+                        circleColor = circleColor,
                         textColor = textColor,
                         fontSize = defaultTextSize,
                     )
 
-                    /** Kind */
+                    // Kind
                     ItemText(
                         modifier = Modifier
                             .layoutId("kindRef")
@@ -222,53 +238,53 @@ internal class TicketsListItemComponent {
                         context = context,
                         text = ticket.service ?: "[Вид не указан]",
                         hint = "Вид заявки",
-                        circleColor = textColor,
+                        circleColor = circleColor,
                         textColor = textColor,
                         fontSize = defaultTextSize,
                     )
 
-                    /** Terms */
+                    // Terms
                     ItemText(
                         modifier = Modifier.layoutId("termsRef"),
                         context = context,
                         text = "${ticket.creation_date ?: "[Дата создания не указана]"} " +
                                 "- ${ticket.expiration_date ?: "[Дата окончания не указана]"}",
                         hint = "Сроки заявки",
-                        circleColor = textColor,
+                        circleColor = circleColor,
                         textColor = textColor,
                         fontSize = defaultTextSize,
                     )
 
-                    /** Objects */
+                    // Objects
                     ItemText(
                         modifier = Modifier.layoutId("objectsRef"),
                         context = context,
                         text = ticket.facilities?.joinToString { "${it.name} " }
                             ?: "[Объекты не указаны]",
                         hint = "Объекты",
-                        circleColor = textColor,
+                        circleColor = circleColor,
                         textColor = textColor,
                         fontSize = defaultTextSize,
                     )
 
-                    /** Completed work */
+                    // Completed work
                     ItemText(
                         modifier = Modifier.layoutId("completedWorkRef"),
                         context = context,
                         text = ticket.completed_work ?: "[Нет завершенных работ]",
                         hint = "Завершенная работа",
-                        circleColor = textColor,
+                        circleColor = circleColor,
                         textColor = textColor,
                         fontSize = defaultTextSize,
                     )
 
-                    /** Description */
+                    // Description
                     ItemText(
                         modifier = Modifier.layoutId("descriptionRef"),
                         context = context,
                         text = ticket.description ?: "[Нет описания]",
                         hint = "Описание",
-                        circleColor = textColor,
+                        circleColor = circleColor,
                         textColor = textColor,
                         fontSize = defaultTextSize,
                     )
@@ -356,7 +372,7 @@ internal class TicketsListItemComponent {
         constrain(updateRef) {
             top.linkTo(serviceRef.top)
             bottom.linkTo(serviceRef.bottom)
-            end.linkTo(parent.end)
+            end.linkTo(parent.end, margin = 10.dp)
         }
         constrain(statusRef) {
             top.linkTo(serviceRef.top)
@@ -367,7 +383,7 @@ internal class TicketsListItemComponent {
         constrain(expandRef) {
             top.linkTo(executorRef.top)
             bottom.linkTo(executorRef.bottom)
-            end.linkTo(parent.end)
+            end.linkTo(updateRef.end)
         }
         constrain(priorityRef) {
             top.linkTo(executorRef.top)
@@ -390,7 +406,7 @@ internal class TicketsListItemComponent {
         val descriptionRef = createRefFor("descriptionRef")
 
         constrain(dividerRef) {
-            top.linkTo(executorRef.bottom, margin = 5.dp)
+            top.linkTo(executorRef.bottom)
             start.linkTo(executorRef.start)
             end.linkTo(parent.end, margin = 10.dp)
             width = Dimension.fillToConstraints
@@ -402,33 +418,34 @@ internal class TicketsListItemComponent {
             height = Dimension.fillToConstraints
         }
         constrain(kindRef) {
-            top.linkTo(dividerRef.bottom, margin = 6.dp)
+            top.linkTo(dividerRef.bottom, margin = 10.dp)
             start.linkTo(executorRef.start)
             end.linkTo(authorRef.start, margin = 10.dp)
             width = Dimension.fillToConstraints
         }
         constrain(termsRef) {
-            top.linkTo(kindRef.bottom, margin = 6.dp)
+            top.linkTo(kindRef.bottom, margin = 10.dp)
             start.linkTo(kindRef.start)
             end.linkTo(parent.end, margin = 10.dp)
             width = Dimension.fillToConstraints
         }
         constrain(objectsRef) {
-            top.linkTo(termsRef.bottom, margin = 6.dp)
+            top.linkTo(termsRef.bottom, margin = 10.dp)
             start.linkTo(termsRef.start)
             end.linkTo(parent.end, margin = 10.dp)
             width = Dimension.fillToConstraints
         }
         constrain(completedWorkRef) {
-            top.linkTo(objectsRef.bottom, margin = 6.dp)
+            top.linkTo(objectsRef.bottom, margin = 10.dp)
             start.linkTo(objectsRef.start)
             end.linkTo(parent.end, margin = 10.dp)
             width = Dimension.fillToConstraints
         }
         constrain(descriptionRef) {
-            top.linkTo(completedWorkRef.bottom, margin = 6.dp)
+            top.linkTo(completedWorkRef.bottom, margin = 10.dp)
             start.linkTo(completedWorkRef.start)
             end.linkTo(parent.end, margin = 10.dp)
+            bottom.linkTo(parent.bottom, margin = 10.dp)
             width = Dimension.fillToConstraints
         }
     }
@@ -441,24 +458,19 @@ internal class TicketsListItemComponent {
         ).show()
     }
 
-    private fun getSurfaceColor(isDarkTheme: Boolean) =
-        if (isDarkTheme) Color(0XFF464343) else Color.Black.copy(alpha = 0.01F)
-
-    private fun getTextColor(isDarkTheme: Boolean) = if (isDarkTheme) Color.White else Color.Black
-
     private fun getPriorityColor(isDarkTheme: Boolean, priority: Int): Color {
         return if (isDarkTheme) {
             when (priority) {
-                5 -> Color(0XFF610000)
-                4 -> Color(0XFF5F6100)
-                3 -> Color(0XFF224487)
-                2 -> Color(0XFF00610A)
+                5 -> Color(0xFFC51111)
+                4 -> Color(0xFFA9AC1B)
+                3 -> Color(0xFF376DD6)
+                2 -> Color(0xFF0A9E19)
                 else -> Color(0XFF8F8F8F)
             }
         } else {
             when (priority) {
                 5 -> Color(0XFFFF4F4F)
-                4 -> Color(0XFFDADE00)
+                4 -> Color(0xFF9DA000)
                 3 -> Color(0XFF4764CB)
                 2 -> Color(0XFF00D215)
                 else -> Color(0XFFA6A6A6)
@@ -466,7 +478,7 @@ internal class TicketsListItemComponent {
         }
     }
 
-    /** Circle */
+    // Circle
     @Composable
     private fun CustomCircle(color: Color) {
         Box(
@@ -477,12 +489,14 @@ internal class TicketsListItemComponent {
         )
     }
 
-    /** Preview */
     @Composable
     @ComponentPreview
     private fun ContentPreview() {
         AppTheme(isSystemInDarkTheme()) {
-            Content(isDarkTheme = false, ticket = TicketEntity())
+            Content(
+                isDarkMode = isSystemInDarkTheme(),
+                ticket = TicketEntity()
+            )
         }
     }
 }

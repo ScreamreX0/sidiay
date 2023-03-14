@@ -17,14 +17,11 @@ class MainMenu {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Content(
-        isDarkTheme: MutableState<Boolean> = remember { mutableStateOf(false) },
         navController: NavHostController = rememberNavController(),
         authParams: AuthParams = AuthParams()
     ) {
-        AppTheme(isDarkTheme.value) {
-            Scaffold(
-                bottomBar = { BottomBar().Content(navController = navController) },
-            ) {
+        AppTheme(authParams.darkMode ?: false) {
+            Scaffold(bottomBar = { BottomBar().Content(navController = navController) }) {
                 MainMenuGraph(
                     paddingValues = it,
                     navController = navController,

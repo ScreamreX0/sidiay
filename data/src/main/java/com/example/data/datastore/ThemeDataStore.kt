@@ -18,5 +18,7 @@ class ThemeDataStore(private val context: Context) {
 
     /** 0 - Light mode / 1 - Dark mode */
     val getMode: Flow<String> = context.dataStore.data.map { it[MODE] ?: Constants.NULL }
-    suspend fun saveMode(mode: String) = context.dataStore.edit { it[MODE] = mode }
+    suspend fun saveMode(darkMode: Boolean) = context.dataStore.edit { it[MODE] =
+        darkMode.toString()
+    }
 }

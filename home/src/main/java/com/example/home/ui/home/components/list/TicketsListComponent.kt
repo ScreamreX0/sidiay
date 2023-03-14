@@ -1,7 +1,9 @@
 package com.example.home.ui.home.components.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -22,14 +24,16 @@ internal class TicketsListComponent {
     ) {
         /** List */
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(MaterialTheme.colors.background.copy(alpha = 0.9F))
+                .fillMaxSize(),
             userScrollEnabled = true,
         ) {
             if (!refreshing.value) {
                 items(tickets.value.size) {
                     TicketsListItemComponent().Content(
                         navController,
-                        isDarkTheme = authParams.value?.darkMode ?: false,
+                        isDarkMode = authParams.value?.darkMode ?: false,
                         ticket = tickets.value[it],
                     )
                 }

@@ -22,8 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.utils.ComponentPreview
-import com.example.core.ui.utils.Constants
 import com.example.core.ui.utils.ScreenPreview
 import com.example.core.ui.utils.Variables
 import com.example.domain.enums.states.ConnectionState
@@ -44,7 +42,7 @@ internal class SignIn {
         signInViewModel: SignInViewModel = hiltViewModel(),
     ) {
         val darkMode = signInViewModel.darkMode
-        if (darkMode.value == Constants.NULL) {
+        if (darkMode.value == null) {
             return
         }
 
@@ -53,13 +51,14 @@ internal class SignIn {
         val connectionsList = signInViewModel.connectionsList
         val checkConnectionResult = signInViewModel.checkConnectionResult
 
-        AppTheme(darkMode.value == Constants.DARK_MODE) {
+        AppTheme(darkMode.value!!) {
             Content(
                 navController = navController,
                 connectionsList = connectionsList,
                 signInSuccess = success,
                 signInErrors = errors,
                 checkConnectionResult = checkConnectionResult,
+                darkMode = darkMode,
 
                 checkConnectionFunction = signInViewModel::checkConnection,
                 updateConnectionsListFunction = signInViewModel::updateConnectionsVar,
@@ -77,8 +76,8 @@ internal class SignIn {
         signInSuccess: MutableState<UserEntity> = remember { mutableStateOf(UserEntity()) },
         signInErrors: MutableState<List<SignInStates>> = remember { mutableStateOf(listOf()) },
         isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-        checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(
-            ConnectionState.WAITING) },
+        checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(ConnectionState.WAITING) },
+        darkMode: MutableState<Boolean?> = remember { mutableStateOf(false) },
 
         checkConnectionFunction: suspend (url: String) -> Unit = {},
         updateConnectionsListFunction: suspend () -> Unit = {},
@@ -106,8 +105,7 @@ internal class SignIn {
                                 AuthParams(
                                     user = it,
                                     url = selectedConnection.value,
-                                    darkMode = false
-
+                                    darkMode = darkMode.value,
                                 )
                             )
                         )
@@ -263,8 +261,6 @@ internal class SignIn {
     @ScreenPreview
     @Composable
     private fun ScreenPreview() {
-        AppTheme(isSystemInDarkTheme()) {
-            Content()
-        }
+        AppTheme(isSystemInDarkTheme()) { Content() }
     }
 }

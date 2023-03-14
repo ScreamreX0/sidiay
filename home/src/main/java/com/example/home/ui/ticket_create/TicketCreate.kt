@@ -4,13 +4,13 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ScreenPreview
 import com.example.domain.data_classes.entities.DraftEntity
+import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketCreateParams
 import com.example.domain.enums.states.LoadingState
@@ -35,7 +36,7 @@ class TicketCreate {
         navController: NavHostController,
         authParams: AuthParams = AuthParams(),
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
-        draft: MutableState<DraftEntity> = remember { mutableStateOf(DraftEntity()) },
+        draft: DraftEntity = DraftEntity(),
     ) {
         if (authParams.onlineMode) {
             ticketCreateViewModel.initFields()
@@ -56,10 +57,23 @@ class TicketCreate {
     private fun Content(
         navController: NavHostController = rememberNavController(),
         authParams: AuthParams = AuthParams(),
-        draft: MutableState<DraftEntity> = remember { mutableStateOf(DraftEntity()) },
+        draft: DraftEntity = DraftEntity(),
         fields: MutableState<TicketCreateParams?> = remember { mutableStateOf(TicketCreateParams()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) }
     ) {
+        val draftId = remember { mutableStateOf(draft.id) }
+        val draftName = remember { mutableStateOf(draft.name) }
+        val draftStatus = remember { mutableStateOf(draft.draftStatus) }
+        val draftFacilities: MutableList<FacilityEntity?> = remember {
+            draft.facilities?.toMutableStateList() ?: mutableStateListOf()
+        }
+        val draftDescription = remember { mutableStateOf(draft.description) }
+        val draftExecutor = remember { mutableStateOf(draft.executor) }
+        val draftExpirationDate = remember { mutableStateOf(draft.expiration_date) }
+        val draftKind = remember { mutableStateOf(draft.kind) }
+        val draftPlaneDate = remember { mutableStateOf(draft.plane_date) }
+        val draftPriority = remember { mutableStateOf(draft.priority) }
+        val draftService = remember { mutableStateOf(draft.service) }
         ConstraintLayout(
             constraintSet = getConstraints(),
             modifier = Modifier.fillMaxSize(),
@@ -107,45 +121,49 @@ class TicketCreate {
             Column(
                 modifier = Modifier
                     .layoutId("ticketCreateRef")
-                    .background(MaterialTheme.colors.background)
+                    .background(MaterialTheme.colors.background.copy(alpha = 0.98F))
                     .verticalScroll(scrollableState),
             ) {
                 // Required fields
                 Title(
-                    modifier = Modifier.layoutId("requiredFieldsRef"),
+                    modifier = Modifier
+                        .layoutId("requiredFieldsRef")
+                        .padding(top = 20.dp),
                     text = "Обязательные поля",
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
 
-                // Objects
+                //
+                // Facilities
+                //
+
+                // Facilities dialog
                 val isDialogOpened = remember { mutableStateOf(false) }
                 val facilitiesScrollState = rememberScrollState()
-                val selectedFacilities = remember {
-                    mutableStateListOf(
-                        *(BooleanArray(fields.value?.facilities?.size ?: 0).toTypedArray())
-                    )
-                }
-
                 if (isDialogOpened.value) {
                     Facilities().FacilitiesDialog(
                         facilitiesScrollState = facilitiesScrollState,
                         isDialogOpened = isDialogOpened,
                         fields = fields,
-                        draft = draft,
-                        selectedFacilities = selectedFacilities,
+                        draftFacilities = draftFacilities,
                     )
                 }
 
-                Facilities().Content(
-                    modifier = Modifier.layoutId("objectsRef"),
-                    draft = draft,
-                    isDialogOpened = isDialogOpened,
-                )
+                // Facilities list
+                TicketCreateItem(
+                    title = "Объекты",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    Facilities().Content(
+                        modifier = Modifier.layoutId("objectsRef"),
+                        draftFacilities = draftFacilities,
+                        isDialogOpened = isDialogOpened,
+                    )
+                }
 
                 // Services
                 Text(
-                    modifier = Modifier
-                        .layoutId("serviceRef"),
+                    modifier = Modifier.layoutId("serviceRef"),
                     text = "Сервисы",
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
@@ -163,7 +181,7 @@ class TicketCreate {
                 // Name
                 TextField(
                     modifier = Modifier.layoutId("nameRef"),
-                    value = draft.value.name ?: "",
+                    value = draftName.value ?: "",
                     label = { Text("[Название заявки]") },
                     onValueChange = {},
                     colors = TextFieldDefaults.textFieldColors(
@@ -207,17 +225,27 @@ class TicketCreate {
         icon: Int,
         item: @Composable () -> Unit
     ) {
-        Row {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 15.dp, start = 25.dp, end = 25.dp)
+        ) {
             Icon(
+                modifier = Modifier
+                    .height(45.dp)
+                    .width(45.dp)
+                    .padding(end = 10.dp),
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colors.onBackground
             )
             Column {
                 // Subtitle
                 Text(
+                    modifier = Modifier
+                        .padding(bottom = 5.dp),
                     text = title,
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.7F),
                     fontSize = MaterialTheme.typography.h3.fontSize
                 )
 
@@ -234,11 +262,14 @@ class TicketCreate {
         fontSize: TextUnit
     ) {
         Text(
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(bottom = 15.dp, start = 25.dp, end = 25.dp),
             text = text,
             fontSize = fontSize,
             overflow = TextOverflow.Visible,
             fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.onBackground
         )
     }
 

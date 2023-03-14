@@ -1,5 +1,6 @@
 package com.example.home.ui.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -28,6 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
 
 class Home {
@@ -42,18 +44,16 @@ class Home {
         val tickets = homeViewModel.tickets
         val drafts = homeViewModel.drafts
 
-        AppTheme {
-            Content(
-                modifier = Modifier.padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding()
-                ),
-                navController = navController,
-                authParams = authParams,
-                tickets = tickets,
-                drafts = drafts,
-            )
-        }
+        Content(
+            modifier = Modifier.padding(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding()
+            ),
+            navController = navController,
+            authParams = authParams,
+            tickets = tickets,
+            drafts = drafts,
+        )
     }
 
     @OptIn(ExperimentalPagerApi::class)
@@ -66,15 +66,13 @@ class Home {
         drafts: MutableState<List<DraftEntity>> = remember { mutableStateOf(listOf()) },
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-        selectedTab: MutableState<MainMenuTabEnum> = remember { mutableStateOf(MainMenuTabEnum.TICKETS) },
-        selectedTopApp: MutableState<MainMenuTopAppBarEnum?> = remember { mutableStateOf(null) },
         pagerState: PagerState = rememberPagerState()
     ) {
         Column(modifier = modifier.fillMaxSize()) {
             // App bar
             TopAppBar(
                 contentColor = MaterialTheme.colors.onBackground,
-                backgroundColor = MaterialTheme.colors.background,
+                backgroundColor = MaterialTheme.colors.background
             ) {
                 if (isSearchEnabled.value) {
                     SearchComponent().Content(
@@ -112,28 +110,29 @@ class Home {
             }
 
             // Tabs
-            // TODO("При нажатии на таб должно открываться соответствующее окно")
+            val scrollCoroutineScope = rememberCoroutineScope()
             TabRow(
-                modifier = Modifier.height(40.dp),
-                backgroundColor = MaterialTheme.colors.background,
+                modifier = Modifier
+                    .height(40.dp),
                 selectedTabIndex = pagerState.currentPage,
             ) {
                 MainMenuTabEnum.values().forEachIndexed { index, it ->
                     Tab(
+                        modifier = Modifier
+                            .background(MaterialTheme.colors.background),
                         selected = pagerState.currentPage == index,
-                        onClick = {
-
-                        }) {
+                        onClick = { scrollCoroutineScope.launch { pagerState.scrollToPage(index) } }) {
                         DefaultTextStyle {
                             Text(
                                 text = it.title,
-                                color = MaterialTheme.colors.onBackground,
+                                color = MaterialTheme.colors.onBackground
                             )
                         }
                     }
                 }
             }
 
+            // Pages
             HorizontalPager(
                 count = MainMenuTabEnum.values().size,
                 state = pagerState,
@@ -152,7 +151,6 @@ class Home {
                     )
                 }
             }
-
         }
     }
 
