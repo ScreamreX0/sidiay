@@ -89,42 +89,6 @@ internal class Facilities {
         }
     }
 
-    // Dialog
-    @Composable
-    fun FacilitiesDialog(
-        facilitiesScrollState: ScrollState,
-        isDialogOpened: MutableState<Boolean>,
-        fields: MutableState<TicketCreateParams?>,
-        draftFacilities: MutableList<FacilityEntity?>,
-    ) {
-        Dialog(onDismissRequest = { isDialogOpened.value = false }) {
-            Column(
-                Modifier
-                    .background(MaterialTheme.colors.background)
-                    .width(250.dp)
-                    .verticalScroll(facilitiesScrollState),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // List
-                fields.value?.facilities?.forEach {
-                    Text(
-                        modifier = Modifier
-                            .padding(15.dp)
-                            .clickable {
-                                if (!draftFacilities.contains(it)) {
-                                    draftFacilities.add(it)
-                                }
-                                isDialogOpened.value = false
-                            },
-                        text = it.name,
-                        color = MaterialTheme.colors.onBackground,
-                        fontSize = MaterialTheme.typography.h3.fontSize,
-                    )
-                }
-            }
-        }
-    }
-
     @Composable
     @ScreenPreview
     private fun Preview() {

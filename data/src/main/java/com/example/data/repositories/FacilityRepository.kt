@@ -13,7 +13,7 @@ class FacilityRepository @Inject constructor(
     }
 
     override suspend fun getTest(): List<FacilityEntity> {
-        return List(5) {
+        return List(30) {
             FacilityEntity(
                 id = it.toLong(),
                 name = "TestObject$it"

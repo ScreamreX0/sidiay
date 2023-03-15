@@ -30,7 +30,7 @@ internal class TopAppBar {
         Row(
             modifier = modifier
                 .height(65.dp)
-                .background(MaterialTheme.colors.background),
+                .background(MaterialTheme.colors.onBackground),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(
@@ -46,7 +46,7 @@ internal class TopAppBar {
                     },
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
                 contentDescription = "Back",
-                tint = MaterialTheme.colors.onBackground,
+                tint = MaterialTheme.colors.onPrimary,
             )
 
             if (iconsVisible.value) {
@@ -58,7 +58,7 @@ internal class TopAppBar {
                             .width(30.dp),
                         painter = painterResource(id = R.drawable.baseline_save_as_24),
                         contentDescription = "Save draft",
-                        tint = MaterialTheme.colors.onBackground,
+                        tint = MaterialTheme.colors.onPrimary,
                     )
 
                     Icon(
@@ -68,7 +68,7 @@ internal class TopAppBar {
                             .width(30.dp),
                         painter = painterResource(id = R.drawable.baseline_format_clear_24),
                         contentDescription = "Clear all fields",
-                        tint = MaterialTheme.colors.onBackground,
+                        tint = MaterialTheme.colors.onPrimary,
                     )
                 }
             }

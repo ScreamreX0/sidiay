@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -11,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -27,6 +29,7 @@ import com.example.domain.data_classes.params.TicketCreateParams
 import com.example.domain.enums.states.LoadingState
 import com.example.home.ui.ticket_create.components.BottomAppBar
 import com.example.home.ui.ticket_create.components.Facilities
+import com.example.home.ui.ticket_create.components.SingleSelectionDialog
 import com.example.home.ui.ticket_create.components.TopAppBar
 
 
@@ -141,7 +144,7 @@ class TicketCreate {
                 val isDialogOpened = remember { mutableStateOf(false) }
                 val facilitiesScrollState = rememberScrollState()
                 if (isDialogOpened.value) {
-                    Facilities().FacilitiesDialog(
+                    SingleSelectionDialog().FacilitiesDialog(
                         facilitiesScrollState = facilitiesScrollState,
                         isDialogOpened = isDialogOpened,
                         fields = fields,
