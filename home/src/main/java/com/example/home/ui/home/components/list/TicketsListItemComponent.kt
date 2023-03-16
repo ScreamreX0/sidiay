@@ -200,7 +200,7 @@ internal class TicketsListItemComponent {
                         .padding(bottom = 10.dp)
                         .fillMaxWidth(0.3F),
                     context = context,
-                    text = TicketPriorityEnum.get(ticket.priority).title,
+                    text = TicketPriorityEnum.get(ticket.priority)?.title ?: "Неизвестный",
                     hint = "Приоритет заявки",
                     circleColor = circleColor,
                     textColor = getPriorityColor(isDarkMode, ticket.priority),

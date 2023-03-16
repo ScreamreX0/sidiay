@@ -25,9 +25,54 @@ import androidx.compose.ui.window.Dialog
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ComponentPreview
 import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketCreateParams
 
 class SingleSelectionDialog {
+    @Composable
+    fun BrigadeDialog(
+        brigadeScrollState: ScrollState,
+        isDialogOpened: MutableState<Boolean>,
+        fields: MutableState<TicketCreateParams?>,
+        draftBrigade: MutableList<UserEntity?>,
+    ) {
+        val searchTextState: MutableState<TextFieldValue> = remember {
+            mutableStateOf(TextFieldValue(""))
+        }
+        CustomDialog(
+            isDialogOpened = isDialogOpened,
+            topAppBarTitle = "Выберите сотрудника",
+            searchTextState = searchTextState,
+        ) {
+            ScrollableList(scrollState = brigadeScrollState) {
+                // Searching
+                if (searchTextState.value.text.isNotBlank()) {
+                    fields.value?.users?.filter {
+                        it.name?.contains(searchTextState.value.text) ?: false
+                                || it.firstname?.contains(searchTextState.value.text) ?: false
+                                || it.lastname?.contains(searchTextState.value.text) ?: false
+                    }?.forEach {
+                        ListElement(title = it.getFullName() ?: "[ФИО]") {
+                            if (!draftBrigade.contains(it)) {
+                                draftBrigade.add(it)
+                            }
+                            isDialogOpened.value = false
+                        }
+                    }
+                } else {
+                    fields.value?.users?.forEach {
+                        ListElement(title = it.getFullName() ?: "[ФИО]") {
+                            if (!draftBrigade.contains(it)) {
+                                draftBrigade.add(it)
+                            }
+                            isDialogOpened.value = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Composable
     fun FacilitiesDialog(
         facilitiesScrollState: ScrollState,
@@ -35,10 +80,49 @@ class SingleSelectionDialog {
         fields: MutableState<TicketCreateParams?>,
         draftFacilities: MutableList<FacilityEntity?>,
     ) {
-        val isSearchSelected = remember { mutableStateOf(false) }
         val searchTextState: MutableState<TextFieldValue> = remember {
             mutableStateOf(TextFieldValue(""))
         }
+        CustomDialog(
+            isDialogOpened = isDialogOpened,
+            topAppBarTitle = "Выберите объект",
+            searchTextState = searchTextState,
+        ) {
+            ScrollableList(scrollState = facilitiesScrollState) {
+                // Searching
+                if (searchTextState.value.text.isNotBlank()) {
+                    fields.value?.facilities?.filter {
+                        it.name.contains(searchTextState.value.text)
+                    }?.forEach {
+                        ListElement(title = it.name) {
+                            if (!draftFacilities.contains(it)) {
+                                draftFacilities.add(it)
+                            }
+                            isDialogOpened.value = false
+                        }
+                    }
+                } else {
+                    fields.value?.facilities?.forEach {
+                        ListElement(title = it.name) {
+                            if (!draftFacilities.contains(it)) {
+                                draftFacilities.add(it)
+                            }
+                            isDialogOpened.value = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun CustomDialog(
+        isDialogOpened: MutableState<Boolean>,
+        topAppBarTitle: String,
+        searchTextState: MutableState<TextFieldValue>,
+        ListComponent: @Composable () -> Unit,
+    ) {
+        val isSearchSelected = remember { mutableStateOf(false) }
 
         Dialog(onDismissRequest = { isDialogOpened.value = false }) {
             Column(
@@ -50,34 +134,12 @@ class SingleSelectionDialog {
                 CustomTopAppBar(
                     isSearchSelected = isSearchSelected,
                     searchTextState = searchTextState,
-                    title = "Выберите объект"
+                    title = topAppBarTitle,
                 )
+                CustomDivider()
 
                 // List
-                ScrollableList(scrollState = facilitiesScrollState) {
-                    // Searching
-                    if (searchTextState.value.text.isNotBlank()) {
-                        fields.value?.facilities?.filter {
-                            it.name.contains(searchTextState.value.text)
-                        }?.forEach {
-                            ListElement(title = it.name) {
-                                if (!draftFacilities.contains(it)) {
-                                    draftFacilities.add(it)
-                                }
-                                isDialogOpened.value = false
-                            }
-                        }
-                    } else {
-                        fields.value?.facilities?.forEach {
-                            ListElement(title = it.name) {
-                                if (!draftFacilities.contains(it)) {
-                                    draftFacilities.add(it)
-                                }
-                                isDialogOpened.value = false
-                            }
-                        }
-                    }
-                }
+                ListComponent()
 
                 // Bottom buttons
                 CustomDivider()
@@ -166,7 +228,10 @@ class SingleSelectionDialog {
     }
 
     @Composable
-    private fun ScrollableList(scrollState: ScrollState, content: @Composable () -> Unit) {
+    private fun ScrollableList(
+        scrollState: ScrollState,
+        content: @Composable () -> Unit
+    ) {
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colors.background)

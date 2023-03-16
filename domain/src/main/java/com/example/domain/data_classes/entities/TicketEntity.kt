@@ -10,6 +10,7 @@ data class TicketEntity constructor (
     var kind: KindEntity? = null,
     var author: UserEntity? = null,
     var executor: UserEntity? = null,
+    var brigade: List<UserEntity>? = null,
     var priority: Int = 0,  // 1-5 (1 - very low)
     var plane_date: String? = null,
     var expiration_date: String? = null,

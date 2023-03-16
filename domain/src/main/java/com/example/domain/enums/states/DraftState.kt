@@ -4,6 +4,6 @@ enum class DraftState(
     val id: Int,
     val title: String
 ) {
-    CREATED(0, "Создан"),
+    NEW(0, "Новый"),
     SENT(1, "Отправлен"),
 }

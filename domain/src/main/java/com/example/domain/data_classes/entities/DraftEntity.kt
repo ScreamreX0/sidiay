@@ -12,9 +12,10 @@ data class DraftEntity constructor (
     var service: String? = null,
     var kind: KindEntity? = null,
     var executor: UserEntity? = null,
-    var priority: Long? = 1,  // 1-5 (1 - very low)
+    var brigade: List<UserEntity>? = null,
+    var priority: Int? = null,
     var plane_date: String? = null,
     var expiration_date: String? = null,
     var description: String? = null,
-    var draftStatus: DraftState = DraftState.CREATED
+    var draftStatus: DraftState = DraftState.NEW
 ) : Parcelable

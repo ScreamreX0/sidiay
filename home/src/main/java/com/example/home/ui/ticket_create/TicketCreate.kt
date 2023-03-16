@@ -1,18 +1,21 @@
 package com.example.home.ui.ticket_create
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -21,16 +24,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.utils.ScreenPreview
 import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketCreateParams
+import com.example.domain.enums.TicketPriorityEnum
 import com.example.domain.enums.states.LoadingState
 import com.example.home.ui.ticket_create.components.BottomAppBar
-import com.example.home.ui.ticket_create.components.Facilities
+import com.example.home.ui.ticket_create.components.ChipRow
 import com.example.home.ui.ticket_create.components.SingleSelectionDialog
 import com.example.home.ui.ticket_create.components.TopAppBar
+import java.text.DateFormat
+import java.util.Calendar
 
 
 class TicketCreate {
@@ -72,23 +78,32 @@ class TicketCreate {
         }
         val draftDescription = remember { mutableStateOf(draft.description) }
         val draftExecutor = remember { mutableStateOf(draft.executor) }
+        val draftBrigade: MutableList<UserEntity?> = remember {
+            draft.brigade?.toMutableStateList() ?: mutableStateListOf()
+        }
         val draftExpirationDate = remember { mutableStateOf(draft.expiration_date) }
         val draftKind = remember { mutableStateOf(draft.kind) }
         val draftPlaneDate = remember { mutableStateOf(draft.plane_date) }
         val draftPriority = remember { mutableStateOf(draft.priority) }
         val draftService = remember { mutableStateOf(draft.service) }
+
+        // Dialog vars
+        val isFacilitiesDialogOpened = remember { mutableStateOf(false) }
+        val isServicesDialogOpened = remember { mutableStateOf(false) }
+        val isKindDialogOpened = remember { mutableStateOf(false) }
+        val isPriorityDialogOpened = remember { mutableStateOf(false) }
+        val isBrigadeDialogOpened = remember { mutableStateOf(false) }
+
         ConstraintLayout(
             constraintSet = getConstraints(),
             modifier = Modifier.fillMaxSize(),
         ) {
-            //
             // Top app bar
-            //
-            val iconsVisible = remember { mutableStateOf(false) }
+            val isTopIconsVisible = remember { mutableStateOf(false) }
             TopAppBar().Content(
                 modifier = Modifier.layoutId("topAppBarRef"),
                 navController = navController,
-                iconsVisible = iconsVisible
+                iconsVisible = isTopIconsVisible
             )
 
             if (fieldsLoadingState.value == LoadingState.LOADING
@@ -115,7 +130,7 @@ class TicketCreate {
             }
 
             // Set icons on top app bar visible
-            iconsVisible.value = true
+            isTopIconsVisible.value = true
 
             //
             // Middle section
@@ -127,94 +142,180 @@ class TicketCreate {
                     .background(MaterialTheme.colors.background.copy(alpha = 0.98F))
                     .verticalScroll(scrollableState),
             ) {
+                // Facilities dialog
+                val facilitiesScrollState = rememberScrollState()
+                val brigadeScrollState = rememberScrollState()
+                if (isFacilitiesDialogOpened.value) {
+                    SingleSelectionDialog().FacilitiesDialog(
+                        facilitiesScrollState = facilitiesScrollState,
+                        isDialogOpened = isFacilitiesDialogOpened,
+                        fields = fields,
+                        draftFacilities = draftFacilities,
+                    )
+                } else if (isBrigadeDialogOpened.value) {
+                    SingleSelectionDialog().BrigadeDialog(
+                        brigadeScrollState = brigadeScrollState,
+                        isDialogOpened = isBrigadeDialogOpened,
+                        fields = fields,
+                        draftBrigade = draftBrigade
+                    )
+                }
+
+                //
                 // Required fields
+                //
                 Title(
                     modifier = Modifier
-                        .layoutId("requiredFieldsRef")
                         .padding(top = 20.dp),
                     text = "Обязательные поля",
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
-
-                //
-                // Facilities
-                //
-
-                // Facilities dialog
-                val isDialogOpened = remember { mutableStateOf(false) }
-                val facilitiesScrollState = rememberScrollState()
-                if (isDialogOpened.value) {
-                    SingleSelectionDialog().FacilitiesDialog(
-                        facilitiesScrollState = facilitiesScrollState,
-                        isDialogOpened = isDialogOpened,
-                        fields = fields,
-                        draftFacilities = draftFacilities,
-                    )
-                }
 
                 // Facilities list
                 TicketCreateItem(
                     title = "Объекты",
                     icon = com.example.core.R.drawable.baseline_oil_barrel_24
                 ) {
-                    Facilities().Content(
-                        modifier = Modifier.layoutId("objectsRef"),
+                    ChipRow().Facilities(
                         draftFacilities = draftFacilities,
-                        isDialogOpened = isDialogOpened,
+                        isDialogOpened = isFacilitiesDialogOpened,
                     )
                 }
 
                 // Services
-                Text(
-                    modifier = Modifier.layoutId("serviceRef"),
-                    text = "Сервисы",
-                    fontSize = MaterialTheme.typography.h5.fontSize
-                )
+                TicketCreateItem(
+                    title = "Сервисы",
+                    icon = com.example.core.R.drawable.ic_baseline_miscellaneous_services_24
+                ) {
+                    SelectableText(
+                        label = draft.service ?: "Выбрать сервис"
+                    ) {
+                        TODO("Add click")
+                    }
+                }
 
                 // Kind
-                // Priority
+                TicketCreateItem(
+                    title = "Вид",
+                    icon = com.example.core.R.drawable.baseline_format_list_bulleted_24
+                ) {
+                    SelectableText(
+                        label = draft.kind?.name ?: "Выбрать вид"
+                    ) {
+                        TODO("Add click")
+                    }
+                }
 
+                // Priority
+                TicketCreateItem(
+                    title = "Приоритет",
+                    icon = com.example.core.R.drawable.baseline_priority_high_24
+                ) {
+                    SelectableText(
+                        label = TicketPriorityEnum.get(draft.priority)?.title ?: "Выбрать приоритет"
+                    ) {
+                        TODO("Add click")
+                    }
+                }
+
+                //
                 // OptionalFields
+                //
                 Title(
-                    modifier = Modifier.layoutId("optionalFieldsRef"),
                     text = "Необязательные поля",
-                    fontSize = MaterialTheme.typography.h5.fontSize
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                    modifier = Modifier.padding(top = 20.dp)
                 )
 
                 // Name
-                TextField(
-                    modifier = Modifier.layoutId("nameRef"),
-                    value = draftName.value ?: "",
-                    label = { Text("[Название заявки]") },
-                    onValueChange = {},
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = MaterialTheme.colors.onPrimary,
-                        disabledTextColor = MaterialTheme.colors.onPrimary.copy(alpha = 0.6F),
-                        backgroundColor = Color.Transparent,
-                        focusedLabelColor = MaterialTheme.colors.onPrimary,
-                        unfocusedLabelColor = MaterialTheme.colors.onPrimary,
-                        cursorColor = MaterialTheme.colors.onPrimary,
-                        disabledIndicatorColor = MaterialTheme.colors.onPrimary
+                TicketCreateItem(
+                    title = "Название",
+                    icon = com.example.core.R.drawable.baseline_title_24
+                ) {
+                    CustomTextField(
+                        text = draftName,
+                        hint = "Ввести название"
                     )
-                )
+                }
 
                 // Executor
+                TicketCreateItem(
+                    title = "Исполнитель",
+                    icon = com.example.core.R.drawable.ic_baseline_person_24
+                ) {
+                    SelectableText(
+                        label = draftExecutor.value?.getFullName() ?: "Выбрать исполнителя"
+                    ) {
+                        TODO("Add click")
+                    }
+                }
+
                 // Brigade
+                TicketCreateItem(
+                    title = "Бригада",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    ChipRow().Brigade(
+                        draftBrigade = draftBrigade,
+                        isDialogOpened = isBrigadeDialogOpened,
+                    )
+                }
+
                 // PlaneDate
-                // ExpirationDate
+                TicketCreateItem(
+                    title = "Плановая дата",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    SelectableText(
+                        label = draft.plane_date ?: "Выбрать дату"
+                    ) {
+                        TODO("Add click")
+                    }
+                }
+
                 // Description
+                TicketCreateItem(
+                    title = "Описание",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    CustomTextField(
+                        text = draftDescription,
+                        hint = "Ввести описание"
+                    )
+                }
 
                 // AutomaticFields
                 Title(
-                    modifier = Modifier.layoutId("automaticFieldsRef"),
                     text = "Автоматические поля",
-                    fontSize = MaterialTheme.typography.h5.fontSize
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                    modifier = Modifier.padding(top = 20.dp)
                 )
 
                 // Status
-                // Author
-                // CreationDate
+                TicketCreateItem(
+                    title = "Статус",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    SelectableText(label = draftStatus.value.title)
+                }
 
+                // Author
+                TicketCreateItem(
+                    title = "Автор",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    SelectableText(label = authParams.user?.getFullName() ?: "[ФИО]")
+                }
+
+                // CreationDate
+                val calendar = Calendar.getInstance().time
+                val dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar)
+                TicketCreateItem(
+                    title = "Дата создания",
+                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                ) {
+                    SelectableText(label = dateFormat)
+                }
             }
 
             // Bottom app bar
@@ -231,7 +332,7 @@ class TicketCreate {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 15.dp, start = 25.dp, end = 25.dp)
+                .padding(bottom = 25.dp, start = 25.dp, end = 25.dp)
         ) {
             Icon(
                 modifier = Modifier
@@ -248,7 +349,8 @@ class TicketCreate {
                     modifier = Modifier
                         .padding(bottom = 5.dp),
                     text = title,
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.7F),
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onBackground,
                     fontSize = MaterialTheme.typography.h3.fontSize
                 )
 
@@ -259,10 +361,36 @@ class TicketCreate {
     }
 
     @Composable
+    private fun CustomTextField(
+        text: MutableState<String?>,
+        hint: String
+    ) {
+        BasicTextField(
+            value = text.value ?: "",
+            onValueChange = { text.value = it },
+            textStyle = TextStyle.Default.copy(
+                fontSize = 24.sp,
+                color = MaterialTheme.colors.onBackground,
+            ),
+            cursorBrush = SolidColor(MaterialTheme.colors.onBackground),
+            decorationBox = { innerTextField ->
+                if (text.value?.isEmpty() != false) {
+                    Text(
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+                        text = text.value ?: hint,
+                    )
+                }
+                innerTextField()
+            }
+        )
+    }
+
+    @Composable
     private fun Title(
-        modifier: Modifier,
+        modifier: Modifier = Modifier,
         text: String,
-        fontSize: TextUnit
+        fontSize: TextUnit,
     ) {
         Text(
             modifier = modifier
@@ -272,23 +400,34 @@ class TicketCreate {
             fontSize = fontSize,
             overflow = TextOverflow.Visible,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.onBackground
+            color = MaterialTheme.colors.onBackground.copy(alpha = 0.9F)
+        )
+    }
+
+    @Composable
+    private fun SelectableText(
+        modifier: Modifier = Modifier,
+        label: String,
+        onClick: () -> Unit = {},
+    ) {
+        Text(
+            modifier = modifier
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = null
+                ) { onClick() },
+            text = label,
+            fontSize = MaterialTheme.typography.h5.fontSize,
+            color = MaterialTheme.colors.onBackground,
         )
     }
 
     private fun getConstraints() = ConstraintSet {
-        val centralMiddleRef = createRefFor("centralMiddleRef")
-        constrain(centralMiddleRef) {
-            linkTo(parent.start, parent.end, bias = 0.5F)
-            linkTo(parent.top, parent.bottom, bias = 0.5F)
-        }
-
-        //
-        // Main sections
-        //
         val topAppBarRef = createRefFor("topAppBarRef")
         val ticketCreateRef = createRefFor("ticketCreateRef")
         val bottomAppBarRef = createRefFor("bottomAppBarRef")
+        val centralMiddleRef = createRefFor("centralMiddleRef")
+
         constrain(topAppBarRef) {
             top.linkTo(parent.top)
             start.linkTo(parent.start)
@@ -309,38 +448,14 @@ class TicketCreate {
             width = Dimension.fillToConstraints
             height = Dimension.fillToConstraints
         }
-
-        //
-        // Required fields
-        //
-        val requiredFieldsRef = createRefFor("requiredFieldsRef")
-        val objectsRef = createRefFor("objectsRef")
-        val serviceRef = createRefFor("serviceRef")
-        val kindRef = createRefFor("kindRef")
-        val priorityRef = createRefFor("priorityRef")
-
-        //
-        // Optional fields
-        //
-        val optionalFieldsRef = createRefFor("optionalFieldsRef")
-        val nameRef = createRefFor("nameRef")
-        val executorRef = createRefFor("executorRef")
-        val brigadeRef = createRefFor("brigadeRef")
-        val planeDateRef = createRefFor("planeDateRef")
-        val expirationDateRef = createRefFor("expirationDateRef")
-        val descriptionRef = createRefFor("descriptionRef")
-
-        //
-        // Automatic fields
-        //
-        val automaticFieldsRef = createRefFor("automaticFieldsRef")
-        val statusRef = createRefFor("statusRef")
-        val authorRef = createRefFor("authorRef")
-        val creationDateRef = createRefFor("creationDateRef")
+        constrain(centralMiddleRef) {
+            linkTo(parent.start, parent.end, bias = 0.5F)
+            linkTo(parent.top, parent.bottom, bias = 0.5F)
+        }
     }
 
     @Composable
-    @ScreenPreview
+    @Preview
     private fun Preview() {
         AppTheme(isSystemInDarkTheme()) {
             Content()

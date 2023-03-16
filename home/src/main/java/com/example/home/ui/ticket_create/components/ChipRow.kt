@@ -1,12 +1,10 @@
 package com.example.home.ui.ticket_create.components
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,38 +17,70 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.utils.ScreenPreview
 import com.example.domain.data_classes.entities.FacilityEntity
-import com.example.domain.data_classes.params.TicketCreateParams
+import com.example.domain.data_classes.entities.UserEntity
 import com.google.accompanist.flowlayout.FlowRow
 
-internal class Facilities {
+internal class ChipRow {
     @Composable
-    fun Content(
-        modifier: Modifier,
+    fun Brigade(
+        modifier: Modifier = Modifier,
+        draftBrigade: MutableList<UserEntity?>,
+        isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
+    ) {
+        CustomChipRow(
+            modifier = modifier,
+            addingChipTitle = "Добавить сотрудников",
+            isDialogOpened = isDialogOpened
+        ) {
+            draftBrigade.forEach {
+                CustomChip(title = it?.getFullName() ?: "") { draftBrigade.remove(it) }
+            }
+        }
+    }
+
+    @Composable
+    fun Facilities(
+        modifier: Modifier = Modifier,
         draftFacilities: MutableList<FacilityEntity?>,
         isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
+    ) {
+        CustomChipRow(
+            modifier = modifier,
+            addingChipTitle = "Добавить объекты",
+            isDialogOpened = isDialogOpened
+        ) {
+            draftFacilities.forEach {
+                CustomChip(title = it?.name ?: "") { draftFacilities.remove(it) }
+            }
+        }
+    }
+
+    @Composable
+    private fun CustomChipRow(
+        modifier: Modifier,
+        addingChipTitle: String,
+        isDialogOpened: MutableState<Boolean>,
+        chips: @Composable () -> Unit,
     ) {
         FlowRow(
             modifier = modifier,
             mainAxisSpacing = 10.dp,
             crossAxisSpacing = 10.dp,
         ) {
-            FacilityChip(
-                title = "Добавить объекты",
+            CustomChip(
+                title = addingChipTitle,
                 removeButtonVisible = false,
             ) { isDialogOpened.value = true }
 
-            draftFacilities.forEach {
-                FacilityChip(title = it?.name ?: "") { draftFacilities.remove(it) }
-            }
+            chips()
         }
     }
 
     @Composable
-    private fun FacilityChip(
+    private fun CustomChip(
         modifier: Modifier = Modifier,
         title: String,
         removeButtonVisible: Boolean = true,
@@ -93,7 +123,7 @@ internal class Facilities {
     @ScreenPreview
     private fun Preview() {
         AppTheme {
-            Content(
+            Facilities(
                 Modifier,
                 remember {
                     List(5) {
@@ -104,18 +134,6 @@ internal class Facilities {
                     }.toMutableList()
                 }
             )
-//            FacilitiesDialog(
-//                rememberScrollState(),
-//                remember { mutableStateOf(true) },
-//                remember {
-//                    mutableStateOf(
-//                        TicketCreateParams(facilities = List(100) {
-//                            FacilityEntity(it.toLong(), it.toString())
-//                        })
-//                    )
-//                },
-//                remember { mutableStateOf(null) }
-//            )
         }
     }
 }
