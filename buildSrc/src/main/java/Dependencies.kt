@@ -94,7 +94,7 @@ object Dependencies {
     }
     object Versions {
         object Core {
-            const val MIN_SDK = 24
+            const val MIN_SDK = 26
             const val TARGET_SDK = 33
             const val COMPILE_SDK = 33
             const val VERSION_CODE = 1

@@ -11,4 +11,9 @@ enum class TicketServiceEnum(
     PRS(id = 4, title = "ПРС"),
     Research(id = 5, title = "Исследование"),
     ConstructionWorks(id = 6, title = "Строительные работы");
+
+    companion object {
+        fun get(title: String?): TicketServiceEnum? = TicketServiceEnum.values()
+            .firstOrNull { it.title == title }
+    }
 }

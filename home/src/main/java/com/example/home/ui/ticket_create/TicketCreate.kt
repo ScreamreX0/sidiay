@@ -4,13 +4,18 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -29,23 +34,20 @@ import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketCreateParams
-import com.example.domain.enums.TicketPriorityEnum
 import com.example.domain.enums.states.LoadingState
-import com.example.home.ui.ticket_create.components.BottomAppBar
-import com.example.home.ui.ticket_create.components.ChipRow
-import com.example.home.ui.ticket_create.components.SingleSelectionDialog
-import com.example.home.ui.ticket_create.components.TopAppBar
+import com.example.home.ui.ticket_create.components.*
 import java.text.DateFormat
-import java.util.Calendar
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class TicketCreate {
     @Composable
     fun TicketCreateScreen(
         navController: NavHostController,
-        authParams: AuthParams = AuthParams(),
+        authParams: AuthParams = remember { AuthParams() },
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
-        draft: DraftEntity = DraftEntity(),
+        draft: DraftEntity = remember { DraftEntity() },
     ) {
         if (authParams.onlineMode) {
             ticketCreateViewModel.initFields()
@@ -65,40 +67,78 @@ class TicketCreate {
     @Composable
     private fun Content(
         navController: NavHostController = rememberNavController(),
-        authParams: AuthParams = AuthParams(),
-        draft: DraftEntity = DraftEntity(),
+        authParams: AuthParams = remember { AuthParams() },
+        draft: DraftEntity = remember { DraftEntity() },
         fields: MutableState<TicketCreateParams?> = remember { mutableStateOf(TicketCreateParams()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) }
     ) {
-        val draftId = remember { mutableStateOf(draft.id) }
+        val context = LocalContext.current
+        val mainScrollableState = rememberScrollState()
+
+        // Name
         val draftName = remember { mutableStateOf(draft.name) }
+
+        // Status
         val draftStatus = remember { mutableStateOf(draft.draftStatus) }
+
+        // Description
+        val draftDescription = remember { mutableStateOf(draft.description) }
+
+        // Executor
+        val draftExecutor = remember { mutableStateOf(draft.executor) }
+        val isExecutorsDialogOpened = remember { mutableStateOf(false) }
+        val executorsScrollState = rememberScrollState()
+
+        // Expiration date
+        val draftExpirationDate = remember { mutableStateOf(draft.expiration_date) }
+
+        // Kind
+        val draftKind = remember { mutableStateOf(draft.kind) }
+        val isKindDialogOpened = remember { mutableStateOf(false) }
+        val kindsScrollState = rememberScrollState()
+
+        // Priority
+        val draftPriority = remember {
+            mutableStateOf(
+                draft.priority
+            )
+        }
+        val isPriorityDialogOpened = remember { mutableStateOf(false) }
+        val prioritiesScrollState = rememberScrollState()
+
+        // Service
+        val draftService = remember { mutableStateOf(draft.service) }
+        val isServicesDialogOpened = remember { mutableStateOf(false) }
+        val servicesScrollState = rememberScrollState()
+
+        // Facilities
         val draftFacilities: MutableList<FacilityEntity?> = remember {
             draft.facilities?.toMutableStateList() ?: mutableStateListOf()
         }
-        val draftDescription = remember { mutableStateOf(draft.description) }
-        val draftExecutor = remember { mutableStateOf(draft.executor) }
+        val isFacilitiesDialogOpened = remember { mutableStateOf(false) }
+        val facilitiesScrollState = rememberScrollState()
+
+        // Brigade
         val draftBrigade: MutableList<UserEntity?> = remember {
             draft.brigade?.toMutableStateList() ?: mutableStateListOf()
         }
-        val draftExpirationDate = remember { mutableStateOf(draft.expiration_date) }
-        val draftKind = remember { mutableStateOf(draft.kind) }
-        val draftPlaneDate = remember { mutableStateOf(draft.plane_date) }
-        val draftPriority = remember { mutableStateOf(draft.priority) }
-        val draftService = remember { mutableStateOf(draft.service) }
-
-        // Dialog vars
-        val isFacilitiesDialogOpened = remember { mutableStateOf(false) }
-        val isServicesDialogOpened = remember { mutableStateOf(false) }
-        val isKindDialogOpened = remember { mutableStateOf(false) }
-        val isPriorityDialogOpened = remember { mutableStateOf(false) }
         val isBrigadeDialogOpened = remember { mutableStateOf(false) }
+        val brigadeScrollState = rememberScrollState()
 
+        // Plane date
+        val draftPlaneDate = remember { mutableStateOf(draft.plane_date) }
+        val isPlaneDateOpened = remember { mutableStateOf(false) }
+
+        //
+        // MAIN CONSTRAINT
+        //
         ConstraintLayout(
             constraintSet = getConstraints(),
             modifier = Modifier.fillMaxSize(),
         ) {
-            // Top app bar
+            //
+            // TOP BAR
+            //
             val isTopIconsVisible = remember { mutableStateOf(false) }
             TopAppBar().Content(
                 modifier = Modifier.layoutId("topAppBarRef"),
@@ -106,6 +146,9 @@ class TicketCreate {
                 iconsVisible = isTopIconsVisible
             )
 
+            //
+            // LOADING
+            //
             if (fieldsLoadingState.value == LoadingState.LOADING
                 || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT
             ) {
@@ -116,6 +159,7 @@ class TicketCreate {
                 return@ConstraintLayout
             }
 
+            // Load error
             if (fieldsLoadingState.value == LoadingState.ERROR) {
                 Text(
                     modifier = Modifier.layoutId("centralMiddleRef"),
@@ -129,41 +173,73 @@ class TicketCreate {
                 return@ConstraintLayout
             }
 
-            // Set icons on top app bar visible
+            //
+            // SET ICONS ON TOP BAR VISIBLE
+            //
             isTopIconsVisible.value = true
 
             //
-            // Middle section
+            // DIALOGS
             //
-            val scrollableState = rememberScrollState()
+            if (isFacilitiesDialogOpened.value) {  // Facilities
+                SingleSelectionDialog().FacilitiesDialog(
+                    scrollState = facilitiesScrollState,
+                    isDialogOpened = isFacilitiesDialogOpened,
+                    fields = fields,
+                    draftFacilities = draftFacilities,
+                )
+            } else if (isBrigadeDialogOpened.value) {  // Brigade
+                SingleSelectionDialog().BrigadeDialog(
+                    scrollState = brigadeScrollState,
+                    isDialogOpened = isBrigadeDialogOpened,
+                    fields = fields,
+                    draftBrigade = draftBrigade
+                )
+            } else if (isPlaneDateOpened.value) {  // Plane date
+                DatePicker().DatePickerDialog(
+                    date = draftPlaneDate,
+                    isDialogOpened = isPlaneDateOpened,
+                )
+            } else if (isServicesDialogOpened.value) {  // Service
+                SingleSelectionDialog().ServiceDialog(
+                    scrollState = servicesScrollState,
+                    isDialogOpened = isServicesDialogOpened,
+                    fields = fields,
+                    draftService = draftService
+                )
+            } else if (isKindDialogOpened.value) {  // Kind
+                SingleSelectionDialog().KindDialog(
+                    scrollState = kindsScrollState,
+                    isDialogOpened = isKindDialogOpened,
+                    fields = fields,
+                    draftKinds = draftKind,
+                )
+            } else if (isPriorityDialogOpened.value) {  // Priority
+                SingleSelectionDialog().PriorityDialog(
+                    scrollState = prioritiesScrollState,
+                    isDialogOpened = isPriorityDialogOpened,
+                    fields = fields,
+                    draftPriority = draftPriority,
+                )
+            } else if (isExecutorsDialogOpened.value) {  // Executor
+                SingleSelectionDialog().ExecutorDialog(
+                    scrollState = executorsScrollState,
+                    isDialogOpened = isExecutorsDialogOpened,
+                    fields = fields,
+                    draftExecutor = draftExecutor,
+                )
+            }
+
+            //
+            // TICKET CREATE ITEMS
+            //
             Column(
                 modifier = Modifier
                     .layoutId("ticketCreateRef")
                     .background(MaterialTheme.colors.background.copy(alpha = 0.98F))
-                    .verticalScroll(scrollableState),
+                    .verticalScroll(mainScrollableState),
             ) {
-                // Facilities dialog
-                val facilitiesScrollState = rememberScrollState()
-                val brigadeScrollState = rememberScrollState()
-                if (isFacilitiesDialogOpened.value) {
-                    SingleSelectionDialog().FacilitiesDialog(
-                        facilitiesScrollState = facilitiesScrollState,
-                        isDialogOpened = isFacilitiesDialogOpened,
-                        fields = fields,
-                        draftFacilities = draftFacilities,
-                    )
-                } else if (isBrigadeDialogOpened.value) {
-                    SingleSelectionDialog().BrigadeDialog(
-                        brigadeScrollState = brigadeScrollState,
-                        isDialogOpened = isBrigadeDialogOpened,
-                        fields = fields,
-                        draftBrigade = draftBrigade
-                    )
-                }
-
-                //
-                // Required fields
-                //
+                // Required fields title
                 Title(
                     modifier = Modifier
                         .padding(top = 20.dp),
@@ -171,7 +247,7 @@ class TicketCreate {
                     fontSize = MaterialTheme.typography.h5.fontSize
                 )
 
-                // Facilities list
+                // Facilities
                 TicketCreateItem(
                     title = "Объекты",
                     icon = com.example.core.R.drawable.baseline_oil_barrel_24
@@ -188,10 +264,9 @@ class TicketCreate {
                     icon = com.example.core.R.drawable.ic_baseline_miscellaneous_services_24
                 ) {
                     SelectableText(
-                        label = draft.service ?: "Выбрать сервис"
-                    ) {
-                        TODO("Add click")
-                    }
+                        nullLabel = "Выбрать сервис",
+                        label = draftService.value?.title
+                    ) { isServicesDialogOpened.value = true }
                 }
 
                 // Kind
@@ -200,10 +275,9 @@ class TicketCreate {
                     icon = com.example.core.R.drawable.baseline_format_list_bulleted_24
                 ) {
                     SelectableText(
-                        label = draft.kind?.name ?: "Выбрать вид"
-                    ) {
-                        TODO("Add click")
-                    }
+                        label = draftKind.value?.title,
+                        nullLabel = "Выбрать вид"
+                    ) { isKindDialogOpened.value = true }
                 }
 
                 // Priority
@@ -212,15 +286,12 @@ class TicketCreate {
                     icon = com.example.core.R.drawable.baseline_priority_high_24
                 ) {
                     SelectableText(
-                        label = TicketPriorityEnum.get(draft.priority)?.title ?: "Выбрать приоритет"
-                    ) {
-                        TODO("Add click")
-                    }
+                        label = draftPriority.value?.title,
+                        nullLabel = "Выбрать приоритет",
+                    ) { isPriorityDialogOpened.value = true }
                 }
 
-                //
-                // OptionalFields
-                //
+                // Optional fields title
                 Title(
                     text = "Необязательные поля",
                     fontSize = MaterialTheme.typography.h5.fontSize,
@@ -244,16 +315,15 @@ class TicketCreate {
                     icon = com.example.core.R.drawable.ic_baseline_person_24
                 ) {
                     SelectableText(
-                        label = draftExecutor.value?.getFullName() ?: "Выбрать исполнителя"
-                    ) {
-                        TODO("Add click")
-                    }
+                        label = draftExecutor.value?.getFullName(),
+                        nullLabel = "Выбрать исполнителя"
+                    ) { isExecutorsDialogOpened.value = true }
                 }
 
                 // Brigade
                 TicketCreateItem(
                     title = "Бригада",
-                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                    icon = com.example.core.R.drawable.baseline_people_24
                 ) {
                     ChipRow().Brigade(
                         draftBrigade = draftBrigade,
@@ -264,19 +334,19 @@ class TicketCreate {
                 // PlaneDate
                 TicketCreateItem(
                     title = "Плановая дата",
-                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                    icon = com.example.core.R.drawable.ic_baseline_calendar_month_24
                 ) {
                     SelectableText(
-                        label = draft.plane_date ?: "Выбрать дату"
-                    ) {
-                        TODO("Add click")
-                    }
+                        label = draftPlaneDate
+                            .value?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        nullLabel = "Выбрать плановую дату"
+                    ) { isPlaneDateOpened.value = true }
                 }
 
                 // Description
                 TicketCreateItem(
                     title = "Описание",
-                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                    icon = com.example.core.R.drawable.baseline_text_format_24
                 ) {
                     CustomTextField(
                         text = draftDescription,
@@ -284,7 +354,7 @@ class TicketCreate {
                     )
                 }
 
-                // AutomaticFields
+                // Automatic fields title
                 Title(
                     text = "Автоматические поля",
                     fontSize = MaterialTheme.typography.h5.fontSize,
@@ -294,31 +364,29 @@ class TicketCreate {
                 // Status
                 TicketCreateItem(
                     title = "Статус",
-                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                    icon = com.example.core.R.drawable.ic_baseline_playlist_add_check_24
                 ) {
-                    SelectableText(label = draftStatus.value.title)
+                    SelectableText(
+                        label = draftStatus.value.title,
+                        nullLabel = "Выбрать статус"
+                    )
                 }
 
                 // Author
                 TicketCreateItem(
                     title = "Автор",
-                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
+                    icon = com.example.core.R.drawable.ic_baseline_person_24
                 ) {
-                    SelectableText(label = authParams.user?.getFullName() ?: "[ФИО]")
-                }
-
-                // CreationDate
-                val calendar = Calendar.getInstance().time
-                val dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar)
-                TicketCreateItem(
-                    title = "Дата создания",
-                    icon = com.example.core.R.drawable.baseline_oil_barrel_24
-                ) {
-                    SelectableText(label = dateFormat)
+                    SelectableText(
+                        label = authParams.user?.getFullName(),
+                        nullLabel = "Автор не определен"
+                    )
                 }
             }
 
-            // Bottom app bar
+            //
+            // BOTTOM BAR
+            //
             BottomAppBar().Content(modifier = Modifier.layoutId("bottomAppBarRef"))
         }
     }
@@ -377,7 +445,7 @@ class TicketCreate {
                 if (text.value?.isEmpty() != false) {
                     Text(
                         fontSize = 24.sp,
-                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.7F),
                         text = text.value ?: hint,
                     )
                 }
@@ -407,19 +475,34 @@ class TicketCreate {
     @Composable
     private fun SelectableText(
         modifier: Modifier = Modifier,
-        label: String,
+        label: String?,
+        nullLabel: String,
         onClick: () -> Unit = {},
     ) {
-        Text(
-            modifier = modifier
-                .clickable(
-                    interactionSource = MutableInteractionSource(),
-                    indication = null
-                ) { onClick() },
-            text = label,
-            fontSize = MaterialTheme.typography.h5.fontSize,
-            color = MaterialTheme.colors.onBackground,
-        )
+        if (label == null) {
+            Text(
+                modifier = modifier
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null
+                    ) { onClick() },
+                style = TextStyle(textDecoration = TextDecoration.Underline),
+                text = nullLabel,
+                fontSize = MaterialTheme.typography.h5.fontSize,
+                color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+            )
+        } else {
+            Text(
+                modifier = modifier
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null
+                    ) { onClick() },
+                text = label,
+                fontSize = MaterialTheme.typography.h5.fontSize,
+                color = MaterialTheme.colors.onBackground,
+            )
+        }
     }
 
     private fun getConstraints() = ConstraintSet {
@@ -455,7 +538,7 @@ class TicketCreate {
     }
 
     @Composable
-    @Preview
+    @Preview(heightDp = 1500)
     private fun Preview() {
         AppTheme(isSystemInDarkTheme()) {
             Content()
