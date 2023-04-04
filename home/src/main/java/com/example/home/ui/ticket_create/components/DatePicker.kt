@@ -20,116 +20,119 @@ import androidx.compose.ui.window.DialogProperties
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class DatePicker {
-    @Composable
-    internal fun DatePickerDialog(
-        date: MutableState<LocalDate?>,
-        isDialogOpened: MutableState<Boolean>,
+
+@Composable
+internal fun CustomDatePicker(
+    date: MutableState<LocalDate?>,
+    isDialogOpened: MutableState<Boolean>,
+) {
+    if (!isDialogOpened.value) {
+        return
+    }
+
+    val formatter = remember { DateTimeFormatter.ofPattern("dd.MM.yyyy") }
+    val selectedDate = remember { mutableStateOf(date.value ?: LocalDate.now()) }
+    Dialog(
+        onDismissRequest = { isDialogOpened.value = false },
+        properties = DialogProperties()
     ) {
-        val formatter = remember { DateTimeFormatter.ofPattern("dd.MM.yyyy") }
-        val selectedDate = remember { mutableStateOf(date.value ?: LocalDate.now()) }
-        Dialog(
-            onDismissRequest = { isDialogOpened.value = false },
-            properties = DialogProperties()
+        Column(
+            modifier = Modifier
+                .wrapContentSize()
+                .background(
+                    color = MaterialTheme.colors.background,
+                    shape = RoundedCornerShape(size = 16.dp)
+                )
         ) {
+            //
+            // TOP APP
+            //
             Column(
-                modifier = Modifier
-                    .wrapContentSize()
+                Modifier
+                    .heightIn(min = 60.dp)
+                    .fillMaxWidth()
                     .background(
-                        color = MaterialTheme.colors.background,
-                        shape = RoundedCornerShape(size = 16.dp)
+                        color = MaterialTheme.colors.onBackground,
+                        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
                     )
+                    .padding(16.dp)
             ) {
-                //
-                // TOP APP
-                //
-                Column(
-                    Modifier
-                        .heightIn(min = 60.dp)
-                        .fillMaxWidth()
-                        .background(
-                            color = MaterialTheme.colors.onBackground,
-                            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                        )
-                        .padding(16.dp)
-                ) {
-                    Text(
-                        text = "Выбрать дату",
-                        style = MaterialTheme.typography.caption,
-                        color = MaterialTheme.colors.onPrimary
-                    )
+                Text(
+                    text = "Выбрать дату",
+                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colors.onPrimary
+                )
 
-                    Spacer(modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.size(20.dp))
 
-                    Text(
-                        text = selectedDate.value.format(formatter),
-                        style = MaterialTheme.typography.h4,
-                        color = MaterialTheme.colors.onPrimary
-                    )
+                Text(
+                    text = selectedDate.value.format(formatter),
+                    style = MaterialTheme.typography.h4,
+                    color = MaterialTheme.colors.onPrimary
+                )
 
-                    Spacer(modifier = Modifier.size(16.dp))
-                }
+                Spacer(modifier = Modifier.size(16.dp))
+            }
 
-                //
-                // CALENDAR
-                //
-                CustomCalendar(onDateSelected = { selectedDate.value = it })
-                Spacer(modifier = Modifier.size(8.dp))
+            //
+            // CALENDAR
+            //
+            CustomCalendar(onDateSelected = { selectedDate.value = it })
+            Spacer(modifier = Modifier.size(8.dp))
 
-                //
-                // BUTTONS
-                //
-                Row(
+            //
+            // BUTTONS
+            //
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 16.dp, end = 16.dp)
+                    .align(Alignment.End),
+            ) {
+                Text(
                     modifier = Modifier
-                        .padding(bottom = 16.dp, end = 16.dp)
-                        .align(Alignment.End),
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .clickable { isDialogOpened.value = false },
-                        text = "Отмена",
-                        fontSize = MaterialTheme.typography.h3.fontSize,
-                        style = MaterialTheme.typography.button,
-                        color = MaterialTheme.colors.onBackground
-                    )
+                        .padding(end = 16.dp)
+                        .clickable { isDialogOpened.value = false },
+                    text = "Отмена",
+                    fontSize = MaterialTheme.typography.h3.fontSize,
+                    style = MaterialTheme.typography.button,
+                    color = MaterialTheme.colors.onBackground
+                )
 
-                    Text(
-                        modifier = Modifier
-                            .clickable {
-                                date.value = selectedDate.value
-                                isDialogOpened.value = false
-                            },
-                        text = "OK",
-                        fontSize = MaterialTheme.typography.h3.fontSize,
-                        style = MaterialTheme.typography.button,
-                        color = MaterialTheme.colors.onBackground
-                    )
-                }
+                Text(
+                    modifier = Modifier
+                        .clickable {
+                            date.value = selectedDate.value
+                            isDialogOpened.value = false
+                        },
+                    text = "OK",
+                    fontSize = MaterialTheme.typography.h3.fontSize,
+                    style = MaterialTheme.typography.button,
+                    color = MaterialTheme.colors.onBackground
+                )
             }
         }
     }
+}
 
-    @Composable
-    fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
-        AndroidView(
-            modifier = Modifier.wrapContentSize(),
-            factory = { CalendarView(it) },
-            update = {
-                it.minDate = System.currentTimeMillis()
-                it.maxDate =
-                    System.currentTimeMillis() + 31536000000L  // 31B milliseconds is 1 year
+@Composable
+private fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
+    AndroidView(
+        modifier = Modifier.wrapContentSize(),
+        factory = { CalendarView(it) },
+        update = {
+            it.minDate = System.currentTimeMillis()
+            it.maxDate =
+                System.currentTimeMillis() + 31536000000L  // 31B milliseconds is 1 year
 
-                it.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                    onDateSelected(
-                        LocalDate
-                            .now()
-                            .withMonth(month + 1)
-                            .withYear(year)
-                            .withDayOfMonth(dayOfMonth)
-                    )
-                }
+            it.setOnDateChangeListener { _, year, month, dayOfMonth ->
+                onDateSelected(
+                    LocalDate
+                        .now()
+                        .withMonth(month + 1)
+                        .withYear(year)
+                        .withDayOfMonth(dayOfMonth)
+                )
             }
-        )
-    }
+        }
+    )
 }
