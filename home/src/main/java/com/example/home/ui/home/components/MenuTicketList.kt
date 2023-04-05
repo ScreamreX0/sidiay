@@ -38,7 +38,6 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.CustomColors
 import com.example.core.utils.ComponentPreview
 import com.example.core.utils.Helper
-import com.example.domain.enums.TicketPriorityEnum
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 
@@ -137,7 +136,7 @@ private fun MenuTicketListItem(
             ItemText(
                 modifier = Modifier.layoutId("serviceRef"),
                 context = context,
-                text = ticket.service ?: "[Сервис не указан]",
+                text = ticket.service?.name ?: "[Сервис не указан]",
                 hint = "Сервис",
                 circleColor = circleColor,
                 textColor = textColor,
@@ -161,7 +160,7 @@ private fun MenuTicketListItem(
             ItemText(
                 modifier = Modifier.layoutId("dateRef"),
                 context = context,
-                text = ticket.plane_date ?: "[Плановая дата не назначена]",
+                text = ticket.plane_date?.time?.toString() ?: "[Плановая дата не назначена]",
                 hint = "Плановая дата заявки",
                 circleColor = circleColor,
                 textColor = textColor,
@@ -191,7 +190,7 @@ private fun MenuTicketListItem(
                     .layoutId("statusRef")
                     .fillMaxWidth(0.3F),
                 context = context,
-                text = ticket.status ?: "[Статус неизвестен]",
+                text = ticket.status?.name ?: "[Статус неизвестен]",
                 hint = "Статус заявки",
                 circleColor = circleColor,
                 textColor = textColor,
@@ -227,10 +226,10 @@ private fun MenuTicketListItem(
                     .padding(bottom = 10.dp)
                     .fillMaxWidth(0.3F),
                 context = context,
-                text = TicketPriorityEnum.get(ticket.priority)?.title ?: "Неизвестный",
+                text = ticket.priority?.name ?: "Неизвестный",
                 hint = "Приоритет заявки",
                 circleColor = circleColor,
-                textColor = getPriorityColor(isDarkMode, ticket.priority),
+                textColor = getPriorityColor(isDarkMode, ticket.priority?.value ?: 1),
                 fontSize = defaultTextSize,
             )
 
@@ -263,7 +262,7 @@ private fun MenuTicketListItem(
                         .layoutId("kindRef")
                         .fillMaxWidth(0.3F),
                     context = context,
-                    text = ticket.service ?: "[Вид не указан]",
+                    text = ticket.service?.name ?: "[Вид не указан]",
                     hint = "Вид заявки",
                     circleColor = circleColor,
                     textColor = textColor,
@@ -512,7 +511,7 @@ private fun ContentPreview() {
     AppTheme(isSystemInDarkTheme()) {
         MenuTicketListItem(
             isDarkMode = isSystemInDarkTheme(),
-            ticket = TicketEntity()
+            ticket = TicketEntity(id = 0)
         )
     }
 }

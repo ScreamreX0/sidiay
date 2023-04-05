@@ -36,7 +36,7 @@ class DomainModule {
     fun provideGetTicketCreateFieldsUseCase(
         facilitiesRepository: IFacilityRepository,
         userRepository: IUserRepository,
-    ): GetTicketCreateFieldsUseCase = GetTicketCreateFieldsUseCase(
+    ): GetTicketDataUseCase = GetTicketDataUseCase(
         facilitiesRepository = facilitiesRepository,
         userRepository = userRepository,
     )

@@ -1,10 +1,10 @@
 package com.example.domain.usecases.createticket
 
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.TicketCreateStates
-import com.example.domain.data_classes.params.CreateTicketParams
 
 class CheckTicketUseCase {
-    fun execute(ticket: CreateTicketParams): List<TicketCreateStates> {
+    fun execute(ticket: TicketEntity): List<TicketCreateStates> {
         if (ticket.kind == null
             || ticket.service == null
             || ticket.priority == null) {

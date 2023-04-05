@@ -1,24 +1,27 @@
 package com.example.domain.data_classes.entities
 
 import android.os.Parcelable
-import com.example.domain.enums.TicketKindEnum
-import com.example.domain.enums.TicketPriorityEnum
-import com.example.domain.enums.TicketServiceEnum
-import com.example.domain.enums.states.DraftState
+import com.example.domain.enums.TicketStatuses
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
+import java.util.*
 
 @Parcelize
-data class DraftEntity constructor (
-    var name: String? = null,
-    var facilities: List<FacilityEntity>? = null,
-    var service: TicketServiceEnum? = null,
-    var kind: TicketKindEnum? = null,
+data class DraftEntity constructor(
+    var id: Long = 0,
+    var priority: PriorityEntity? = null,
+    var service: ServiceEntity? = null,
+    var kind: KindEntity? = null,
+    var author: UserEntity? = null,
     var executor: UserEntity? = null,
     var brigade: List<UserEntity>? = null,
-    var priority: TicketPriorityEnum? = null,
-    var plane_date: LocalDate? = null,
-    var expiration_date: LocalDate? = null,
+    var transport: List<TransportEntity>? = null,
+    var facilities: List<FacilityEntity>? = null,
+    var equipment: List<EquipmentEntity>? = null,
+    var plane_date: Date? = null,
+    var expiration_date: Date? = null,
+    var creation_date: Date? = null,
+    var completed_work: String? = null,
     var description: String? = null,
-    var draftStatus: DraftState = DraftState.NEW
+    var name: String? = null,
+    var status: TicketStatuses? = null,
 ) : Parcelable

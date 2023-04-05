@@ -8,11 +8,6 @@ import javax.inject.Inject
 class SignInUseCase @Inject constructor(
     private val authRepository: IAuthRepository
 ) {
-    suspend fun execute(url: String, credentials: Credentials): Pair<Int, UserEntity?> {
-        return authRepository.signIn(url, credentials)
-    }
-
-    fun getEmptyUser(): Any {
-        return authRepository.getEmptyUser()
-    }
+    suspend fun execute(url: String, credentials: Credentials): Pair<Int, UserEntity?> =
+        authRepository.signIn(url, credentials)
 }

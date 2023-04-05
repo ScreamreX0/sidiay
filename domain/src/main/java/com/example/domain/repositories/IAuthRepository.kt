@@ -6,5 +6,4 @@ import com.example.domain.data_classes.params.Credentials
 interface IAuthRepository {
     suspend fun checkConnection(url: String): Boolean
     suspend fun signIn(url: String, credentials: Credentials): Pair<Int, UserEntity?>
-    fun getEmptyUser(): UserEntity
 }

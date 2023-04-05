@@ -1,11 +1,18 @@
 package com.example.home.ui.ticket_create
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -18,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.theme.AppTheme
 import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.data_classes.params.AuthParams
-import com.example.domain.data_classes.params.TicketCreateParams
+import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
 import com.example.home.ui.ticket_create.components.*
 
@@ -51,7 +58,7 @@ class TicketCreate {
         navController: NavHostController = rememberNavController(),
         authParams: AuthParams = remember { AuthParams() },
         draft: DraftEntity = remember { DraftEntity() },
-        fields: MutableState<TicketCreateParams?> = remember { mutableStateOf(TicketCreateParams()) },
+        fields: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) }
     ) {
         val mainScrollableState = rememberScrollState()
@@ -193,7 +200,6 @@ class TicketCreate {
             linkTo(parent.top, parent.bottom, bias = 0.5F)
         }
     }
-
 
 
     @Composable

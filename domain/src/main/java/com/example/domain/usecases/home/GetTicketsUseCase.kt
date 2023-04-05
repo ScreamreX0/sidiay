@@ -8,12 +8,14 @@ import javax.inject.Inject
 class GetTicketsUseCase @Inject constructor(
     private val ticketsRepository: ITicketsRepository
 ) {
-    suspend fun execute(): Pair<Int, List<TicketEntity>?> {
-        if (Constants.DEBUG_MODE) {
-            return Pair(200, ticketsRepository.getTest())
-        }
+    suspend fun execute(url: String): Pair<List<TicketEntity>?, String?> {
+        if (Constants.DEBUG_MODE) return Pair(ticketsRepository.get(), null)
+        val result = ticketsRepository.get(url)
 
-        return ticketsRepository.get()
+        return when (result.first) {
+            200 -> Pair(result.second, null)
+            else -> Pair(null, "Error") // TODO("Add handlers")
+        }
     }
 }
 

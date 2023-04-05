@@ -19,19 +19,18 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 @Composable
 internal fun CustomDatePicker(
-    date: MutableState<LocalDate?>,
+    date: MutableState<Date?>,
     isDialogOpened: MutableState<Boolean>,
 ) {
     if (!isDialogOpened.value) {
         return
     }
-
-    val formatter = remember { DateTimeFormatter.ofPattern("dd.MM.yyyy") }
-    val selectedDate = remember { mutableStateOf(date.value ?: LocalDate.now()) }
+    val selectedDate = remember { mutableStateOf(date.value) }
     Dialog(
         onDismissRequest = { isDialogOpened.value = false },
         properties = DialogProperties()
@@ -66,7 +65,7 @@ internal fun CustomDatePicker(
                 Spacer(modifier = Modifier.size(20.dp))
 
                 Text(
-                    text = selectedDate.value.format(formatter),
+                    text = selectedDate.value.toString(),
                     style = MaterialTheme.typography.h4,
                     color = MaterialTheme.colors.onPrimary
                 )
@@ -115,7 +114,7 @@ internal fun CustomDatePicker(
 }
 
 @Composable
-private fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
+private fun CustomCalendar(onDateSelected: (Date) -> Unit) {
     AndroidView(
         modifier = Modifier.wrapContentSize(),
         factory = { CalendarView(it) },
@@ -125,13 +124,7 @@ private fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
                 System.currentTimeMillis() + 31536000000L  // 31B milliseconds is 1 year
 
             it.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                onDateSelected(
-                    LocalDate
-                        .now()
-                        .withMonth(month + 1)
-                        .withYear(year)
-                        .withDayOfMonth(dayOfMonth)
-                )
+                onDateSelected(Date())
             }
         }
     )

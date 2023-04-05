@@ -9,12 +9,12 @@ import javax.inject.Inject
 class GetDraftsUseCase @Inject constructor(
     private val ticketsRepository: ITicketsRepository
 ) {
-    suspend fun execute(): Pair<Int, List<TicketEntity>?> {
-        if (Constants.DEBUG_MODE) {
-            return Pair(200, ticketsRepository.getTest())
-        }
-
-        return ticketsRepository.get()
-    }
+//    suspend fun execute(): Pair<Int, List<TicketEntity>?> {
+//        if (Constants.DEBUG_MODE) {
+//            return Pair(200, ticketsRepository.get())
+//        }
+//
+//        return ticketsRepository.get()
+//    }
 }
 

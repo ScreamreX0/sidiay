@@ -14,7 +14,7 @@ import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
-import com.example.domain.data_classes.params.TicketCreateParams
+import com.example.domain.data_classes.params.TicketData
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -28,7 +28,7 @@ internal fun RequiredFieldsTitleComponent() {
 }
 
 @Composable
-internal fun FacilitiesComponent(draft: DraftEntity, fields: MutableState<TicketCreateParams?>) {
+internal fun FacilitiesComponent(draft: DraftEntity, fields: MutableState<TicketData?>) {
     val draftFacilities: MutableList<FacilityEntity?> = remember {
         draft.facilities?.toMutableStateList() ?: mutableStateListOf()
     }
@@ -57,7 +57,7 @@ internal fun FacilitiesComponent(draft: DraftEntity, fields: MutableState<Ticket
 }
 
 @Composable
-internal fun ServicesComponent(draft: DraftEntity, fields: MutableState<TicketCreateParams?>) {
+internal fun ServicesComponent(draft: DraftEntity, fields: MutableState<TicketData?>) {
     val draftService = remember { mutableStateOf(draft.service) }
     val isDialogOpened = remember { mutableStateOf(false) }
     val servicesScrollState = rememberScrollState()
@@ -73,13 +73,13 @@ internal fun ServicesComponent(draft: DraftEntity, fields: MutableState<TicketCr
     ) {
         CustomSelectableText(
             nullLabel = "Выбрать сервис",
-            label = draftService.value?.title
+            label = draftService.value?.name
         ) { isDialogOpened.value = true }
     }
 }
 
 @Composable
-internal fun KindComponent(draft: DraftEntity, fields: MutableState<TicketCreateParams?>) {
+internal fun KindComponent(draft: DraftEntity, fields: MutableState<TicketData?>) {
     val draftKind = remember { mutableStateOf(draft.kind) }
     val isDialogOpened = remember { mutableStateOf(false) }
     val kindsScrollState = rememberScrollState()
@@ -94,19 +94,15 @@ internal fun KindComponent(draft: DraftEntity, fields: MutableState<TicketCreate
         icon = com.example.core.R.drawable.baseline_format_list_bulleted_24
     ) {
         CustomSelectableText(
-            label = draftKind.value?.title,
+            label = draftKind.value?.name,
             nullLabel = "Выбрать вид"
         ) { isDialogOpened.value = true }
     }
 }
 
 @Composable
-internal fun PriorityComponent(draft: DraftEntity, fields: MutableState<TicketCreateParams?>) {
-    val draftPriority = remember {
-        mutableStateOf(
-            draft.priority
-        )
-    }
+internal fun PriorityComponent(draft: DraftEntity, fields: MutableState<TicketData?>) {
+    val draftPriority = remember { mutableStateOf(draft.priority) }
     val isDialogOpened = remember { mutableStateOf(false) }
     val prioritiesScrollState = rememberScrollState()
     PriorityDialog(
@@ -120,7 +116,7 @@ internal fun PriorityComponent(draft: DraftEntity, fields: MutableState<TicketCr
         icon = com.example.core.R.drawable.baseline_priority_high_24
     ) {
         CustomSelectableText(
-            label = draftPriority.value?.title,
+            label = draftPriority.value?.name,
             nullLabel = "Выбрать приоритет",
         ) { isDialogOpened.value = true }
     }
@@ -150,7 +146,7 @@ internal fun NameComponent(draft: DraftEntity) {
 }
 
 @Composable
-internal fun ExecutorComponent(draft: DraftEntity, fields: MutableState<TicketCreateParams?>) {
+internal fun ExecutorComponent(draft: DraftEntity, fields: MutableState<TicketData?>) {
     val draftExecutor = remember { mutableStateOf(draft.executor) }
     val isDialogOpened = remember { mutableStateOf(false) }
     val executorsScrollState = rememberScrollState()
@@ -172,7 +168,7 @@ internal fun ExecutorComponent(draft: DraftEntity, fields: MutableState<TicketCr
 }
 
 @Composable
-internal fun BrigadeComponent(draft: DraftEntity, fields: MutableState<TicketCreateParams?>) {
+internal fun BrigadeComponent(draft: DraftEntity, fields: MutableState<TicketData?>) {
     val draftBrigade: MutableList<UserEntity?> = remember {
         draft.brigade?.toMutableStateList() ?: mutableStateListOf()
     }
@@ -213,8 +209,7 @@ internal fun PlaneDateComponent(draft: DraftEntity) {
         icon = com.example.core.R.drawable.ic_baseline_calendar_month_24
     ) {
         CustomSelectableText(
-            label = draftPlaneDate
-                .value?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+            label = draftPlaneDate.value?.time.toString(),
             nullLabel = "Выбрать плановую дату"
         ) { isDialogOpened.value = true }
     }
@@ -245,13 +240,13 @@ internal fun AutomaticFieldsTitleComponent() {
 
 @Composable
 internal fun StatusComponent(draft: DraftEntity) {
-    val draftStatus = remember { mutableStateOf(draft.draftStatus) }
+    val draftStatus = remember { mutableStateOf(draft.status) }
     TicketCreateItem(
         title = "Статус",
         icon = com.example.core.R.drawable.ic_baseline_playlist_add_check_24
     ) {
         CustomSelectableText(
-            label = draftStatus.value.title,
+            label = draftStatus.value?.name ?: "",
             nullLabel = "Выбрать статус"
         )
     }
