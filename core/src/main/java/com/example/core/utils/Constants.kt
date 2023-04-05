@@ -1,4 +1,4 @@
-package com.example.core.ui.utils
+package com.example.core.utils
 
 object Constants {
     const val DEBUG_MODE = true

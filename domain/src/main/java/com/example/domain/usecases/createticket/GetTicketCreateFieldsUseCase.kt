@@ -1,6 +1,6 @@
 package com.example.domain.usecases.createticket
 
-import com.example.core.ui.utils.Constants
+import com.example.core.utils.Constants
 import com.example.domain.data_classes.params.TicketCreateParams
 import com.example.domain.enums.*
 import com.example.domain.repositories.IFacilityRepository

@@ -15,16 +15,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
-import com.example.core.ui.utils.Debugger
-import com.example.core.ui.utils.ScreenPreview
+import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.home.ui.drafts.DraftsComponent
-import com.example.home.ui.home.components.list.TicketsListComponent
-import com.example.home.ui.home.components.top_bar.SearchComponent
+import com.example.home.ui.home.components.MenuTicketList
+import com.example.home.ui.home.components.MenuSearch
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -75,7 +74,7 @@ class Home {
                 backgroundColor = MaterialTheme.colors.background
             ) {
                 if (isSearchEnabled.value) {
-                    SearchComponent().Content(
+                    MenuSearch(
                         isSearchEnabled = isSearchEnabled,
                         textState = searchText,
                     )
@@ -138,7 +137,7 @@ class Home {
                 state = pagerState,
             ) {
                 if (it == 0) {
-                    TicketsListComponent().Content(
+                    MenuTicketList(
                         navController = navController,
                         authParams = authParams,
                         tickets = tickets,

@@ -1,12 +1,12 @@
-package com.example.signin
+package com.example.signin.ui
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.ui.utils.Constants
-import com.example.core.ui.utils.Debugger
+import com.example.core.utils.Constants
+import com.example.core.utils.Logger
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.ConnectionParams
@@ -93,10 +93,10 @@ class SignInViewModel @Inject constructor(
         }
 
         if (Constants.DEBUG_MODE) {
-            Debugger.Companion.printInfo("DEBUG MODE ENABLED")
+            Logger.Companion.log("DEBUG MODE ENABLED")
             signInOffline()
         } else {
-            Debugger.Companion.printInfo("Online sign in. IP:${Constants.URL}")
+            Logger.Companion.log("Online sign in. IP:${Constants.URL}")
             signInOnline(url = url, params = params)
         }
 
@@ -115,7 +115,7 @@ class SignInViewModel @Inject constructor(
                     signInErrors.value = listOf(SignInStates.WRONG_CREDENTIALS_FORMAT)
                 }
                 else -> {
-                    Debugger.Companion.printInfo("Response code in sign in - ${signInResult.first} (unhandled)")
+                    Logger.Companion.log("Response code in sign in - ${signInResult.first} (unhandled)")
                     signInErrors.value = listOf(SignInStates.NO_SERVER_CONNECTION)
                 }
             }

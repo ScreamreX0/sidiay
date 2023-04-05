@@ -1,9 +1,7 @@
 package com.example.domain.enums.states
 
-import com.example.core.R
-
-enum class ConnectionState(val nameId: Int?) {
-    ESTABLISHED(R.string.connection_established),
-    NOT_ESTABLISHED(R.string.connection_not_established),
+enum class ConnectionState(val title: String?) {
+    ESTABLISHED("Соединение установлено"),
+    NOT_ESTABLISHED("Соединение не установлено"),
     WAITING(null);
 }

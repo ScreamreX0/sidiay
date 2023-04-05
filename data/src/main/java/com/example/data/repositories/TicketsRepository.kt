@@ -1,6 +1,6 @@
 package com.example.data.repositories
 
-import com.example.core.ui.utils.Debugger
+import com.example.core.utils.Logger
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.KindEntity
@@ -15,9 +15,9 @@ class TicketsRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketsRepository {
     override suspend fun get(): Pair<Int, List<TicketEntity>?> {
-        Debugger.printInfo("Getting tickets from api")
+        Logger.log("Getting tickets from api")
         val result = apiService.getTickets()
-        Debugger.printInfo("Getting tickets success. Result code ${result.code()}")
+        Logger.log("Getting tickets success. Result code ${result.code()}")
         return Pair(result.code(), result.body())
     }
 
@@ -31,7 +31,7 @@ class TicketsRepository @Inject constructor(
     }
 
     override suspend fun add(ticketEntity: CreateTicketParams): Int {
-        Debugger.Companion.printInfo("Sending add ticket request")
+        Logger.Companion.log("Sending add ticket request")
         val body = HashMap<String, Any>()
 
         with(ticketEntity) {
@@ -51,7 +51,7 @@ class TicketsRepository @Inject constructor(
         }
 
         val response = apiService.addTicket(body)
-        Debugger.Companion.printInfo("Add ticket request was sent")
+        Logger.Companion.log("Add ticket request was sent")
 
         return response.code()
     }

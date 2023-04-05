@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.utils.ComponentPreview
+import com.example.core.utils.ComponentPreview
 import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketCreateParams

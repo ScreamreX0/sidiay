@@ -1,4 +1,4 @@
-package com.example.signin.ui.signin
+package com.example.signin.ui
 
 import android.net.Uri
 import android.widget.Toast
@@ -22,16 +22,20 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.utils.ScreenPreview
-import com.example.core.ui.utils.Variables
+import com.example.core.utils.Helper
+import com.example.core.utils.ScreenPreview
+import com.example.core.utils.Variables
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
-import com.example.signin.SignInViewModel
-import com.example.signin.ui.signin.components.*
-import com.example.signin.ui.signin.connections_dialog.ConnectionsDialog
+import com.example.signin.ui.components.*
+import com.example.signin.ui.components.CheckConnectionComponent
+import com.example.signin.ui.components.EnterComponent
+import com.example.signin.ui.components.OfflineModeComponent
+import com.example.signin.ui.components.PasswordComponent
+import com.example.signin.ui.components.TitleComponent
 import com.google.gson.Gson
 
 
@@ -42,9 +46,7 @@ internal class SignIn {
         signInViewModel: SignInViewModel = hiltViewModel(),
     ) {
         val darkMode = signInViewModel.darkMode
-        if (darkMode.value == null) {
-            return
-        }
+        if (darkMode.value == null) return
 
         val success = signInViewModel.signInSuccess
         val errors = signInViewModel.signInErrors
@@ -78,7 +80,6 @@ internal class SignIn {
         isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
         checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(ConnectionState.WAITING) },
         darkMode: MutableState<Boolean?> = remember { mutableStateOf(false) },
-
         checkConnectionFunction: suspend (url: String) -> Unit = {},
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
@@ -86,9 +87,8 @@ internal class SignIn {
         signInFunction: (String, String, String) -> Unit = { _, _, _ -> },
     ) {
         val context = LocalContext.current
-        val defaultConnection = stringResource(R.string.default_connection)
         val selectedConnection = remember {
-            mutableStateOf(ConnectionParams(defaultConnection, Variables.DEFAULT_CONNECTION_URL))
+            mutableStateOf(ConnectionParams("Стандартное соединение", Variables.DEFAULT_CONNECTION_URL))
         }
 
         ConstraintLayout(
@@ -118,28 +118,16 @@ internal class SignIn {
             }
             signInErrors.value.let {
                 if (it.contains(SignInStates.NO_SERVER_CONNECTION)) {
-                    Toast.makeText(
-                        context,
-                        stringResource(R.string.no_server_connection),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Helper.showShortToast(context, "Нет соединения с сервером")
                 } else if (it.contains(SignInStates.SHORT_OR_LONG_EMAIL)) {
-                    Toast.makeText(
-                        context,
-                        stringResource(R.string.short_or_long_email),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Helper.showShortToast(context, "Длина логина должна быть от 9 до 32 символов")
                 } else if (it.contains(SignInStates.SHORT_OR_LONG_PASSWORD)) {
-                    Toast.makeText(
-                        context,
-                        stringResource(R.string.short_or_long_password),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Helper.showShortToast(context, "Длина пароля должна быть от 6 до 32 символов")
                 }
             }
 
             // Dialog
-            ConnectionsDialog.ConnectionsDialogScreen(
+            ConnectionsDialog(
                 isDialogOpened = isConnectionDialogOpened,
                 selectedConnection = selectedConnection,
                 saveConnectionsFunction = saveConnectionsFunction,
@@ -148,20 +136,20 @@ internal class SignIn {
             )
 
             // Title
-            TitleComponent.Content(
+            TitleComponent(
                 modifier = Modifier.layoutId("titleComponentRef"),
                 changeUIMode = changeUIModeFunction
             )
 
             // Default connection button
-            ConnectionComponent.Content(
+            ConnectionComponent(
                 modifier = Modifier.layoutId("connectionComponentRef"),
                 isConnectionDialogOpened = isConnectionDialogOpened,
                 selectedConnection = selectedConnection
             )
 
             // Check connection
-            CheckConnectionComponent.Content(
+            CheckConnectionComponent(
                 modifier = Modifier.layoutId("checkConnectionComponentRef"),
                 selectedConnection = selectedConnection,
                 checkConnection = checkConnectionFunction,
@@ -170,14 +158,14 @@ internal class SignIn {
 
             // Email
             val email = remember { mutableStateOf("") }
-            EmailComponent.Content(
+            EmailComponent(
                 modifier = Modifier.layoutId("emailComponentRef"),
                 email = email
             )
 
             // Password
             val password = remember { mutableStateOf("") }
-            PasswordComponent.Content(
+            PasswordComponent(
                 modifier = Modifier.layoutId("passwordComponentRef"),
                 password = password,
             )
@@ -185,13 +173,13 @@ internal class SignIn {
             // Auto auth
             // TODO("Add auto auth function")
             val autoAuth = remember { mutableStateOf(false) }
-            AutoAuthComponent.Content(
+            AutoAuthComponent(
                 modifier = Modifier.layoutId("rememberComponentRef"),
                 autoAuth = autoAuth,
             )
 
             // Enter
-            EnterComponent.Content(
+            EnterComponent(
                 modifier = Modifier.layoutId("enterComponentRef"),
                 email = email,
                 password = password,
@@ -201,7 +189,7 @@ internal class SignIn {
 
             // Offline mode
             // TODO("Add offline mode function")
-            OfflineModeComponent.Content(
+            OfflineModeComponent(
                 navController = navController,
                 modifier = Modifier.layoutId("offlineComponentRef"),
             )

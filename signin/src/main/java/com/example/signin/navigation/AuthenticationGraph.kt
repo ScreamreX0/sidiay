@@ -1,13 +1,11 @@
 package com.example.signin.navigation
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.core.navigation.Graphs
-import com.example.signin.ui.signin.SignIn
+import com.example.signin.ui.SignIn
 
 fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {
     navigation(
