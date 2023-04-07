@@ -1,11 +1,13 @@
 package com.example.home.ui.home
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -15,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
+import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.enums.MainMenuTabEnum
@@ -40,6 +43,9 @@ class Home {
         paddingValues: PaddingValues = PaddingValues(),
         authParams: MutableState<AuthParams?> = remember { mutableStateOf(AuthParams()) },
     ) {
+        homeViewModel.getTickets(authParams.value?.connectionParams?.url)
+
+        val applicationReceivingErrors = homeViewModel.applicationReceivingErrors
         val tickets = homeViewModel.tickets
         val drafts = homeViewModel.drafts
 
@@ -52,6 +58,7 @@ class Home {
             authParams = authParams,
             tickets = tickets,
             drafts = drafts,
+            applicationReceivingErrors = applicationReceivingErrors,
         )
     }
 
@@ -65,8 +72,15 @@ class Home {
         drafts: MutableState<List<DraftEntity>> = remember { mutableStateOf(listOf()) },
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-        pagerState: PagerState = rememberPagerState()
+        applicationReceivingErrors: MutableState<String?> = remember { mutableStateOf("") },
+        pagerState: PagerState = rememberPagerState(),
+        context: Context = LocalContext.current,
     ) {
+        // Observers
+        applicationReceivingErrors.value?.let {
+            Helper.showShortToast(context = context, text = it)
+        }
+
         Column(modifier = modifier.fillMaxSize()) {
             // App bar
             TopAppBar(

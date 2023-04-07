@@ -18,10 +18,10 @@ class AuthRepository @Inject constructor(
         }
 
     override suspend fun signIn(url: String, credentials: Credentials): Pair<Int, UserEntity?> {
-        Logger.log("Sending sign in request")
+        Logger.m("Sending sign in request")
 
         val response = apiService.signIn(url, credentials)
-        Logger.log("Sign in request was sent")
+        Logger.m("Sign in request was sent")
 
         return Pair(response.code(), response.body())
     }

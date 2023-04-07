@@ -3,8 +3,8 @@ package com.example.home.ui.home
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.DraftEntity
-import com.example.domain.enums.states.TicketCreateStates
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.usecases.home.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,58 +16,36 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase,
-    //private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     var tickets = mutableStateOf<List<TicketEntity>>(listOf())
     var drafts = mutableStateOf<List<DraftEntity>>(listOf())
-//
-//    var filterList: ArrayList<TicketEntity> = arrayListOf()
-//    var searchList: ArrayList<TicketEntity> = arrayListOf()
-//    var filterSearchList: ArrayList<TicketEntity> = arrayListOf()
-//
-    var errorResult = mutableStateOf<List<TicketCreateStates>>(listOf())
-//
-//    // FILTER
-//    val priorities: ArrayList<TicketPriorityEnum> =
-//        TicketPriorityEnum.values().toList() as ArrayList<TicketPriorityEnum>
-//    val checkedPriorities: BooleanArray = getBooleanArray(priorities)
-//
-//    val periods: ArrayList<TicketPeriodEnum> =
-//        TicketPeriodEnum.values().toList() as ArrayList<TicketPeriodEnum>
-//    val checkedPeriods: BooleanArray = getBooleanArray(periods)
-//
-//    val kinds: ArrayList<TicketKindEnum> =
-//        TicketKindEnum.values().toList() as ArrayList<TicketKindEnum>
-//    val checkedKinds: BooleanArray = getBooleanArray(kinds)
-//
-//    val services: ArrayList<TicketServiceEnum> =
-//        TicketServiceEnum.values().toList() as ArrayList<TicketServiceEnum>
-//    val checkedServices: BooleanArray = getBooleanArray(services)
-//
-//    val statuses: ArrayList<TicketStatusEnum> =
-//        TicketStatusEnum.values().toList() as ArrayList<TicketStatusEnum>
-//    val checkedStatuses: BooleanArray = getBooleanArray(statuses)
+    var applicationReceivingErrors = mutableStateOf<String?>(null)
 
-//    private val name: String? = savedStateHandle["userName"]
-//    fun testGettingsArgs() {
-//        println(name)
-//        name?.let {
-//            Debugger.printInfo(it)
-//        }
-//    }
+    fun getTickets(url: String?) {
+        Logger.m("Check network mode...")
+        url?.let { itUrl ->
+            viewModelScope.launch(getTicketsHandler()) {
+                Logger.m("Getting tickets online...")
+                val result = getTicketsUseCase.execute(itUrl)
 
-    init {
-        viewModelScope.launch(getTicketsHandler()) {
-            getTicketsUseCase.execute().second?.let {
-                tickets.value = it
+                result.first?.let {
+                    Logger.m("Tickets received.")
+                    tickets.value = it
+                } ?: run {
+                    Logger.e("Tickets receiving error.")
+                    applicationReceivingErrors.value = result.second
+                }
             }
+        } ?: run {
+            Logger.m("Getting tickets offline...")
+            // TODO("Add handler if url is null")
         }
     }
 
     private fun getTicketsHandler(): CoroutineExceptionHandler {
         return CoroutineExceptionHandler { _, throwable ->
             if (throwable::class == ConnectException::class) {
-                this.errorResult.value = listOf(TicketCreateStates.NO_SERVER_CONNECTION)
+                applicationReceivingErrors.value = "Нет подключения к сети"
             }
         }
     }

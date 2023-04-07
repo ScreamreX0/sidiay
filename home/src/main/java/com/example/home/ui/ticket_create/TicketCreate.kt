@@ -38,11 +38,7 @@ class TicketCreate {
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
         draft: DraftEntity = remember { DraftEntity() },
     ) {
-        if (authParams.onlineMode) {
-            ticketCreateViewModel.initFields()
-        } else {
-            ticketCreateViewModel.offlineInitFields()
-        }
+        ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
 
         Content(
             navController = navController,
@@ -98,7 +94,7 @@ class TicketCreate {
                 Text(
                     modifier = Modifier.layoutId("centralMiddleRef"),
                     color = MaterialTheme.colors.primary,
-                    text = if (authParams.onlineMode) {
+                    text = if (authParams.connectionParams != null) {
                         "Нет подключения к интернету.\nВойдите в автономный режим"
                     } else {
                         "Нет данных для автономного режима.\nНужно хотя-бы раз войти в онлайн режим"

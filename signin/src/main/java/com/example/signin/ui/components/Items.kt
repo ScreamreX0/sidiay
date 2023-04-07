@@ -1,5 +1,6 @@
 package com.example.signin.ui.components
 
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -33,8 +34,10 @@ import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.Helper
+import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.enums.states.ConnectionState
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @Composable
@@ -191,7 +194,8 @@ internal fun OfflineModeComponent(
                 indication = null
             ) {
                 navController.popBackStack()
-                navController.navigate(Graphs.MAIN_MENU)
+                val authParams = Uri.encode(Gson().toJson(AuthParams()))
+                navController.navigate(route = "${Graphs.MAIN_MENU}/$authParams",)
             },
         text = "Автономный режим",
         color = MaterialTheme.colors.onBackground,

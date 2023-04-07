@@ -42,7 +42,7 @@ class SignInViewModel @Inject constructor(
     internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
 
     internal var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
-    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity())
+    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(id = -1))
 
     init {
         viewModelScope.launch { updateConnectionsVar() }
@@ -83,7 +83,6 @@ class SignInViewModel @Inject constructor(
             connectionsDataStore.getConnections.first() as List<ConnectionParams>
     }
 
-    /** SignIn */
     internal fun signIn(url: String, email: String, password: String) {
         val params = Credentials(email, password)
         val result = checkFieldsUseCase.execute(params = params)
@@ -93,10 +92,10 @@ class SignInViewModel @Inject constructor(
         }
 
         if (Constants.DEBUG_MODE) {
-            Logger.Companion.log("DEBUG MODE ENABLED")
+            Logger.Companion.m("DEBUG MODE ENABLED")
             signInOffline()
         } else {
-            Logger.Companion.log("Online sign in. IP:${Constants.URL}")
+            Logger.Companion.m("Online sign in. IP:${Constants.URL}")
             signInOnline(url = url, params = params)
         }
 
@@ -115,7 +114,7 @@ class SignInViewModel @Inject constructor(
                     signInErrors.value = listOf(SignInStates.WRONG_CREDENTIALS_FORMAT)
                 }
                 else -> {
-                    Logger.Companion.log("Response code in sign in - ${signInResult.first} (unhandled)")
+                    Logger.Companion.m("Response code in sign in - ${signInResult.first} (unhandled)")
                     signInErrors.value = listOf(SignInStates.NO_SERVER_CONNECTION)
                 }
             }
@@ -123,7 +122,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun signInOffline() {
-        signInSuccess.value = UserEntity(id = 1)
+        signInSuccess.value = UserEntity(id = 0)
     }
 
     private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->

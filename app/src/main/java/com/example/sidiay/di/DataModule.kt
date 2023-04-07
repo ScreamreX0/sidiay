@@ -3,14 +3,13 @@ package com.example.sidiay.di
 import android.content.Context
 import com.example.data.network.api.ApiService
 import com.example.data.repositories.TicketsRepository
-import com.example.data.repositories.UserRepository
 import com.example.domain.repositories.ITicketsRepository
-import com.example.domain.repositories.IUserRepository
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
 import com.example.data.repositories.AuthRepository
+import com.example.data.repositories.TicketDataRepository
 import com.example.domain.repositories.IAuthRepository
-import com.example.domain.repositories.IFacilityRepository
+import com.example.domain.repositories.ITicketDataRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,9 +23,9 @@ class DataModule {
     @Provides
     fun provideAuthRepository(apiService: ApiService): IAuthRepository = AuthRepository(apiService)
     @Provides
-    fun provideUserRepository(apiService: ApiService): IUserRepository = UserRepository(apiService)
-    @Provides
     fun provideTicketRepository(apiService: ApiService): ITicketsRepository = TicketsRepository(apiService)
+    @Provides
+    fun provideTicketDataRepository(apiService: ApiService): ITicketDataRepository = TicketDataRepository(apiService)
 
     // Datastores
     @Provides

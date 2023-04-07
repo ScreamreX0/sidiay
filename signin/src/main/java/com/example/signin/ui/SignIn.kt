@@ -1,7 +1,6 @@
 package com.example.signin.ui
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -19,7 +17,6 @@ import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.core.R
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.Helper
@@ -75,7 +72,7 @@ internal class SignIn {
     fun Content(
         navController: NavHostController = rememberNavController(),
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
-        signInSuccess: MutableState<UserEntity> = remember { mutableStateOf(UserEntity()) },
+        signInSuccess: MutableState<UserEntity> = remember { mutableStateOf(UserEntity(id = 0)) },
         signInErrors: MutableState<List<SignInStates>> = remember { mutableStateOf(listOf()) },
         isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
         checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(ConnectionState.WAITING) },
@@ -104,7 +101,7 @@ internal class SignIn {
                             Gson().toJson(
                                 AuthParams(
                                     user = it,
-                                    url = selectedConnection.value,
+                                    connectionParams = selectedConnection.value,
                                     darkMode = darkMode.value,
                                 )
                             )
@@ -188,12 +185,10 @@ internal class SignIn {
             )
 
             // Offline mode
-            // TODO("Add offline mode function")
             OfflineModeComponent(
                 navController = navController,
                 modifier = Modifier.layoutId("offlineComponentRef"),
             )
-
         }
     }
 
