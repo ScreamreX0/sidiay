@@ -1,4 +1,4 @@
-package com.example.home.ui.ticket_create.components
+package com.example.home.ui.common.components
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,163 +28,7 @@ import com.example.domain.data_classes.entities.*
 import com.example.domain.data_classes.params.TicketData
 
 @Composable
-internal fun ExecutorDialog(
-    scrollState: ScrollState,
-    isDialogOpened: MutableState<Boolean>,
-    fields: MutableState<TicketData?>,
-    draftExecutor: MutableState<UserEntity?>,
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите сотрудника",
-        scrollState = scrollState,
-        fields = fields.value?.users,
-        predicate = {
-            it.employee?.name?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.firstname?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.lastname?.contains(searchTextState.value.text, true) ?: false
-        },
-        listItem = {
-            ListElement(title = it.getFullName() ?: "[ФИО]") {
-                draftExecutor.value = it
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-}
-
-@Composable
-internal fun PriorityDialog(
-    scrollState: ScrollState,
-    isDialogOpened: MutableState<Boolean>,
-    fields: MutableState<TicketData?>,
-    draftPriority: MutableState<PriorityEntity?>,
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите приоритет",
-        scrollState = scrollState,
-        fields = fields.value?.priorities,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                draftPriority.value = it
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-}
-
-@Composable
-internal fun KindDialog(
-    scrollState: ScrollState,
-    isDialogOpened: MutableState<Boolean>,
-    fields: MutableState<TicketData?>,
-    draftKinds: MutableState<KindEntity?>,
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите вид",
-        scrollState = scrollState,
-        fields = fields.value?.kinds,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                draftKinds.value = it
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-}
-
-@Composable
-internal fun ServiceDialog(
-    scrollState: ScrollState,
-    isDialogOpened: MutableState<Boolean>,
-    fields: MutableState<TicketData?>,
-    draftService: MutableState<ServiceEntity?>,
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите сервис",
-        scrollState = scrollState,
-        fields = fields.value?.services,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                draftService.value = it
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-}
-
-@Composable
-internal fun BrigadeDialog(
-    scrollState: ScrollState,
-    isDialogOpened: MutableState<Boolean>,
-    fields: MutableState<TicketData?>,
-    draftBrigade: MutableList<UserEntity?>,
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите сотрудника",
-        scrollState = scrollState,
-        fields = fields.value?.users,
-        predicate = {
-            it.employee?.name?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.firstname?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.lastname?.contains(searchTextState.value.text, true) ?: false
-        },
-        listItem = {
-            ListElement(title = it.getFullName() ?: "[ФИО]") {
-                if (!draftBrigade.contains(it)) {
-                    draftBrigade.add(it)
-                }
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-}
-
-@Composable
-internal fun FacilitiesDialog(
-    scrollState: ScrollState,
-    isDialogOpened: MutableState<Boolean>,
-    fields: MutableState<TicketData?>,
-    draftFacilities: MutableList<FacilityEntity?>,
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите объект",
-        scrollState = scrollState,
-        fields = fields.value?.facilities,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                if (!draftFacilities.contains(it)) {
-                    draftFacilities.add(it)
-                }
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-}
-
-@Composable
-private fun <T> CustomDialog(
+internal fun <T> CustomDialog(
     isDialogOpened: MutableState<Boolean>,
     topAppBarTitle: String,
     isSearchSelected: MutableState<Boolean> = remember { mutableStateOf(false) },
@@ -293,7 +137,7 @@ private fun <T> CustomDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (isSearchSelected.value) {
-                    fields?.filter(predicate)?.forEach { listItem(it) }
+                    fields?.filter(predicate)?.forEach { listItem(it, ) }
                 } else {
                     fields?.forEach { listItem(it) }
                 }
@@ -328,7 +172,7 @@ private fun <T> CustomDialog(
 }
 
 @Composable
-private fun ListElement(title: String, onClick: () -> Unit) {
+internal fun ListElement(title: String, onClick: () -> Unit) {
     Text(
         modifier = Modifier
             .padding(bottom = 10.dp)
@@ -349,25 +193,4 @@ private fun CustomDivider() {
             .width(250.dp)
             .background(MaterialTheme.colors.onBackground)
     ) {}
-}
-
-@Composable
-@ComponentPreview
-private fun Preview() {
-    val params = TicketData(
-        facilities = List(30) {
-            FacilityEntity(
-                it.toLong(),
-                it.toString()
-            )
-        }
-    )
-    AppTheme(isSystemInDarkTheme()) {
-        FacilitiesDialog(
-            rememberScrollState(),
-            remember { mutableStateOf(true) },
-            remember { mutableStateOf(params) },
-            remember { mutableListOf() }
-        )
-    }
 }

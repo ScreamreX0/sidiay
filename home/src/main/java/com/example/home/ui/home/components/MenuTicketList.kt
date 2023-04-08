@@ -40,6 +40,7 @@ import com.example.core.utils.ComponentPreview
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
+import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun MenuTicketList(
@@ -160,7 +161,8 @@ private fun MenuTicketListItem(
             ItemText(
                 modifier = Modifier.layoutId("dateRef"),
                 context = context,
-                text = ticket.plane_date?.time?.toString() ?: "[Плановая дата не назначена]",
+                text = ticket.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    ?: "[Плановая дата не назначена]",
                 hint = "Плановая дата заявки",
                 circleColor = circleColor,
                 textColor = textColor,

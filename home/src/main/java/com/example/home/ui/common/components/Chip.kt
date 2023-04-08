@@ -1,4 +1,4 @@
-package com.example.home.ui.ticket_create.components
+package com.example.home.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +19,7 @@ import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 internal fun CustomChipRow(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     addingChipTitle: String,
     isDialogOpened: MutableState<Boolean>,
     chips: @Composable () -> Unit,

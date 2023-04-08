@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TicketCreateViewModel @Inject constructor(
-    private val getTicketCreateFieldsUseCase: GetTicketDataUseCase,
+    private val getTicketDataUseCase: GetTicketDataUseCase,
     private val saveTicketUseCase: SaveTicketUseCase,
     private val validateTicketUseCase: ValidateTicketUseCase,
 ) : ViewModel() {
@@ -36,7 +36,7 @@ class TicketCreateViewModel @Inject constructor(
             viewModelScope.launch(getCoroutineHandler()) {
                 Logger.m("Getting tickets' fields online...")
                 fieldsLoadingState.value = LoadingState.LOADING
-                val result = getTicketCreateFieldsUseCase.execute(it)
+                val result = getTicketDataUseCase.execute(it)
 
                 result.first?.let { itData ->
                     Logger.m("Tickets' fields received.")
@@ -51,6 +51,7 @@ class TicketCreateViewModel @Inject constructor(
             viewModelScope.launch {
                 Logger.m("Getting tickets' fields offline...")
                 fieldsLoadingState.value = LoadingState.LOADING
+
                 fieldsLoadingState.value = LoadingState.DONE
                 // TODO("Add load tickets offline")
             }

@@ -7,6 +7,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class AuthParams(
     val user: UserEntity? = null,
-    val connectionParams: ConnectionParams? = null,  // url for network requests
-    val darkMode: Boolean? = false,  // false - light mode; true - dark mode
+    val connectionParams: ConnectionParams? = null,
+    val darkMode: Boolean? = false,
 ) : Parcelable

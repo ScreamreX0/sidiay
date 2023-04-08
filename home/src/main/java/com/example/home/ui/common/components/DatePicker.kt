@@ -1,4 +1,4 @@
-package com.example.home.ui.ticket_create.components
+package com.example.home.ui.common.components
 
 import android.widget.CalendarView
 import androidx.compose.foundation.background
@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.domain.data_classes.entities.DraftEntity
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -24,13 +26,12 @@ import java.util.*
 
 @Composable
 internal fun CustomDatePicker(
-    date: MutableState<Date?>,
+    date: LocalDate,
     isDialogOpened: MutableState<Boolean>,
+    onConfirm: (date: LocalDate) -> Unit
 ) {
-    if (!isDialogOpened.value) {
-        return
-    }
-    val selectedDate = remember { mutableStateOf(date.value) }
+    if (!isDialogOpened.value) return
+    val selectedDate = remember { mutableStateOf(date) }
     Dialog(
         onDismissRequest = { isDialogOpened.value = false },
         properties = DialogProperties()
@@ -65,7 +66,8 @@ internal fun CustomDatePicker(
                 Spacer(modifier = Modifier.size(20.dp))
 
                 Text(
-                    text = selectedDate.value.toString(),
+                    text = selectedDate.value.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                        ?: run { "Выбрать дату" },
                     style = MaterialTheme.typography.h4,
                     color = MaterialTheme.colors.onPrimary
                 )
@@ -100,7 +102,7 @@ internal fun CustomDatePicker(
                 Text(
                     modifier = Modifier
                         .clickable {
-                            date.value = selectedDate.value
+                            onConfirm(selectedDate.value)
                             isDialogOpened.value = false
                         },
                     text = "OK",
@@ -114,17 +116,21 @@ internal fun CustomDatePicker(
 }
 
 @Composable
-private fun CustomCalendar(onDateSelected: (Date) -> Unit) {
+private fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
     AndroidView(
         modifier = Modifier.wrapContentSize(),
         factory = { CalendarView(it) },
         update = {
             it.minDate = System.currentTimeMillis()
-            it.maxDate =
-                System.currentTimeMillis() + 31536000000L  // 31B milliseconds is 1 year
-
+            it.maxDate = System.currentTimeMillis() + 31536000000L  // 31B milliseconds is 1 year
             it.setOnDateChangeListener { _, year, month, dayOfMonth ->
-                onDateSelected(Date())
+                onDateSelected(
+                    LocalDate
+                        .now()
+                        .withMonth(month + 1)
+                        .withYear(year)
+                        .withDayOfMonth(dayOfMonth)
+                )
             }
         }
     )

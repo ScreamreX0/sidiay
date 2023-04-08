@@ -3,6 +3,7 @@ package com.example.domain.data_classes.entities
 import android.os.Parcelable
 import com.example.domain.enums.TicketStatuses
 import kotlinx.parcelize.Parcelize
+import java.time.LocalDate
 import java.util.Date
 
 @Parcelize
@@ -17,9 +18,9 @@ data class TicketEntity constructor (
     var transport: List<TransportEntity>? = null,
     var facilities: List<FacilityEntity>? = null,
     var equipment: List<EquipmentEntity>? = null,
-    var plane_date: Date? = null,
-    var expiration_date: Date? = null,
-    var creation_date: Date? = null,
+    var plane_date: LocalDate? = null,
+    var expiration_date: LocalDate? = null,
+    var creation_date: LocalDate? = null,
     var completed_work: String? = null,
     var description: String? = null,
     var name: String? = null,

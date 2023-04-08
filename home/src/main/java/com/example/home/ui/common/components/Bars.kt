@@ -1,11 +1,9 @@
-package com.example.home.ui.ticket_create.components
+package com.example.home.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -13,15 +11,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.BottomBarNav
+import com.example.core.ui.components.CustomAlertDialog
+import com.example.core.utils.Logger
+import com.example.domain.data_classes.entities.DraftEntity
 
 @Composable
 internal fun CustomBottomBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    draft: MutableState<DraftEntity>
 ) {
     /** Bottom app bar */
     Row(modifier = modifier.height(50.dp)) {
@@ -56,6 +59,9 @@ internal fun CustomBottomBar(
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
+                modifier = Modifier.clickable {
+                    // TODO
+                },
                 text = "Отмена",
                 color = MaterialTheme.colors.onPrimary
             )
@@ -67,7 +73,9 @@ internal fun CustomBottomBar(
 internal fun CustomTopBar(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) }
+    iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
+    clearFieldsDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
+    draft: MutableState<DraftEntity>
 ) {
     Row(
         modifier = modifier
@@ -79,7 +87,7 @@ internal fun CustomTopBar(
             modifier = Modifier
                 .padding(start = 15.dp)
                 .fillMaxHeight()
-                .width(45.dp)
+                .width(30.dp)
                 .clickable {
                     navController.popBackStack(
                         route = BottomBarNav.Home.route,
@@ -107,12 +115,38 @@ internal fun CustomTopBar(
                     modifier = Modifier
                         .padding(end = 30.dp)
                         .fillMaxHeight()
-                        .width(30.dp),
+                        .width(30.dp)
+                        .clickable { clearFieldsDialogOpened.value = true },
                     painter = painterResource(id = R.drawable.baseline_format_clear_24),
                     contentDescription = "Clear all fields",
                     tint = MaterialTheme.colors.onPrimary,
                 )
             }
         }
+
+        if (clearFieldsDialogOpened.value) {
+            CustomAlertDialog(
+                title = "Вы уверены, что хотите очистить все поля?",
+                isDialogOpened = clearFieldsDialogOpened,
+                onConfirm = {
+                    draft.value = draft.value.copy(
+                        name = null,
+                        facilities = null,
+                        service = null,
+                        kind = null,
+                        plane_date = null,
+                        priority = null,
+                        executor = null
+                    )
+                    clearFieldsDialogOpened.value = false
+                }
+            )
+        }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    CustomTopBar(draft = remember { mutableStateOf(DraftEntity()) })
 }
