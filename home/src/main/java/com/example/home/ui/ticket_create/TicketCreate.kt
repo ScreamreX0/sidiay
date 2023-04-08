@@ -22,6 +22,7 @@ import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.core.R
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.Constants
 import com.example.domain.data_classes.entities.DraftEntity
@@ -30,7 +31,9 @@ import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.CustomBottomBar
+import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.CustomTopBar
+import com.example.home.ui.common.components.ListElement
 
 
 class TicketCreate {
@@ -123,7 +126,7 @@ class TicketCreate {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 NameField(draft = draft)
-                FacilitiesField(draft = draft, ticketData = ticketData, starred = true)
+                FacilitiesField(ticketData = ticketData, draft = draft)
                 ServiceField(draft = draft, ticketData = ticketData, starred = true)
                 KindField(draft = draft, ticketData = ticketData, starred = true)
                 PlaneDateField(draft = draft, starred = true)
@@ -172,7 +175,6 @@ class TicketCreate {
             linkTo(parent.top, parent.bottom, bias = 0.5F)
         }
     }
-
 
     @Composable
     @Preview(heightDp = 1100)

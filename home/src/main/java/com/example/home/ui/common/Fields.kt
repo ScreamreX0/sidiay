@@ -12,7 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.core.R
 import com.example.domain.data_classes.entities.*
 import com.example.domain.data_classes.params.AuthParams
@@ -23,20 +22,17 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun FacilitiesField(
-    draft: MutableState<DraftEntity>,
     ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    scrollState: ScrollState = rememberScrollState(),
-    starred: Boolean = remember { false }
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
 ) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите объект",
-        scrollState = scrollState,
-        fields = ticketData.value?.facilities,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
+    CustomChipRowField(
+        dialogTitle = "Выберите объект",
+        ticketData = ticketData.value?.facilities,
+        predicate = { it, searchTextState ->
+            it.name?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
             ListElement(title = it.name ?: "") {
                 if (draft.value.facilities?.contains(it) != true) {
                     draft.value = draft.value.copy(
@@ -46,18 +42,10 @@ internal fun FacilitiesField(
                 isDialogOpened.value = false
             }
         },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
         title = "Объекты",
         icon = R.drawable.baseline_oil_barrel_24,
-        starred = starred
-    ) {
-        CustomChipRow(
-            modifier = Modifier,
-            addingChipTitle = "Добавить объекты",
-            isDialogOpened = isDialogOpened
-        ) {
+        addingChipTitle = "Добавить объекты",
+        chips = {
             draft.value.facilities?.forEach {
                 CustomChip(title = it.name ?: "") {
                     draft.value = draft.value.copy(
@@ -65,26 +53,24 @@ internal fun FacilitiesField(
                     )
                 }
             }
-        }
-    }
+        },
+        starred = starred
+    )
 }
 
 @Composable
 internal fun EquipmentField(
-    draft: MutableState<DraftEntity>,
     ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    scrollState: ScrollState = rememberScrollState(),
-    starred: Boolean = remember { false }
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
 ) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите оборудование",
-        scrollState = scrollState,
-        fields = ticketData.value?.equipment,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
+    CustomChipRowField(
+        dialogTitle = "Выберите оборудование",
+        ticketData = ticketData.value?.equipment,
+        predicate = { it, searchTextState ->
+            it.name?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
             ListElement(title = it.name ?: "") {
                 if (draft.value.equipment?.contains(it) != true) {
                     draft.value = draft.value.copy(
@@ -94,18 +80,10 @@ internal fun EquipmentField(
                 isDialogOpened.value = false
             }
         },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
         title = "Оборудование",
         icon = R.drawable.baseline_computer_24,
-        starred = starred
-    ) {
-        CustomChipRow(
-            modifier = Modifier,
-            addingChipTitle = "Добавить оборудование",
-            isDialogOpened = isDialogOpened,
-        ) {
+        addingChipTitle = "Добавить оборудование",
+        chips = {
             draft.value.equipment?.forEach {
                 CustomChip(title = it.name ?: "") {
                     draft.value = draft.value.copy(
@@ -113,26 +91,25 @@ internal fun EquipmentField(
                     )
                 }
             }
-        }
-    }
+        },
+        starred = starred
+    )
 }
+
 
 @Composable
 internal fun TransportField(
-    draft: MutableState<DraftEntity>,
     ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    scrollState: ScrollState = rememberScrollState(),
-    starred: Boolean = remember { false }
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
 ) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите транспорт",
-        scrollState = scrollState,
-        fields = ticketData.value?.transport,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
+    CustomChipRowField(
+        dialogTitle = "Выберите транспорт",
+        ticketData = ticketData.value?.transport,
+        predicate = { it, searchTextState ->
+            it.name?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
             ListElement(title = it.name ?: "") {
                 if (draft.value.transport?.contains(it) != true) {
                     draft.value = draft.value.copy(
@@ -142,18 +119,10 @@ internal fun TransportField(
                 isDialogOpened.value = false
             }
         },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
         title = "Транспорт",
-        icon = R.drawable.baseline_directions_car_24,
-        starred = starred
-    ) {
-        CustomChipRow(
-            modifier = Modifier,
-            addingChipTitle = "Добавить транспорт",
-            isDialogOpened = isDialogOpened
-        ) {
+        icon = R.drawable.baseline_oil_barrel_24,
+        addingChipTitle = "Добавить транспорт",
+        chips = {
             draft.value.transport?.forEach {
                 CustomChip(title = it.name ?: "") {
                     draft.value = draft.value.copy(
@@ -161,189 +130,26 @@ internal fun TransportField(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-internal fun ServiceField(
-    draft: MutableState<DraftEntity>,
-    ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    scrollState: ScrollState = rememberScrollState(),
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    starred: Boolean = remember { false }
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите сервис",
-        scrollState = scrollState,
-        fields = ticketData.value?.services,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                draft.value = draft.value.copy(service = it)
-                isDialogOpened.value = false
-            }
         },
-        searchTextState = searchTextState,
+        starred = starred
     )
-    TicketCreateItem(
-        title = "Сервисы",
-        icon = R.drawable.ic_baseline_miscellaneous_services_24,
-        starred = starred
-    ) {
-        CustomSelectableText(
-            nullLabel = "Выбрать сервис",
-            label = draft.value.service?.name
-        ) { isDialogOpened.value = true }
-    }
-}
-
-@Composable
-internal fun KindField(
-    draft: MutableState<DraftEntity>,
-    ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    scrollState: ScrollState = rememberScrollState(),
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    starred: Boolean = remember { false }
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите вид",
-        scrollState = scrollState,
-        fields = ticketData.value?.kinds,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                draft.value = draft.value.copy(kind = it)
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
-        title = "Вид",
-        icon = R.drawable.baseline_format_list_bulleted_24,
-        starred = starred
-    ) {
-        CustomSelectableText(
-            label = draft.value.kind?.name,
-            nullLabel = "Выбрать вид"
-        ) { isDialogOpened.value = true }
-    }
-}
-
-@Composable
-internal fun PriorityField(
-    draft: MutableState<DraftEntity>,
-    ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    scrollState: ScrollState = rememberScrollState(),
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    starred: Boolean = remember { false }
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите приоритет",
-        scrollState = scrollState,
-        fields = ticketData.value?.priorities,
-        predicate = { it.name?.contains(searchTextState.value.text, true) ?: false },
-        listItem = {
-            ListElement(title = it.name ?: "") {
-                draft.value = draft.value.copy(priority = it)
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
-        title = "Приоритет",
-        icon = R.drawable.baseline_priority_high_24,
-        starred = starred
-    ) {
-        CustomSelectableText(
-            label = draft.value.priority?.name,
-            nullLabel = "Выбрать приоритет",
-        ) { isDialogOpened.value = true }
-    }
-}
-
-@Composable
-internal fun NameField(draft: MutableState<DraftEntity>, starred: Boolean = remember { false }) {
-    TicketCreateItem(
-        title = "Название",
-        icon = R.drawable.baseline_title_24,
-        starred = starred
-    ) {
-        CustomTextField(
-            text = draft.value.name,
-            onValueChange = { draft.value = draft.value.copy(name = it) },
-            hint = "Ввести название"
-        )
-    }
-}
-
-@Composable
-internal fun ExecutorField(
-    draft: MutableState<DraftEntity>,
-    ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    scrollState: ScrollState = rememberScrollState(),
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    starred: Boolean = remember { false }
-) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите сотрудника",
-        scrollState = scrollState,
-        fields = ticketData.value?.users,
-        predicate = {
-            it.employee?.name?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.firstname?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.lastname?.contains(searchTextState.value.text, true) ?: false
-        },
-        listItem = {
-            ListElement(title = it.getFullName() ?: "[ФИО]") {
-                draft.value = draft.value.copy(executor = it)
-                isDialogOpened.value = false
-            }
-        },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
-        title = "Исполнитель",
-        icon = R.drawable.ic_baseline_person_24,
-        starred = starred
-    ) {
-        CustomSelectableText(
-            label = draft.value.executor?.getFullName(),
-            nullLabel = "Выбрать исполнителя"
-        ) { isDialogOpened.value = true }
-    }
 }
 
 @Composable
 internal fun BrigadeField(
-    draft: MutableState<DraftEntity>,
     ticketData: MutableState<TicketData?>,
-    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    scrollState: ScrollState = rememberScrollState(),
-    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    starred: Boolean = remember { false }
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
 ) {
-    CustomDialog(
-        isDialogOpened = isDialogOpened,
-        topAppBarTitle = "Выберите сотрудника",
-        scrollState = scrollState,
-        fields = ticketData.value?.users,
-        predicate = {
-            it.employee?.name?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.firstname?.contains(searchTextState.value.text, true) ?: false
-                    || it.employee?.lastname?.contains(searchTextState.value.text, true) ?: false
+    CustomChipRowField(
+        dialogTitle = "Выберите сотрудника",
+        ticketData = ticketData.value?.users,
+        predicate = { it, searchTextState ->
+            it.employee?.name?.contains(searchTextState.text, true) ?: false
+                    || it.employee?.firstname?.contains(searchTextState.text, true) ?: false
+                    || it.employee?.lastname?.contains(searchTextState.text, true) ?: false
         },
-        listItem = {
+        listItem = { it, isDialogOpened ->
             ListElement(title = it.getFullName() ?: "[ФИО]") {
                 if (draft.value.brigade?.contains(it) != true) {
                     draft.value = draft.value.copy(
@@ -353,18 +159,10 @@ internal fun BrigadeField(
                 isDialogOpened.value = false
             }
         },
-        searchTextState = searchTextState,
-    )
-    TicketCreateItem(
         title = "Бригада",
         icon = R.drawable.baseline_people_24,
-        starred = starred
-    ) {
-        CustomChipRow(
-            modifier = Modifier,
-            addingChipTitle = "Добавить сотрудников",
-            isDialogOpened = isDialogOpened
-        ) {
+        addingChipTitle = "Добавить сотрудников",
+        chips = {
             draft.value.brigade?.forEach {
                 CustomChip(title = it.getFullName() ?: "") {
                     draft.value = draft.value.copy(
@@ -372,76 +170,332 @@ internal fun BrigadeField(
                     )
                 }
             }
-        }
-    }
+        },
+        starred = starred
+    )
+}
+
+@Composable
+internal fun NameField(draft: MutableState<DraftEntity>, starred: Boolean = false) {
+    CustomTextField(
+        title = "Название",
+        icon = R.drawable.baseline_title_24,
+        text = draft.value.name,
+        onValueChange = { draft.value = draft.value.copy(name = it) },
+        textFieldHint = "Ввести название",
+        starred = starred
+    )
+}
+
+@Composable
+internal fun DescriptionField(draft: MutableState<DraftEntity>, starred: Boolean = false) {
+    CustomTextField(
+        title = "Описание",
+        icon = R.drawable.baseline_text_format_24,
+        text = draft.value.description,
+        onValueChange = { draft.value = draft.value.copy(description = it) },
+        textFieldHint = draft.value.description ?: "Ввести описание",
+        starred = starred
+    )
+}
+
+@Composable
+internal fun ServiceField(
+    ticketData: MutableState<TicketData?>,
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
+) {
+    CustomClickableField(
+        dialogTitle = "Выберите сервис",
+        ticketData = ticketData.value?.services,
+        predicate = { it, searchTextState ->
+            it.name?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
+            ListElement(title = it.name ?: "") {
+                draft.value = draft.value.copy(service = it)
+                isDialogOpened.value = false
+            }
+        },
+        title = "Сервисы",
+        textIfLabelIsNull = "Выбрать сервис",
+        label = draft.value.service?.name,
+        icon = R.drawable.baseline_format_list_bulleted_24,
+        starred = starred
+    )
+}
+
+@Composable
+internal fun KindField(
+    ticketData: MutableState<TicketData?>,
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
+) {
+    CustomClickableField(
+        dialogTitle = "Выберите вид",
+        ticketData = ticketData.value?.kinds,
+        predicate = { it, searchTextState ->
+            it.name?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
+            ListElement(title = it.name ?: "") {
+                draft.value = draft.value.copy(kind = it)
+                isDialogOpened.value = false
+            }
+        },
+        title = "Вид",
+        textIfLabelIsNull = "Выбрать вид",
+        label = draft.value.kind?.name,
+        icon = R.drawable.baseline_format_list_bulleted_24,
+        starred = starred
+    )
+}
+
+
+@Composable
+internal fun PriorityField(
+    ticketData: MutableState<TicketData?>,
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
+) {
+    CustomClickableField(
+        dialogTitle = "Выберите приоритет",
+        ticketData = ticketData.value?.priorities,
+        predicate = { it, searchTextState ->
+            it.name?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
+            ListElement(title = it.name ?: "") {
+                draft.value = draft.value.copy(priority = it)
+                isDialogOpened.value = false
+            }
+        },
+        title = "Приоритет",
+        textIfLabelIsNull = "Выбрать приоритет",
+        label = draft.value.priority?.name,
+        icon = R.drawable.baseline_priority_high_24,
+        starred = starred
+    )
+}
+
+@Composable
+internal fun ExecutorField(
+    ticketData: MutableState<TicketData?>,
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
+) {
+    CustomClickableField(
+        dialogTitle = "Выберите сотрудника",
+        ticketData = ticketData.value?.users,
+        predicate = { it, searchTextState ->
+            it.employee?.name?.contains(searchTextState.text, true) ?: false
+                    || it.employee?.firstname?.contains(searchTextState.text, true) ?: false
+                    || it.employee?.lastname?.contains(searchTextState.text, true) ?: false
+        },
+        listItem = { it, isDialogOpened ->
+            ListElement(title = it.getFullName() ?: "[ФИО]") {
+                draft.value = draft.value.copy(executor = it)
+                isDialogOpened.value = false
+            }
+        },
+        title = "Исполнитель",
+        textIfLabelIsNull = "Выбрать исполнителя",
+        label = draft.value.executor?.getFullName(),
+        icon = R.drawable.ic_baseline_person_24,
+        starred = starred
+    )
 }
 
 @Composable
 internal fun PlaneDateField(
     draft: MutableState<DraftEntity>,
-    starred: Boolean = remember { false }
+    starred: Boolean = false
 ) {
-    val isDialogOpened = remember { mutableStateOf(false) }
-    CustomDatePicker(
-        date = draft.value.plane_date ?: LocalDate.now()                                                                                      ,
-        isDialogOpened = isDialogOpened,
-        onConfirm = { date -> draft.value = draft.value.copy(plane_date = date) }
-    )
-    TicketCreateItem(
+    CustomDateField(
+        date = draft.value.plane_date ?: LocalDate.now(),
+        onConfirmDatePicker = { draft.value = draft.value.copy(plane_date = it) },
         title = "Плановая дата",
         icon = R.drawable.ic_baseline_calendar_month_24,
+        datePickerTitle = draft.value.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+        datePickerTitleNull = "Выбрать плановую дату",
+        starred = starred
+    )
+}
+
+@Composable
+internal fun StatusField(
+    draft: MutableState<DraftEntity>,
+    starred: Boolean = false
+) {
+    CustomFieldWithText(
+        title = "Статус",
+        icon = R.drawable.ic_baseline_playlist_add_check_24,
+        starred = starred,
+        label = draft.value.status?.name ?: "",
+        labelIfNull = "Выбрать статус"
+    )
+}
+
+@Composable
+internal fun AuthorField(
+    authParams: AuthParams,
+    starred: Boolean = false
+) {
+    CustomFieldWithText(
+        title = "Автор",
+        icon = R.drawable.ic_baseline_person_24,
+        starred = starred,
+        label = authParams.user?.getFullName(),
+        labelIfNull = "Автор не определен"
+    )
+}
+
+@Composable
+private fun CustomFieldWithText(
+    title: String,
+    icon: Int,
+    starred: Boolean,
+    label: String?,
+    labelIfNull: String
+) {
+    TicketCreateItem(
+        title = title,
+        icon = icon,
         starred = starred
     ) {
         CustomSelectableText(
-            label = draft.value.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-            nullLabel = "Выбрать плановую дату"
+            label = label,
+            nullLabel = labelIfNull
+        )
+    }
+}
+
+@Composable
+private fun CustomDateField(
+    date: LocalDate,
+    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
+    onConfirmDatePicker: (LocalDate) -> Unit,
+    title: String,
+    icon: Int,
+    starred: Boolean = remember { false },
+    datePickerTitle: String?,
+    datePickerTitleNull: String,
+) {
+    CustomDatePicker(
+        date = date,
+        isDialogOpened = isDialogOpened,
+        onConfirm = onConfirmDatePicker
+    )
+    TicketCreateItem(
+        title = title,
+        icon = icon,
+        starred = starred
+    ) {
+        CustomSelectableText(
+            label = datePickerTitle,
+            nullLabel = datePickerTitleNull
         ) { isDialogOpened.value = true }
     }
 }
 
 @Composable
-internal fun DescriptionField(
-    draft: MutableState<DraftEntity>,
-    starred: Boolean = remember { false }
+private fun CustomTextField(
+    // Title
+    title: String,
+    starred: Boolean,
+    icon: Int,
+    // Field
+    text: String?,
+    onValueChange: (newValue: String) -> Unit,
+    textFieldHint: String,
 ) {
     TicketCreateItem(
-        title = "Описание",
-        icon = R.drawable.baseline_text_format_24,
+        title = title,
+        icon = icon,
         starred = starred
     ) {
         CustomTextField(
-            text = draft.value.description,
-            onValueChange = { draft.value = draft.value.copy(description = it) },
-            hint = draft.value.description ?: "Ввести описание"
+            text = text,
+            onValueChange = onValueChange,
+            hint = textFieldHint
         )
     }
 }
 
 @Composable
-internal fun StatusField(draft: MutableState<DraftEntity>, starred: Boolean = remember { false }) {
+private fun <T> CustomChipRowField(
+    // Dialog
+    dialogTitle: String,
+    ticketData: List<T>?,
+    predicate: (T, TextFieldValue) -> Boolean,
+    listItem: @Composable (T, isDialogOpened: MutableState<Boolean>) -> Unit,
+    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
+    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
+    scrollState: ScrollState = rememberScrollState(),
+    // Chip row
+    title: String,
+    icon: Int,
+    starred: Boolean,
+    addingChipTitle: String,
+    chips: @Composable () -> Unit
+) {
+    CustomDialog(
+        isDialogOpened = isDialogOpened,
+        topAppBarTitle = dialogTitle,
+        scrollState = scrollState,
+        fields = ticketData,
+        predicate = predicate,
+        listItem = { listItem(it, isDialogOpened) },
+        searchTextState = searchTextState,
+    )
     TicketCreateItem(
-        title = "Статус",
-        icon = R.drawable.ic_baseline_playlist_add_check_24,
+        title = title,
+        icon = icon,
         starred = starred
     ) {
-        CustomSelectableText(
-            label = draft.value.status?.name ?: "",
-            nullLabel = "Выбрать статус"
-        )
+        CustomChipRow(
+            modifier = Modifier,
+            addingChipTitle = addingChipTitle,
+            isDialogOpened = isDialogOpened
+        ) { chips() }
     }
 }
 
 @Composable
-internal fun AuthorField(authParams: AuthParams, starred: Boolean = remember { false }) {
+private fun <T> CustomClickableField(
+    // Dialog
+    dialogTitle: String,
+    ticketData: List<T>?,
+    predicate: (T, TextFieldValue) -> Boolean,
+    listItem: @Composable (T, isDialogOpened: MutableState<Boolean>) -> Unit,
+    searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
+    isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
+    scrollState: ScrollState = rememberScrollState(),
+    // Clickable text
+    icon: Int,
+    title: String,
+    textIfLabelIsNull: String,
+    label: String?,
+    starred: Boolean,
+) {
+    CustomDialog(
+        isDialogOpened = isDialogOpened,
+        topAppBarTitle = dialogTitle,
+        scrollState = scrollState,
+        fields = ticketData,
+        predicate = predicate,
+        listItem = { listItem(it, isDialogOpened) },
+        searchTextState = searchTextState,
+    )
     TicketCreateItem(
-        title = "Автор",
-        icon = R.drawable.ic_baseline_person_24,
+        title = title,
+        icon = icon,
         starred = starred
     ) {
         CustomSelectableText(
-            label = authParams.user?.getFullName(),
-            nullLabel = "Автор не определен"
-        )
+            nullLabel = textIfLabelIsNull,
+            label = label,
+        ) { isDialogOpened.value = true }
     }
 }
 

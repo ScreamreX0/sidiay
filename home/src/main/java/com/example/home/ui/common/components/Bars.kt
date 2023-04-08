@@ -32,7 +32,10 @@ internal fun CustomBottomBar(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(0.5F)
-                .background(MaterialTheme.colors.onBackground),
+                .background(MaterialTheme.colors.onBackground)
+                .clickable {
+
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {

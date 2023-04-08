@@ -34,7 +34,7 @@ internal fun <T> CustomDialog(
     isSearchSelected: MutableState<Boolean> = remember { mutableStateOf(false) },
     scrollState: ScrollState,
     fields: List<T>?,
-    predicate: (T) -> Boolean,
+    predicate: (T, TextFieldValue) -> Boolean,
     listItem: @Composable (T) -> Unit,
     searchTextState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
 ) {
@@ -67,8 +67,7 @@ internal fun <T> CustomDialog(
                         leadingIcon = {
                             Icon(
                                 Icons.Default.ArrowBack,
-                                modifier = Modifier
-                                    .clickable { isSearchSelected.value = false },
+                                modifier = Modifier.clickable { isSearchSelected.value = false },
                                 contentDescription = null,
                                 tint = MaterialTheme.colors.onBackground
                             )
@@ -113,9 +112,7 @@ internal fun <T> CustomDialog(
                             .clickable(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null
-                            ) {
-                                isSearchSelected.value = true
-                            },
+                            ) { isSearchSelected.value = true },
                         painter = painterResource(id = com.example.core.R.drawable.ic_baseline_search_24_white),
                         contentDescription = "Search",
                         tint = MaterialTheme.colors.onBackground
@@ -137,7 +134,7 @@ internal fun <T> CustomDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (isSearchSelected.value) {
-                    fields?.filter(predicate)?.forEach { listItem(it, ) }
+                    fields?.filter(searchTextState, predicate)?.forEach { listItem(it) }
                 } else {
                     fields?.forEach { listItem(it) }
                 }
@@ -171,14 +168,13 @@ internal fun <T> CustomDialog(
     }
 }
 
+
 @Composable
 internal fun ListElement(title: String, onClick: () -> Unit) {
     Text(
         modifier = Modifier
             .padding(bottom = 10.dp)
-            .clickable {
-                onClick()
-            },
+            .clickable { onClick() },
         text = title,
         color = MaterialTheme.colors.onBackground,
         fontSize = MaterialTheme.typography.h3.fontSize,
@@ -193,4 +189,19 @@ private fun CustomDivider() {
             .width(250.dp)
             .background(MaterialTheme.colors.onBackground)
     ) {}
+}
+
+private fun <T> Iterable<T>?.filter(
+    searchTextState: MutableState<TextFieldValue>,
+    predicate: (T, TextFieldValue) -> Boolean
+): List<T> {
+    val newList = ArrayList<T>()
+    this?.let {
+        for (elem in it) {
+            if (predicate(elem, searchTextState.value)) {
+                newList.add(elem)
+            }
+        }
+    }
+    return newList
 }
