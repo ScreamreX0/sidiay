@@ -19,9 +19,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
+import com.example.core.utils.Constants
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
-import com.example.core.utils.Variables
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.data_classes.entities.UserEntity
@@ -85,7 +85,7 @@ internal class SignIn {
     ) {
         val context = LocalContext.current
         val selectedConnection = remember {
-            mutableStateOf(ConnectionParams("Стандартное соединение", Variables.DEFAULT_CONNECTION_URL))
+            mutableStateOf(ConnectionParams("Стандартное соединение", Constants.URL))
         }
 
         ConstraintLayout(

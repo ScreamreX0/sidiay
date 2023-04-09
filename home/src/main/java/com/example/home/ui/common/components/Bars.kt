@@ -18,24 +18,23 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.components.CustomAlertDialog
-import com.example.core.utils.Logger
-import com.example.domain.data_classes.entities.DraftEntity
+import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.params.AuthParams
 
 @Composable
 internal fun CustomBottomBar(
     modifier: Modifier = Modifier,
-    draft: MutableState<DraftEntity>
+    draft: MutableState<TicketEntity>,
+    saveTicketFunction: (String?, TicketEntity) -> Unit,
+    authParams: AuthParams
 ) {
-    /** Bottom app bar */
     Row(modifier = modifier.height(50.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(0.5F)
                 .background(MaterialTheme.colors.onBackground)
-                .clickable {
-
-                },
+                .clickable { saveTicketFunction(authParams.connectionParams?.url, draft.value) },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -78,7 +77,7 @@ internal fun CustomTopBar(
     navController: NavHostController = rememberNavController(),
     iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
     clearFieldsDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    draft: MutableState<DraftEntity>
+    draft: MutableState<TicketEntity>
 ) {
     Row(
         modifier = modifier
@@ -151,5 +150,5 @@ internal fun CustomTopBar(
 @Preview
 @Composable
 private fun Preview() {
-    CustomTopBar(draft = remember { mutableStateOf(DraftEntity()) })
+    CustomTopBar(draft = remember { mutableStateOf(TicketEntity()) })
 }

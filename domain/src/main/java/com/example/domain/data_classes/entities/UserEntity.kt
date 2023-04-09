@@ -16,9 +16,9 @@ data class UserEntity constructor(
             if (it.name.isNullOrBlank() || it.firstname.isNullOrBlank()) {
                 null
             } else if (it.lastname.isNullOrBlank()) {
-                "$it.firstname ${it.name!!.first()}."
+                "${it.firstname} ${it.name!!.first()}."
             } else {
-                "$it.firstname ${it.name!!.first()}. ${it.lastname!!.first()}."
+                "${it.firstname} ${it.name!!.first()}. ${it.lastname!!.first()}."
             }
         }
     }

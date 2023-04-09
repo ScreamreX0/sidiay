@@ -33,8 +33,9 @@ class TicketsRepository @Inject constructor(
     override suspend fun update() = TicketEntity(id = 0)
 
     override suspend fun add(url: String, ticket: TicketEntity): Pair<Int, TicketEntity?> {
+        val endpoint = "/tickets/add"
         Logger.Companion.m("Sending add ticket request")
-        val result = apiService.addTicket(url, ticket)
+        val result = apiService.addTicket(url + endpoint, ticket)
         Logger.Companion.m("Add ticket request was sent")
         return Pair(result.code(), result.body())
     }

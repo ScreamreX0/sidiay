@@ -89,6 +89,7 @@ dependencies {
     Dependencies.Network.apply {
         implementation(RETROFIT)
         implementation(RETROFIT_GSON)
+        implementation(LOGGER)
     }
 
     Dependencies.Modules.apply {

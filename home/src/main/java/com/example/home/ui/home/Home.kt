@@ -19,10 +19,9 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
-import com.example.domain.data_classes.entities.DraftEntity
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
-import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.home.ui.drafts.DraftsComponent
 import com.example.home.ui.home.components.MenuTicketList
@@ -69,7 +68,7 @@ class Home {
         navController: NavHostController = rememberNavController(),
         authParams: MutableState<AuthParams?> = remember { mutableStateOf(AuthParams()) },
         tickets: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
-        drafts: MutableState<List<DraftEntity>> = remember { mutableStateOf(listOf()) },
+        drafts: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
         applicationReceivingErrors: MutableState<String?> = remember { mutableStateOf("") },

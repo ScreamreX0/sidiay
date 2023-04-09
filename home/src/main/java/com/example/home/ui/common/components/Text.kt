@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
-import com.example.domain.data_classes.entities.DraftEntity
 
 
 @Composable

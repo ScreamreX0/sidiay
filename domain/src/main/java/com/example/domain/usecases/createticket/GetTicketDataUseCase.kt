@@ -9,9 +9,9 @@ class GetTicketDataUseCase @Inject constructor(
     private val ticketDataRepository: ITicketDataRepository,
 ) {
     suspend fun execute(url: String): Pair<TicketData?, String?> {
-        if (Constants.DEBUG_MODE) {
-            return Pair(ticketDataRepository.getTicketData(), null)
-        }
+//        if (Constants.DEBUG_MODE) {
+//            return Pair(ticketDataRepository.getTicketData(), null)
+//        }
         val result = ticketDataRepository.getTicketData(url = url)
 
         return when (result.first) {

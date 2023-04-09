@@ -20,8 +20,8 @@ import com.example.core.R
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
+import com.example.core.utils.Constants
 import com.example.core.utils.ScreenPreview
-import com.example.core.utils.Variables
 import com.example.domain.data_classes.params.ConnectionParams
 import kotlinx.coroutines.launch
 
@@ -301,7 +301,7 @@ private fun DefaultConnectionComponent(
             .clickable(onClick = {
                 selectedConnection.value = ConnectionParams(
                     name = "Стандартное соединение",
-                    url = Variables.DEFAULT_CONNECTION_URL
+                    url = Constants.URL
                 )
                 isDialogOpened.value = false
             }),
@@ -321,7 +321,7 @@ private fun DefaultConnectionComponent(
         IconButton(onClick = {
             Toast.makeText(
                 context,
-                "URL: ${Variables.DEFAULT_CONNECTION_URL}",
+                "URL: ${Constants.URL}",
                 Toast.LENGTH_SHORT
             ).show()
         }) {
@@ -353,7 +353,7 @@ private fun ScreenPreview() {
     AppTheme(isSystemInDarkTheme()) {
         val name = "Стандартное соединение"
         val defaultConnection = remember {
-            mutableStateOf(ConnectionParams(name, Variables.DEFAULT_CONNECTION_URL))
+            mutableStateOf(ConnectionParams(name, Constants.URL))
         }
 
         ConnectionsDialog(

@@ -34,6 +34,7 @@ object Dependencies {
     object Network {
         const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.Network.RETROFIT}"
         const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:${Versions.Network.RETROFIT}"
+        const val LOGGER = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.LOGGER}"
     }
 
     object Multithreading {
@@ -123,6 +124,7 @@ object Dependencies {
         object Network {
             const val RETROFIT = "2.9.0"
             const val OKHTTP = "4.5.0"
+            const val LOGGER = "4.10.0"
         }
 
         object Multithreading {

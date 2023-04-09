@@ -5,4 +5,5 @@ enum class LoadingState {
     LOADING,
     DONE,
     ERROR,
+    CONNECTION_ERROR
 }

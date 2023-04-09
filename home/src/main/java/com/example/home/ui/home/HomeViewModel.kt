@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Logger
-import com.example.domain.data_classes.entities.DraftEntity
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.usecases.home.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +17,7 @@ class HomeViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase,
 ) : ViewModel() {
     var tickets = mutableStateOf<List<TicketEntity>>(listOf())
-    var drafts = mutableStateOf<List<DraftEntity>>(listOf())
+    var drafts = mutableStateOf<List<TicketEntity>>(listOf())
     var applicationReceivingErrors = mutableStateOf<String?>(null)
 
     fun getTickets(url: String?) {

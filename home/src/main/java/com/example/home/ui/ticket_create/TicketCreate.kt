@@ -22,18 +22,17 @@ import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.core.R
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.Constants
-import com.example.domain.data_classes.entities.DraftEntity
+import com.example.core.utils.Logger
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.CustomBottomBar
-import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.CustomTopBar
-import com.example.home.ui.common.components.ListElement
+import kotlin.reflect.KFunction2
 
 
 class TicketCreate {
@@ -42,16 +41,16 @@ class TicketCreate {
         navController: NavHostController,
         authParams: AuthParams = remember { AuthParams() },
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
-        draft: DraftEntity = remember { DraftEntity() },
+        draft: TicketEntity = remember { TicketEntity() },
     ) {
         ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
-
         Content(
             navController = navController,
             authParams = authParams,
             draft = remember { mutableStateOf(draft) },
             ticketData = ticketCreateViewModel.fields,
             fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
+            saveTicketFunction = ticketCreateViewModel::save
         )
     }
 
@@ -59,9 +58,10 @@ class TicketCreate {
     private fun Content(
         navController: NavHostController = rememberNavController(),
         authParams: AuthParams = remember { AuthParams() },
-        draft: MutableState<DraftEntity> = remember { mutableStateOf(DraftEntity()) },
+        draft: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
-        fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) }
+        fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
+        saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> }
     ) {
         val mainScrollableState = rememberScrollState()
 
@@ -98,7 +98,7 @@ class TicketCreate {
             }
 
             // Load error
-            if (fieldsLoadingState.value == LoadingState.ERROR) {
+            if (fieldsLoadingState.value == LoadingState.CONNECTION_ERROR) {
                 Text(
                     modifier = Modifier.layoutId("centralMiddleRef"),
                     color = MaterialTheme.colors.primary,
@@ -139,7 +139,9 @@ class TicketCreate {
             //
             CustomBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
-                draft = draft
+                draft = draft,
+                authParams = authParams,
+                saveTicketFunction = saveTicketFunction
             )
         }
     }

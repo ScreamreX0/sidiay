@@ -17,18 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.domain.data_classes.entities.DraftEntity
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 @Composable
 internal fun CustomDatePicker(
-    date: LocalDate,
+    date: String,
     isDialogOpened: MutableState<Boolean>,
-    onConfirm: (date: LocalDate) -> Unit
+    onConfirm: (date: String) -> Unit
 ) {
     if (!isDialogOpened.value) return
     val selectedDate = remember { mutableStateOf(date) }
@@ -66,12 +63,10 @@ internal fun CustomDatePicker(
                 Spacer(modifier = Modifier.size(20.dp))
 
                 Text(
-                    text = selectedDate.value.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-                        ?: run { "Выбрать дату" },
+                    text = selectedDate.value,
                     style = MaterialTheme.typography.h4,
                     color = MaterialTheme.colors.onPrimary
                 )
-
                 Spacer(modifier = Modifier.size(16.dp))
             }
 
@@ -116,13 +111,13 @@ internal fun CustomDatePicker(
 }
 
 @Composable
-private fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
+private fun CustomCalendar(onDateSelected: (String) -> Unit) {
     AndroidView(
         modifier = Modifier.wrapContentSize(),
         factory = { CalendarView(it) },
         update = {
             it.minDate = System.currentTimeMillis()
-            it.maxDate = System.currentTimeMillis() + 31536000000L  // 31B milliseconds is 1 year
+            it.maxDate = System.currentTimeMillis() + 31536000000L  // 1 year
             it.setOnDateChangeListener { _, year, month, dayOfMonth ->
                 onDateSelected(
                     LocalDate
@@ -130,6 +125,7 @@ private fun CustomCalendar(onDateSelected: (LocalDate) -> Unit) {
                         .withMonth(month + 1)
                         .withYear(year)
                         .withDayOfMonth(dayOfMonth)
+                        .toString()
                 )
             }
         }

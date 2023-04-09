@@ -51,20 +51,16 @@ class TicketCreateViewModel @Inject constructor(
             viewModelScope.launch {
                 Logger.m("Getting tickets' fields offline...")
                 fieldsLoadingState.value = LoadingState.LOADING
-
-                fieldsLoadingState.value = LoadingState.DONE
                 // TODO("Add load tickets offline")
+                fieldsLoadingState.value = LoadingState.DONE
             }
         }
     }
 
-    fun validateTicketFields(ticket: TicketEntity) {
-        Logger.m("Validating ticket fields...")
-        checkResult.value = validateTicketUseCase.execute(ticket)
-    }
-
-    fun save(url: String, ticket: TicketEntity) {
+    fun save(url: String?, ticket: TicketEntity) {
         viewModelScope.launch(getCoroutineHandler()) {
+            validateTicketFields(ticket)
+
             Logger.m("Trying to save new ticket...")
             val result = saveTicketUseCase.execute(url = url, ticket = ticket)
 
@@ -78,9 +74,14 @@ class TicketCreateViewModel @Inject constructor(
         }
     }
 
+    private fun validateTicketFields(ticket: TicketEntity) {
+        Logger.m("Validating ticket fields...")
+        checkResult.value = validateTicketUseCase.execute(ticket)
+    }
+
     private fun getCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
         if (throwable::class == ConnectException::class) {
-            fieldsLoadingState.value = LoadingState.ERROR
+            fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
         }
     }
 }

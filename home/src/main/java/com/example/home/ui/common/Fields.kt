@@ -18,12 +18,13 @@ import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.home.ui.common.components.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun FacilitiesField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomChipRowField(
@@ -61,7 +62,7 @@ internal fun FacilitiesField(
 @Composable
 internal fun EquipmentField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomChipRowField(
@@ -100,7 +101,7 @@ internal fun EquipmentField(
 @Composable
 internal fun TransportField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomChipRowField(
@@ -138,7 +139,7 @@ internal fun TransportField(
 @Composable
 internal fun BrigadeField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomChipRowField(
@@ -176,7 +177,7 @@ internal fun BrigadeField(
 }
 
 @Composable
-internal fun NameField(draft: MutableState<DraftEntity>, starred: Boolean = false) {
+internal fun NameField(draft: MutableState<TicketEntity>, starred: Boolean = false) {
     CustomTextField(
         title = "Название",
         icon = R.drawable.baseline_title_24,
@@ -188,7 +189,7 @@ internal fun NameField(draft: MutableState<DraftEntity>, starred: Boolean = fals
 }
 
 @Composable
-internal fun DescriptionField(draft: MutableState<DraftEntity>, starred: Boolean = false) {
+internal fun DescriptionField(draft: MutableState<TicketEntity>, starred: Boolean = false) {
     CustomTextField(
         title = "Описание",
         icon = R.drawable.baseline_text_format_24,
@@ -202,7 +203,7 @@ internal fun DescriptionField(draft: MutableState<DraftEntity>, starred: Boolean
 @Composable
 internal fun ServiceField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomClickableField(
@@ -228,7 +229,7 @@ internal fun ServiceField(
 @Composable
 internal fun KindField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomClickableField(
@@ -255,7 +256,7 @@ internal fun KindField(
 @Composable
 internal fun PriorityField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomClickableField(
@@ -281,7 +282,7 @@ internal fun PriorityField(
 @Composable
 internal fun ExecutorField(
     ticketData: MutableState<TicketData?>,
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomClickableField(
@@ -308,11 +309,11 @@ internal fun ExecutorField(
 
 @Composable
 internal fun PlaneDateField(
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomDateField(
-        date = draft.value.plane_date ?: LocalDate.now(),
+        date = draft.value.plane_date ?: LocalDate.now().toString(),
         onConfirmDatePicker = { draft.value = draft.value.copy(plane_date = it) },
         title = "Плановая дата",
         icon = R.drawable.ic_baseline_calendar_month_24,
@@ -324,7 +325,7 @@ internal fun PlaneDateField(
 
 @Composable
 internal fun StatusField(
-    draft: MutableState<DraftEntity>,
+    draft: MutableState<TicketEntity>,
     starred: Boolean = false
 ) {
     CustomFieldWithText(
@@ -372,9 +373,9 @@ private fun CustomFieldWithText(
 
 @Composable
 private fun CustomDateField(
-    date: LocalDate,
+    date: String,
     isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    onConfirmDatePicker: (LocalDate) -> Unit,
+    onConfirmDatePicker: (String) -> Unit,
     title: String,
     icon: Int,
     starred: Boolean = remember { false },

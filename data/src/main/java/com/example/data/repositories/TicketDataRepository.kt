@@ -11,7 +11,8 @@ class TicketDataRepository @Inject constructor(
 ) : ITicketDataRepository {
 
     override suspend fun getTicketData(url: String): Pair<Int, TicketData?> {
-        val result = apiService.getTicketData(url)
+        val endpoint = "/tickets/get-data"
+        val result = apiService.getTicketData(url + endpoint)
         return Pair(result.code(), result.body())
     }
 
