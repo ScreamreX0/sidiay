@@ -270,7 +270,7 @@ internal fun TitleComponent(
             color = MaterialTheme.colors.secondary,
             fontSize = 40.sp,
             fontWeight = FontWeight.Bold,
-            text = stringResource(id = R.string.auth_title_1),
+            text = "ПЗС",
         )
 
         Text(
@@ -279,7 +279,7 @@ internal fun TitleComponent(
             letterSpacing = 2.sp,
             color = MaterialTheme.colors.onBackground,
             fontWeight = FontWeight.Bold,
-            text = stringResource(id = R.string.auth_title_2),
+            text = "КРОН",
         )
 
         val interactionSource = remember { MutableInteractionSource() }

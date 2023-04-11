@@ -1,24 +1,24 @@
 object Plugins {
     object AppConfig {
-        const val application = "com.android.application"
-        const val library = "com.android.library"
-        const val android = "org.jetbrains.kotlin.android"
-        const val jvm = "org.jetbrains.kotlin.jvm"
+        const val APPLICATION = "com.android.application"
+        const val LIBRARY = "com.android.library"
+        const val ANDROID = "org.jetbrains.kotlin.android"
+        const val JVM = "org.jetbrains.kotlin.jvm"
     }
 
     object Core {
-        const val parselize = "kotlin-parcelize"
-        const val kapt = "kotlin-kapt"
-        const val safeArgs = "androidx.navigation.safeargs"
+        const val PARSELIZE = "kotlin-parcelize"
+        const val KAPT = "kotlin-kapt"
+        const val SAVEARGS = "androidx.navigation.safeargs"
     }
 
     object Hilt {
-        const val hilt = "dagger.hilt.android.plugin"
+        const val HILT = "dagger.hilt.android.plugin"
     }
 
     object Versions {
-        const val application = "7.4.1"
-        const val android = "1.8.10"
+        const val APPLICATION = "7.4.1"
+        const val ANDROID = "1.8.10"
     }
 }
 

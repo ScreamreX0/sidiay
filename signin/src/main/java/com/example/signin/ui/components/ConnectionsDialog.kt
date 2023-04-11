@@ -1,5 +1,6 @@
 package com.example.signin.ui.components
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,9 +22,11 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.Constants
+import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.params.ConnectionParams
 import kotlinx.coroutines.launch
+import javax.xml.validation.Validator
 
 @Composable
 internal fun ConnectionsDialog(
@@ -48,9 +51,34 @@ internal fun ConnectionsDialog(
                 .background(MaterialTheme.colors.background)
                 .padding(20.dp),
         ) {
-            DialogTitleComponent()
+            // Dialog title
+            DefaultTextStyle {
+                Text(
+                    text = "Соединения",
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
 
-            AddConnectionComponent(connectionsList = connectionsList)
+            AddConnectionComponent(
+                onClearConnectionsList = { connectionsList.value = listOf() },
+                onAddConnection = { connectionName, context, url ->
+                    // Validating new connection
+                    if (connectionName.isBlank() || url.isBlank()) {
+                        Helper.showShortToast(context, "Заполните все поля")
+                        return@AddConnectionComponent
+                    }
+                    if (connectionsList.value.size > 10) {
+                        Helper.showShortToast(context, "Слишком много соединений")
+                        return@AddConnectionComponent
+                    }
+                    // Adding new connection
+                    connectionsList.value = connectionsList.value.plus(ConnectionParams(connectionName, url))
+                    Helper.showShortToast(context, "Соединение добавлено")
+                }
+            )
 
             DefaultConnectionComponent(
                 selectedConnection = selectedConnection,
@@ -126,9 +154,10 @@ private fun BottomBarComponent(
 
 @Composable
 private fun AddConnectionComponent(
-    connectionsList: MutableState<List<ConnectionParams>>,
     connectionName: MutableState<String> = remember { mutableStateOf("") },
-    url: MutableState<String> = remember { mutableStateOf("") }
+    url: MutableState<String> = remember { mutableStateOf("") },
+    onClearConnectionsList: () -> Unit = {},
+    onAddConnection: (connectionName: String, context: Context, url: String) -> Unit = { _, _, _ -> }
 ) {
     val context = LocalContext.current
     Column {
@@ -171,12 +200,12 @@ private fun AddConnectionComponent(
         ) {
             // Clear all
             DefaultButtonStyle {
-                Button(modifier = Modifier.height(40.dp), colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.onBackground,
-                    contentColor = MaterialTheme.colors.onPrimary
-                ), onClick = {
-                    connectionsList.value = listOf()
-                }) {
+                Button(
+                    modifier = Modifier.height(40.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.onBackground,
+                        contentColor = MaterialTheme.colors.onPrimary
+                    ), onClick = { onClearConnectionsList() }) {
                     DefaultTextStyle {
                         Text(
                             text = "Очистить все",
@@ -196,32 +225,7 @@ private fun AddConnectionComponent(
                         backgroundColor = MaterialTheme.colors.onBackground,
                         contentColor = MaterialTheme.colors.onPrimary
                     ),
-                    onClick = {
-                        if (connectionName.value.isBlank() || url.value.isBlank()) {
-                            Toast.makeText(
-                                context, "Заполните все поля", Toast.LENGTH_SHORT
-                            ).show()
-                            return@Button
-                        }
-
-                        if (connectionsList.value.size > 10) {
-                            Toast.makeText(
-                                context, "Слишком много соединений", Toast.LENGTH_SHORT
-                            ).show()
-                            return@Button
-                        }
-
-                        connectionsList.value = connectionsList.value
-                            .plus(
-                                ConnectionParams(connectionName.value, url.value)
-                            )
-                        connectionName.value = ""
-                        url.value = ""
-
-                        Toast.makeText(
-                            context, "Соединение добавлено", Toast.LENGTH_SHORT
-                        ).show()
-                    }) {
+                    onClick = { onAddConnection(connectionName.value, context, url.value) }) {
                     DefaultTextStyle {
                         Text(
                             text = "Добавить",
@@ -268,7 +272,7 @@ private fun ConnectionsListComponent(
                                 .toMutableList()
                         },
                     painter = painterResource(R.drawable.baseline_delete_24),
-                    contentDescription = "Delete connection",
+                    contentDescription = "Удалить соединение",
                     tint = MaterialTheme.colors.onBackground,
                 )
 
@@ -331,19 +335,6 @@ private fun DefaultConnectionComponent(
                 tint = MaterialTheme.colors.onBackground
             )
         }
-    }
-}
-
-@Composable
-private fun DialogTitleComponent() {
-    DefaultTextStyle {
-        Text(
-            text = "Соединения",
-            modifier = Modifier.padding(bottom = 10.dp),
-            fontSize = MaterialTheme.typography.h5.fontSize,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colors.onBackground
-        )
     }
 }
 
