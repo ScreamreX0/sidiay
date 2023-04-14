@@ -2,8 +2,8 @@
 
 
 plugins {
-    id(Plugins.AppConfig.library)
-    id(Plugins.AppConfig.android)
+    id(Plugins.AppConfig.LIBRARY)
+    id(Plugins.AppConfig.ANDROID)
 }
 
 android {

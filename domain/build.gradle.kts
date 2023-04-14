@@ -1,9 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id(Plugins.AppConfig.library)
-    id(Plugins.AppConfig.android)
-    id(Plugins.Core.parselize)
+    id(Plugins.AppConfig.LIBRARY)
+    id(Plugins.AppConfig.ANDROID)
+    id(Plugins.Core.PARSELIZE)
 }
 
 android {

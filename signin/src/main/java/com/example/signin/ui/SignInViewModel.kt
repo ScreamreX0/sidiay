@@ -80,8 +80,14 @@ class SignInViewModel @Inject constructor(
     }
 
     internal suspend fun updateConnectionsVar() {
-        connectionsList.value =
-            connectionsDataStore.getConnections.first() as List<ConnectionParams>
+        val connections = connectionsDataStore.getConnections.first()
+
+        connectionsList.value = if (connections == null) {
+            listOf()
+        } else {
+            connections as List<ConnectionParams>
+        }
+
     }
 
     internal fun signIn(url: String, email: String, password: String) {

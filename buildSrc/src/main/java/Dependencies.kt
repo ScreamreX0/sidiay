@@ -75,10 +75,14 @@ object Dependencies {
         }
     }
 
+    object DataStore {
+        const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.DataStore.DATA_STORE}"
+    }
+
     object Other {
         const val VIEW_BINDING = true
         const val SAFE_ARGS = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.UI.NAVIGATION}"
-        const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.Data.DATA_STORE}"
+        const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.DataStore.DATA_STORE}"
     }
 
     object Modules {
@@ -154,8 +158,10 @@ object Dependencies {
             }
         }
 
-        object Data {
+        object DataStore {
             const val DATA_STORE = "1.0.0"
+            const val JAVALITE = "3.21.5"
+            const val KOTLINLITE = "3.21.5"
         }
     }
 }

@@ -11,14 +11,13 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-
 class ConnectionsDataStore(private val context: Context) {
     companion object {
         val Context.dataStore: DataStore<Preferences> by preferencesDataStore("Connections")
         val USER_CONNECTIONS = stringPreferencesKey("user_connections")
     }
 
-    val getConnections: Flow<Collection<ConnectionParams>> = context.dataStore.data
+    val getConnections: Flow<Collection<ConnectionParams>?> = context.dataStore.data
         .map {
             Gson().fromJson<List<ConnectionParams>>(
                 it[USER_CONNECTIONS] ?: "",
