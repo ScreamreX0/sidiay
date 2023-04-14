@@ -6,6 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -17,12 +20,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
-import com.example.core.utils.Helper
-import com.example.core.utils.ScreenPreview
+import com.example.core.utils.*
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.enums.states.LoadingState
 import com.example.home.ui.drafts.DraftsComponent
 import com.example.home.ui.home.components.MenuTicketList
 import com.example.home.ui.home.components.MenuSearch
@@ -39,25 +42,48 @@ class Home {
     fun HomeScreen(
         homeViewModel: HomeViewModel = hiltViewModel(),
         navController: NavHostController = rememberNavController(),
-        paddingValues: PaddingValues = PaddingValues(),
-        authParams: MutableState<AuthParams?> = remember { mutableStateOf(AuthParams()) },
+        paddingValues: PaddingValues = remember { PaddingValues() },
+        authParams: AuthParams? = remember { AuthParams() },
     ) {
-        homeViewModel.getTickets(authParams.value?.connectionParams?.url)
-
         val applicationReceivingErrors = homeViewModel.applicationReceivingErrors
         val tickets = homeViewModel.tickets
         val drafts = homeViewModel.drafts
 
+        LaunchedEffect(key1 = null) {
+            homeViewModel.getTickets(
+                url = authParams?.connectionParams?.url,
+                userId = authParams?.user?.id ?: 0
+            )
+        }
+
+        //
+        // LOADING
+        //
+        if ((homeViewModel.ticketsLoadingState.value == LoadingState.LOADING
+                    || homeViewModel.ticketsLoadingState.value == LoadingState.WAIT_FOR_INIT)
+            && ConstAndVars.DEBUG_MODE != ApplicationModes.DEBUG_AND_OFFLINE
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+            }
+            return
+        }
         Content(
             modifier = Modifier.padding(
                 top = paddingValues.calculateTopPadding(),
-                bottom = paddingValues.calculateBottomPadding()
+                bottom = paddingValues.calculateBottomPadding() + 50.dp
             ),
             navController = navController,
             authParams = authParams,
             tickets = tickets,
             drafts = drafts,
             applicationReceivingErrors = applicationReceivingErrors,
+            getTickets = homeViewModel::getTickets,
         )
     }
 
@@ -66,14 +92,15 @@ class Home {
     private fun Content(
         modifier: Modifier = Modifier,
         navController: NavHostController = rememberNavController(),
-        authParams: MutableState<AuthParams?> = remember { mutableStateOf(AuthParams()) },
-        tickets: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
-        drafts: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
+        authParams: AuthParams? = remember { AuthParams() },
+        tickets: MutableState<List<TicketEntity>> = rememberSaveable { mutableStateOf(listOf()) },
+        drafts: MutableState<List<TicketEntity>> = rememberSaveable { mutableStateOf(listOf()) },
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
         applicationReceivingErrors: MutableState<String?> = remember { mutableStateOf("") },
         pagerState: PagerState = rememberPagerState(),
         context: Context = LocalContext.current,
+        getTickets: (url: String?, userId: Long) -> Unit = { _, _ -> },
     ) {
         // Observers
         applicationReceivingErrors.value?.let {
@@ -114,7 +141,10 @@ class Home {
                         contentDescription = null
                     )
                     Icon(
-                        modifier = Modifier.clickable { TODO("Refreshing") },
+                        modifier = Modifier.clickable { getTickets(
+                            authParams?.connectionParams?.url,
+                            authParams?.user?.id ?: 0
+                        ) },
                         painter = painterResource(id = MainMenuTopAppBarEnum.REFRESH.icon),
                         contentDescription = null
                     )

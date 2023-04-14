@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.utils.Constants
+import com.example.core.utils.ConstAndVars
+import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Logger
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.data_classes.entities.UserEntity
@@ -86,23 +87,24 @@ class SignInViewModel @Inject constructor(
     internal fun signIn(url: String, email: String, password: String) {
         val params = Credentials(email, password)
         val result = checkFieldsUseCase.execute(params = params)
-        if (result.size != 0 && Constants.CHECK_SIGN_IN_FIELDS) {
+        if (result.size != 0) {
             signInErrors.value = result
             return
         }
 
-        if (Constants.DEBUG_MODE) {
-            Logger.Companion.m("DEBUG MODE ENABLED")
-            signInOffline()
-        } else {
-            Logger.Companion.m("Online sign in. IP:${Constants.URL}")
-            signInOnline(url = url, params = params)
+        if (ConstAndVars.DEBUG_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
+            Logger.Companion.m("DEBUG_AND_OFFLINE MODE ENABLED")
+            signInSuccess.value = UserEntity(id = 0)
+            return
+        }
+        if (ConstAndVars.DEBUG_MODE == ApplicationModes.DEBUG_AND_ONLINE) {
+            // TODO("Impl debug_and_online mode")
+            Logger.Companion.m("DEBUG_AND_ONLINE MODE ENABLED")
+            signInSuccess.value = UserEntity(id = 1)
+            return
         }
 
-
-    }
-
-    private fun signInOnline(url: String, params: Credentials) {
+        Logger.Companion.m("Online sign in. IP:${ConstAndVars.URL}")
         viewModelScope.launch(getSignInHandler()) {
             val signInResult = signInUseCase.execute(url, params)
 
@@ -119,10 +121,6 @@ class SignInViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun signInOffline() {
-        signInSuccess.value = UserEntity(id = 0)
     }
 
     private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->

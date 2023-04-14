@@ -12,7 +12,7 @@ class DraftsComponent {
     @Composable
     fun Content(
         navController: NavHostController,
-        authParams: MutableState<AuthParams?>,
+        authParams: AuthParams?,
         drafts: MutableState<List<TicketEntity>>,
     ) {
         Text(text = "Drafts")

@@ -12,7 +12,9 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -22,35 +24,46 @@ import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.theme.AppTheme
-import com.example.core.utils.Constants
+import com.example.core.utils.ConstAndVars
+import com.example.core.utils.ApplicationModes
+import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
+import com.example.domain.enums.states.SavingState
+import com.example.domain.enums.states.SavingState.*
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.CustomBottomBar
 import com.example.home.ui.common.components.CustomTopBar
-import kotlin.reflect.KFunction2
 
 
 class TicketCreate {
+
     @Composable
     fun TicketCreateScreen(
         navController: NavHostController,
         authParams: AuthParams = remember { AuthParams() },
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
-        draft: TicketEntity = remember { TicketEntity() },
+        draft: TicketEntity = rememberSaveable { TicketEntity() },
     ) {
-        ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
+        draft.author = authParams.user
+
+        LaunchedEffect(key1 = null) {
+            ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
+        }
+
         Content(
             navController = navController,
             authParams = authParams,
             draft = remember { mutableStateOf(draft) },
             ticketData = ticketCreateViewModel.fields,
             fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
-            saveTicketFunction = ticketCreateViewModel::save
+            saveTicketFunction = ticketCreateViewModel::save,
+            savingResult = ticketCreateViewModel.savingResult
         )
     }
 
@@ -61,10 +74,12 @@ class TicketCreate {
         draft: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
-        saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> }
+        saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
+        savingResult: MutableState<SavingState> = remember { mutableStateOf(WAITING) },
+        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
     ) {
         val mainScrollableState = rememberScrollState()
-
+        val context = LocalContext.current
         //
         // MAIN CONSTRAINT
         //
@@ -88,7 +103,7 @@ class TicketCreate {
             //
             if ((fieldsLoadingState.value == LoadingState.LOADING
                 || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
-                && !Constants.DEBUG_MODE
+                && ConstAndVars.DEBUG_MODE != ApplicationModes.DEBUG_AND_OFFLINE
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.layoutId("centralMiddleRef"),
@@ -109,6 +124,29 @@ class TicketCreate {
                     }
                 )
                 return@ConstraintLayout
+            }
+
+            //
+            // Saving
+            //
+            when (savingResult.value) {
+                SAVING -> bottomBarSelectable.value = false
+                DONE -> {
+                    navController.popBackStack(
+                        route = BottomBarNav.Home.route,
+                        inclusive = false
+                    )
+                    Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
+                }
+                SAVING_ERROR -> {
+                    Helper.showShortToast(context = context, text = "Ошибка сохранения")
+                    bottomBarSelectable.value = true
+                }
+                CONNECTION_ERROR -> {
+                    Helper.showShortToast(context = context, text = "Ошибка подключения")
+                    bottomBarSelectable.value = true
+                }
+                else -> {}
             }
 
             // SET ICONS ON TOP BAR VISIBLE
@@ -141,7 +179,8 @@ class TicketCreate {
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 draft = draft,
                 authParams = authParams,
-                saveTicketFunction = saveTicketFunction
+                saveTicketFunction = saveTicketFunction,
+                bottomBarSelectable = bottomBarSelectable
             )
         }
     }

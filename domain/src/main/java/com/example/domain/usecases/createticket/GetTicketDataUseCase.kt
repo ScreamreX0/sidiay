@@ -1,6 +1,6 @@
 package com.example.domain.usecases.createticket
 
-import com.example.core.utils.Constants
+import com.example.core.utils.Logger
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.repositories.ITicketDataRepository
 import javax.inject.Inject
@@ -16,7 +16,10 @@ class GetTicketDataUseCase @Inject constructor(
 
         return when (result.first) {
             200 -> Pair(result.second, null)
-            else -> Pair(null, "Error") // TODO("Add handlers")
+            else -> {
+                Logger.m("Error ${result.first}")
+                Pair(null, "Упс..")
+            }
         }
     }
 }

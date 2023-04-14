@@ -1,6 +1,5 @@
 package com.example.signin.ui
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,8 +18,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
-import com.example.core.utils.Constants
+import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
+import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ScreenPreview
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.enums.states.SignInStates
@@ -33,7 +33,6 @@ import com.example.signin.ui.components.EnterComponent
 import com.example.signin.ui.components.OfflineModeComponent
 import com.example.signin.ui.components.PasswordComponent
 import com.example.signin.ui.components.TitleComponent
-import com.google.gson.Gson
 
 
 internal class SignIn {
@@ -85,7 +84,7 @@ internal class SignIn {
     ) {
         val context = LocalContext.current
         val selectedConnection = remember {
-            mutableStateOf(ConnectionParams("Стандартное соединение", Constants.URL))
+            mutableStateOf(ConnectionParams("Стандартное соединение", ConstAndVars.URL))
         }
 
         ConstraintLayout(
@@ -94,32 +93,25 @@ internal class SignIn {
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
-            signInSuccess.value.let {
-                if (it.id != -1L) {
-                    LaunchedEffect(it) {
-                        val authParams = Uri.encode(
-                            Gson().toJson(
-                                AuthParams(
-                                    user = it,
-                                    connectionParams = selectedConnection.value,
-                                    darkMode = darkMode.value,
-                                )
-                            )
-                        )
-                        navController.popBackStack()
-                        navController.navigate(
-                            route = "${Graphs.MAIN_MENU}/$authParams",
-                        )
+            signInSuccess.value.let { currentUser ->
+                val authParams = AuthParams(
+                    user = currentUser,
+                    connectionParams = selectedConnection.value,
+                    darkMode = darkMode.value,
+                )
+
+                if (currentUser.id != -1L) {
+                    LaunchedEffect(currentUser) {
+                        val authParamsString = Helper.parcelableToString(authParams)
+                        navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
                     }
                 }
             }
             signInErrors.value.let {
-                if (it.contains(SignInStates.NO_SERVER_CONNECTION)) {
-                    Helper.showShortToast(context, "Нет соединения с сервером")
-                } else if (it.contains(SignInStates.SHORT_OR_LONG_EMAIL)) {
-                    Helper.showShortToast(context, "Длина логина должна быть от 9 до 32 символов")
-                } else if (it.contains(SignInStates.SHORT_OR_LONG_PASSWORD)) {
-                    Helper.showShortToast(context, "Длина пароля должна быть от 6 до 32 символов")
+                when {
+                    it.contains(SignInStates.NO_SERVER_CONNECTION) -> Helper.showShortToast(context, "Нет соединения с сервером")
+                    it.contains(SignInStates.SHORT_OR_LONG_EMAIL) -> Helper.showShortToast(context, "Длина логина должна быть от 9 до 32 символов")
+                    it.contains(SignInStates.SHORT_OR_LONG_PASSWORD) -> Helper.showShortToast(context, "Длина пароля должна быть от 6 до 32 символов")
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.example.domain.usecases.createticket
 
+import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
@@ -15,7 +16,10 @@ class SaveTicketUseCase @Inject constructor(
 
         return when (result.first) {
             200 -> Pair(result.second, null)
-            else -> Pair(null, "Error. Response code: ${result.first}") // TODO("Add handlers")
+            else -> {
+                Logger.m("Error ${result.first}")
+                Pair(null, "Упс..")
+            }
         }
     }
 }

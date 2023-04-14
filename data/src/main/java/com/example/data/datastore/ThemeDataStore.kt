@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.core.utils.Constants
+import com.example.core.utils.ConstAndVars
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,7 +17,7 @@ class ThemeDataStore(private val context: Context) {
     }
 
     /** 0 - Light mode / 1 - Dark mode */
-    val getMode: Flow<String> = context.dataStore.data.map { it[MODE] ?: Constants.NULL }
+    val getMode: Flow<String> = context.dataStore.data.map { it[MODE] ?: ConstAndVars.NULL }
     suspend fun saveMode(darkMode: Boolean) = context.dataStore.edit { it[MODE] =
         darkMode.toString()
     }

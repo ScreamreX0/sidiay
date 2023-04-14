@@ -59,6 +59,10 @@ dependencies {
         implementation(CONSTRAINT)
     }
 
+    Dependencies.Network.apply {
+        implementation(RETROFIT_GSON)
+    }
+
     Dependencies.UI.Compose.apply {
         val composeBom = platform(BOM)
         implementation(composeBom)

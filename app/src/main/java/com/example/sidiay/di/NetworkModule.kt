@@ -1,7 +1,7 @@
 package com.example.sidiay.di
 
 import com.example.data.network.api.ApiService
-import com.example.core.utils.Constants
+import com.example.core.utils.ConstAndVars
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -28,7 +28,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.URL)
+            .baseUrl(ConstAndVars.URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
     }

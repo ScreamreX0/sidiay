@@ -9,10 +9,15 @@ import javax.inject.Inject
 class TicketsRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketsRepository {
-    override suspend fun get(url: String): Pair<Int, List<TicketEntity>?> {
+    private val getEndpoint = "/tickets/get-by-id"
+    private val addEndpoint = "/tickets/add"
+
+    override suspend fun get(url: String, userId: Long): Pair<Int, List<TicketEntity>?> {
         Logger.m("Getting tickets from api")
-        val result = apiService.getTickets(url)
+        val result = apiService.getTickets("$url$getEndpoint/$userId")
+
         Logger.m("Getting tickets success. Result code ${result.code()}")
+
         return Pair(result.code(), result.body())
     }
 
@@ -30,12 +35,9 @@ class TicketsRepository @Inject constructor(
         return Pair(result.code(), result.body())
     }
 
-    override suspend fun update() = TicketEntity(id = 0)
-
     override suspend fun add(url: String, ticket: TicketEntity): Pair<Int, TicketEntity?> {
-        val endpoint = "/tickets/add"
         Logger.Companion.m("Sending add ticket request")
-        val result = apiService.addTicket(url + endpoint, ticket)
+        val result = apiService.addTicket("$url$addEndpoint", ticket)
         Logger.Companion.m("Add ticket request was sent")
         return Pair(result.code(), result.body())
     }

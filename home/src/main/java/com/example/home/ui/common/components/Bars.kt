@@ -26,45 +26,24 @@ internal fun CustomBottomBar(
     modifier: Modifier = Modifier,
     draft: MutableState<TicketEntity>,
     saveTicketFunction: (String?, TicketEntity) -> Unit,
-    authParams: AuthParams
+    authParams: AuthParams,
+    bottomBarSelectable: MutableState<Boolean>
 ) {
     Row(modifier = modifier.height(50.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(0.5F)
                 .background(MaterialTheme.colors.onBackground)
-                .clickable { saveTicketFunction(authParams.connectionParams?.url, draft.value) },
+                .clickable {
+                    if (bottomBarSelectable.value) {
+                        saveTicketFunction(authParams.connectionParams?.url, draft.value)
+                    }
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = "Сохранить",
-                color = MaterialTheme.colors.onPrimary
-            )
-        }
-
-        // Divider
-        Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(1.dp)
-                .background(MaterialTheme.colors.background)
-        ) {}
-
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(0.5F)
-                .background(MaterialTheme.colors.onBackground),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                modifier = Modifier.clickable {
-                    // TODO
-                },
-                text = "Отмена",
                 color = MaterialTheme.colors.onPrimary
             )
         }

@@ -31,9 +31,6 @@ class DomainModule {
         SaveTicketUseCase(ticketRepository = ticketsRepository)
 
     @Provides
-    fun provideCheckTicketUseCase(): ValidateTicketUseCase = ValidateTicketUseCase()
-
-    @Provides
     fun provideGetDraftsUseCase(ticketsRepository: ITicketsRepository): GetDraftsUseCase =
         GetDraftsUseCase(ticketsRepository)
 }

@@ -11,11 +11,7 @@ class AuthRepository @Inject constructor(
     private val apiService: ApiService
 ) : IAuthRepository {
     override suspend fun checkConnection(url: String) =
-        try {
-            apiService.checkConnection(url).isSuccessful
-        } catch (e: Exception) {
-            false
-        }
+        try { apiService.checkConnection(url).isSuccessful } catch (e: Exception) { false }
 
     override suspend fun signIn(url: String, credentials: Credentials): Pair<Int, UserEntity?> {
         Logger.m("Sending sign in request")

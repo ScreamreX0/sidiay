@@ -8,8 +8,7 @@ import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
-import com.example.domain.enums.states.TicketCreateStates
-import com.example.domain.usecases.createticket.ValidateTicketUseCase
+import com.example.domain.enums.states.SavingState
 import com.example.domain.usecases.createticket.GetTicketDataUseCase
 import com.example.domain.usecases.createticket.SaveTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,18 +21,16 @@ import javax.inject.Inject
 class TicketCreateViewModel @Inject constructor(
     private val getTicketDataUseCase: GetTicketDataUseCase,
     private val saveTicketUseCase: SaveTicketUseCase,
-    private val validateTicketUseCase: ValidateTicketUseCase,
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
 
-    var checkResult: MutableState<List<TicketCreateStates>> = mutableStateOf(listOf())
-    var saveResult: MutableState<String?> = mutableStateOf(null)
+    var savingResult: MutableState<SavingState> = mutableStateOf(SavingState.WAITING)
 
     fun initFields(url: String?) {
         Logger.m("Check network mode...")
         url?.let {
-            viewModelScope.launch(getCoroutineHandler()) {
+            viewModelScope.launch(getLoadingCoroutineHandler()) {
                 Logger.m("Getting tickets' fields online...")
                 fieldsLoadingState.value = LoadingState.LOADING
                 val result = getTicketDataUseCase.execute(it)
@@ -58,30 +55,30 @@ class TicketCreateViewModel @Inject constructor(
     }
 
     fun save(url: String?, ticket: TicketEntity) {
-        viewModelScope.launch(getCoroutineHandler()) {
-            validateTicketFields(ticket)
-
+        viewModelScope.launch(getSavingCoroutineHandler()) {
             Logger.m("Trying to save new ticket...")
+            savingResult.value = SavingState.SAVING
             val result = saveTicketUseCase.execute(url = url, ticket = ticket)
 
             result.first?.let {
                 Logger.m("Success.")
-                saveResult.value = "Заявка успешно сохранена"
+                savingResult.value = SavingState.DONE
             } ?: run {
                 Logger.m("Error: ${result.second}")
-                saveResult.value = result.second
+                savingResult.value = SavingState.SAVING_ERROR
             }
         }
     }
 
-    private fun validateTicketFields(ticket: TicketEntity) {
-        Logger.m("Validating ticket fields...")
-        checkResult.value = validateTicketUseCase.execute(ticket)
+    private fun getLoadingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
+        when (throwable::class) {
+            ConnectException::class -> fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
+        }
     }
 
-    private fun getCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
-        if (throwable::class == ConnectException::class) {
-            fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
+    private fun getSavingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
+        when (throwable::class) {
+            ConnectException::class -> savingResult.value = SavingState.CONNECTION_ERROR
         }
     }
 }

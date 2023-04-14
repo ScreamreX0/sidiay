@@ -60,7 +60,7 @@ fun NavGraphBuilder.homeNavGraph(
             AppTheme(authParams.darkMode ?: false) {
                 Home().HomeScreen(
                     navController = navController,
-                    authParams = remember { mutableStateOf(authParams) },
+                    authParams = remember { authParams },
                     paddingValues = paddingValues,
                 )
             }

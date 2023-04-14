@@ -45,7 +45,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 internal fun MenuTicketList(
     navController: NavHostController = rememberNavController(),
-    authParams: MutableState<AuthParams?> = remember { mutableStateOf(AuthParams()) },
+    authParams: AuthParams? = remember { AuthParams() },
     tickets: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
     refreshing: MutableState<Boolean> = remember { mutableStateOf(false) },
 ) {
@@ -59,7 +59,7 @@ internal fun MenuTicketList(
             items(tickets.value.size) {
                 MenuTicketListItem(
                     navController,
-                    isDarkMode = authParams.value?.darkMode ?: false,
+                    isDarkMode = authParams?.darkMode ?: false,
                     ticket = tickets.value[it],
                 )
             }
@@ -76,12 +76,7 @@ private fun MenuTicketListItem(
     expanded: MutableState<Boolean> = remember { mutableStateOf(false) },
 ) {
     val context = LocalContext.current
-
-    val textColor = if (isDarkMode) {
-        Color.White
-    } else {
-        CustomColors.Grey780
-    }
+    val textColor = if (isDarkMode) Color.White else CustomColors.Grey780
     val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
     val dividerColor = CustomColors.Orange700.copy(alpha = 0.8F)
     val surfaceColor = if (isDarkMode) {
