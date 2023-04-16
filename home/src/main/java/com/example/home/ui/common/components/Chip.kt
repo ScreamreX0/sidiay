@@ -23,6 +23,7 @@ internal fun CustomChipRow(
     addingChipTitle: String,
     isDialogOpened: MutableState<Boolean>,
     chips: @Composable () -> Unit,
+    isClickable: Boolean = true
 ) {
     FlowRow(
         modifier = modifier,
@@ -30,9 +31,10 @@ internal fun CustomChipRow(
         crossAxisSpacing = 10.dp,
     ) {
         CustomChip(
+            modifier = modifier,
             title = addingChipTitle,
             removeButtonVisible = false,
-        ) { isDialogOpened.value = true }
+        ) { if (isClickable) isDialogOpened.value = true }
 
         chips()
     }
@@ -52,7 +54,7 @@ internal fun CustomChip(
             .background(MaterialTheme.colors.onBackground)
     ) {
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 10.dp, end = 10.dp, top = 5.dp)
                 .clickable(
                     interactionSource = MutableInteractionSource(),

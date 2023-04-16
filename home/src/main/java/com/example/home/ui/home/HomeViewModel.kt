@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.LoadingState
-import com.example.domain.usecases.home.GetTicketsUseCase
+import com.example.domain.usecases.tickets.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

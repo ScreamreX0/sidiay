@@ -1,4 +1,4 @@
-package com.example.domain.usecases.home
+package com.example.domain.usecases.tickets
 
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.ApplicationModes
@@ -11,14 +11,17 @@ class UpdateTicketUseCase @Inject constructor(
     private val ticketRepository: ITicketsRepository
 ) {
     suspend fun execute(
-        url: String,
-        currentUserId: Long,
+        url: String?,
+        currentUserId: Long?,
         ticket: TicketEntity
     ): Pair<TicketEntity?, String?> {
-        if (ConstAndVars.DEBUG_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
+        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
             return Pair(TicketEntity(id = 0), null)
         }
-        val result = ticketRepository.update(url = url, ticket = ticket, currentUserId)
+
+        if (url == null || currentUserId == null) { TODO("Add url null handler") }
+
+        val result = ticketRepository.update(url = url, ticket = ticket, currentUserId = currentUserId)
         return when (result.first) {
             200 -> Pair(result.second, null)
             else -> {

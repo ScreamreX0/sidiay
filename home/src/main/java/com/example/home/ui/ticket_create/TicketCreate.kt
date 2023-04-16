@@ -29,16 +29,15 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Helper
-import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
-import com.example.domain.enums.states.SavingState
-import com.example.domain.enums.states.SavingState.*
+import com.example.domain.enums.states.TicketOperationState
+import com.example.domain.enums.states.TicketOperationState.*
 import com.example.home.ui.common.*
-import com.example.home.ui.common.components.CustomBottomBar
-import com.example.home.ui.common.components.CustomTopBar
+import com.example.home.ui.common.components.TicketCreateBottomBar
+import com.example.home.ui.common.components.TicketCreateTopBar
 
 
 class TicketCreate {
@@ -50,8 +49,6 @@ class TicketCreate {
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
         draft: TicketEntity = rememberSaveable { TicketEntity() },
     ) {
-        draft.author = authParams.user
-
         LaunchedEffect(key1 = null) {
             ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
         }
@@ -75,11 +72,36 @@ class TicketCreate {
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
         saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
-        savingResult: MutableState<SavingState> = remember { mutableStateOf(WAITING) },
+        savingResult: MutableState<TicketOperationState> = remember { mutableStateOf(WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
     ) {
-        val mainScrollableState = rememberScrollState()
         val context = LocalContext.current
+
+        draft.value.author = authParams.user
+
+        //
+        // Saving
+        //
+        when (savingResult.value) {
+            IN_PROCESS -> bottomBarSelectable.value = false
+            DONE -> {
+                navController.popBackStack(
+                    route = BottomBarNav.Home.route,
+                    inclusive = false
+                )
+                Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
+            }
+            OPERATION_ERROR -> {
+                Helper.showShortToast(context = context, text = "Ошибка сохранения")
+                bottomBarSelectable.value = true
+            }
+            CONNECTION_ERROR -> {
+                Helper.showShortToast(context = context, text = "Ошибка подключения")
+                bottomBarSelectable.value = true
+            }
+            else -> {}
+        }
+
         //
         // MAIN CONSTRAINT
         //
@@ -91,7 +113,7 @@ class TicketCreate {
             // TOP BAR
             //
             val isTopIconsVisible = remember { mutableStateOf(false) }
-            CustomTopBar(
+            TicketCreateTopBar(
                 modifier = Modifier.layoutId("topAppBarRef"),
                 navController = navController,
                 iconsVisible = isTopIconsVisible,
@@ -103,13 +125,15 @@ class TicketCreate {
             //
             if ((fieldsLoadingState.value == LoadingState.LOADING
                 || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
-                && ConstAndVars.DEBUG_MODE != ApplicationModes.DEBUG_AND_OFFLINE
+                && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.layoutId("centralMiddleRef"),
                     color = MaterialTheme.colors.primary
                 )
                 return@ConstraintLayout
+            } else {
+                isTopIconsVisible.value = true
             }
 
             // Load error
@@ -127,34 +151,9 @@ class TicketCreate {
             }
 
             //
-            // Saving
-            //
-            when (savingResult.value) {
-                SAVING -> bottomBarSelectable.value = false
-                DONE -> {
-                    navController.popBackStack(
-                        route = BottomBarNav.Home.route,
-                        inclusive = false
-                    )
-                    Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
-                }
-                SAVING_ERROR -> {
-                    Helper.showShortToast(context = context, text = "Ошибка сохранения")
-                    bottomBarSelectable.value = true
-                }
-                CONNECTION_ERROR -> {
-                    Helper.showShortToast(context = context, text = "Ошибка подключения")
-                    bottomBarSelectable.value = true
-                }
-                else -> {}
-            }
-
-            // SET ICONS ON TOP BAR VISIBLE
-            isTopIconsVisible.value = true
-
-            //
             // TICKET CREATE ITEMS
             //
+            val mainScrollableState = rememberScrollState()
             Column(
                 modifier = Modifier
                     .layoutId("ticketCreateRef")
@@ -163,19 +162,19 @@ class TicketCreate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                NameField(draft = draft)
-                FacilitiesField(ticketData = ticketData, draft = draft)
-                ServiceField(draft = draft, ticketData = ticketData, starred = true)
-                KindField(draft = draft, ticketData = ticketData, starred = true)
-                PlaneDateField(draft = draft, starred = true)
-                PriorityField(draft = draft, ticketData = ticketData, starred = true)
-                ExecutorField(draft = draft, ticketData = ticketData, starred = true)
+                NameComponent(ticket = draft)
+                FacilitiesComponent(ticketData = ticketData, ticket = draft)
+                ServiceComponent(ticket = draft, ticketData = ticketData, starred = true)
+                KindComponent(ticket = draft, ticketData = ticketData, starred = true)
+                PlaneDateComponent(ticket = draft, starred = true)
+                PriorityComponent(ticket = draft, ticketData = ticketData, starred = true)
+                ExecutorComponent(ticket = draft, ticketData = ticketData, starred = true)
             }
 
             //
             // BOTTOM BAR
             //
-            CustomBottomBar(
+            TicketCreateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 draft = draft,
                 authParams = authParams,

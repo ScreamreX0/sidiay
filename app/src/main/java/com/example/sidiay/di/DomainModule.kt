@@ -2,10 +2,12 @@ package com.example.sidiay.di
 
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.repositories.ITicketsRepository
-import com.example.domain.usecases.createticket.*
-import com.example.domain.usecases.home.*
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
+import com.example.domain.usecases.tickets.GetDraftsUseCase
+import com.example.domain.usecases.tickets.GetTicketsUseCase
+import com.example.domain.usecases.tickets.SaveTicketUseCase
+import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,10 +29,14 @@ class DomainModule {
 
 
     @Provides
-    fun provideSaveTicketsUseCase(ticketsRepository: ITicketsRepository): SaveTicketUseCase =
+    fun provideSaveTicketUseCase(ticketsRepository: ITicketsRepository): SaveTicketUseCase =
         SaveTicketUseCase(ticketRepository = ticketsRepository)
 
     @Provides
     fun provideGetDraftsUseCase(ticketsRepository: ITicketsRepository): GetDraftsUseCase =
         GetDraftsUseCase(ticketsRepository)
+
+    @Provides
+    fun provideUpdateTicketUseCase(ticketsRepository: ITicketsRepository): UpdateTicketUseCase =
+        UpdateTicketUseCase(ticketRepository = ticketsRepository)
 }

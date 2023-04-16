@@ -1,4 +1,4 @@
-package com.example.domain.usecases.createticket
+package com.example.domain.usecases.tickets
 
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity

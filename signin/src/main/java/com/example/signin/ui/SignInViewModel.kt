@@ -91,6 +91,12 @@ class SignInViewModel @Inject constructor(
     }
 
     internal fun signIn(url: String, email: String, password: String) {
+        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
+            Logger.Companion.m("DEBUG_AND_OFFLINE MODE ENABLED")
+            signInSuccess.value = UserEntity(id = 0)
+            return
+        }
+
         val params = Credentials(email, password)
         val result = checkFieldsUseCase.execute(params = params)
         if (result.size != 0) {
@@ -98,12 +104,7 @@ class SignInViewModel @Inject constructor(
             return
         }
 
-        if (ConstAndVars.DEBUG_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
-            Logger.Companion.m("DEBUG_AND_OFFLINE MODE ENABLED")
-            signInSuccess.value = UserEntity(id = 0)
-            return
-        }
-        if (ConstAndVars.DEBUG_MODE == ApplicationModes.DEBUG_AND_ONLINE) {
+        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_ONLINE) {
             // TODO("Impl debug_and_online mode")
             Logger.Companion.m("DEBUG_AND_ONLINE MODE ENABLED")
             signInSuccess.value = UserEntity(id = 1)

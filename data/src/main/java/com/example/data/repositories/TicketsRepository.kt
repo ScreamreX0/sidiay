@@ -11,6 +11,7 @@ class TicketsRepository @Inject constructor(
 ) : ITicketsRepository {
     private val getEndpoint = "/tickets/get-by-id"
     private val addEndpoint = "/tickets/add"
+    private val updateEndpoint = "/tickets/update"
 
     override suspend fun get(url: String, userId: Long): Pair<Int, List<TicketEntity>?> {
         Logger.m("Getting tickets from api")
@@ -21,17 +22,12 @@ class TicketsRepository @Inject constructor(
         return Pair(result.code(), result.body())
     }
 
-    override suspend fun get() =
-        List(10) { TicketEntity(id = it.toLong()) } // TODO("Add some ticket")
+    override suspend fun get() = List(10) { TicketEntity(id = it.toLong()) } // TODO("Add info")
 
-    override suspend fun update(
-        url: String,
-        ticket: TicketEntity,
-        currentUserId: Long
-    ): Pair<Int, TicketEntity?> {
-        Logger.Companion.m("Sending add ticket request")
-        val result = apiService.updateTicket(url + "/${currentUserId}", ticket)
-        Logger.Companion.m("Add ticket request was sent")
+    override suspend fun update(url: String, ticket: TicketEntity, currentUserId: Long): Pair<Int, TicketEntity?> {
+        Logger.Companion.m("Sending update ticket request")
+        val result = apiService.updateTicket("$url$updateEndpoint/$currentUserId", ticket)
+        Logger.Companion.m("Update ticket request was sent")
         return Pair(result.code(), result.body())
     }
 

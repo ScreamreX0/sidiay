@@ -1,9 +1,9 @@
 package com.example.domain.enums.states
 
-enum class SavingState {
+enum class TicketOperationState {
     WAITING,
-    SAVING,
+    IN_PROCESS,
     DONE,
-    SAVING_ERROR,
+    OPERATION_ERROR,
     CONNECTION_ERROR
 }

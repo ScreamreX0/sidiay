@@ -1,11 +1,16 @@
 package com.example.home.ui.home.components
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -37,7 +41,6 @@ import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.CustomColors
 import com.example.core.utils.ComponentPreview
-import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import java.time.format.DateTimeFormatter
@@ -75,7 +78,6 @@ private fun MenuTicketListItem(
     isDarkMode: Boolean,
     expanded: MutableState<Boolean> = remember { mutableStateOf(false) },
 ) {
-    val context = LocalContext.current
     val textColor = if (isDarkMode) Color.White else CustomColors.Grey780
     val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
     val dividerColor = CustomColors.Orange700.copy(alpha = 0.8F)
@@ -85,11 +87,16 @@ private fun MenuTicketListItem(
         MaterialTheme.colors.background
     }
 
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, bottom = 5.dp, top = 5.dp)
             .shadow(elevation = 3.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) { expanded.value = !expanded.value }
     ) {
         var defaultTextSize: TextUnit = MaterialTheme.typography.h2.fontSize
 
@@ -107,9 +114,7 @@ private fun MenuTicketListItem(
             // Number
             ItemText(
                 modifier = Modifier.layoutId("numberRef"),
-                context = context,
                 text = "№${ticket.id}",
-                hint = "Номер заявки",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize.times(1.3),
@@ -119,9 +124,7 @@ private fun MenuTicketListItem(
             // Title
             ItemText(
                 modifier = Modifier.layoutId("titleRef"),
-                context = context,
                 text = ticket.name ?: "[Заголовок]",
-                hint = "Заголовок",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize.times(1.6),
@@ -131,9 +134,7 @@ private fun MenuTicketListItem(
             // Service
             ItemText(
                 modifier = Modifier.layoutId("serviceRef"),
-                context = context,
                 text = ticket.service?.name ?: "[Сервис не указан]",
-                hint = "Сервис",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
@@ -144,9 +145,7 @@ private fun MenuTicketListItem(
                 modifier = Modifier
                     .layoutId("executorRef")
                     .padding(bottom = 10.dp),
-                context = context,
                 text = ticket.executor?.getFullName() ?: "[Исполнитель не назначен]",
-                hint = "Исполнитель заявки",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
@@ -155,10 +154,8 @@ private fun MenuTicketListItem(
             // Plane date TODO(Отображение планового простоя)
             ItemText(
                 modifier = Modifier.layoutId("dateRef"),
-                context = context,
                 text = ticket.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
                     ?: "[Плановая дата не назначена]",
-                hint = "Плановая дата заявки",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
@@ -173,9 +170,7 @@ private fun MenuTicketListItem(
                     .clickable(
                         interactionSource = MutableInteractionSource(),
                         indication = null
-                    ) {
-                        navController.navigate(Screens.Home.TICKET_UPDATE)
-                    },
+                    ) { navController.navigate(Screens.Home.TICKET_UPDATE) },
                 painter = painterResource(id = R.drawable.baseline_create_24),
                 contentDescription = null,
                 tint = CustomColors.Orange700,
@@ -186,25 +181,17 @@ private fun MenuTicketListItem(
                 modifier = Modifier
                     .layoutId("statusRef")
                     .fillMaxWidth(0.3F),
-                context = context,
                 text = ticket.status?.name ?: "[Статус неизвестен]",
-                hint = "Статус заявки",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
             )
 
-            // Expand button
+            // Expand icon
             Icon(
                 modifier = Modifier
                     .layoutId("expandRef")
-                    .padding(bottom = 10.dp)
-                    .clickable(
-                        interactionSource = MutableInteractionSource(),
-                        indication = null
-                    ) {
-                        expanded.value = !expanded.value
-                    },
+                    .padding(bottom = 10.dp),
                 painter = painterResource(
                     id = if (expanded.value) {
                         R.drawable.baseline_keyboard_arrow_up_24
@@ -222,9 +209,7 @@ private fun MenuTicketListItem(
                     .layoutId("priorityRef")
                     .padding(bottom = 10.dp)
                     .fillMaxWidth(0.3F),
-                context = context,
                 text = ticket.priority?.name ?: "Неизвестный",
-                hint = "Приоритет заявки",
                 circleColor = circleColor,
                 textColor = getPriorityColor(isDarkMode, ticket.priority?.value ?: 1),
                 fontSize = defaultTextSize,
@@ -245,9 +230,7 @@ private fun MenuTicketListItem(
                     modifier = Modifier
                         .layoutId("authorRef")
                         .fillMaxWidth(0.4F),
-                    context = context,
                     text = ticket.author?.getFullName() ?: "[Автор не указан]",
-                    hint = "Автор заявки",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -258,9 +241,7 @@ private fun MenuTicketListItem(
                     modifier = Modifier
                         .layoutId("kindRef")
                         .fillMaxWidth(0.3F),
-                    context = context,
                     text = ticket.service?.name ?: "[Вид не указан]",
-                    hint = "Вид заявки",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -269,10 +250,8 @@ private fun MenuTicketListItem(
                 // Terms
                 ItemText(
                     modifier = Modifier.layoutId("termsRef"),
-                    context = context,
                     text = "${ticket.creation_date ?: "[Дата создания не указана]"} " +
                             "- ${ticket.expiration_date ?: "[Дата окончания не указана]"}",
-                    hint = "Сроки заявки",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -281,10 +260,8 @@ private fun MenuTicketListItem(
                 // Objects
                 ItemText(
                     modifier = Modifier.layoutId("objectsRef"),
-                    context = context,
                     text = ticket.facilities?.joinToString { "${it.name} " }
                         ?: "[Объекты не указаны]",
-                    hint = "Объекты",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -293,9 +270,7 @@ private fun MenuTicketListItem(
                 // Completed work
                 ItemText(
                     modifier = Modifier.layoutId("completedWorkRef"),
-                    context = context,
                     text = ticket.completed_work ?: "[Нет завершенных работ]",
-                    hint = "Завершенная работа",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -304,9 +279,7 @@ private fun MenuTicketListItem(
                 // Description
                 ItemText(
                     modifier = Modifier.layoutId("descriptionRef"),
-                    context = context,
                     text = ticket.description ?: "[Нет описания]",
-                    hint = "Описание",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -319,9 +292,7 @@ private fun MenuTicketListItem(
 @Composable
 private fun ItemText(
     modifier: Modifier,
-    context: Context,
     text: String,
-    hint: String,
     circleColor: Color,
     isCircleEnabled: Boolean = true,
     textColor: Color,
@@ -329,11 +300,7 @@ private fun ItemText(
 ) {
 
     Row(
-        modifier = modifier
-            .clickable(
-                interactionSource = MutableInteractionSource(),
-                indication = null
-            ) { Helper.showShortToast(context, hint) },
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (isCircleEnabled) CustomCircle(circleColor)

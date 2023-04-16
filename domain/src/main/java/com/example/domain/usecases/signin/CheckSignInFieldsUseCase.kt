@@ -1,6 +1,5 @@
 package com.example.domain.usecases.signin
 
-import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ApplicationModes.*
 import com.example.core.utils.ConstAndVars
 import com.example.domain.enums.states.SignInStates
@@ -11,7 +10,7 @@ class CheckSignInFieldsUseCase @Inject constructor() {
     fun execute(params: Credentials): ArrayList<SignInStates> {
         val errorList: ArrayList<SignInStates> = ArrayList()
 
-        if (ConstAndVars.DEBUG_MODE == DEBUG_AND_ONLINE) return errorList
+        if (ConstAndVars.APPLICATION_MODE == DEBUG_AND_ONLINE) return errorList
 
         // Email errors
         if (params.email.length < ConstAndVars.MIN_EMAIL_LENGHT

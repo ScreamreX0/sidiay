@@ -22,7 +22,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 
 @Composable
-internal fun CustomBottomBar(
+internal fun TicketCreateBottomBar(
     modifier: Modifier = Modifier,
     draft: MutableState<TicketEntity>,
     saveTicketFunction: (String?, TicketEntity) -> Unit,
@@ -51,7 +51,7 @@ internal fun CustomBottomBar(
 }
 
 @Composable
-internal fun CustomTopBar(
+internal fun TicketCreateTopBar(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
@@ -126,8 +126,45 @@ internal fun CustomTopBar(
     }
 }
 
+@Composable
+internal fun TicketUpdateTopBar(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
+    ticket: MutableState<TicketEntity>
+) {
+    Row(
+        modifier = modifier
+            .height(65.dp)
+            .background(MaterialTheme.colors.onBackground),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Icon(
+            modifier = Modifier
+                .padding(start = 15.dp)
+                .fillMaxHeight()
+                .width(30.dp)
+                .clickable {
+                    navController.popBackStack(
+                        route = BottomBarNav.Home.route,
+                        inclusive = false
+                    )
+                },
+            painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
+            contentDescription = "Back",
+            tint = MaterialTheme.colors.onPrimary,
+        )
+
+        if (iconsVisible.value) {
+            Row {
+
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun Preview() {
-    CustomTopBar(draft = remember { mutableStateOf(TicketEntity()) })
+    TicketCreateTopBar(draft = remember { mutableStateOf(TicketEntity()) })
 }

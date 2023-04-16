@@ -1,7 +1,7 @@
 package com.example.core.utils
 
 object ConstAndVars {
-    val DEBUG_MODE = ApplicationModes.DEBUG_AND_ONLINE
+    val APPLICATION_MODE = ApplicationModes.DEBUG_AND_OFFLINE
 
     const val MIN_EMAIL_LENGHT = 9
     const val MAX_EMAIL_LENGHT = 32
@@ -10,11 +10,9 @@ object ConstAndVars {
     const val MIN_USERNAME_LENGHT = 4
     const val MAX_USERNAME_LENGHT = 32
 
-    const val URL = "https://3d27-87-117-189-230.ngrok-free.app"
+    const val URL = "https://1903-87-117-185-59.ngrok-free.app"
 
     const val NULL = "NULL"
-    const val DARK_MODE = "DARK_MODE"
-    const val LIGHT_MODE = "LIGHT_MODE"
 }
 
 

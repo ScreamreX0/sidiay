@@ -8,7 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -61,7 +60,7 @@ class Home {
         //
         if ((homeViewModel.ticketsLoadingState.value == LoadingState.LOADING
                     || homeViewModel.ticketsLoadingState.value == LoadingState.WAIT_FOR_INIT)
-            && ConstAndVars.DEBUG_MODE != ApplicationModes.DEBUG_AND_OFFLINE
+            && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
         ) {
             Row(
                 modifier = Modifier

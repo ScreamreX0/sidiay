@@ -1,4 +1,4 @@
-package com.example.domain.usecases.home
+package com.example.domain.usecases.tickets
 
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject

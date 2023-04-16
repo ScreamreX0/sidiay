@@ -8,9 +8,9 @@ import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.LoadingState
-import com.example.domain.enums.states.SavingState
-import com.example.domain.usecases.createticket.GetTicketDataUseCase
-import com.example.domain.usecases.createticket.SaveTicketUseCase
+import com.example.domain.enums.states.TicketOperationState
+import com.example.domain.usecases.tickets.GetTicketDataUseCase
+import com.example.domain.usecases.tickets.SaveTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class TicketCreateViewModel @Inject constructor(
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
 
-    var savingResult: MutableState<SavingState> = mutableStateOf(SavingState.WAITING)
+    var savingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
 
     fun initFields(url: String?) {
         Logger.m("Check network mode...")
@@ -57,15 +57,15 @@ class TicketCreateViewModel @Inject constructor(
     fun save(url: String?, ticket: TicketEntity) {
         viewModelScope.launch(getSavingCoroutineHandler()) {
             Logger.m("Trying to save new ticket...")
-            savingResult.value = SavingState.SAVING
+            savingResult.value = TicketOperationState.IN_PROCESS
             val result = saveTicketUseCase.execute(url = url, ticket = ticket)
 
             result.first?.let {
                 Logger.m("Success.")
-                savingResult.value = SavingState.DONE
+                savingResult.value = TicketOperationState.DONE
             } ?: run {
                 Logger.m("Error: ${result.second}")
-                savingResult.value = SavingState.SAVING_ERROR
+                savingResult.value = TicketOperationState.OPERATION_ERROR
             }
         }
     }
@@ -78,7 +78,7 @@ class TicketCreateViewModel @Inject constructor(
 
     private fun getSavingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
         when (throwable::class) {
-            ConnectException::class -> savingResult.value = SavingState.CONNECTION_ERROR
+            ConnectException::class -> savingResult.value = TicketOperationState.CONNECTION_ERROR
         }
     }
 }
