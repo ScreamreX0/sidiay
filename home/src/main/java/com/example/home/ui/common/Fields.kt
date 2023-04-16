@@ -1,13 +1,18 @@
 package com.example.home.ui.common
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -23,14 +28,12 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun FacilitiesComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     ChipRowComponent(
-        modifier = modifier,
         dialogTitle = "Выберите объект",
         ticketData = ticketData.value?.facilities,
         predicate = { it, searchTextState ->
@@ -63,14 +66,12 @@ internal fun FacilitiesComponent(
 
 @Composable
 internal fun EquipmentComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     ChipRowComponent(
-        modifier = modifier,
         dialogTitle = "Выберите оборудование",
         ticketData = ticketData.value?.equipment,
         predicate = { it, searchTextState ->
@@ -106,14 +107,12 @@ internal fun EquipmentComponent(
 
 @Composable
 internal fun TransportComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     ChipRowComponent(
-        modifier = modifier,
         dialogTitle = "Выберите транспорт",
         ticketData = ticketData.value?.transport,
         predicate = { it, searchTextState ->
@@ -148,14 +147,12 @@ internal fun TransportComponent(
 
 @Composable
 internal fun BrigadeComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     ChipRowComponent(
-        modifier = modifier,
         dialogTitle = "Выберите сотрудника",
         ticketData = ticketData.value?.users,
         predicate = { it, searchTextState ->
@@ -192,13 +189,11 @@ internal fun BrigadeComponent(
 
 @Composable
 internal fun NameComponent(
-    modifier: Modifier = Modifier,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     TextFieldComponent(
-        modifier = modifier,
         title = "Название",
         icon = R.drawable.baseline_title_24,
         text = ticket.value.name,
@@ -211,13 +206,11 @@ internal fun NameComponent(
 
 @Composable
 internal fun DescriptionComponent(
-    modifier: Modifier = Modifier,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     TextFieldComponent(
-        modifier = modifier,
         title = "Описание",
         icon = R.drawable.baseline_text_format_24,
         text = ticket.value.description,
@@ -230,14 +223,12 @@ internal fun DescriptionComponent(
 
 @Composable
 internal fun ServiceComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     TextWithDialogComponent(
-        modifier = modifier,
         dialogTitle = "Выберите сервис",
         ticketData = ticketData.value?.services,
         predicate = { it, searchTextState ->
@@ -259,14 +250,12 @@ internal fun ServiceComponent(
 
 @Composable
 internal fun KindComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     TextWithDialogComponent(
-        modifier = modifier,
         dialogTitle = "Выберите вид",
         ticketData = ticketData.value?.kinds,
         predicate = { it, searchTextState ->
@@ -289,14 +278,12 @@ internal fun KindComponent(
 
 @Composable
 internal fun PriorityComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     TextWithDialogComponent(
-        modifier = modifier,
         dialogTitle = "Выберите приоритет",
         ticketData = ticketData.value?.priorities,
         predicate = { it, searchTextState ->
@@ -318,14 +305,12 @@ internal fun PriorityComponent(
 
 @Composable
 internal fun ExecutorComponent(
-    modifier: Modifier = Modifier,
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     TextWithDialogComponent(
-        modifier = modifier,
         dialogTitle = "Выберите исполнителя",
         ticketData = ticketData.value?.users,
         predicate = { it, searchTextState ->
@@ -349,29 +334,27 @@ internal fun ExecutorComponent(
 
 @Composable
 internal fun StatusComponent(
-    modifier: Modifier = Modifier,
     statuses: List<TicketStatuses>,
     ticket: MutableState<TicketEntity>,
     isClickable: Boolean = true
 ) {
     DropdownMenuComponent(
-        modifier = modifier,
         items = statuses,
         onItemSelected = { ticket.value = ticket.value.copy(status = it) },
         selectedItem = ticket.value.status,
         isClickable = isClickable,
+        title = "Статус",
+        icon = R.drawable.baseline_help_outline_24
     )
 }
 
 @Composable
 internal fun PlaneDateComponent(
-    modifier: Modifier = Modifier,
     ticket: MutableState<TicketEntity>,
     starred: Boolean = false,
     isClickable: Boolean = true
 ) {
     DateFieldComponent(
-        modifier = modifier,
         date = ticket.value.plane_date ?: LocalDate.now().toString(),
         onConfirmDatePicker = { ticket.value = ticket.value.copy(plane_date = it) },
         title = "Плановая дата",
@@ -384,40 +367,62 @@ internal fun PlaneDateComponent(
 }
 
 @Composable
-internal fun AuthorField(
-    modifier: Modifier = Modifier,
+internal fun AuthorComponent(
     authParams: AuthParams,
-    starred: Boolean = false
+    starred: Boolean = false,
 ) {
     TextComponent(
-        modifier = modifier,
         title = "Автор",
         icon = R.drawable.ic_baseline_person_24,
         starred = starred,
-        label = authParams.user?.getFullName() ?: "[Автор не определен]"
+        label = authParams.user?.getFullName() ?: "[Автор не определен]",
+        isClickable = false
+    )
+}
+
+@Composable
+internal fun DropdownMenuComponent(
+    items: List<TicketStatuses>,
+    onItemSelected: (TicketStatuses) -> Unit,
+    selectedItem: TicketStatuses?,
+    isClickable: Boolean,
+    title: String,
+    icon: Int
+) {
+    TicketComponent(
+        title = title,
+        icon = icon,
+        item = {
+            DropDownComponent(
+                items = items,
+                onItemSelected = onItemSelected,
+                selectedItem = selectedItem,
+                isClickable = isClickable
+            )
+        },
+        isClickable = isClickable
     )
 }
 
 @Composable
 private fun TextComponent(
-    modifier: Modifier = Modifier,
     title: String,
     icon: Int,
     starred: Boolean,
     label: String,
+    isClickable: Boolean,
 ) {
     TicketComponent(
-        modifier = modifier,
         title = title,
         icon = icon,
         starred = starred,
-        item = { CustomSelectableText(label = label) }
+        item = { CustomText(label = label) },
+        isClickable = isClickable
     )
 }
 
 @Composable
 private fun DateFieldComponent(
-    modifier: Modifier = Modifier,
     date: String,
     isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
     onConfirmDatePicker: (String) -> Unit,
@@ -433,22 +438,21 @@ private fun DateFieldComponent(
         onConfirm = onConfirmDatePicker
     )
     TicketComponent(
-        modifier = modifier,
         title = title,
         icon = icon,
         starred = starred,
         item = {
-            CustomSelectableText(
+            CustomText(
                 label = datePickerTitle,
                 onClick = { if (isClickable) isDialogOpened.value = true }
             )
-        }
+        },
+        isClickable = isClickable
     )
 }
 
 @Composable
 private fun TextFieldComponent(
-    modifier: Modifier = Modifier,
     // Title
     title: String,
     starred: Boolean,
@@ -460,7 +464,6 @@ private fun TextFieldComponent(
     isClickable: Boolean
 ) {
     TicketComponent(
-        modifier = modifier,
         title = title,
         icon = icon,
         starred = starred,
@@ -471,13 +474,13 @@ private fun TextFieldComponent(
                 hint = textFieldHint,
                 isClickable = isClickable
             )
-        }
+        },
+        isClickable = isClickable
     )
 }
 
 @Composable
 private fun <T> ChipRowComponent(
-    modifier: Modifier = Modifier,
     // Dialog
     dialogTitle: String,
     ticketData: List<T>?,
@@ -504,24 +507,23 @@ private fun <T> ChipRowComponent(
         searchTextState = searchTextState
     )
     TicketComponent(
-        modifier = modifier,
         title = title,
         icon = icon,
-        starred = starred
-    ) {
-        CustomChipRow(
-            modifier = modifier,
-            addingChipTitle = addingChipTitle,
-            isDialogOpened = isDialogOpened,
-            chips = { chips() },
-            isClickable = isClickable
-        )
-    }
+        starred = starred,
+        item = {
+            CustomChipRow(
+                addingChipTitle = addingChipTitle,
+                isDialogOpened = isDialogOpened,
+                chips = { chips() },
+                isClickable = isClickable
+            )
+        },
+        isClickable = isClickable
+    )
 }
 
 @Composable
 private fun <T> TextWithDialogComponent(
-    modifier: Modifier = Modifier,
     // Dialog
     dialogTitle: String,
     ticketData: List<T>?,
@@ -547,49 +549,30 @@ private fun <T> TextWithDialogComponent(
         searchTextState = searchTextState,
     )
     TicketComponent(
-        modifier = modifier,
         title = title,
         icon = icon,
-        starred = starred
-    ) {
-        CustomSelectableText(
-            label = label,
-            onClick = { if (isClickable) isDialogOpened.value = true }
-        )
-    }
+        starred = starred,
+        item = {
+            CustomText(
+                label = label,
+                onClick = { if (isClickable) isDialogOpened.value = true }
+            )
+        },
+        isClickable = isClickable
+    )
 }
 
-@Composable
-fun DropdownMenuComponent(
-    modifier: Modifier,
-    items: List<TicketStatuses>,
-    onItemSelected: (TicketStatuses) -> Unit,
-    selectedItem: TicketStatuses?,
-    isClickable: Boolean,
-) {
-    TicketComponent(
-        modifier = modifier,
-        title = "Статус",
-        icon = R.drawable.baseline_help_outline_24
-    ) {
-        DropDownComponent(
-            modifier = modifier,
-            items = items,
-            onItemSelected = onItemSelected,
-            selectedItem = selectedItem,
-            isClickable = isClickable
-        )
-    }
-}
+
 
 @Composable
 private fun TicketComponent(
-    modifier: Modifier = Modifier,
     title: String,
     icon: Int,
     starred: Boolean = remember { false },
-    item: @Composable () -> Unit
+    item: @Composable () -> Unit,
+    isClickable: Boolean,
 ) {
+    val modifier = if (isClickable) Modifier else Modifier.alpha(0.6F)
     Row(
         modifier = modifier
             .fillMaxWidth()

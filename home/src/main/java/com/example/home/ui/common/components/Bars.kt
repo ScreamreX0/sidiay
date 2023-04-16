@@ -51,6 +51,35 @@ internal fun TicketCreateBottomBar(
 }
 
 @Composable
+internal fun TicketUpdateBottomBar(
+    modifier: Modifier = Modifier,
+    ticket: MutableState<TicketEntity>,
+    updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
+    authParams: AuthParams,
+    bottomBarSelectable: MutableState<Boolean>
+) {
+    Row(modifier = modifier.height(50.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.onBackground)
+                .clickable {
+                    if (bottomBarSelectable.value) {
+                        // TODO() updateTicketFunction(authParams.connectionParams?.url, ticket.value)
+                    }
+                },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = "Сохранить",
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
+    }
+}
+
+@Composable
 internal fun TicketCreateTopBar(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),

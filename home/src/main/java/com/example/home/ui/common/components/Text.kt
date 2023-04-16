@@ -42,7 +42,7 @@ internal fun CustomTextField(
 }
 
 @Composable
-internal fun CustomSelectableText(
+internal fun CustomText(
     modifier: Modifier = Modifier,
     label: String,
     onClick: () -> Unit = {},

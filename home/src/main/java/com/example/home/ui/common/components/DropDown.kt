@@ -1,6 +1,5 @@
 package com.example.home.ui.common.components
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -17,14 +16,12 @@ import com.example.domain.enums.TicketStatuses
 
 @Composable
 internal fun DropDownComponent(
-    modifier: Modifier = Modifier,
     items: List<TicketStatuses>,
     onItemSelected: (TicketStatuses) -> Unit,
     selectedItem: TicketStatuses?,
     isClickable: Boolean
 ) {
     val expanded = remember { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .wrapContentSize()
@@ -34,12 +31,10 @@ internal fun DropDownComponent(
             ) { if (isClickable) expanded.value = true }
     ) {
         Text(
-            modifier = modifier,
             text = selectedItem?.title ?: "[Статус не определен]",
             fontSize = MaterialTheme.typography.h5.fontSize,
-            color = MaterialTheme.colors.onBackground,
+            color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
         )
-
         DropdownMenu(
             expanded = expanded.value,
             onDismissRequest = { expanded.value = false }
@@ -53,7 +48,7 @@ internal fun DropDownComponent(
                     Text(
                         text = item.title,
                         fontSize = MaterialTheme.typography.h5.fontSize,
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
                     )
                 }
             }

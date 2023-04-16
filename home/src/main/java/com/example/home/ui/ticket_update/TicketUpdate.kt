@@ -16,8 +16,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,10 +34,11 @@ import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.home.ui.common.AuthorField
+import com.example.home.ui.common.AuthorComponent
 import com.example.home.ui.common.BrigadeComponent
 import com.example.home.ui.common.DescriptionComponent
 import com.example.home.ui.common.EquipmentComponent
@@ -51,7 +50,9 @@ import com.example.home.ui.common.PlaneDateComponent
 import com.example.home.ui.common.PriorityComponent
 import com.example.home.ui.common.ServiceComponent
 import com.example.home.ui.common.StatusComponent
+import com.example.home.ui.common.TicketRestrictions
 import com.example.home.ui.common.TransportComponent
+import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
 
 
@@ -75,7 +76,6 @@ class TicketUpdate {
             fieldsLoadingState = ticketUpdateViewModel.fieldsLoadingState,
             updateTicketFunction = ticketUpdateViewModel::update,
             updatingResult = ticketUpdateViewModel.updatingResult
-
         )
     }
 
@@ -87,10 +87,22 @@ class TicketUpdate {
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
         updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
-        updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
+        updatingResult: MutableState<TicketOperationState> = remember {
+            mutableStateOf(
+                TicketOperationState.WAITING
+            )
+        },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
     ) {
         val context = LocalContext.current
+
+        val allowedFields = remember {
+            TicketRestrictions.getAllowedFields(
+                ticketStatus = TicketStatuses.NOT_FORMED, // ticket.value.status,
+                executor = false //ticket.value.executor == authParams.user
+            ) ?: listOf()
+        }
+
         //
         // MAIN CONSTRAINT
         //
@@ -149,14 +161,17 @@ class TicketUpdate {
                     )
                     Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
                 }
+
                 TicketOperationState.OPERATION_ERROR -> {
                     Helper.showShortToast(context = context, text = "Ошибка сохранения")
                     bottomBarSelectable.value = true
                 }
+
                 TicketOperationState.CONNECTION_ERROR -> {
                     Helper.showShortToast(context = context, text = "Ошибка подключения")
                     bottomBarSelectable.value = true
                 }
+
                 else -> {}
             }
 
@@ -175,96 +190,82 @@ class TicketUpdate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                NameComponent(
-                    modifier = Modifier.disable(),
-                    ticket = ticket,
-                    isClickable = false
-                )
                 FacilitiesComponent(
-                    modifier = Modifier.disable(),
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.FACILITIES in allowedFields
                 )
                 EquipmentComponent(
-                    modifier = Modifier.disable(),
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.EQUIPMENT in allowedFields
                 )
                 TransportComponent(
-                    modifier = Modifier.disable(),
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.TRANSPORT in allowedFields
                 )
                 BrigadeComponent(
-                    modifier = Modifier.disable(),
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.BRIGADE in allowedFields
                 )
                 NameComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.NAME in allowedFields
                 )
                 DescriptionComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.DESCRIPTION in allowedFields
                 )
                 ServiceComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.SERVICE in allowedFields
                 )
                 KindComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.KIND in allowedFields
                 )
                 PriorityComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.PRIORITY in allowedFields
                 )
                 ExecutorComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.EXECUTOR in allowedFields
                 )
                 PlaneDateComponent(
-                    modifier = Modifier.disable(),
                     ticket = ticket,
-                    isClickable = false
+                    isClickable = TicketFieldsEnum.PLANE_DATE in allowedFields
                 )
-                AuthorField(
-                    modifier = Modifier.disable(),
+                AuthorComponent(
                     authParams = authParams
                 )
                 StatusComponent(
-                    modifier = Modifier.disable(),
-                    statuses = listOf(TicketStatuses.ACCEPTED, TicketStatuses.CLOSED, TicketStatuses.COMPLETED),
-                    isClickable = true,
-                    ticket = ticket
+                    statuses = listOf(
+                        TicketStatuses.ACCEPTED,
+                        TicketStatuses.CLOSED,
+                        TicketStatuses.COMPLETED
+                    ),
+                    ticket = ticket,
+                    isClickable = TicketFieldsEnum.STATUS in allowedFields
                 )
             }
-//
-//            //
-//            // BOTTOM BAR
-//            //
-//            TicketCreateBottomBar(
-//                modifier = Modifier.layoutId("bottomAppBarRef"),
-//                draft = draft,
-//                authParams = authParams,
-//                saveTicketFunction = saveTicketFunction,
-//                bottomBarSelectable = bottomBarSelectable
-//            )
+
+            //
+            // BOTTOM BAR
+            //
+            TicketUpdateBottomBar(
+                modifier = Modifier.layoutId("bottomAppBarRef"),
+                ticket = ticket,
+                authParams = authParams,
+                updateTicketFunction = updateTicketFunction,
+                bottomBarSelectable = bottomBarSelectable
+            )
         }
     }
 
@@ -300,10 +301,8 @@ class TicketUpdate {
         }
     }
 
-    private fun Modifier.disable(): Modifier = composed { alpha(0.7F) }
-
     @Composable
-    @Preview(heightDp = 1100)
+    @Preview(heightDp = 1600)
     private fun Preview() {
         AppTheme(isSystemInDarkTheme()) {
             Content()
