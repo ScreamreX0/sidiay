@@ -251,7 +251,7 @@ private fun MenuTicketListItem(
                 ItemText(
                     modifier = Modifier.layoutId("termsRef"),
                     text = "${ticket.creation_date ?: "[Дата создания не указана]"} " +
-                            "- ${ticket.expiration_date ?: "[Дата окончания не указана]"}",
+                            "- ${ticket.closing_date ?: "[Дата окончания не указана]"}",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,

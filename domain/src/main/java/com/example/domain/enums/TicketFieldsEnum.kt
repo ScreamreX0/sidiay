@@ -11,7 +11,11 @@ enum class TicketFieldsEnum {
     KIND,
     PRIORITY,
     EXECUTOR,
+    COMPLETED_WORK,
     PLANE_DATE,
+    EXPIRATION_DATE,
+    CREATION_DATE,
     AUTHOR,
-    STATUS
+    STATUS,
+    IMPROVEMENT_REASON
 }

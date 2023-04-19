@@ -3,13 +3,54 @@ package com.example.domain.enums
 enum class TicketStatuses(
     val value: Int,
     val title: String,
+    val requiredFields: List<TicketFieldsEnum>? = null
 ) {
-    NOT_FORMED(1, "Не сформирована"),
-    NEW(2, "Новая"),
-    ACCEPTED(3, "Принята"),
-    DENIED(4, "Отклонена"),
-    SUSPENDED(5, "Приостановлена"),
-    COMPLETED(6, "Завершена"),
-    CLOSED(7, "Закрыта"),
-    FOR_REVISION(8, "На рассмотрение");
+    NOT_FORMED(
+        value = 1,
+        title = "Не сформирована",
+    ),
+
+    NEW(
+        value = 2,
+        title = "Новая",
+    ),
+
+    ACCEPTED(
+        value = 3,
+        title = "Принята",
+    ),
+
+    DENIED(
+        value = 4,
+        title = "Отклонена",
+        requiredFields = listOf(
+            TicketFieldsEnum.COMPLETED_WORK,
+            TicketFieldsEnum.EXPIRATION_DATE
+        )
+    ),
+
+    SUSPENDED(
+        value = 5,
+        title = "Приостановлена"
+    ),
+
+    COMPLETED(
+        value = 6,
+        title = "Завершена",
+        requiredFields = listOf(
+            TicketFieldsEnum.COMPLETED_WORK,
+            TicketFieldsEnum.EXPIRATION_DATE
+        )
+    ),
+
+    CLOSED(
+        value = 7,
+        title = "Закрыта"
+    ),
+
+    FOR_REVISION(
+        value = 8,
+        title = "На доработку",
+        requiredFields = listOf(TicketFieldsEnum.IMPROVEMENT_REASON)
+    );
 }

@@ -50,7 +50,7 @@ import com.example.home.ui.common.PlaneDateComponent
 import com.example.home.ui.common.PriorityComponent
 import com.example.home.ui.common.ServiceComponent
 import com.example.home.ui.common.StatusComponent
-import com.example.home.ui.common.TicketRestrictions
+import com.example.home.ui.common.ticket_restrictions.TicketRestrictions
 import com.example.home.ui.common.TransportComponent
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
@@ -92,15 +92,17 @@ class TicketUpdate {
                 TicketOperationState.WAITING
             )
         },
-        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
+        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
     ) {
         val context = LocalContext.current
+        val selectedTicket = remember { ticket.value.status }
 
         val allowedFields = remember {
             TicketRestrictions.getAllowedFields(
-                ticketStatus = TicketStatuses.NOT_FORMED, // ticket.value.status,
-                executor = false //ticket.value.executor == authParams.user
-            ) ?: listOf()
+                selectedTicketStatus = selectedTicket,
+                ticketStatus = ticket.value.status,
+                executor = ticket.value.executor == authParams.user
+            )
         }
 
         //
@@ -193,54 +195,54 @@ class TicketUpdate {
                 FacilitiesComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.FACILITIES in allowedFields
+                    isClickable = remember { TicketFieldsEnum.FACILITIES in allowedFields }
                 )
                 EquipmentComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.EQUIPMENT in allowedFields
+                    isClickable = remember { TicketFieldsEnum.EQUIPMENT in allowedFields }
                 )
                 TransportComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.TRANSPORT in allowedFields
+                    isClickable = remember { TicketFieldsEnum.TRANSPORT in allowedFields }
                 )
                 BrigadeComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.BRIGADE in allowedFields
+                    isClickable = remember { TicketFieldsEnum.BRIGADE in allowedFields }
                 )
                 NameComponent(
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.NAME in allowedFields
+                    isClickable = remember { TicketFieldsEnum.NAME in allowedFields }
                 )
                 DescriptionComponent(
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.DESCRIPTION in allowedFields
+                    isClickable = remember { TicketFieldsEnum.DESCRIPTION in allowedFields }
                 )
                 ServiceComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = TicketFieldsEnum.SERVICE in allowedFields
+                    isClickable = remember { TicketFieldsEnum.SERVICE in allowedFields }
                 )
                 KindComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = TicketFieldsEnum.KIND in allowedFields
+                    isClickable = remember { TicketFieldsEnum.KIND in allowedFields }
                 )
                 PriorityComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = TicketFieldsEnum.PRIORITY in allowedFields
+                    isClickable = remember { TicketFieldsEnum.PRIORITY in allowedFields }
                 )
                 ExecutorComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = TicketFieldsEnum.EXECUTOR in allowedFields
+                    isClickable = remember { TicketFieldsEnum.EXECUTOR in allowedFields }
                 )
                 PlaneDateComponent(
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.PLANE_DATE in allowedFields
+                    isClickable = remember { TicketFieldsEnum.PLANE_DATE in allowedFields }
                 )
                 AuthorComponent(
                     authParams = authParams
@@ -252,7 +254,8 @@ class TicketUpdate {
                         TicketStatuses.COMPLETED
                     ),
                     ticket = ticket,
-                    isClickable = TicketFieldsEnum.STATUS in allowedFields
+                    selectedTicket = ti
+                    isClickable = remember { TicketFieldsEnum.STATUS in allowedFields }
                 )
             }
 
