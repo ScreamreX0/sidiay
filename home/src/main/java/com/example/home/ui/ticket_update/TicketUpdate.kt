@@ -32,8 +32,10 @@ import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
@@ -50,10 +52,10 @@ import com.example.home.ui.common.PlaneDateComponent
 import com.example.home.ui.common.PriorityComponent
 import com.example.home.ui.common.ServiceComponent
 import com.example.home.ui.common.StatusComponent
-import com.example.home.ui.common.ticket_restrictions.TicketRestrictions
 import com.example.home.ui.common.TransportComponent
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
+import kotlin.reflect.KFunction4
 
 
 class TicketUpdate {
@@ -75,7 +77,8 @@ class TicketUpdate {
             ticketData = ticketUpdateViewModel.fields,
             fieldsLoadingState = ticketUpdateViewModel.fieldsLoadingState,
             updateTicketFunction = ticketUpdateViewModel::update,
-            updatingResult = ticketUpdateViewModel.updatingResult
+            updatingResult = ticketUpdateViewModel.updatingResult,
+            getRestrictionsFunction = ticketUpdateViewModel::getRestrictions
         )
     }
 
@@ -93,17 +96,23 @@ class TicketUpdate {
             )
         },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
+        getRestrictionsFunction: (
+            selectedTicketStatus: TicketStatuses,
+            ticketStatus: TicketStatuses,
+            ticket: TicketEntity,
+            currentUser: UserEntity?
+        ) -> TicketRestriction,
     ) {
         val context = LocalContext.current
         val selectedTicket = remember { ticket.value.status }
 
-        val allowedFields = remember {
-            TicketRestrictions.getAllowedFields(
-                selectedTicketStatus = selectedTicket,
-                ticketStatus = ticket.value.status,
-                executor = ticket.value.executor == authParams.user
-            )
-        }
+
+//        val allowedFields = remember {
+//            TicketRestrictions.getAllowedFields(
+//                ticketStatus = ticket.value.status,
+//                executor = ticket.value.executor == authParams.user
+//            )
+//        }
 
         //
         // MAIN CONSTRAINT
@@ -255,7 +264,7 @@ class TicketUpdate {
                     ),
                     ticket = ticket,
                     selectedTicket = ti
-                    isClickable = remember { TicketFieldsEnum.STATUS in allowedFields }
+                            isClickable = remember { TicketFieldsEnum.STATUS in allowedFields }
                 )
             }
 

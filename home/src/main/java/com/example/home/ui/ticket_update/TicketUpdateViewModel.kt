@@ -6,11 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.data_classes.params.TicketRestriction
+import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.usecases.tickets.GetTicketDataUseCase
+import com.example.domain.usecases.tickets.GetTicketRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,6 +26,7 @@ import javax.inject.Inject
 class TicketUpdateViewModel @Inject constructor(
     private val getTicketDataUseCase: GetTicketDataUseCase,
     private val updateTicketUseCase: UpdateTicketUseCase,
+    private val getTicketRestrictionsUseCase: GetTicketRestrictionsUseCase
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
@@ -73,6 +78,20 @@ class TicketUpdateViewModel @Inject constructor(
                 updatingResult.value = TicketOperationState.OPERATION_ERROR
             }
         }
+    }
+
+    fun getRestrictions(
+        selectedTicketStatus: TicketStatuses,
+        ticketStatus: TicketStatuses,
+        ticket: TicketEntity,
+        currentUser: UserEntity?,
+    ): TicketRestriction {
+        return getTicketRestrictionsUseCase.execute(
+            selectedTicketStatus = selectedTicketStatus,
+            ticketStatus = ticketStatus,
+            ticket = ticket,
+            currentUser = currentUser
+        )
     }
 
     private fun getLoadingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->

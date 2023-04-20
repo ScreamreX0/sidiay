@@ -25,7 +25,7 @@ enum class TicketStatuses(
         title = "Отклонена",
         requiredFields = listOf(
             TicketFieldsEnum.COMPLETED_WORK,
-            TicketFieldsEnum.EXPIRATION_DATE
+            TicketFieldsEnum.CLOSING_DATE
         )
     ),
 
@@ -39,7 +39,7 @@ enum class TicketStatuses(
         title = "Завершена",
         requiredFields = listOf(
             TicketFieldsEnum.COMPLETED_WORK,
-            TicketFieldsEnum.EXPIRATION_DATE
+            TicketFieldsEnum.CLOSING_DATE
         )
     ),
 

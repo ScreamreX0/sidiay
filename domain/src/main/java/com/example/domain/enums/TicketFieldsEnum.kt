@@ -13,7 +13,7 @@ enum class TicketFieldsEnum {
     EXECUTOR,
     COMPLETED_WORK,
     PLANE_DATE,
-    EXPIRATION_DATE,
+    CLOSING_DATE,
     CREATION_DATE,
     AUTHOR,
     STATUS,
