@@ -35,6 +35,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
@@ -55,16 +56,22 @@ import com.example.home.ui.common.StatusComponent
 import com.example.home.ui.common.TransportComponent
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
-import kotlin.reflect.KFunction4
 
 
 class TicketUpdate {
     @Composable
     fun TicketUpdateScreen(
         navController: NavHostController,
-        authParams: AuthParams = remember { AuthParams() },
+        authParams: AuthParams = remember { AuthParams(user = UserEntity(id = 1)) },
         ticketUpdateViewModel: TicketUpdateViewModel = hiltViewModel(),
-        ticket: TicketEntity = remember { TicketEntity() },
+        ticket: TicketEntity = remember {
+            TicketEntity(
+                id = 1,
+                author = UserEntity(id = 1),
+                executor = UserEntity(id = 2),
+                status = TicketStatuses.NOT_FORMED
+            )
+        },
     ) {
         LaunchedEffect(key1 = null) {
             ticketUpdateViewModel.initFields(url = authParams.connectionParams?.url)
@@ -90,29 +97,23 @@ class TicketUpdate {
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
         updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
-        updatingResult: MutableState<TicketOperationState> = remember {
-            mutableStateOf(
-                TicketOperationState.WAITING
-            )
-        },
+        updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
-        getRestrictionsFunction: (
-            selectedTicketStatus: TicketStatuses,
-            ticketStatus: TicketStatuses,
-            ticket: TicketEntity,
-            currentUser: UserEntity?
-        ) -> TicketRestriction,
+        getRestrictionsFunction: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> TicketRestriction = { _, _, _ -> TicketRestriction.getEmpty() },
     ) {
         val context = LocalContext.current
-        val selectedTicket = remember { ticket.value.status }
+        val selectedTicketStatus = remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
 
+        val restrictions = remember { mutableStateOf(TicketRestriction.getEmpty()) }
 
-//        val allowedFields = remember {
-//            TicketRestrictions.getAllowedFields(
-//                ticketStatus = ticket.value.status,
-//                executor = ticket.value.executor == authParams.user
-//            )
-//        }
+        val updateRestrictions = {
+            restrictions.value = getRestrictionsFunction(
+                selectedTicketStatus.value,
+                ticket.value,
+                ticket.value.author  // TODO remove to authParams.user
+            )
+        }
+        updateRestrictions()
 
         //
         // MAIN CONSTRAINT
@@ -201,70 +202,73 @@ class TicketUpdate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
+                // TODO add COMPLETED_WORK,
+                //    CLOSING_DATE,
+                //    CREATION_DATE,
+                //    IMPROVEMENT_REASON
+
                 FacilitiesComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.FACILITIES in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.FACILITIES, restrictions.value)
                 )
+
                 EquipmentComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.EQUIPMENT in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.EQUIPMENT, restrictions.value)
                 )
                 TransportComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.TRANSPORT in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.TRANSPORT, restrictions.value)
                 )
                 BrigadeComponent(
                     ticketData = ticketData,
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.BRIGADE in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.BRIGADE, restrictions.value)
                 )
                 NameComponent(
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.NAME in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.NAME, restrictions.value)
                 )
                 DescriptionComponent(
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.DESCRIPTION in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.DESCRIPTION, restrictions.value)
                 )
                 ServiceComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = remember { TicketFieldsEnum.SERVICE in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.SERVICE, restrictions.value)
                 )
                 KindComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = remember { TicketFieldsEnum.KIND in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.KIND, restrictions.value)
                 )
                 PriorityComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = remember { TicketFieldsEnum.PRIORITY in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.PRIORITY, restrictions.value)
                 )
                 ExecutorComponent(
                     ticket = ticket,
                     ticketData = ticketData,
-                    isClickable = remember { TicketFieldsEnum.EXECUTOR in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.EXECUTOR, restrictions.value)
                 )
                 PlaneDateComponent(
                     ticket = ticket,
-                    isClickable = remember { TicketFieldsEnum.PLANE_DATE in allowedFields }
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.PLANE_DATE, restrictions.value)
                 )
                 AuthorComponent(
-                    authParams = authParams
+                    authParams = authParams,
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.AUTHOR, restrictions.value)
                 )
                 StatusComponent(
-                    statuses = listOf(
-                        TicketStatuses.ACCEPTED,
-                        TicketStatuses.CLOSED,
-                        TicketStatuses.COMPLETED
-                    ),
-                    ticket = ticket,
-                    selectedTicket = ti
-                            isClickable = remember { TicketFieldsEnum.STATUS in allowedFields }
+                    statuses = restrictions.value.availableStatuses,
+                    selectedTicketStatus = selectedTicketStatus,
+                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.STATUS, restrictions.value),
+                    updateRestrictions = updateRestrictions
                 )
             }
 
@@ -312,6 +316,14 @@ class TicketUpdate {
             linkTo(parent.top, parent.bottom, bias = 0.5F)
         }
     }
+
+    private fun getTicketFieldsParams(
+        ticketFieldsEnum: TicketFieldsEnum,
+        ticketRestriction: TicketRestriction
+    ) = TicketFieldParams(
+        starred = ticketFieldsEnum in ticketRestriction.requiredFields,
+        isClickable = ticketFieldsEnum in ticketRestriction.requiredFields || ticketFieldsEnum in ticketRestriction.allowedFields
+    )
 
     @Composable
     @Preview(heightDp = 1600)

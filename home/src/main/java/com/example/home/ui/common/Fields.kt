@@ -21,6 +21,7 @@ import com.example.core.R
 import com.example.domain.data_classes.entities.*
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.TicketStatuses
 import com.example.home.ui.common.components.*
 import java.time.LocalDate
@@ -30,8 +31,7 @@ import java.time.format.DateTimeFormatter
 internal fun FacilitiesComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     ChipRowComponent(
         dialogTitle = "Выберите объект",
@@ -52,15 +52,16 @@ internal fun FacilitiesComponent(
         title = "Объекты",
         icon = R.drawable.baseline_oil_barrel_24,
         addingChipTitle = "Добавить объекты",
-        chips = { ticket.value.facilities?.forEach {
+        chips = {
+            ticket.value.facilities?.forEach {
                 CustomChip(title = it.name ?: "") {
                     ticket.value = ticket.value.copy(
                         facilities = removeFromList(ticket.value.facilities, it)
                     )
                 }
-            } },
-        starred = starred,
-        isClickable = isClickable
+            }
+        },
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -68,8 +69,7 @@ internal fun FacilitiesComponent(
 internal fun EquipmentComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     ChipRowComponent(
         dialogTitle = "Выберите оборудование",
@@ -99,8 +99,7 @@ internal fun EquipmentComponent(
                 }
             }
         },
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -109,8 +108,7 @@ internal fun EquipmentComponent(
 internal fun TransportComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     ChipRowComponent(
         dialogTitle = "Выберите транспорт",
@@ -140,8 +138,7 @@ internal fun TransportComponent(
                 }
             }
         },
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -149,8 +146,7 @@ internal fun TransportComponent(
 internal fun BrigadeComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     ChipRowComponent(
         dialogTitle = "Выберите сотрудника",
@@ -182,16 +178,14 @@ internal fun BrigadeComponent(
                 }
             }
         },
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
 internal fun NameComponent(
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextFieldComponent(
         title = "Название",
@@ -199,16 +193,14 @@ internal fun NameComponent(
         text = ticket.value.name,
         onValueChange = { ticket.value = ticket.value.copy(name = it) },
         textFieldHint = "Ввести название",
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
 internal fun DescriptionComponent(
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextFieldComponent(
         title = "Описание",
@@ -216,8 +208,7 @@ internal fun DescriptionComponent(
         text = ticket.value.description,
         onValueChange = { ticket.value = ticket.value.copy(description = it) },
         textFieldHint = ticket.value.description ?: "Ввести описание",
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -225,8 +216,7 @@ internal fun DescriptionComponent(
 internal fun ServiceComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextWithDialogComponent(
         dialogTitle = "Выберите сервис",
@@ -243,8 +233,7 @@ internal fun ServiceComponent(
         title = "Сервисы",
         label = ticket.value.service?.name ?: "[Выбрать сервис]",
         icon = R.drawable.baseline_format_list_bulleted_24,
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -252,8 +241,7 @@ internal fun ServiceComponent(
 internal fun KindComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextWithDialogComponent(
         dialogTitle = "Выберите вид",
@@ -270,8 +258,7 @@ internal fun KindComponent(
         title = "Вид",
         label = ticket.value.kind?.name ?: "[Выбрать вид]",
         icon = R.drawable.baseline_format_list_bulleted_24,
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -280,8 +267,7 @@ internal fun KindComponent(
 internal fun PriorityComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextWithDialogComponent(
         dialogTitle = "Выберите приоритет",
@@ -298,8 +284,7 @@ internal fun PriorityComponent(
         title = "Приоритет",
         label = ticket.value.priority?.name ?: "[Выбрать приоритет]",
         icon = R.drawable.baseline_priority_high_24,
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -307,8 +292,7 @@ internal fun PriorityComponent(
 internal fun ExecutorComponent(
     ticketData: MutableState<TicketData?>,
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextWithDialogComponent(
         dialogTitle = "Выберите исполнителя",
@@ -327,32 +311,34 @@ internal fun ExecutorComponent(
         title = "Исполнитель",
         label = ticket.value.executor?.getFullName() ?: "[Выбрать исполнителя]",
         icon = R.drawable.ic_baseline_person_24,
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
 internal fun StatusComponent(
     statuses: List<TicketStatuses>,
-    ticket: MutableState<TicketEntity>,
-    isClickable: Boolean = true
+    selectedTicketStatus: MutableState<TicketStatuses>,
+    ticketFieldsParams: TicketFieldParams,
+    updateRestrictions: () -> Unit
 ) {
     DropdownMenuComponent(
         items = statuses,
-        onItemSelected = { ticket.value = ticket.value.copy(status = it) },
-        selectedItem = ticket.value.status,
-        isClickable = isClickable,
+        onItemSelected = {
+            selectedTicketStatus.value = it
+            updateRestrictions()
+        },
+        selectedItem = selectedTicketStatus.value,
         title = "Статус",
-        icon = R.drawable.baseline_help_outline_24
+        icon = R.drawable.baseline_help_outline_24,
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
 internal fun PlaneDateComponent(
     ticket: MutableState<TicketEntity>,
-    starred: Boolean = false,
-    isClickable: Boolean = true
+    ticketFieldsParams: TicketFieldParams
 ) {
     DateFieldComponent(
         date = ticket.value.plane_date ?: LocalDate.now().toString(),
@@ -361,46 +347,71 @@ internal fun PlaneDateComponent(
         icon = R.drawable.ic_baseline_calendar_month_24,
         datePickerTitle = ticket.value.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
             ?: "[Выбрать плановую дату]",
-        starred = starred,
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
 internal fun AuthorComponent(
     authParams: AuthParams,
-    starred: Boolean = false,
+    ticketFieldsParams: TicketFieldParams
 ) {
     TextComponent(
         title = "Автор",
         icon = R.drawable.ic_baseline_person_24,
-        starred = starred,
         label = authParams.user?.getFullName() ?: "[Автор не определен]",
-        isClickable = false
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
-internal fun DropdownMenuComponent(
+private fun DropdownMenuComponent(
     items: List<TicketStatuses>,
     onItemSelected: (TicketStatuses) -> Unit,
     selectedItem: TicketStatuses?,
-    isClickable: Boolean,
     title: String,
-    icon: Int
+    icon: Int,
+    ticketFieldsParams: TicketFieldParams
 ) {
     TicketComponent(
         title = title,
         icon = icon,
         item = {
-            DropDownComponent(
-                items = items,
-                onItemSelected = onItemSelected,
-                selectedItem = selectedItem,
-                isClickable = isClickable
-            )
+            val expanded = remember { mutableStateOf(false) }
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null
+                    ) { if (ticketFieldsParams.isClickable) expanded.value = true }
+            ) {
+                Text(
+                    text = selectedItem?.title ?: "[Статус не определен]",
+                    fontSize = MaterialTheme.typography.h5.fontSize,
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+                )
+                DropdownMenu(
+                    expanded = expanded.value,
+                    onDismissRequest = { expanded.value = false }
+                ) {
+                    items.forEach { item ->
+                        DropdownMenuItem(
+                            onClick = {
+                                onItemSelected(item)
+                                expanded.value = false
+                            }) {
+                            Text(
+                                text = item.title,
+                                fontSize = MaterialTheme.typography.h5.fontSize,
+                                color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+                            )
+                        }
+                    }
+                }
+            }
         },
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -408,16 +419,14 @@ internal fun DropdownMenuComponent(
 private fun TextComponent(
     title: String,
     icon: Int,
-    starred: Boolean,
     label: String,
-    isClickable: Boolean,
+    ticketFieldsParams: TicketFieldParams
 ) {
     TicketComponent(
         title = title,
         icon = icon,
-        starred = starred,
         item = { CustomText(label = label) },
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -428,9 +437,8 @@ private fun DateFieldComponent(
     onConfirmDatePicker: (String) -> Unit,
     title: String,
     icon: Int,
-    starred: Boolean = remember { false },
     datePickerTitle: String,
-    isClickable: Boolean
+    ticketFieldsParams: TicketFieldParams
 ) {
     CustomDatePicker(
         date = date,
@@ -440,42 +448,37 @@ private fun DateFieldComponent(
     TicketComponent(
         title = title,
         icon = icon,
-        starred = starred,
         item = {
             CustomText(
                 label = datePickerTitle,
-                onClick = { if (isClickable) isDialogOpened.value = true }
+                onClick = { if (ticketFieldsParams.isClickable) isDialogOpened.value = true }
             )
         },
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
 @Composable
 private fun TextFieldComponent(
-    // Title
     title: String,
-    starred: Boolean,
     icon: Int,
-    // Field
     text: String?,
     onValueChange: (newValue: String) -> Unit,
     textFieldHint: String,
-    isClickable: Boolean
+    ticketFieldsParams: TicketFieldParams
 ) {
     TicketComponent(
         title = title,
         icon = icon,
-        starred = starred,
         item = {
             CustomTextField(
                 text = text,
                 onValueChange = onValueChange,
                 hint = textFieldHint,
-                isClickable = isClickable
+                isClickable = ticketFieldsParams.isClickable
             )
         },
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -492,10 +495,9 @@ private fun <T> ChipRowComponent(
     // Chip row
     title: String,
     icon: Int,
-    starred: Boolean,
     addingChipTitle: String,
     chips: @Composable () -> Unit,
-    isClickable: Boolean,
+    ticketFieldsParams: TicketFieldParams
 ) {
     CustomDialog(
         isDialogOpened = isDialogOpened,
@@ -509,16 +511,15 @@ private fun <T> ChipRowComponent(
     TicketComponent(
         title = title,
         icon = icon,
-        starred = starred,
         item = {
             CustomChipRow(
                 addingChipTitle = addingChipTitle,
                 isDialogOpened = isDialogOpened,
                 chips = { chips() },
-                isClickable = isClickable
+                isClickable = ticketFieldsParams.isClickable
             )
         },
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
 
@@ -536,8 +537,7 @@ private fun <T> TextWithDialogComponent(
     icon: Int,
     title: String,
     label: String,
-    starred: Boolean,
-    isClickable: Boolean,
+    ticketFieldsParams: TicketFieldParams
 ) {
     CustomDialog(
         isDialogOpened = isDialogOpened,
@@ -551,28 +551,25 @@ private fun <T> TextWithDialogComponent(
     TicketComponent(
         title = title,
         icon = icon,
-        starred = starred,
         item = {
             CustomText(
                 label = label,
-                onClick = { if (isClickable) isDialogOpened.value = true }
+                onClick = { if (ticketFieldsParams.isClickable) isDialogOpened.value = true }
             )
         },
-        isClickable = isClickable
+        ticketFieldsParams = ticketFieldsParams,
     )
 }
-
 
 
 @Composable
 private fun TicketComponent(
     title: String,
     icon: Int,
-    starred: Boolean = remember { false },
     item: @Composable () -> Unit,
-    isClickable: Boolean,
+    ticketFieldsParams: TicketFieldParams
 ) {
-    val modifier = if (isClickable) Modifier else Modifier.alpha(0.6F)
+    val modifier = if (ticketFieldsParams.isClickable) Modifier else Modifier.alpha(0.6F)
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -596,7 +593,7 @@ private fun TicketComponent(
                     color = MaterialTheme.colors.onBackground,
                     fontSize = MaterialTheme.typography.h3.fontSize
                 )
-                if (starred) {
+                if (ticketFieldsParams.starred) {
                     Text(
                         modifier = modifier.padding(start = 5.dp),
                         text = "*",

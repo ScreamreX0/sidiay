@@ -82,13 +82,11 @@ class TicketUpdateViewModel @Inject constructor(
 
     fun getRestrictions(
         selectedTicketStatus: TicketStatuses,
-        ticketStatus: TicketStatuses,
         ticket: TicketEntity,
         currentUser: UserEntity?,
     ): TicketRestriction {
         return getTicketRestrictionsUseCase.execute(
             selectedTicketStatus = selectedTicketStatus,
-            ticketStatus = ticketStatus,
             ticket = ticket,
             currentUser = currentUser
         )

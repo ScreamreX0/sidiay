@@ -7,4 +7,8 @@ data class TicketRestriction(
     val allowedFields: List<TicketFieldsEnum>,
     val requiredFields: List<TicketFieldsEnum>,
     val availableStatuses: List<TicketStatuses>
-)
+) {
+    companion object {
+        fun getEmpty() = TicketRestriction(listOf(), listOf(), listOf())
+    }
+}

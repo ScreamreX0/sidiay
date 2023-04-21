@@ -9,7 +9,6 @@ import com.example.domain.enums.TicketStatuses
 class GetTicketRestrictionsUseCase {
     fun execute(
         selectedTicketStatus: TicketStatuses,
-        ticketStatus: TicketStatuses,
         ticket: TicketEntity,
         currentUser: UserEntity?,
     ): TicketRestriction {
@@ -28,7 +27,8 @@ class GetTicketRestrictionsUseCase {
         val allowedFields = arrayListOf<TicketFieldsEnum>()
         val requiredFields = arrayListOf<TicketFieldsEnum>()
         val availableStatuses = arrayListOf<TicketStatuses>()
-        when (ticketStatus) {
+
+        when (ticket.status) {
             TicketStatuses.NOT_FORMED -> {
                 when (currentUser) {
                     ticket.author -> {
@@ -203,6 +203,8 @@ class GetTicketRestrictionsUseCase {
             TicketStatuses.CLOSED -> {}
 
             TicketStatuses.FOR_REVISION -> {}
+
+            null -> {}
         }
 
         return TicketRestriction(

@@ -18,6 +18,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,11 +38,14 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.R
+import com.example.core.navigation.Graphs
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.CustomColors
 import com.example.core.utils.ComponentPreview
+import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import java.time.format.DateTimeFormatter
 
@@ -170,7 +174,11 @@ private fun MenuTicketListItem(
                     .clickable(
                         interactionSource = MutableInteractionSource(),
                         indication = null
-                    ) { navController.navigate(Screens.Home.TICKET_UPDATE) },
+                    ) {
+                        //val ticketString = Helper.parcelableToString(ticket)
+                        //navController.navigate(route = "${Screens.Home.TICKET_UPDATE}/$ticketString")
+                        navController.navigate(route = Screens.Home.TICKET_UPDATE)
+                    },
                 painter = painterResource(id = R.drawable.baseline_create_24),
                 contentDescription = null,
                 tint = CustomColors.Orange700,

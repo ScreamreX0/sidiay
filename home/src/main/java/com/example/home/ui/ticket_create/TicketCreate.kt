@@ -32,6 +32,7 @@ import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.enums.states.TicketOperationState.*
@@ -91,14 +92,17 @@ class TicketCreate {
                 )
                 Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
             }
+
             OPERATION_ERROR -> {
                 Helper.showShortToast(context = context, text = "Ошибка сохранения")
                 bottomBarSelectable.value = true
             }
+
             CONNECTION_ERROR -> {
                 Helper.showShortToast(context = context, text = "Ошибка подключения")
                 bottomBarSelectable.value = true
             }
+
             else -> {}
         }
 
@@ -124,7 +128,7 @@ class TicketCreate {
             // LOADING
             //
             if ((fieldsLoadingState.value == LoadingState.LOADING
-                || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
+                        || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
                 && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
             ) {
                 CircularProgressIndicator(
@@ -162,13 +166,45 @@ class TicketCreate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                NameComponent(ticket = draft)
-                FacilitiesComponent(ticketData = ticketData, ticket = draft)
-                ServiceComponent(ticket = draft, ticketData = ticketData, starred = true)
-                KindComponent(ticket = draft, ticketData = ticketData, starred = true)
-                PlaneDateComponent(ticket = draft, starred = true)
-                PriorityComponent(ticket = draft, ticketData = ticketData, starred = true)
-                ExecutorComponent(ticket = draft, ticketData = ticketData, starred = true)
+                NameComponent(
+                    ticket = draft,
+                    ticketFieldsParams = TicketFieldParams(starred = false, isClickable = true)
+                )
+
+                FacilitiesComponent(
+                    ticketData = ticketData,
+                    ticket = draft,
+                    ticketFieldsParams = TicketFieldParams(starred = false, isClickable = true)
+                )
+
+                ServiceComponent(
+                    ticket = draft,
+                    ticketData = ticketData,
+                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
+                )
+
+                KindComponent(
+                    ticket = draft,
+                    ticketData = ticketData,
+                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
+                )
+
+                PlaneDateComponent(
+                    ticket = draft,
+                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
+                )
+
+                PriorityComponent(
+                    ticket = draft,
+                    ticketData = ticketData,
+                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
+                )
+
+                ExecutorComponent(
+                    ticket = draft,
+                    ticketData = ticketData,
+                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
+                )
             }
 
             //

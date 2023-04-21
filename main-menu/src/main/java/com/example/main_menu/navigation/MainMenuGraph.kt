@@ -8,16 +8,21 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.core.navigation.BottomBarNav
 import com.example.core.navigation.Graphs
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.types.AuthParamsType
+import com.example.domain.types.TicketEntityType
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
 import com.example.home.ui.home.Home
 import com.example.home.ui.tickets_filter.TicketFilter
+import com.example.main_menu.ui.MainMenu
 
 @Composable
 fun MainMenuGraph(
@@ -65,7 +70,9 @@ fun NavGraphBuilder.homeNavGraph(
                 )
             }
         }
-        composable(route = Screens.Home.TICKET_UPDATE) {
+        composable(
+            route = Screens.Home.TICKET_UPDATE
+        ) {
             AppTheme(authParams.darkMode ?: false) {
                 TicketUpdate().TicketUpdateScreen(
                     navController = navController,
@@ -73,6 +80,18 @@ fun NavGraphBuilder.homeNavGraph(
                 )
             }
         }
+//        composable(
+//            route = "${Screens.Home.TICKET_UPDATE}/{ticket}",
+//            arguments = listOf(navArgument("ticket") { type = TicketEntityType() })
+//        ) {
+//            AppTheme(authParams.darkMode ?: false) {
+//                TicketUpdate().TicketUpdateScreen(
+//                    navController = navController,
+//                    authParams = authParams,
+//                    ticket = it.arguments?.getParcelable("ticket") ?: TicketEntity()
+//                )
+//            }
+//        }
         composable(route = Screens.Home.TICKET_CREATE) {
             AppTheme(authParams.darkMode ?: false) {
                 TicketCreate().TicketCreateScreen(

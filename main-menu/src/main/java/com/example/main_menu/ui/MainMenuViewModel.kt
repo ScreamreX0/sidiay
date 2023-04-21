@@ -1,4 +1,4 @@
-package com.example.main_menu
+package com.example.main_menu.ui
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
