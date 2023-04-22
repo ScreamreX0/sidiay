@@ -10,5 +10,10 @@ data class TicketRestriction(
 ) {
     companion object {
         fun getEmpty() = TicketRestriction(listOf(), listOf(), listOf())
+        fun getFull() = TicketRestriction(
+            TicketFieldsEnum.values().toList(),
+            TicketFieldsEnum.values().toList(),
+            TicketStatuses.values().toList()
+        )
     }
 }

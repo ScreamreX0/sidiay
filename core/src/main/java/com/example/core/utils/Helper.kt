@@ -16,7 +16,18 @@ class Helper {
             Toast.makeText(context, text, Toast.LENGTH_LONG).show()
         }
 
-
         fun <T: Parcelable> parcelableToString(obj: T): String = Uri.encode(Gson().toJson(obj))
+
+        fun <T> addToList(list: List<T>?, addingItem: T): List<T> {
+            val newList = list?.toMutableList() ?: mutableListOf()
+            newList.add(addingItem)
+            return newList.toList()
+        }
+
+        fun <T> removeFromList(list: List<T>?, removingItem: T): List<T> {
+            val newList = list?.toMutableList() ?: mutableListOf()
+            newList.remove(removingItem)
+            return newList.toList()
+        }
     }
 }

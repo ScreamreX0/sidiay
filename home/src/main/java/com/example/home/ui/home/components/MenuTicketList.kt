@@ -155,7 +155,7 @@ private fun MenuTicketListItem(
                 fontSize = defaultTextSize,
             )
 
-            // Plane date TODO(Отображение планового простоя)
+            // Plane date
             ItemText(
                 modifier = Modifier.layoutId("dateRef"),
                 text = ticket.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))

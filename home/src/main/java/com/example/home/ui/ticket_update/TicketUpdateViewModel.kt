@@ -14,7 +14,7 @@ import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.usecases.tickets.GetTicketDataUseCase
-import com.example.domain.usecases.tickets.GetTicketRestrictionsUseCase
+import com.example.domain.usecases.tickets.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class TicketUpdateViewModel @Inject constructor(
     private val getTicketDataUseCase: GetTicketDataUseCase,
     private val updateTicketUseCase: UpdateTicketUseCase,
-    private val getTicketRestrictionsUseCase: GetTicketRestrictionsUseCase
+    private val getTicketRestrictionsUseCase: GetTicketUpdateRestrictionsUseCase
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)

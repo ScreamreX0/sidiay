@@ -6,7 +6,7 @@ import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 
-class GetTicketRestrictionsUseCase {
+class GetTicketUpdateRestrictionsUseCase {
     fun execute(
         selectedTicketStatus: TicketStatuses,
         ticket: TicketEntity,
@@ -14,14 +14,6 @@ class GetTicketRestrictionsUseCase {
     ): TicketRestriction {
         if (currentUser == null) {
             TODO("Offline mode")
-        }
-
-        if (ticket.executor == null) {
-            TODO("Ticket has not an executor")
-        }
-
-        if (ticket.author == null) {
-            TODO("Ticket has not an author")
         }
 
         val allowedFields = arrayListOf<TicketFieldsEnum>()
@@ -114,6 +106,9 @@ class GetTicketRestrictionsUseCase {
                                 TicketStatuses.CLOSED
                             )
                         )
+                        if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
+                        }
                     }
 
                     else -> {}
@@ -149,6 +144,9 @@ class GetTicketRestrictionsUseCase {
                                 TicketStatuses.CLOSED
                             )
                         )
+                        if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
+                        }
                     }
 
                     else -> {}
@@ -169,10 +167,11 @@ class GetTicketRestrictionsUseCase {
                     ticket.author -> {
                         allowedFields.add(TicketFieldsEnum.STATUS)
                         availableStatuses.addAll(
-                            listOf(
-                                TicketStatuses.SUSPENDED, TicketStatuses.CLOSED
-                            )
+                            listOf(TicketStatuses.SUSPENDED, TicketStatuses.CLOSED)
                         )
+                        if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
+                        }
                     }
 
                     else -> {}
@@ -192,6 +191,8 @@ class GetTicketRestrictionsUseCase {
 
                         if (selectedTicketStatus == TicketStatuses.FOR_REVISION) {
                             requiredFields.add(TicketFieldsEnum.IMPROVEMENT_REASON)
+                        } else if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
                         }
                     }
 

@@ -12,7 +12,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,16 +28,28 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Helper
+import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
+import com.example.domain.data_classes.params.TicketRestriction
+import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.enums.states.TicketOperationState.*
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.TicketCreateBottomBar
 import com.example.home.ui.common.components.TicketCreateTopBar
+import com.example.home.ui.common.impl.chip_rows.FacilitiesChipRow
+import com.example.home.ui.common.impl.clickable_texts.ExecutorClickableText
+import com.example.home.ui.common.impl.clickable_texts.KindClickableText
+import com.example.home.ui.common.impl.clickable_texts.PriorityClickableText
+import com.example.home.ui.common.impl.clickable_texts.ServiceClickableText
+import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
+import com.example.home.ui.common.impl.text_fields.NameTextField
+import kotlin.reflect.KFunction3
 
 
 class TicketCreate {
@@ -48,7 +59,7 @@ class TicketCreate {
         navController: NavHostController,
         authParams: AuthParams = remember { AuthParams() },
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
-        draft: TicketEntity = rememberSaveable { TicketEntity() },
+        ticket: TicketEntity = remember { TicketEntity() },
     ) {
         LaunchedEffect(key1 = null) {
             ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
@@ -57,11 +68,12 @@ class TicketCreate {
         Content(
             navController = navController,
             authParams = authParams,
-            draft = remember { mutableStateOf(draft) },
+            ticket = remember { mutableStateOf(ticket) },
             ticketData = ticketCreateViewModel.fields,
             fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
             saveTicketFunction = ticketCreateViewModel::save,
-            savingResult = ticketCreateViewModel.savingResult
+            savingResult = ticketCreateViewModel.savingResult,
+            getRestrictionsFunction = ticketCreateViewModel::getRestrictions
         )
     }
 
@@ -69,16 +81,17 @@ class TicketCreate {
     private fun Content(
         navController: NavHostController = rememberNavController(),
         authParams: AuthParams = remember { AuthParams() },
-        draft: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
+        ticket: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
         saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
         savingResult: MutableState<TicketOperationState> = remember { mutableStateOf(WAITING) },
-        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
+        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
+        getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() }
     ) {
         val context = LocalContext.current
 
-        draft.value.author = authParams.user
+        ticket.value.author = authParams.user
 
         //
         // Saving
@@ -121,7 +134,7 @@ class TicketCreate {
                 modifier = Modifier.layoutId("topAppBarRef"),
                 navController = navController,
                 iconsVisible = isTopIconsVisible,
-                draft = draft
+                draft = ticket
             )
 
             //
@@ -166,45 +179,15 @@ class TicketCreate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                NameComponent(
-                    ticket = draft,
-                    ticketFieldsParams = TicketFieldParams(starred = false, isClickable = true)
-                )
+                val restrictions = getRestrictionsFunction()
 
-                FacilitiesComponent(
-                    ticketData = ticketData,
-                    ticket = draft,
-                    ticketFieldsParams = TicketFieldParams(starred = false, isClickable = true)
-                )
-
-                ServiceComponent(
-                    ticket = draft,
-                    ticketData = ticketData,
-                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
-                )
-
-                KindComponent(
-                    ticket = draft,
-                    ticketData = ticketData,
-                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
-                )
-
-                PlaneDateComponent(
-                    ticket = draft,
-                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
-                )
-
-                PriorityComponent(
-                    ticket = draft,
-                    ticketData = ticketData,
-                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
-                )
-
-                ExecutorComponent(
-                    ticket = draft,
-                    ticketData = ticketData,
-                    ticketFieldsParams = TicketFieldParams(starred = true, isClickable = true)
-                )
+                NameTextField().Content(ticket, restrictions)
+                FacilitiesChipRow().Content(ticketData, ticket, restrictions)
+                ServiceClickableText().Content(ticketData, ticket, restrictions)
+                KindClickableText().Content(ticketData, ticket, restrictions)
+                PlaneDatePicker().Content(ticket, restrictions)
+                PriorityClickableText().Content(ticketData, ticket, restrictions)
+                ExecutorClickableText().Content(ticketData, ticket, restrictions)
             }
 
             //
@@ -212,7 +195,7 @@ class TicketCreate {
             //
             TicketCreateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
-                draft = draft,
+                draft = ticket,
                 authParams = authParams,
                 saveTicketFunction = saveTicketFunction,
                 bottomBarSelectable = bottomBarSelectable

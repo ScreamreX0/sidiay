@@ -35,27 +35,29 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.home.ui.common.AuthorComponent
-import com.example.home.ui.common.BrigadeComponent
-import com.example.home.ui.common.DescriptionComponent
-import com.example.home.ui.common.EquipmentComponent
-import com.example.home.ui.common.ExecutorComponent
-import com.example.home.ui.common.FacilitiesComponent
-import com.example.home.ui.common.KindComponent
-import com.example.home.ui.common.NameComponent
-import com.example.home.ui.common.PlaneDateComponent
-import com.example.home.ui.common.PriorityComponent
-import com.example.home.ui.common.ServiceComponent
-import com.example.home.ui.common.StatusComponent
-import com.example.home.ui.common.TransportComponent
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
+import com.example.home.ui.common.impl.chip_rows.BrigadeChipRow
+import com.example.home.ui.common.impl.chip_rows.EquipmentChipRow
+import com.example.home.ui.common.impl.chip_rows.FacilitiesChipRow
+import com.example.home.ui.common.impl.chip_rows.TransportChipRow
+import com.example.home.ui.common.impl.clickable_texts.ExecutorClickableText
+import com.example.home.ui.common.impl.clickable_texts.KindClickableText
+import com.example.home.ui.common.impl.clickable_texts.PriorityClickableText
+import com.example.home.ui.common.impl.clickable_texts.ServiceClickableText
+import com.example.home.ui.common.impl.date_pickers.ClosingDatePicker
+import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
+import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
+import com.example.home.ui.common.impl.other.AuthorNonSelectableText
+import com.example.home.ui.common.impl.other.CreationDateNonSelectableText
+import com.example.home.ui.common.impl.text_fields.CompletedWorkTextField
+import com.example.home.ui.common.impl.text_fields.DescriptionTextField
+import com.example.home.ui.common.impl.text_fields.ImprovementReasonTextField
+import com.example.home.ui.common.impl.text_fields.NameTextField
 
 
 class TicketUpdate {
@@ -69,7 +71,7 @@ class TicketUpdate {
                 id = 1,
                 author = UserEntity(id = 1),
                 executor = UserEntity(id = 2),
-                status = TicketStatuses.NOT_FORMED
+                status = TicketStatuses.NEW
             )
         },
     ) {
@@ -97,12 +99,17 @@ class TicketUpdate {
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
         updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
-        updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
+        updatingResult: MutableState<TicketOperationState> = remember {
+            mutableStateOf(
+                TicketOperationState.WAITING
+            )
+        },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
         getRestrictionsFunction: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> TicketRestriction = { _, _, _ -> TicketRestriction.getEmpty() },
     ) {
         val context = LocalContext.current
-        val selectedTicketStatus = remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
+        val selectedTicketStatus =
+            remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
 
         val restrictions = remember { mutableStateOf(TicketRestriction.getEmpty()) }
 
@@ -202,74 +209,34 @@ class TicketUpdate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // TODO add COMPLETED_WORK,
-                //    CLOSING_DATE,
-                //    CREATION_DATE,
-                //    IMPROVEMENT_REASON
+                // Chip rows
+                FacilitiesChipRow().Content(ticketData, ticket, restrictions.value)
+                EquipmentChipRow().Content(ticketData, ticket, restrictions.value)
+                TransportChipRow().Content(ticketData, ticket, restrictions.value)
+                BrigadeChipRow().Content(ticketData, ticket, restrictions.value)
 
-                FacilitiesComponent(
-                    ticketData = ticketData,
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.FACILITIES, restrictions.value)
-                )
+                // Text fields
+                NameTextField().Content(ticket, restrictions.value)
+                DescriptionTextField().Content(ticket, restrictions.value)
+                ImprovementReasonTextField().Content(ticket, restrictions.value)
+                CompletedWorkTextField().Content(ticket, restrictions.value)
 
-                EquipmentComponent(
-                    ticketData = ticketData,
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.EQUIPMENT, restrictions.value)
-                )
-                TransportComponent(
-                    ticketData = ticketData,
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.TRANSPORT, restrictions.value)
-                )
-                BrigadeComponent(
-                    ticketData = ticketData,
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.BRIGADE, restrictions.value)
-                )
-                NameComponent(
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.NAME, restrictions.value)
-                )
-                DescriptionComponent(
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.DESCRIPTION, restrictions.value)
-                )
-                ServiceComponent(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.SERVICE, restrictions.value)
-                )
-                KindComponent(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.KIND, restrictions.value)
-                )
-                PriorityComponent(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.PRIORITY, restrictions.value)
-                )
-                ExecutorComponent(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.EXECUTOR, restrictions.value)
-                )
-                PlaneDateComponent(
-                    ticket = ticket,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.PLANE_DATE, restrictions.value)
-                )
-                AuthorComponent(
-                    authParams = authParams,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.AUTHOR, restrictions.value)
-                )
-                StatusComponent(
-                    statuses = restrictions.value.availableStatuses,
-                    selectedTicketStatus = selectedTicketStatus,
-                    ticketFieldsParams = getTicketFieldsParams(TicketFieldsEnum.STATUS, restrictions.value),
-                    updateRestrictions = updateRestrictions
-                )
+                // Selectable texts with dialog
+                ServiceClickableText().Content(ticketData, ticket, restrictions.value)
+                PriorityClickableText().Content(ticketData, ticket, restrictions.value)
+                KindClickableText().Content(ticketData, ticket, restrictions.value)
+                ExecutorClickableText().Content(ticketData, ticket, restrictions.value)
+
+                // Date pickers
+                ClosingDatePicker().Content(ticket, restrictions.value)
+                PlaneDatePicker().Content(ticket, restrictions.value)
+
+                // Non-selectable text
+                AuthorNonSelectableText().Content(authParams, restrictions.value)
+                CreationDateNonSelectableText().Content(ticket, restrictions.value)
+
+                // Dropdown menus
+                StatusDropDownMenu().Content(selectedTicketStatus, restrictions.value, updateRestrictions)
             }
 
             //
@@ -316,14 +283,6 @@ class TicketUpdate {
             linkTo(parent.top, parent.bottom, bias = 0.5F)
         }
     }
-
-    private fun getTicketFieldsParams(
-        ticketFieldsEnum: TicketFieldsEnum,
-        ticketRestriction: TicketRestriction
-    ) = TicketFieldParams(
-        starred = ticketFieldsEnum in ticketRestriction.requiredFields,
-        isClickable = ticketFieldsEnum in ticketRestriction.requiredFields || ticketFieldsEnum in ticketRestriction.allowedFields
-    )
 
     @Composable
     @Preview(heightDp = 1600)

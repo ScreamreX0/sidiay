@@ -5,7 +5,8 @@ import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.usecases.tickets.GetDraftsUseCase
-import com.example.domain.usecases.tickets.GetTicketRestrictionsUseCase
+import com.example.domain.usecases.tickets.GetTicketCreateRestrictionsUseCase
+import com.example.domain.usecases.tickets.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
@@ -42,6 +43,10 @@ class DomainModule {
         UpdateTicketUseCase(ticketRepository = ticketsRepository)
 
     @Provides
-    fun provideGetTicketRestrictionsUseCase(): GetTicketRestrictionsUseCase =
-        GetTicketRestrictionsUseCase()
+    fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase =
+        GetTicketUpdateRestrictionsUseCase()
+
+    @Provides
+    fun provideGetTicketCreateRestrictionsUseCase(): GetTicketCreateRestrictionsUseCase =
+        GetTicketCreateRestrictionsUseCase()
 }
