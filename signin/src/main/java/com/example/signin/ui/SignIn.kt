@@ -95,17 +95,16 @@ internal class SignIn {
                 .background(MaterialTheme.colors.background)
         ) {
             signInSuccess.value.let { currentUser ->
+                if (currentUser.id == -1L) return@let
                 val authParams = AuthParams(
-                    user = currentUser,
+                    user = UserEntity(id = 1), // TODO currentUser,
                     connectionParams = selectedConnection.value,
                     darkMode = darkMode.value,
                 )
 
-                if (currentUser.id != -1L) {
-                    LaunchedEffect(currentUser) {
-                        val authParamsString = Helper.parcelableToString(authParams)
-                        navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
-                    }
+                LaunchedEffect(currentUser) {
+                    val authParamsString = Helper.parcelableToString(authParams)
+                    navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
                 }
             }
             signInErrors.value.let {

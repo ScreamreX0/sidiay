@@ -51,10 +51,10 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun MenuTicketList(
-    navController: NavHostController = rememberNavController(),
     authParams: AuthParams? = remember { AuthParams() },
     tickets: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
     refreshing: MutableState<Boolean> = remember { mutableStateOf(false) },
+    onClickUpdate: (TicketEntity) -> Unit = { _ -> }
 ) {
     LazyColumn(
         modifier = Modifier
@@ -65,9 +65,9 @@ internal fun MenuTicketList(
         if (!refreshing.value) {
             items(tickets.value.size) {
                 MenuTicketListItem(
-                    navController,
                     isDarkMode = authParams?.darkMode ?: false,
                     ticket = tickets.value[it],
+                    onClickUpdate = onClickUpdate
                 )
             }
         }
@@ -77,10 +77,10 @@ internal fun MenuTicketList(
 
 @Composable
 private fun MenuTicketListItem(
-    navController: NavHostController = rememberNavController(),
     ticket: TicketEntity,
     isDarkMode: Boolean,
     expanded: MutableState<Boolean> = remember { mutableStateOf(false) },
+    onClickUpdate: (TicketEntity) -> Unit = { _ -> }
 ) {
     val textColor = if (isDarkMode) Color.White else CustomColors.Grey780
     val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
@@ -174,11 +174,7 @@ private fun MenuTicketListItem(
                     .clickable(
                         interactionSource = MutableInteractionSource(),
                         indication = null
-                    ) {
-                        //val ticketString = Helper.parcelableToString(ticket)
-                        //navController.navigate(route = "${Screens.Home.TICKET_UPDATE}/$ticketString")
-                        navController.navigate(route = Screens.Home.TICKET_UPDATE)
-                    },
+                    ) { onClickUpdate(ticket) },
                 painter = painterResource(id = R.drawable.baseline_create_24),
                 contentDescription = null,
                 tint = CustomColors.Orange700,
@@ -189,7 +185,7 @@ private fun MenuTicketListItem(
                 modifier = Modifier
                     .layoutId("statusRef")
                     .fillMaxWidth(0.3F),
-                text = ticket.status?.name ?: "[Статус неизвестен]",
+                text = ticket.status?.title ?: "[Статус неизвестен]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,

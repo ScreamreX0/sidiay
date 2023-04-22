@@ -31,6 +31,7 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
+import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
@@ -108,8 +109,7 @@ class TicketUpdate {
         getRestrictionsFunction: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> TicketRestriction = { _, _, _ -> TicketRestriction.getEmpty() },
     ) {
         val context = LocalContext.current
-        val selectedTicketStatus =
-            remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
+        val selectedTicketStatus = remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
 
         val restrictions = remember { mutableStateOf(TicketRestriction.getEmpty()) }
 
@@ -117,10 +117,10 @@ class TicketUpdate {
             restrictions.value = getRestrictionsFunction(
                 selectedTicketStatus.value,
                 ticket.value,
-                ticket.value.author  // TODO remove to authParams.user
+                authParams.user
             )
-        }
-        updateRestrictions()
+        }.also { it() }
+
 
         //
         // MAIN CONSTRAINT

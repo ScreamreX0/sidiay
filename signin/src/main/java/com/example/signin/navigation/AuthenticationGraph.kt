@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.core.navigation.Graphs
+import com.example.core.ui.theme.AppTheme
 import com.example.signin.ui.SignIn
 
 fun NavGraphBuilder.authenticationGraph(navController: NavHostController) {

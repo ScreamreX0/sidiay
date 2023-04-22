@@ -2,8 +2,7 @@ package com.example.domain.enums
 
 enum class TicketStatuses(
     val value: Int,
-    val title: String,
-    val requiredFields: List<TicketFieldsEnum>? = null
+    val title: String
 ) {
     NOT_FORMED(
         value = 1,
@@ -22,11 +21,7 @@ enum class TicketStatuses(
 
     DENIED(
         value = 4,
-        title = "Отклонена",
-        requiredFields = listOf(
-            TicketFieldsEnum.COMPLETED_WORK,
-            TicketFieldsEnum.CLOSING_DATE
-        )
+        title = "Отклонена"
     ),
 
     SUSPENDED(
@@ -36,11 +31,7 @@ enum class TicketStatuses(
 
     COMPLETED(
         value = 6,
-        title = "Завершена",
-        requiredFields = listOf(
-            TicketFieldsEnum.COMPLETED_WORK,
-            TicketFieldsEnum.CLOSING_DATE
-        )
+        title = "Завершена"
     ),
 
     CLOSED(
@@ -50,7 +41,6 @@ enum class TicketStatuses(
 
     FOR_REVISION(
         value = 8,
-        title = "На доработку",
-        requiredFields = listOf(TicketFieldsEnum.IMPROVEMENT_REASON)
+        title = "На доработку"
     );
 }

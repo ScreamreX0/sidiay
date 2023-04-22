@@ -18,6 +18,10 @@ class Helper {
 
         fun <T: Parcelable> parcelableToString(obj: T): String = Uri.encode(Gson().toJson(obj))
 
+        fun <T> objToJson(obj: T?): String = Gson().toJson(obj)
+
+        inline fun <reified T> objFromJson(string: String?): T? = string?.let { Gson().fromJson(string, T::class.java) }
+
         fun <T> addToList(list: List<T>?, addingItem: T): List<T> {
             val newList = list?.toMutableList() ?: mutableListOf()
             newList.add(addingItem)

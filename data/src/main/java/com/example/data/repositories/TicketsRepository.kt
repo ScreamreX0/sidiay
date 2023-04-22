@@ -3,6 +3,7 @@ package com.example.data.repositories
 import com.example.core.utils.Logger
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.*
+import com.example.domain.enums.TicketStatuses
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
 
@@ -25,8 +26,9 @@ class TicketsRepository @Inject constructor(
     override suspend fun get() = List(10) {
         TicketEntity(
             id = it.toLong(),
-            executor = UserEntity(id = it.toLong()),
-            author = UserEntity(id = it.toLong() + 1)
+            executor = UserEntity(id = 10),
+            author = UserEntity(id = 1),
+            status = TicketStatuses.values().random()
         )
     }
 

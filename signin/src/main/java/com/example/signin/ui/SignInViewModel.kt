@@ -15,6 +15,7 @@ import com.example.domain.data_classes.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.usecases.signin.CheckConnectionUseCase
 import com.example.domain.usecases.signin.SignInUseCase
@@ -43,14 +44,14 @@ class SignInViewModel @Inject constructor(
     internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
 
     internal var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
-    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(id = -1))
+    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(-1))
 
     init {
         viewModelScope.launch { updateConnectionsVar() }
         viewModelScope.launch { updateUIModeVar() }
     }
 
-    /** UIMode */
+    // UIMode
     internal fun changeUIMode() {
         viewModelScope.launch {
             themeDataStore.saveMode(darkMode.value?.let { !it } ?: true)
@@ -62,7 +63,7 @@ class SignInViewModel @Inject constructor(
         darkMode.value = themeDataStore.getMode.first().toBoolean()
     }
 
-    /** Connections */
+    // Connections
     internal suspend fun checkConnection(url: String) {
         if (url.last().toString() != "/") {
             url.plus("/")
@@ -90,6 +91,7 @@ class SignInViewModel @Inject constructor(
 
     }
 
+    // Sign in
     internal fun signIn(url: String, email: String, password: String) {
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
             Logger.Companion.m("DEBUG_AND_OFFLINE MODE ENABLED")

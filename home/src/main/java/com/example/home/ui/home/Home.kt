@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.core.navigation.Graphs
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
@@ -32,6 +33,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 
@@ -63,8 +65,7 @@ class Home {
             && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -180,9 +181,11 @@ class Home {
             ) {
                 if (it == 0) {
                     MenuTicketList(
-                        navController = navController,
                         authParams = authParams,
                         tickets = tickets,
+                        onClickUpdate = { itTicket ->
+                            navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(itTicket)}")
+                        }
                     )
                 } else if (it == 1) {
                     DraftsComponent().Content(
