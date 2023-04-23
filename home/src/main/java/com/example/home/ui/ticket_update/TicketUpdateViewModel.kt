@@ -33,6 +33,8 @@ class TicketUpdateViewModel @Inject constructor(
 
     var updatingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
 
+    val restrictions: MutableState<TicketRestriction> = mutableStateOf(TicketRestriction.getEmpty())
+
     fun initFields(url: String?) {
         Logger.m("Check network mode...")
         url?.let {
@@ -80,16 +82,14 @@ class TicketUpdateViewModel @Inject constructor(
         }
     }
 
-    fun getRestrictions(
-        selectedTicketStatus: TicketStatuses,
-        ticket: TicketEntity,
-        currentUser: UserEntity?,
-    ): TicketRestriction {
-        return getTicketRestrictionsUseCase.execute(
-            selectedTicketStatus = selectedTicketStatus,
-            ticket = ticket,
-            currentUser = currentUser
-        )
+    fun initRestrictions(selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) {
+        viewModelScope.launch {
+            restrictions.value = getTicketRestrictionsUseCase.execute(
+                selectedTicketStatus = selectedTicketStatus,
+                ticket = ticket,
+                currentUser = currentUser
+            )
+        }
     }
 
     private fun getLoadingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->

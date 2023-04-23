@@ -17,15 +17,7 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 
-interface ICustomDropDownMenu : ITicketField {
-    override val field: TicketFieldsEnum
-    override val ticketFieldsParams: MutableState<TicketFieldParams>
-
-    @Composable
-    fun Content(ticketRestrictions: TicketRestriction) {
-        this.ticketFieldsParams.value = getTicketFieldsParams(field, ticketRestrictions)
-    }
-
+internal interface ICustomDropDownMenu : ITicketField {
     @Composable
     fun <T> Component(
         items: List<T>,

@@ -11,15 +11,15 @@ import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.INonSelectableText
 
 class CreationDateNonSelectableText(
+    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
     override val field: TicketFieldsEnum = TicketFieldsEnum.AUTHOR,
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams.getEmpty()),
+    override val ticket: MutableState<TicketEntity>,
+    override val ticketRestrictions: TicketRestriction,
+    override val isValueNull: Boolean,
 ) : INonSelectableText {
     @Composable
-    fun Content(
-        ticket: MutableState<TicketEntity>,
-        ticketRestrictions: TicketRestriction
-    ) {
-        this.ticketFieldsParams.value = getTicketFieldsParams(field, ticketRestrictions)
+    fun Content() {
+        super.init(this, ticketRestrictions, isValueNull)
 
         Component(
             title = "Дата создания",

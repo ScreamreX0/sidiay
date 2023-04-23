@@ -13,15 +13,15 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ClosingDatePicker(
+    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
     override val field: TicketFieldsEnum = TicketFieldsEnum.CLOSING_DATE,
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams.getEmpty()),
+    override val ticket: MutableState<TicketEntity>,
+    override val ticketRestrictions: TicketRestriction,
+    override val isValueNull: Boolean
 ) : ICustomDatePicker {
     @Composable
-    fun Content(
-        ticket: MutableState<TicketEntity>,
-        ticketRestrictions: TicketRestriction
-    ) {
-        super.Content(ticketRestrictions)
+    fun Content() {
+        super.init(this, ticketRestrictions, isValueNull)
 
         Component(
             date = ticket.value.closing_date ?: LocalDate.now().toString(),

@@ -7,21 +7,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.TextFieldValue
+import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomChipRow
 import com.example.home.ui.common.components.CustomDialog
 
-interface ICustomChipRow : ITicketField {
-    override val field: TicketFieldsEnum
-    override val ticketFieldsParams: MutableState<TicketFieldParams>
-
-    @Composable
-    fun Content(ticketRestrictions: TicketRestriction) {
-        this.ticketFieldsParams.value = getTicketFieldsParams(field, ticketRestrictions)
-    }
-
+internal interface ICustomChipRow : ITicketField {
     @Composable
     fun <T> Component(
         // Dialog

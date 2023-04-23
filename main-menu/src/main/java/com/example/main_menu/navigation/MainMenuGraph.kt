@@ -68,16 +68,6 @@ fun NavGraphBuilder.homeNavGraph(
                 )
             }
         }
-//        composable(
-//            route = Screens.Home.TICKET_UPDATE
-//        ) {
-//            AppTheme(authParams.darkMode ?: false) {
-//                TicketUpdate().TicketUpdateScreen(
-//                    navController = navController,
-//                    authParams = authParams,
-//                )
-//            }
-//        }
         composable(
             route = "${Screens.Home.TICKET_UPDATE}/{ticket}",
             arguments = listOf(navArgument("ticket") { type = NavType.StringType })

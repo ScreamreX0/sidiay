@@ -7,15 +7,7 @@ import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomTextField
 
-interface ICustomTextField : ITicketField {
-    override val field: TicketFieldsEnum
-    override val ticketFieldsParams: MutableState<TicketFieldParams>
-
-    @Composable
-    fun Content(ticketRestrictions: TicketRestriction) {
-        this.ticketFieldsParams.value = getTicketFieldsParams(field, ticketRestrictions)
-    }
-
+internal interface ICustomTextField : ITicketField {
     @Composable
     fun Component(
         title: String,

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
+import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
@@ -11,16 +12,17 @@ import com.example.domain.enums.TicketStatuses
 import com.example.home.ui.common.ICustomDropDownMenu
 
 class StatusDropDownMenu(
+    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
     override val field: TicketFieldsEnum = TicketFieldsEnum.STATUS,
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams.getEmpty()),
+    override val ticket: MutableState<TicketEntity>,
+    override val ticketRestrictions: TicketRestriction,
+    override val isValueNull: Boolean,
+    private val selectedTicketStatus: MutableState<TicketStatuses>,
+    val updateRestrictions: () -> Unit,
 ) : ICustomDropDownMenu {
     @Composable
-    fun Content(
-        selectedTicketStatus: MutableState<TicketStatuses>,
-        ticketRestrictions: TicketRestriction,
-        updateRestrictions: () -> Unit
-    ) {
-        super.Content(ticketRestrictions)
+    fun Content() {
+        super.init(this, ticketRestrictions, isValueNull)
 
         Component(
             items = ticketRestrictions.availableStatuses,

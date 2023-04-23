@@ -13,16 +13,16 @@ import com.example.home.ui.common.ICustomClickableText
 import com.example.home.ui.common.components.ListElement
 
 class ServiceClickableText(
+    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
     override val field: TicketFieldsEnum = TicketFieldsEnum.SERVICE,
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams.getEmpty()),
+    override val ticketData: MutableState<TicketData?>,
+    override val ticket: MutableState<TicketEntity>,
+    override val ticketRestrictions: TicketRestriction,
+    override val isValueNull: Boolean
 ) : ICustomClickableText {
     @Composable
-    fun Content(
-        ticketData: MutableState<TicketData?>,
-        ticket: MutableState<TicketEntity>,
-        ticketRestrictions: TicketRestriction
-    ) {
-        super.Content(ticketRestrictions)
+    fun Content() {
+        super.init(this, ticketRestrictions, isValueNull)
 
         Component(
             dialogTitle = "Выберите сервис",

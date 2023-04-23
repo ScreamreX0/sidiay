@@ -31,7 +31,6 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
-import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
@@ -40,6 +39,7 @@ import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
+import com.example.home.ui.common.ITicketField
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
 import com.example.home.ui.common.impl.chip_rows.BrigadeChipRow
@@ -67,14 +67,7 @@ class TicketUpdate {
         navController: NavHostController,
         authParams: AuthParams = remember { AuthParams(user = UserEntity(id = 1)) },
         ticketUpdateViewModel: TicketUpdateViewModel = hiltViewModel(),
-        ticket: TicketEntity = remember {
-            TicketEntity(
-                id = 1,
-                author = UserEntity(id = 1),
-                executor = UserEntity(id = 2),
-                status = TicketStatuses.NEW
-            )
-        },
+        ticket: TicketEntity = remember { TicketEntity(id = 1, author = UserEntity(id = 1), executor = UserEntity(id = 2), status = TicketStatuses.NEW) },
     ) {
         LaunchedEffect(key1 = null) {
             ticketUpdateViewModel.initFields(url = authParams.connectionParams?.url)
@@ -88,7 +81,8 @@ class TicketUpdate {
             fieldsLoadingState = ticketUpdateViewModel.fieldsLoadingState,
             updateTicketFunction = ticketUpdateViewModel::update,
             updatingResult = ticketUpdateViewModel.updatingResult,
-            getRestrictionsFunction = ticketUpdateViewModel::getRestrictions
+            updateRestrictions = ticketUpdateViewModel::initRestrictions,
+            restrictions = ticketUpdateViewModel.restrictions
         )
     }
 
@@ -100,27 +94,21 @@ class TicketUpdate {
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
         updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
-        updatingResult: MutableState<TicketOperationState> = remember {
-            mutableStateOf(
-                TicketOperationState.WAITING
-            )
-        },
+        updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
-        getRestrictionsFunction: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> TicketRestriction = { _, _, _ -> TicketRestriction.getEmpty() },
+        updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ ->  },
+        restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) }
     ) {
         val context = LocalContext.current
         val selectedTicketStatus = remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
 
-        val restrictions = remember { mutableStateOf(TicketRestriction.getEmpty()) }
-
-        val updateRestrictions = {
-            restrictions.value = getRestrictionsFunction(
+        LaunchedEffect(key1 = null) {
+            updateRestrictions(
                 selectedTicketStatus.value,
                 ticket.value,
                 authParams.user
             )
-        }.also { it() }
-
+        }
 
         //
         // MAIN CONSTRAINT
@@ -210,33 +198,101 @@ class TicketUpdate {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 // Chip rows
-                FacilitiesChipRow().Content(ticketData, ticket, restrictions.value)
-                EquipmentChipRow().Content(ticketData, ticket, restrictions.value)
-                TransportChipRow().Content(ticketData, ticket, restrictions.value)
-                BrigadeChipRow().Content(ticketData, ticket, restrictions.value)
+                FacilitiesChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.facilities == null }).Content()
+                EquipmentChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.equipment == null }).Content()
+                TransportChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.transport == null }).Content()
+                BrigadeChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.brigade == null }).Content()
 
                 // Text fields
-                NameTextField().Content(ticket, restrictions.value)
-                DescriptionTextField().Content(ticket, restrictions.value)
-                ImprovementReasonTextField().Content(ticket, restrictions.value)
-                CompletedWorkTextField().Content(ticket, restrictions.value)
+                NameTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.name == null }).Content()
+                DescriptionTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.description == null }).Content()
+                ImprovementReasonTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.improvement_reason == null }).Content()
+                CompletedWorkTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.completed_work == null }).Content()
 
                 // Selectable texts with dialog
-                ServiceClickableText().Content(ticketData, ticket, restrictions.value)
-                PriorityClickableText().Content(ticketData, ticket, restrictions.value)
-                KindClickableText().Content(ticketData, ticket, restrictions.value)
-                ExecutorClickableText().Content(ticketData, ticket, restrictions.value)
+                ServiceClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.service == null }).Content()
+                PriorityClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.priority == null }).Content()
+                KindClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.kind == null }).Content()
+                ExecutorClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.executor == null }).Content()
 
                 // Date pickers
-                ClosingDatePicker().Content(ticket, restrictions.value)
-                PlaneDatePicker().Content(ticket, restrictions.value)
+                ClosingDatePicker(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.closing_date == null }).Content()
+                PlaneDatePicker(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.plane_date == null }).Content()
 
                 // Non-selectable text
-                AuthorNonSelectableText().Content(authParams, restrictions.value)
-                CreationDateNonSelectableText().Content(ticket, restrictions.value)
+                AuthorNonSelectableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.author == null }).Content()
+                CreationDateNonSelectableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.creation_date == null }).Content()
 
                 // Dropdown menus
-                StatusDropDownMenu().Content(selectedTicketStatus, restrictions.value, updateRestrictions)
+                StatusDropDownMenu(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.status == null },
+                    selectedTicketStatus = selectedTicketStatus,
+                    updateRestrictions = {
+                        updateRestrictions(
+                            selectedTicketStatus.value,
+                            ticket.value,
+                            authParams.user
+                        )
+                    },
+                ).Content()
             }
 
             //

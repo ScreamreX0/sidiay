@@ -13,15 +13,7 @@ import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomDialog
 import com.example.home.ui.common.components.CustomText
 
-interface ICustomClickableText : ITicketField {
-    override val field: TicketFieldsEnum
-    override val ticketFieldsParams: MutableState<TicketFieldParams>
-
-    @Composable
-    fun Content(ticketRestrictions: TicketRestriction) {
-        this.ticketFieldsParams.value = getTicketFieldsParams(field, ticketRestrictions)
-    }
-
+internal interface ICustomClickableText : ITicketField {
     @Composable
     fun <T> Component(
         // Dialog

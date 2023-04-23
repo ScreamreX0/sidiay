@@ -181,13 +181,13 @@ class TicketCreate {
 
                 val restrictions = getRestrictionsFunction()
 
-                NameTextField().Content(ticket, restrictions)
-                FacilitiesChipRow().Content(ticketData, ticket, restrictions)
-                ServiceClickableText().Content(ticketData, ticket, restrictions)
-                KindClickableText().Content(ticketData, ticket, restrictions)
-                PlaneDatePicker().Content(ticket, restrictions)
-                PriorityClickableText().Content(ticketData, ticket, restrictions)
-                ExecutorClickableText().Content(ticketData, ticket, restrictions)
+                NameTextField(ticket = ticket, ticketRestrictions = restrictions, isValueNull = false).Content()
+                FacilitiesChipRow(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
+                ServiceClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
+                KindClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
+                PlaneDatePicker(ticket = ticket, ticketRestrictions = restrictions, isValueNull = false).Content()
+                PriorityClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
+                ExecutorClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
             }
 
             //

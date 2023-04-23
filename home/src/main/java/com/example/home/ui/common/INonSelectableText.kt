@@ -6,10 +6,7 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomText
 
-interface INonSelectableText : ITicketField {
-    override val field: TicketFieldsEnum
-    override val ticketFieldsParams: MutableState<TicketFieldParams>
-
+internal interface INonSelectableText : ITicketField {
     @Composable
     fun Component(
         title: String,
