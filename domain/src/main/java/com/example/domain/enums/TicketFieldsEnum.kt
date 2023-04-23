@@ -1,7 +1,6 @@
 package com.example.domain.enums
 
 enum class TicketFieldsEnum {
-    ID,
     FACILITIES,
     EQUIPMENT,
     TRANSPORT,

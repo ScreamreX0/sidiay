@@ -22,7 +22,6 @@ class ClosingDatePicker(
     @Composable
     fun Content() {
         super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
 
         Component(
             date = ticket.value.closing_date ?: LocalDate.now().toString(),

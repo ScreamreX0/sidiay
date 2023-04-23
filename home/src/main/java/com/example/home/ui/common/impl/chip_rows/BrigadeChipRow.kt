@@ -11,6 +11,8 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.ICustomChipRow
+import com.example.home.ui.common.components.CustomChip
+import com.example.home.ui.common.components.ListElement
 
 class BrigadeChipRow(
     override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
@@ -23,7 +25,6 @@ class BrigadeChipRow(
     @Composable
     fun Content() {
         super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
 
         Component(
             dialogTitle = "Выберите сотрудника",

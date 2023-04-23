@@ -10,6 +10,7 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.ICustomClickableText
+import com.example.home.ui.common.components.ListElement
 
 class PriorityClickableText(
     override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
@@ -22,7 +23,6 @@ class PriorityClickableText(
     @Composable
     fun Content() {
         super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
 
         Component(
             dialogTitle = "Выберите приоритет",
