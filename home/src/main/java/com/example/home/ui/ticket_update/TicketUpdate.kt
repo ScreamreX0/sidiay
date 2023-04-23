@@ -55,6 +55,7 @@ import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
 import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
 import com.example.home.ui.common.impl.other.AuthorNonSelectableText
 import com.example.home.ui.common.impl.other.CreationDateNonSelectableText
+import com.example.home.ui.common.impl.other.IdNonSelectableText
 import com.example.home.ui.common.impl.text_fields.CompletedWorkTextField
 import com.example.home.ui.common.impl.text_fields.DescriptionTextField
 import com.example.home.ui.common.impl.text_fields.ImprovementReasonTextField
@@ -197,89 +198,10 @@ class TicketUpdate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Chip rows
-                FacilitiesChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.facilities == null }).Content()
-                EquipmentChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.equipment == null }).Content()
-                TransportChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.transport == null }).Content()
-                BrigadeChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.brigade == null }).Content()
-
-                // Text fields
-                NameTextField(
+                IdNonSelectableText(
                     ticket = ticket,
                     ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.name == null }).Content()
-                DescriptionTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.description == null }).Content()
-                ImprovementReasonTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.improvement_reason == null }).Content()
-                CompletedWorkTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.completed_work == null }).Content()
-
-                // Selectable texts with dialog
-                ServiceClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.service == null }).Content()
-                PriorityClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.priority == null }).Content()
-                KindClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.kind == null }).Content()
-                ExecutorClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.executor == null }).Content()
-
-                // Date pickers
-                ClosingDatePicker(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.closing_date == null }).Content()
-                PlaneDatePicker(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.plane_date == null }).Content()
-
-                // Non-selectable text
-                AuthorNonSelectableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.author == null }).Content()
-                CreationDateNonSelectableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.creation_date == null }).Content()
-
-                // Dropdown menus
+                    isValueNull = remember { false }).Content()
                 StatusDropDownMenu(
                     ticket = ticket,
                     ticketRestrictions = restrictions.value,
@@ -293,6 +215,80 @@ class TicketUpdate {
                         )
                     },
                 ).Content()
+                PriorityClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.priority == null }).Content()
+                ServiceClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.service == null }).Content()
+                KindClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.kind == null }).Content()
+
+                AuthorNonSelectableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.author == null }).Content()
+                ExecutorClickableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    ticketData = ticketData,
+                    isValueNull = remember { ticket.value.executor == null }).Content()
+                BrigadeChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.brigade == null }).Content()
+                TransportChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.transport == null }).Content()
+                FacilitiesChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.facilities == null }).Content()
+                EquipmentChipRow(
+                    ticket = ticket,
+                    ticketData = ticketData,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.equipment == null }).Content()
+                ImprovementReasonTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.improvement_reason == null }).Content()
+                PlaneDatePicker(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.plane_date == null }).Content()
+
+                ClosingDatePicker(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.closing_date == null }).Content()
+                CreationDateNonSelectableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.creation_date == null }).Content()
+                CompletedWorkTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.completed_work == null }).Content()
+                DescriptionTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.description == null }).Content()
+                NameTextField(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.name == null }).Content()
             }
 
             //

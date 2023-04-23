@@ -23,6 +23,7 @@ class KindClickableText(
     @Composable
     fun Content() {
         super.init(this, ticketRestrictions, isValueNull)
+        if (!ticketFieldsParams.value.isVisible) return
 
         Component(
             dialogTitle = "Выберите вид",

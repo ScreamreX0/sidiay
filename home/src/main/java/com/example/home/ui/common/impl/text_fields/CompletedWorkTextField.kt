@@ -20,6 +20,7 @@ class CompletedWorkTextField(
     @Composable
     fun Content() {
         super.init(this, ticketRestrictions, isValueNull)
+        if (!ticketFieldsParams.value.isVisible) return
 
         Component(
             title = "Завершенная работа",

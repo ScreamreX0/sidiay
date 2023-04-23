@@ -39,7 +39,7 @@ internal interface ITicketField {
         thisField.ticketFieldsParams.value = TicketFieldParams(
             starred = ticketFieldInRequiredFields,
             isClickable = ticketFieldInRequiredFields || ticketFieldInAllowedFields,
-            isVisible = isValueNull && !ticketFieldInRequiredFields && !ticketFieldInAllowedFields,
+            isVisible = !isValueNull || ticketFieldInRequiredFields || ticketFieldInAllowedFields,
         )
     }
 
