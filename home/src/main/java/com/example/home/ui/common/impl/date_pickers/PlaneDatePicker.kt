@@ -22,6 +22,7 @@ class PlaneDatePicker(
     @Composable
     fun Content() {
         super.init(this, ticketRestrictions, isValueNull)
+        if (!ticketFieldsParams.value.isVisible) return
 
         Component(
             date = ticket.value.plane_date ?: LocalDate.now().toString(),

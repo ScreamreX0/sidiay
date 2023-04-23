@@ -55,6 +55,7 @@ import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
 import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
 import com.example.home.ui.common.impl.other.AuthorNonSelectableText
 import com.example.home.ui.common.impl.other.CreationDateNonSelectableText
+import com.example.home.ui.common.impl.other.IdNonSelectableText
 import com.example.home.ui.common.impl.text_fields.CompletedWorkTextField
 import com.example.home.ui.common.impl.text_fields.DescriptionTextField
 import com.example.home.ui.common.impl.text_fields.ImprovementReasonTextField
@@ -197,6 +198,40 @@ class TicketUpdate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
+                // Dropdown menus
+                StatusDropDownMenu(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = remember { ticket.value.status == null },
+                    selectedTicketStatus = selectedTicketStatus,
+                    updateRestrictions = {
+                        updateRestrictions(
+                            selectedTicketStatus.value,
+                            ticket.value,
+                            authParams.user
+                        )
+                    },
+                ).Content()
+
+                // id
+                // priority
+                // service
+                // kind
+                // author
+                // executor
+                // brigade
+                // transport
+                // facilities
+                // equipment
+                // improvement_reason
+                // plane_date
+                // closing_date
+                // creation_date
+                // completed_work
+                // description
+                // name
+                // status
+
                 // Chip rows
                 FacilitiesChipRow(
                     ticket = ticket,
@@ -270,6 +305,10 @@ class TicketUpdate {
                     isValueNull = remember { ticket.value.plane_date == null }).Content()
 
                 // Non-selectable text
+                IdNonSelectableText(
+                    ticket = ticket,
+                    ticketRestrictions = restrictions.value,
+                    isValueNull = false).Content()
                 AuthorNonSelectableText(
                     ticket = ticket,
                     ticketRestrictions = restrictions.value,
@@ -278,21 +317,6 @@ class TicketUpdate {
                     ticket = ticket,
                     ticketRestrictions = restrictions.value,
                     isValueNull = remember { ticket.value.creation_date == null }).Content()
-
-                // Dropdown menus
-                StatusDropDownMenu(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.status == null },
-                    selectedTicketStatus = selectedTicketStatus,
-                    updateRestrictions = {
-                        updateRestrictions(
-                            selectedTicketStatus.value,
-                            ticket.value,
-                            authParams.user
-                        )
-                    },
-                ).Content()
             }
 
             //
