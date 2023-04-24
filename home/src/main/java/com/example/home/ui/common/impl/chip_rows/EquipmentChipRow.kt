@@ -5,7 +5,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
 import com.example.core.utils.Helper
+import com.example.domain.data_classes.entities.EquipmentEntity
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.TransportEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
@@ -15,21 +17,19 @@ import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 
 class EquipmentChipRow(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.EQUIPMENT,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketData: MutableState<TicketData?>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean
-) : ICustomChipRow {
+    override val field: List<EquipmentEntity>?,
+    override val ticketData: List<EquipmentEntity>?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.EQUIPMENT,
+) : ICustomChipRow<EquipmentEntity, List<EquipmentEntity>> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             dialogTitle = "Выберите оборудование",
-            ticketData = ticketData.value?.equipment,
+            ticketData = ticketData,
             predicate = { it, searchTextState ->
                 it.name?.contains(searchTextState.text, true) ?: false
             },
@@ -55,7 +55,7 @@ class EquipmentChipRow(
                     }
                 }
             },
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

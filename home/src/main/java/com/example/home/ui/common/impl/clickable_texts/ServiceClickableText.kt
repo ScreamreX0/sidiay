@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
+import com.example.domain.data_classes.entities.PriorityEntity
+import com.example.domain.data_classes.entities.ServiceEntity
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
@@ -13,21 +15,19 @@ import com.example.home.ui.common.ICustomClickableText
 import com.example.home.ui.common.components.ListElement
 
 class ServiceClickableText(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.SERVICE,
-    override val ticketData: MutableState<TicketData?>,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean
-) : ICustomClickableText {
+    override val field: ServiceEntity?,
+    override val ticketData: List<ServiceEntity>?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.SERVICE,
+) : ICustomClickableText<ServiceEntity, ServiceEntity> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             dialogTitle = "Выберите сервис",
-            ticketData = ticketData.value?.services,
+            ticketData = ticketData,
             predicate = { it, searchTextState ->
                 it.name?.contains(searchTextState.text, true) ?: false
             },
@@ -40,7 +40,7 @@ class ServiceClickableText(
             title = "Сервисы",
             label = ticket.value.service?.name ?: "[Выбрать сервис]",
             icon = R.drawable.baseline_format_list_bulleted_24,
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
@@ -13,21 +14,19 @@ import com.example.home.ui.common.ICustomClickableText
 import com.example.home.ui.common.components.ListElement
 
 class ExecutorClickableText(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.EXECUTOR,
-    override val ticketData: MutableState<TicketData?>,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean
-) : ICustomClickableText {
+    override val field: UserEntity?,
+    override val ticketData: List<UserEntity>?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.EXECUTOR,
+) : ICustomClickableText<UserEntity, UserEntity> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             dialogTitle = "Выберите исполнителя",
-            ticketData = ticketData.value?.users,
+            ticketData = ticketData,
             predicate = { it, searchTextState ->
                 it.employee?.name?.contains(searchTextState.text, true) ?: false
                         || it.employee?.firstname?.contains(searchTextState.text, true) ?: false
@@ -42,7 +41,7 @@ class ExecutorClickableText(
             title = "Исполнитель",
             label = ticket.value.executor?.getFullName() ?: "[Выбрать исполнителя]",
             icon = R.drawable.ic_baseline_person_24,
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

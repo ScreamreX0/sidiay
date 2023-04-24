@@ -8,12 +8,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomDialog
 import com.example.home.ui.common.components.CustomText
 
-internal interface ICustomClickableText : ITicketField {
+internal interface ICustomClickableText<T, E> : ITicketField<E> {
+    val ticketData: List<T>?
     @Composable
     fun <T> Component(
         // Dialog

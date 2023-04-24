@@ -35,6 +35,7 @@ import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
+import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
@@ -179,15 +180,23 @@ class TicketCreate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                val restrictions = getRestrictionsFunction()
+                val restrictions = remember { mutableStateOf(getRestrictionsFunction()) }
 
-                NameTextField(ticket = ticket, ticketRestrictions = restrictions, isValueNull = false).Content()
-                FacilitiesChipRow(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
-                ServiceClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
-                KindClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
-                PlaneDatePicker(ticket = ticket, ticketRestrictions = restrictions, isValueNull = false).Content()
-                PriorityClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
-                ExecutorClickableText(ticket = ticket, ticketData = ticketData, ticketRestrictions = restrictions, isValueNull = false).Content()
+                val fieldsFactory = TicketFieldsFactory(
+                    ticketData = ticketData.value,
+                    ticket = ticket,
+                    ticketRestriction = restrictions,
+                    updateRestrictions = { },
+                    selectedTicketStatus = remember { mutableStateOf(TicketStatuses.NEW) },
+                )
+
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.NAME, field = ticket.value.name)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.FACILITIES, field = ticket.value.facilities)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = ticket.value.service)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.KIND, field = ticket.value.kind)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PLANE_DATE, field = ticket.value.plane_date)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PRIORITY, field = ticket.value.priority)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTOR, field = ticket.value.executor)
             }
 
             //

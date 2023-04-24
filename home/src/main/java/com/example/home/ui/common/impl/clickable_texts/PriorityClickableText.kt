@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
+import com.example.domain.data_classes.entities.KindEntity
+import com.example.domain.data_classes.entities.PriorityEntity
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
@@ -13,21 +15,19 @@ import com.example.home.ui.common.ICustomClickableText
 import com.example.home.ui.common.components.ListElement
 
 class PriorityClickableText(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.PRIORITY,
-    override val ticketData: MutableState<TicketData?>,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean
-) : ICustomClickableText {
+    override val field: PriorityEntity?,
+    override val ticketData: List<PriorityEntity>?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.PRIORITY,
+) : ICustomClickableText<PriorityEntity, PriorityEntity> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             dialogTitle = "Выберите приоритет",
-            ticketData = ticketData.value?.priorities,
+            ticketData = ticketData,
             predicate = { it, searchTextState ->
                 it.name?.contains(searchTextState.text, true) ?: false
             },
@@ -40,7 +40,7 @@ class PriorityClickableText(
             title = "Приоритет",
             label = ticket.value.priority?.name ?: "[Выбрать приоритет]",
             icon = R.drawable.baseline_priority_high_24,
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

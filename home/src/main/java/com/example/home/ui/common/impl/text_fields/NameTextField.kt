@@ -11,16 +11,14 @@ import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.ICustomTextField
 
 class NameTextField(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.NAME,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean,
-) : ICustomTextField {
+    override val field: String?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.NAME,
+) : ICustomTextField<String> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             title = "Название",
@@ -28,7 +26,7 @@ class NameTextField(
             text = ticket.value.name,
             onValueChange = { ticket.value = ticket.value.copy(name = it) },
             textFieldHint = "Ввести название",
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

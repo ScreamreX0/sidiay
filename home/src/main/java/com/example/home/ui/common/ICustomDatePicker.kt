@@ -10,7 +10,7 @@ import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomDatePicker
 import com.example.home.ui.common.components.CustomText
 
-internal interface ICustomDatePicker : ITicketField {
+internal interface ICustomDatePicker<E> : ITicketField<E> {
     @Composable
     fun Component(
         date: String,

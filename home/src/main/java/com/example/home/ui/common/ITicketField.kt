@@ -10,38 +10,18 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.domain.data_classes.entities.TicketEntity
-import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 
-internal interface ITicketField {
-    val ticketFieldsParams: MutableState<TicketFieldParams>
-    val notIntractableAlpha: Float get() = 0.8F
-    val ticketData: MutableState<TicketData?> get() = mutableStateOf(null)
-    val field: TicketFieldsEnum
-    val ticket: MutableState<TicketEntity>
-    val ticketRestrictions: TicketRestriction
-    val isValueNull: Boolean
-
-    fun init(thisField: ITicketField, ticketRestrictions: TicketRestriction, isValueNull: Boolean) {
-        val ticketFieldInRequiredFields = field in ticketRestrictions.requiredFields
-        val ticketFieldInAllowedFields = field in ticketRestrictions.allowedFields
-
-        thisField.ticketFieldsParams.value = TicketFieldParams(
-            starred = ticketFieldInRequiredFields,
-            isClickable = ticketFieldInRequiredFields || ticketFieldInAllowedFields,
-            isVisible = !isValueNull || ticketFieldInRequiredFields || ticketFieldInAllowedFields,
-        )
-    }
+internal interface ITicketField<T> {
+    val fieldEnum: TicketFieldsEnum
+    val field: T?
+    val ticketFieldsParams: TicketFieldParams
 
     @Composable
     fun TicketFieldComponent(

@@ -11,16 +11,14 @@ import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.ICustomTextField
 
 class CompletedWorkTextField(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.COMPLETED_WORK,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean,
-) : ICustomTextField {
+    override val field: String?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.COMPLETED_WORK,
+) : ICustomTextField<String> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             title = "Завершенная работа",
@@ -28,7 +26,7 @@ class CompletedWorkTextField(
             text = ticket.value.completed_work,
             onValueChange = { ticket.value = ticket.value.copy(completed_work = it) },
             textFieldHint = ticket.value.completed_work ?: "Ввести завершенную работу",
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

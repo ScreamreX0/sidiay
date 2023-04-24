@@ -2,40 +2,36 @@ package com.example.home.ui.common.impl.chip_rows
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
 import com.example.core.utils.Helper
+import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.TicketEntity
-import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.ICustomChipRow
 import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 
 class FacilitiesChipRow(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.FACILITIES,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketData: MutableState<TicketData?>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean
-) : ICustomChipRow {
+    override val field: List<FacilityEntity>?,
+    override val ticketData: List<FacilityEntity>?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.FACILITIES,
+) : ICustomChipRow<FacilityEntity, List<FacilityEntity>> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             dialogTitle = "Выберите объект",
-            ticketData = ticketData.value?.facilities,
+            ticketData = ticketData,
             predicate = { it, searchTextState ->
                 it.name?.contains(searchTextState.text, true) ?: false
             },
             listItem = { it, isDialogOpened ->
                 ListElement(title = it.name ?: "") {
-                    if (ticket.value.facilities?.contains(it) != true) {
+                    if (field?.contains(it) != true) {
                         ticket.value = ticket.value.copy(
                             facilities = Helper.addToList(ticket.value.facilities, it)
                         )
@@ -55,7 +51,7 @@ class FacilitiesChipRow(
                     }
                 }
             },
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

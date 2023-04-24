@@ -11,16 +11,14 @@ import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.ICustomTextField
 
 class ImprovementReasonTextField(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.IMPROVEMENT_REASON,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean,
-) : ICustomTextField {
+    override val field: String?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.IMPROVEMENT_REASON,
+) : ICustomTextField<String> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             title = "Причина доработки",
@@ -28,7 +26,7 @@ class ImprovementReasonTextField(
             text = ticket.value.improvement_reason,
             onValueChange = { ticket.value = ticket.value.copy(improvement_reason = it) },
             textFieldHint = ticket.value.improvement_reason ?: "Ввести причину доработки",
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

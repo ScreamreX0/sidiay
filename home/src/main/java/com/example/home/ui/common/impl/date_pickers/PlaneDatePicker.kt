@@ -13,16 +13,14 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class PlaneDatePicker(
-    override val ticketFieldsParams: MutableState<TicketFieldParams> = mutableStateOf(TicketFieldParams()),
-    override val field: TicketFieldsEnum = TicketFieldsEnum.PLANE_DATE,
-    override val ticket: MutableState<TicketEntity>,
-    override val ticketRestrictions: TicketRestriction,
-    override val isValueNull: Boolean
-) : ICustomDatePicker {
+    override val field: String?,
+    override val ticketFieldsParams: TicketFieldParams,
+    private val ticket: MutableState<TicketEntity>,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.PLANE_DATE,
+) : ICustomDatePicker<String> {
     @Composable
     fun Content() {
-        super.init(this, ticketRestrictions, isValueNull)
-        if (!ticketFieldsParams.value.isVisible) return
+        if (!ticketFieldsParams.isVisible) return
 
         Component(
             date = ticket.value.plane_date ?: LocalDate.now().toString(),
@@ -31,7 +29,7 @@ class PlaneDatePicker(
             icon = R.drawable.ic_baseline_calendar_month_24,
             datePickerTitle = ticket.value.plane_date?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
                 ?: "[Выбрать плановую дату]",
-            ticketFieldsParams = ticketFieldsParams.value,
+            ticketFieldsParams = ticketFieldsParams,
         )
     }
 }

@@ -17,7 +17,8 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 
-internal interface ICustomDropDownMenu : ITicketField {
+internal interface ICustomDropDownMenu<T, E> : ITicketField<E> {
+    val ticketData: List<T>?
     @Composable
     fun <T> Component(
         items: List<T>,
@@ -45,7 +46,7 @@ internal interface ICustomDropDownMenu : ITicketField {
                     Text(
                         text = text(selectedItem),
                         fontSize = MaterialTheme.typography.h5.fontSize,
-                        color = MaterialTheme.colors.onBackground.copy(alpha = super.notIntractableAlpha),
+                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.6F),
                     )
                     DropdownMenu(
                         expanded = expanded.value,
@@ -60,7 +61,7 @@ internal interface ICustomDropDownMenu : ITicketField {
                                 Text(
                                     text = label(item),
                                     fontSize = MaterialTheme.typography.h5.fontSize,
-                                    color = MaterialTheme.colors.onBackground.copy(alpha = super.notIntractableAlpha),
+                                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6F),
                                 )
                             }
                         }

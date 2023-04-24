@@ -36,10 +36,11 @@ import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
+import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.home.ui.common.ITicketField
+import com.example.home.ui.common.TicketFieldsFactory
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
 import com.example.home.ui.common.impl.chip_rows.BrigadeChipRow
@@ -55,7 +56,6 @@ import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
 import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
 import com.example.home.ui.common.impl.other.AuthorNonSelectableText
 import com.example.home.ui.common.impl.other.CreationDateNonSelectableText
-import com.example.home.ui.common.impl.other.IdNonSelectableText
 import com.example.home.ui.common.impl.text_fields.CompletedWorkTextField
 import com.example.home.ui.common.impl.text_fields.DescriptionTextField
 import com.example.home.ui.common.impl.text_fields.ImprovementReasonTextField
@@ -198,97 +198,31 @@ class TicketUpdate {
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                IdNonSelectableText(
+                val fieldsFactory = TicketFieldsFactory(
+                    ticketData = ticketData.value,
                     ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { false }).Content()
-                StatusDropDownMenu(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.status == null },
+                    ticketRestriction = restrictions,
+                    updateRestrictions = { updateRestrictions(selectedTicketStatus.value, ticket.value, authParams.user) },
                     selectedTicketStatus = selectedTicketStatus,
-                    updateRestrictions = {
-                        updateRestrictions(
-                            selectedTicketStatus.value,
-                            ticket.value,
-                            authParams.user
-                        )
-                    },
-                ).Content()
-                PriorityClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.priority == null }).Content()
-                ServiceClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.service == null }).Content()
-                KindClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.kind == null }).Content()
+                )
 
-                AuthorNonSelectableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.author == null }).Content()
-                ExecutorClickableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    ticketData = ticketData,
-                    isValueNull = remember { ticket.value.executor == null }).Content()
-                BrigadeChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.brigade == null }).Content()
-                TransportChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.transport == null }).Content()
-                FacilitiesChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.facilities == null }).Content()
-                EquipmentChipRow(
-                    ticket = ticket,
-                    ticketData = ticketData,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.equipment == null }).Content()
-                ImprovementReasonTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.improvement_reason == null }).Content()
-                PlaneDatePicker(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.plane_date == null }).Content()
-
-                ClosingDatePicker(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.closing_date == null }).Content()
-                CreationDateNonSelectableText(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.creation_date == null }).Content()
-                CompletedWorkTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.completed_work == null }).Content()
-                DescriptionTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.description == null }).Content()
-                NameTextField(
-                    ticket = ticket,
-                    ticketRestrictions = restrictions.value,
-                    isValueNull = remember { ticket.value.name == null }).Content()
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.STATUS, field = ticket.value.status)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PRIORITY, field = ticket.value.priority)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = ticket.value.service)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.KIND, field = ticket.value.kind)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.AUTHOR, field = ticket.value.author)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTOR, field = ticket.value.executor)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.BRIGADE, field = ticket.value.brigade)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.TRANSPORT, field = ticket.value.transport)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.FACILITIES, field = ticket.value.facilities)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EQUIPMENT, field = ticket.value.equipment)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.IMPROVEMENT_REASON, field = ticket.value.improvement_reason)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PLANE_DATE, field = ticket.value.plane_date)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CLOSING_DATE, field = ticket.value.closing_date)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CREATION_DATE, field = ticket.value.creation_date)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.COMPLETED_WORK, field = ticket.value.completed_work)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.DESCRIPTION, field = ticket.value.description)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.NAME, field = ticket.value.name)
             }
 
             //
