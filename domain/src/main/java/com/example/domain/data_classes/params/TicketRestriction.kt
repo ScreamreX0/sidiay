@@ -16,4 +16,6 @@ data class TicketRestriction(
             TicketStatuses.values().toList()
         )
     }
+
+    fun getAllAvailableFields() = allowedFields.plus(requiredFields)
 }

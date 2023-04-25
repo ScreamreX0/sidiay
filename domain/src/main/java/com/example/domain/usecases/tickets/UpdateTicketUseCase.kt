@@ -4,6 +4,7 @@ import com.example.core.utils.ConstAndVars
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
 
@@ -16,10 +17,11 @@ class UpdateTicketUseCase @Inject constructor(
         ticket: TicketEntity
     ): Pair<TicketEntity?, String?> {
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
+            Logger.m(ticket.toString())
             return Pair(TicketEntity(id = 0), null)
         }
 
-        if (url == null || currentUserId == null) { TODO("Add url null handler") }
+        if (url == null || currentUserId == null) { TODO("Offline mode") }
 
         val result = ticketRepository.update(url = url, ticket = ticket, currentUserId = currentUserId)
         return when (result.first) {

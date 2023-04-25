@@ -47,6 +47,7 @@ import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.enums.TicketStatuses
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -185,7 +186,7 @@ private fun MenuTicketListItem(
                 modifier = Modifier
                     .layoutId("statusRef")
                     .fillMaxWidth(0.3F),
-                text = ticket.status?.title ?: "[Статус неизвестен]",
+                text = TicketStatuses.get(ticket.status)?.title ?: "[Статус неизвестен]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,

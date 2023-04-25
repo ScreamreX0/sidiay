@@ -53,7 +53,7 @@ class TicketFieldsFactory(
             TicketFieldsEnum.CLOSING_DATE -> PlaneDatePicker(ticket.value.plane_date, params, ticket).Content()
             TicketFieldsEnum.CREATION_DATE -> CreationDateNonSelectableText(ticket.value.plane_date, params, ticket).Content()
             TicketFieldsEnum.AUTHOR -> AuthorNonSelectableText(ticket.value.author, params, ticket).Content()
-            TicketFieldsEnum.STATUS -> StatusDropDownMenu(ticket.value.status, ticketRestriction.value.availableStatuses, params, updateRestrictions, ticketRestriction.value, selectedTicketStatus).Content()
+            TicketFieldsEnum.STATUS -> StatusDropDownMenu(TicketStatuses.get(ticket.value.status), ticketRestriction.value.availableStatuses, params, updateRestrictions, ticketRestriction.value, selectedTicketStatus).Content()
             TicketFieldsEnum.IMPROVEMENT_REASON -> ImprovementReasonTextField(ticket.value.improvement_reason, params, ticket).Content()
             else -> {}
         }

@@ -20,6 +20,7 @@ import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.components.CustomAlertDialog
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.data_classes.params.TicketRestriction
 
 @Composable
 internal fun TicketCreateBottomBar(
@@ -53,9 +54,7 @@ internal fun TicketCreateBottomBar(
 @Composable
 internal fun TicketUpdateBottomBar(
     modifier: Modifier = Modifier,
-    ticket: MutableState<TicketEntity>,
-    updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
-    authParams: AuthParams,
+    updateTicket: () -> Unit = { },
     bottomBarSelectable: MutableState<Boolean>
 ) {
     Row(modifier = modifier.height(50.dp)) {
@@ -63,11 +62,7 @@ internal fun TicketUpdateBottomBar(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.onBackground)
-                .clickable {
-                    if (bottomBarSelectable.value) {
-                        // TODO() updateTicketFunction(authParams.connectionParams?.url, ticket.value)
-                    }
-                },
+                .clickable { if (bottomBarSelectable.value) { updateTicket() } },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {

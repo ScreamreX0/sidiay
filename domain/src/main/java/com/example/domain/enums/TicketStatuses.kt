@@ -43,4 +43,8 @@ enum class TicketStatuses(
         value = 8,
         title = "На доработку"
     );
+
+    companion object {
+        fun get(status: Int?) = TicketStatuses.values().find { it.value == status }
+    }
 }

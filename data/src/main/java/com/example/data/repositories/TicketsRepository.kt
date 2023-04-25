@@ -28,7 +28,7 @@ class TicketsRepository @Inject constructor(
             id = it.toLong(),
             executor = UserEntity(id = 10),
             author = UserEntity(id = 1),
-            status = TicketStatuses.values().random()
+            status = TicketStatuses.values().random().value
         )
     }
 

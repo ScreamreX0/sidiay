@@ -68,7 +68,7 @@ class TicketUpdate {
         navController: NavHostController,
         authParams: AuthParams = remember { AuthParams(user = UserEntity(id = 1)) },
         ticketUpdateViewModel: TicketUpdateViewModel = hiltViewModel(),
-        ticket: TicketEntity = remember { TicketEntity(id = 1, author = UserEntity(id = 1), executor = UserEntity(id = 2), status = TicketStatuses.NEW) },
+        ticket: TicketEntity = remember { TicketEntity(id = 1, author = UserEntity(id = 1), executor = UserEntity(id = 2), status = TicketStatuses.NEW.value) },
     ) {
         LaunchedEffect(key1 = null) {
             ticketUpdateViewModel.initFields(url = authParams.connectionParams?.url)
@@ -94,14 +94,14 @@ class TicketUpdate {
         ticket: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
         fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
-        updateTicketFunction: (String?, TicketEntity, AuthParams) -> Unit = { _, _, _ -> },
+        updateTicketFunction: (ticket: TicketEntity, authParams: AuthParams) -> Unit = { _, _ -> },
         updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
         updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ ->  },
         restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) }
     ) {
         val context = LocalContext.current
-        val selectedTicketStatus = remember { mutableStateOf(ticket.value.status ?: TicketStatuses.NOT_FORMED) }
+        val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.value.status) ?: TicketStatuses.NOT_FORMED) }
 
         LaunchedEffect(key1 = null) {
             updateRestrictions(
@@ -230,10 +230,8 @@ class TicketUpdate {
             //
             TicketUpdateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
-                ticket = ticket,
-                authParams = authParams,
-                updateTicketFunction = updateTicketFunction,
-                bottomBarSelectable = bottomBarSelectable
+                bottomBarSelectable = bottomBarSelectable,
+                updateTicket = { updateTicketFunction(ticket.value, authParams) }
             )
         }
     }

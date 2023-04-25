@@ -62,12 +62,12 @@ class TicketUpdateViewModel @Inject constructor(
         }
     }
 
-    fun update(url: String?, ticket: TicketEntity, authParams: AuthParams) {
+    fun update(ticket: TicketEntity, authParams: AuthParams) {
         viewModelScope.launch(getSavingCoroutineHandler()) {
             Logger.m("Trying to update new ticket...")
             updatingResult.value = TicketOperationState.IN_PROCESS
             val result = updateTicketUseCase.execute(
-                url = url,
+                url = authParams.connectionParams?.url,
                 currentUserId = authParams.user?.id,
                 ticket = ticket
             )

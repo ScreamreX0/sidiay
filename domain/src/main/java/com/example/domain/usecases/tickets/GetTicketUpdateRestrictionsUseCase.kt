@@ -20,7 +20,7 @@ class GetTicketUpdateRestrictionsUseCase {
         val requiredFields = arrayListOf<TicketFieldsEnum>()
         val availableStatuses = arrayListOf<TicketStatuses>()
 
-        when (ticket.status) {
+        when (TicketStatuses.get(ticket.status)) {
             TicketStatuses.NOT_FORMED -> {
                 when (currentUser) {
                     ticket.author -> {

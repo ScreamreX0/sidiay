@@ -23,5 +23,5 @@ data class TicketEntity constructor (
     var completed_work: String? = null,
     var description: String? = null,
     var name: String? = null,
-    var status: TicketStatuses? = null,
+    var status: Int? = null,
 ) : Parcelable
