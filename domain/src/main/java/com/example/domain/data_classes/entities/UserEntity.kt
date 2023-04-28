@@ -11,15 +11,15 @@ data class UserEntity constructor(
     var phone: String? = null,
     var photo: String? = null,
 ) : Parcelable {
-    fun getFullName(): String? {
+    fun getFullName(): String {
         return employee?.let {
             if (it.name.isNullOrBlank() || it.firstname.isNullOrBlank()) {
-                null
+                "Пользователь №$id"
             } else if (it.lastname.isNullOrBlank()) {
                 "${it.firstname} ${it.name!!.first()}."
             } else {
                 "${it.firstname} ${it.name!!.first()}. ${it.lastname!!.first()}."
             }
-        }
+        } ?: "Пользователь №$id"
     }
 }

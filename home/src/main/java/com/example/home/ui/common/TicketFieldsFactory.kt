@@ -17,6 +17,7 @@ import com.example.home.ui.common.impl.clickable_texts.ExecutorClickableText
 import com.example.home.ui.common.impl.clickable_texts.KindClickableText
 import com.example.home.ui.common.impl.clickable_texts.PriorityClickableText
 import com.example.home.ui.common.impl.clickable_texts.ServiceClickableText
+import com.example.home.ui.common.impl.date_pickers.ClosingDatePicker
 import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
 import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
 import com.example.home.ui.common.impl.other.AuthorNonSelectableText
@@ -50,7 +51,7 @@ class TicketFieldsFactory(
             TicketFieldsEnum.EXECUTOR -> ExecutorClickableText(ticket.value.executor, ticketData?.users, params, ticket).Content()
             TicketFieldsEnum.COMPLETED_WORK -> CompletedWorkTextField(ticket.value.completed_work, params, ticket).Content()
             TicketFieldsEnum.PLANE_DATE -> PlaneDatePicker(ticket.value.plane_date, params, ticket).Content()
-            TicketFieldsEnum.CLOSING_DATE -> PlaneDatePicker(ticket.value.plane_date, params, ticket).Content()
+            TicketFieldsEnum.CLOSING_DATE -> ClosingDatePicker(ticket.value.plane_date, params, ticket).Content()
             TicketFieldsEnum.CREATION_DATE -> CreationDateNonSelectableText(ticket.value.plane_date, params, ticket).Content()
             TicketFieldsEnum.AUTHOR -> AuthorNonSelectableText(ticket.value.author, params, ticket).Content()
             TicketFieldsEnum.STATUS -> StatusDropDownMenu(TicketStatuses.get(ticket.value.status), ticketRestriction.value.availableStatuses, params, updateRestrictions, ticketRestriction.value, selectedTicketStatus).Content()

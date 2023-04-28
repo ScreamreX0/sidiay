@@ -81,7 +81,7 @@ internal fun CheckConnectionComponent(
     DefaultTextStyle {
         Text(
             modifier = modifier.clickable {
-                scope.launch { checkConnection.invoke(selectedConnection.value.url) }
+                scope.launch { checkConnection(selectedConnection.value.url) }
             },
             text = "Проверить соединение",
             color = MaterialTheme.colors.onBackground,

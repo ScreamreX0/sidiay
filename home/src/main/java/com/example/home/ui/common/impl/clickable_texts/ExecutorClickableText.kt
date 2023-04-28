@@ -33,7 +33,7 @@ class ExecutorClickableText(
                         || it.employee?.lastname?.contains(searchTextState.text, true) ?: false
             },
             listItem = { it, isDialogOpened ->
-                ListElement(title = it.getFullName() ?: "[ФИО]") {
+                ListElement(title = it.getFullName()) {
                     ticket.value = ticket.value.copy(executor = it)
                     isDialogOpened.value = false
                 }

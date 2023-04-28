@@ -3,7 +3,9 @@ package com.example.home.ui.home
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -16,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.core.navigation.Graphs
 import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultTextStyle
@@ -26,7 +27,6 @@ import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.enums.states.LoadingState
-import com.example.home.ui.drafts.DraftsComponent
 import com.example.home.ui.home.components.MenuTicketList
 import com.example.home.ui.home.components.MenuSearch
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -153,46 +153,56 @@ class Home {
 
             // Tabs
             val scrollCoroutineScope = rememberCoroutineScope()
-            TabRow(
-                modifier = Modifier
-                    .height(40.dp),
+            ScrollableTabRow(
+                modifier = Modifier.height(40.dp),
                 selectedTabIndex = pagerState.currentPage,
-            ) {
-                MainMenuTabEnum.values().forEachIndexed { index, it ->
-                    Tab(
-                        modifier = Modifier
-                            .background(MaterialTheme.colors.background),
-                        selected = pagerState.currentPage == index,
-                        onClick = { scrollCoroutineScope.launch { pagerState.scrollToPage(index) } }) {
-                        DefaultTextStyle {
-                            Text(
-                                text = it.title,
-                                color = MaterialTheme.colors.onBackground
-                            )
-                        }
+                contentColor = MaterialTheme.colors.onBackground,
+                edgePadding = 0.dp,
+                tabs = {
+                    MainMenuTabEnum.values().forEachIndexed { index, it ->
+                        Tab(
+                            modifier = Modifier.background(MaterialTheme.colors.background),
+                            selected = pagerState.currentPage == index,
+                            onClick = { scrollCoroutineScope.launch { pagerState.scrollToPage(index) } },
+                            text = {
+                                Text(
+                                    text = it.title,
+                                    color = MaterialTheme.colors.onBackground,
+                                    fontSize = MaterialTheme.typography.h3.fontSize
+                                )
+                            })
                     }
                 }
-            }
+            )
+
+            val ticketsForExecution = remember { mutableStateOf(tickets.value.filter { ticket -> ticket.executor?.id == authParams?.user?.id }) }
+            val ticketsPersonal = remember { mutableStateOf(tickets.value.filter { ticket -> ticket.author?.id == authParams?.user?.id }) }
 
             // Pages
             HorizontalPager(
                 count = MainMenuTabEnum.values().size,
                 state = pagerState,
-            ) {
-                if (it == 0) {
-                    MenuTicketList(
-                        authParams = authParams,
-                        tickets = tickets,
-                        onClickUpdate = { itTicket ->
-                            navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(itTicket)}")
-                        }
-                    )
-                } else if (it == 1) {
-                    DraftsComponent().Content(
-                        navController = navController,
-                        authParams = authParams,
-                        drafts = drafts,
-                    )
+            ) { pageNumber ->
+                when (pageNumber) {
+
+                    MainMenuTabEnum.USER_AUTHOR_TICKETS.id -> {
+                        MenuTicketList(
+                            authParams = authParams,
+                            tickets = ticketsPersonal,
+                            onClickUpdate = { itTicket ->
+                                navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(itTicket)}")
+                            }
+                        )
+                    }
+                    MainMenuTabEnum.USER_EXECUTOR_TICKETS.id -> {
+                        MenuTicketList(
+                            authParams = authParams,
+                            tickets = ticketsForExecution,
+                            onClickUpdate = { itTicket ->
+                                navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(itTicket)}")
+                            }
+                        )
+                    }
                 }
             }
         }

@@ -36,7 +36,7 @@ class BrigadeChipRow(
                         || it.employee?.lastname?.contains(searchTextState.text, true) ?: false
             },
             listItem = { it, isDialogOpened ->
-                ListElement(title = it.getFullName() ?: "[ФИО]") {
+                ListElement(title = it.getFullName()) {
                     if (ticket.value.brigade?.contains(it) != true) {
                         ticket.value = ticket.value.copy(
                             brigade = Helper.addToList(ticket.value.brigade, it)
@@ -50,10 +50,12 @@ class BrigadeChipRow(
             addingChipTitle = "Добавить сотрудников",
             chips = {
                 ticket.value.brigade?.forEach {
-                    CustomChip(title = it.getFullName() ?: "") {
-                        ticket.value = ticket.value.copy(
-                            brigade = Helper.removeFromList(ticket.value.brigade, it)
-                        )
+                    CustomChip(title = it.getFullName()) {
+                        if (ticketFieldsParams.isClickable) {
+                            ticket.value = ticket.value.copy(
+                                brigade = Helper.removeFromList(ticket.value.brigade, it)
+                            )
+                        }
                     }
                 }
             },

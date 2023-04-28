@@ -32,7 +32,7 @@ internal fun CustomTextField(
             if (text?.isEmpty() != false) {
                 Text(
                     fontSize = 24.sp,
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.7F),
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.9F),
                     text = text ?: hint,
                 )
             }
@@ -55,6 +55,6 @@ internal fun CustomText(
             ) { onClick() },
         text = label,
         fontSize = MaterialTheme.typography.h5.fontSize,
-        color = MaterialTheme.colors.onBackground.copy(alpha = 0.8F),
+        color = MaterialTheme.colors.onBackground.copy(alpha = 0.9F),
     )
 }

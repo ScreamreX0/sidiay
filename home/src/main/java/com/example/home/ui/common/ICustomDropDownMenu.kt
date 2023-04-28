@@ -19,6 +19,7 @@ import com.example.domain.enums.TicketFieldsEnum
 
 internal interface ICustomDropDownMenu<T, E> : ITicketField<E> {
     val ticketData: List<T>?
+
     @Composable
     fun <T> Component(
         items: List<T>,
@@ -46,7 +47,11 @@ internal interface ICustomDropDownMenu<T, E> : ITicketField<E> {
                     Text(
                         text = text(selectedItem),
                         fontSize = MaterialTheme.typography.h5.fontSize,
-                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.6F),
+                        color = if (ticketFieldsParams.isClickable) {
+                            MaterialTheme.colors.onBackground
+                        } else {
+                            MaterialTheme.colors.onBackground.copy(alpha = 0.6F)
+                        },
                     )
                     DropdownMenu(
                         expanded = expanded.value,
@@ -61,7 +66,7 @@ internal interface ICustomDropDownMenu<T, E> : ITicketField<E> {
                                 Text(
                                     text = label(item),
                                     fontSize = MaterialTheme.typography.h5.fontSize,
-                                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6F),
+                                    color = MaterialTheme.colors.onBackground,
                                 )
                             }
                         }

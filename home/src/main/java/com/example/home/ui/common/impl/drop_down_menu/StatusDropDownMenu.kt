@@ -32,7 +32,7 @@ class StatusDropDownMenu(
             },
             selectedItem = selectedTicketStatus.value,
             title = "Статус",
-            icon = R.drawable.baseline_help_outline_24,
+            icon = R.drawable.baseline_priority_high_24,
             ticketFieldsParams = ticketFieldsParams,
             text = { it?.title ?: "[Статус не определен]" },
             label = { it.title }

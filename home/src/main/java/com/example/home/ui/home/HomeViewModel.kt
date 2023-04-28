@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(
         Logger.m("Check network mode...")
         url?.let { currentUrl ->
             viewModelScope.launch(getTicketsHandler()) {
-                Logger.m("Getting tickets online...")
+                Logger.m("Getting tickets online with userid: $userId")
                 ticketsLoadingState.value = LoadingState.LOADING
                 val result = getTicketsUseCase.execute(currentUrl, userId)
 

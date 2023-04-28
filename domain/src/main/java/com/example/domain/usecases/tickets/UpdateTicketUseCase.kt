@@ -26,6 +26,7 @@ class UpdateTicketUseCase @Inject constructor(
         val result = ticketRepository.update(url = url, ticket = ticket, currentUserId = currentUserId)
         return when (result.first) {
             200 -> Pair(result.second, null)
+            422 -> Pair(null, "Заполните все поля помеченные звездой")
             else -> {
                 Logger.m("Error ${result.first}")
                 Pair(null, "Упс..")

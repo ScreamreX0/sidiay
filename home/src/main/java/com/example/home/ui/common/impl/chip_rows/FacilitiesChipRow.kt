@@ -45,9 +45,11 @@ class FacilitiesChipRow(
             chips = {
                 ticket.value.facilities?.forEach {
                     CustomChip(title = it.name ?: "") {
-                        ticket.value = ticket.value.copy(
-                            facilities = Helper.removeFromList(ticket.value.facilities, it)
-                        )
+                        if (ticketFieldsParams.isClickable) {
+                            ticket.value = ticket.value.copy(
+                                facilities = Helper.removeFromList(ticket.value.facilities, it)
+                            )
+                        }
                     }
                 }
             },

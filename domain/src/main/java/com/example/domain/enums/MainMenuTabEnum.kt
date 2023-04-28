@@ -4,6 +4,7 @@ enum class MainMenuTabEnum(
     val id: Int,
     val title: String,
 ) {
-    TICKETS(0, "Заявки"),
-    DRAFTS(1, "Черновики"),
+    USER_AUTHOR_TICKETS(0, "Ваши заявки"),
+    USER_EXECUTOR_TICKETS(1, "Заявки на исполнение"),
+    DRAFTS(2, "Черновики"),
 }

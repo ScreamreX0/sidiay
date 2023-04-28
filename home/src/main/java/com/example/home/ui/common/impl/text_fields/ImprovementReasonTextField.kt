@@ -22,7 +22,7 @@ class ImprovementReasonTextField(
 
         Component(
             title = "Причина доработки",
-            icon = R.drawable.baseline_text_format_24,
+            icon = R.drawable.baseline_preview_24,
             text = ticket.value.improvement_reason,
             onValueChange = { ticket.value = ticket.value.copy(improvement_reason = it) },
             textFieldHint = ticket.value.improvement_reason ?: "Ввести причину доработки",

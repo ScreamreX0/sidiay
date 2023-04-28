@@ -44,14 +44,16 @@ class TransportChipRow(
                 }
             },
             title = "Транспорт",
-            icon = R.drawable.baseline_oil_barrel_24,
+            icon = R.drawable.baseline_directions_car_24,
             addingChipTitle = "Добавить транспорт",
             chips = {
                 ticket.value.transport?.forEach {
                     CustomChip(title = it.name ?: "") {
-                        ticket.value = ticket.value.copy(
-                            transport = Helper.removeFromList(ticket.value.transport, it)
-                        )
+                        if (ticketFieldsParams.isClickable) {
+                            ticket.value = ticket.value.copy(
+                                transport = Helper.removeFromList(ticket.value.transport, it)
+                            )
+                        }
                     }
                 }
             },

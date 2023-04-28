@@ -15,7 +15,7 @@ class TicketsRepository @Inject constructor(
     private val updateEndpoint = "/tickets/update"
 
     override suspend fun get(url: String, userId: Long): Pair<Int, List<TicketEntity>?> {
-        Logger.m("Getting tickets from api")
+        Logger.m("Getting tickets: $url$getEndpoint/$userId")
         val result = apiService.getTickets("$url$getEndpoint/$userId")
 
         Logger.m("Getting tickets success. Result code ${result.code()}")
@@ -37,7 +37,7 @@ class TicketsRepository @Inject constructor(
         ticket: TicketEntity,
         currentUserId: Long
     ): Pair<Int, TicketEntity?> {
-        Logger.Companion.m("Sending update ticket request")
+        Logger.Companion.m("Sending update ticket request: $ticket")
         val result = apiService.updateTicket("$url$updateEndpoint/$currentUserId", ticket)
         Logger.Companion.m("Update ticket request was sent")
         return Pair(result.code(), result.body())

@@ -18,7 +18,6 @@ interface ApiService {
     // AUTHENTICATION
     //
     @POST
-    @Multipart
     suspend fun signIn(@Url url: String, @Body credentials: Credentials): Response<UserEntity>
 
     //

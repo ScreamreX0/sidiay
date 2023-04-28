@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Widget.Sidiay.Icon.Add2" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="tint">@color/pastel_purple</item>
-    </style>
-
-</resources>

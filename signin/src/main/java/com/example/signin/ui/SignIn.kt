@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -19,9 +18,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
+import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
-import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ScreenPreview
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.enums.states.SignInStates
@@ -46,7 +45,7 @@ internal class SignIn {
         if (darkMode.value == null) return
 
         val success = signInViewModel.signInSuccess
-        val errors = signInViewModel.signInErrors
+        val errors = signInViewModel.signInError
         val connectionsList = signInViewModel.connectionsList
         val checkConnectionResult = signInViewModel.checkConnectionResult
 
@@ -73,7 +72,7 @@ internal class SignIn {
         navController: NavHostController = rememberNavController(),
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         signInSuccess: MutableState<UserEntity> = remember { mutableStateOf(UserEntity(id = 0)) },
-        signInErrors: MutableState<List<SignInStates>> = remember { mutableStateOf(listOf()) },
+        signInErrors: MutableState<String?> = remember { mutableStateOf(null) },
         isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
         checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(ConnectionState.WAITING) },
         darkMode: MutableState<Boolean?> = remember { mutableStateOf(false) },
@@ -97,7 +96,7 @@ internal class SignIn {
             signInSuccess.value.let { currentUser ->
                 if (currentUser.id == -1L) return@let
                 val authParams = AuthParams(
-                    user = UserEntity(id = 1), // TODO currentUser,
+                    user = if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) UserEntity(0) else currentUser,
                     connectionParams = selectedConnection.value,
                     darkMode = darkMode.value,
                 )
@@ -107,13 +106,7 @@ internal class SignIn {
                     navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
                 }
             }
-            signInErrors.value.let {
-                when {
-                    it.contains(SignInStates.NO_SERVER_CONNECTION) -> Helper.showShortToast(context, "Нет соединения с сервером")
-                    it.contains(SignInStates.SHORT_OR_LONG_EMAIL) -> Helper.showShortToast(context, "Длина логина должна быть от 9 до 32 символов")
-                    it.contains(SignInStates.SHORT_OR_LONG_PASSWORD) -> Helper.showShortToast(context, "Длина пароля должна быть от 6 до 32 символов")
-                }
-            }
+            signInErrors.value?.let { Helper.showShortToast(context, it) }
 
             // Dialog
             ConnectionsDialog(

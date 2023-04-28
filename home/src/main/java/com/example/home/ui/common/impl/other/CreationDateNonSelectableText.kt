@@ -22,7 +22,7 @@ class CreationDateNonSelectableText(
 
         Component(
             title = "Дата создания",
-            icon = R.drawable.ic_baseline_person_24,
+            icon = R.drawable.ic_baseline_calendar_month_24,
             label = ticket.value.creation_date ?: "[Дата создания не определена]",
             ticketFieldsParams = ticketFieldsParams,
         )

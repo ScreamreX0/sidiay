@@ -2,6 +2,7 @@ package com.example.home.ui.ticket_update
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Logger
@@ -30,9 +31,8 @@ class TicketUpdateViewModel @Inject constructor(
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
-
     var updatingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
-
+    val updatingMessage: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
     val restrictions: MutableState<TicketRestriction> = mutableStateOf(TicketRestriction.getEmpty())
 
     fun initFields(url: String?) {
@@ -44,11 +44,11 @@ class TicketUpdateViewModel @Inject constructor(
                 val result = getTicketDataUseCase.execute(it)
 
                 result.first?.let { itData ->
-                    Logger.m("Tickets' fields received.")
+                    Logger.m("Ticket fields received.")
                     fields.value = itData
                     fieldsLoadingState.value = LoadingState.DONE
                 } ?: run {
-                    Logger.e("Tickets' fields receiving error.")
+                    Logger.e("Ticket fields receiving error.")
                     fieldsLoadingState.value = LoadingState.ERROR
                 }
             }
@@ -71,12 +71,12 @@ class TicketUpdateViewModel @Inject constructor(
                 currentUserId = authParams.user?.id,
                 ticket = ticket
             )
-
             result.first?.let {
                 Logger.m("Success.")
                 updatingResult.value = TicketOperationState.DONE
             } ?: run {
                 Logger.m("Error: ${result.second}")
+                updatingMessage.value = result.second
                 updatingResult.value = TicketOperationState.OPERATION_ERROR
             }
         }

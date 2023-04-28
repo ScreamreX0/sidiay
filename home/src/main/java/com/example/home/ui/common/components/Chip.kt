@@ -34,7 +34,8 @@ internal fun CustomChipRow(
             modifier = modifier,
             title = addingChipTitle,
             removeButtonVisible = false,
-        ) { if (isClickable) isDialogOpened.value = true }
+            onClick = { if (isClickable) isDialogOpened.value = true },
+        )
 
         chips()
     }
@@ -45,7 +46,7 @@ internal fun CustomChip(
     modifier: Modifier = Modifier,
     title: String,
     removeButtonVisible: Boolean = true,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier

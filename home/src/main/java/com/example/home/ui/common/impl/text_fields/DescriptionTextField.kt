@@ -22,7 +22,7 @@ class DescriptionTextField(
 
         Component(
             title = "Описание",
-            icon = R.drawable.baseline_text_format_24,
+            icon = R.drawable.baseline_description_24,
             text = ticket.value.description,
             onValueChange = { ticket.value = ticket.value.copy(description = it) },
             textFieldHint = ticket.value.description ?: "Ввести описание",

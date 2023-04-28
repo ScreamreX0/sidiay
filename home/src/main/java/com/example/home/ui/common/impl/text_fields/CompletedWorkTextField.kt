@@ -22,7 +22,7 @@ class CompletedWorkTextField(
 
         Component(
             title = "Завершенная работа",
-            icon = R.drawable.baseline_text_format_24,
+            icon = R.drawable.baseline_fast_forward_24,
             text = ticket.value.completed_work,
             onValueChange = { ticket.value = ticket.value.copy(completed_work = it) },
             textFieldHint = ticket.value.completed_work ?: "Ввести завершенную работу",

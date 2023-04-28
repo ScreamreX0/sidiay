@@ -15,7 +15,6 @@ import com.example.domain.data_classes.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
-import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.ConnectionState
 import com.example.domain.usecases.signin.CheckConnectionUseCase
 import com.example.domain.usecases.signin.SignInUseCase
@@ -43,7 +42,7 @@ class SignInViewModel @Inject constructor(
     internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
     internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
 
-    internal var signInErrors: MutableState<List<SignInStates>> = mutableStateOf(listOf())
+    internal var signInError: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
     internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(-1))
 
     init {
@@ -99,41 +98,28 @@ class SignInViewModel @Inject constructor(
             return
         }
 
-        val params = Credentials(email, password)
-        val result = checkFieldsUseCase.execute(params = params)
-        if (result.size != 0) {
-            signInErrors.value = result
-            return
-        }
+        var params = Credentials(email, password)
 
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_ONLINE) {
-            // TODO("Impl debug_and_online mode")
             Logger.Companion.m("DEBUG_AND_ONLINE MODE ENABLED")
-            signInSuccess.value = UserEntity(id = 1)
-            return
+            params = Credentials(ConstAndVars.DEBUG_MODE_EMAIL, ConstAndVars.DEBUG_MODE_PASSWORD)
+        } else {
+            checkFieldsUseCase.execute(params = params)?.let {
+                signInError.value = it
+                return
+            }
         }
 
         Logger.Companion.m("Online sign in. IP:${ConstAndVars.URL}")
         viewModelScope.launch(getSignInHandler()) {
             val signInResult = signInUseCase.execute(url, params)
-
-            when (signInResult.first) {
-                HttpURLConnection.HTTP_OK -> {
-                    signInResult.second?.let { signInSuccess.value = it }
-                }
-                HttpURLConnection.HTTP_UNAUTHORIZED -> {
-                    signInErrors.value = listOf(SignInStates.WRONG_CREDENTIALS_FORMAT)
-                }
-                else -> {
-                    Logger.Companion.m("Response code in sign in - ${signInResult.first} (unhandled)")
-                    signInErrors.value = listOf(SignInStates.NO_SERVER_CONNECTION)
-                }
-            }
+            signInResult.first?.let { signInError.value = it }
+                ?: signInResult.second?.let { signInSuccess.value = it }
         }
     }
 
     private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->
-        if (throwable::class == ConnectException::class) this.signInErrors.value =
-            listOf(SignInStates.NO_SERVER_CONNECTION)
+        if (throwable::class == ConnectException::class) signInError.value =
+            SignInStates.NO_SERVER_CONNECTION.title
     }
 }

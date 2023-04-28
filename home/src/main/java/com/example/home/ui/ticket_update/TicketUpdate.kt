@@ -83,7 +83,8 @@ class TicketUpdate {
             updateTicketFunction = ticketUpdateViewModel::update,
             updatingResult = ticketUpdateViewModel.updatingResult,
             updateRestrictions = ticketUpdateViewModel::initRestrictions,
-            restrictions = ticketUpdateViewModel.restrictions
+            restrictions = ticketUpdateViewModel.restrictions,
+            updatingMessage = ticketUpdateViewModel.updatingMessage
         )
     }
 
@@ -98,7 +99,8 @@ class TicketUpdate {
         updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
         updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ ->  },
-        restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) }
+        restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) },
+        updatingMessage: MutableState<String?> = mutableStateOf(null)
     ) {
         val context = LocalContext.current
         val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.value.status) ?: TicketStatuses.NOT_FORMED) }
@@ -109,6 +111,34 @@ class TicketUpdate {
                 ticket.value,
                 authParams.user
             )
+        }
+
+        //
+        // Saving
+        //
+        when (updatingResult.value) {
+            TicketOperationState.IN_PROCESS -> bottomBarSelectable.value = false
+            TicketOperationState.DONE -> {
+                navController.popBackStack(
+                    route = BottomBarNav.Home.route,
+                    inclusive = false
+                )
+                Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
+            }
+
+            TicketOperationState.OPERATION_ERROR -> {
+                updatingMessage.value?.let {
+                    Helper.showShortToast(context = context, text = it)
+                } ?: Helper.showShortToast(context = context, text = "Ошибка сохранения")
+                bottomBarSelectable.value = true
+            }
+
+            TicketOperationState.CONNECTION_ERROR -> {
+                Helper.showShortToast(context = context, text = "Ошибка подключения")
+                bottomBarSelectable.value = true
+            }
+
+            else -> {}
         }
 
         //
@@ -155,36 +185,10 @@ class TicketUpdate {
                     }
                 )
                 return@ConstraintLayout
+            } else {
+                // SET ICONS ON TOP BAR VISIBLE
+                isTopIconsVisible.value = true
             }
-
-            //
-            // Saving
-            //
-            when (updatingResult.value) {
-                TicketOperationState.IN_PROCESS -> bottomBarSelectable.value = false
-                TicketOperationState.DONE -> {
-                    navController.popBackStack(
-                        route = BottomBarNav.Home.route,
-                        inclusive = false
-                    )
-                    Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
-                }
-
-                TicketOperationState.OPERATION_ERROR -> {
-                    Helper.showShortToast(context = context, text = "Ошибка сохранения")
-                    bottomBarSelectable.value = true
-                }
-
-                TicketOperationState.CONNECTION_ERROR -> {
-                    Helper.showShortToast(context = context, text = "Ошибка подключения")
-                    bottomBarSelectable.value = true
-                }
-
-                else -> {}
-            }
-
-            // SET ICONS ON TOP BAR VISIBLE
-            isTopIconsVisible.value = true
 
             //
             // TICKET UPDATE ITEMS
@@ -207,6 +211,7 @@ class TicketUpdate {
                 )
 
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.STATUS, field = ticket.value.status)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.NAME, field = ticket.value.name)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PRIORITY, field = ticket.value.priority)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = ticket.value.service)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.KIND, field = ticket.value.kind)
@@ -222,7 +227,6 @@ class TicketUpdate {
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CREATION_DATE, field = ticket.value.creation_date)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.COMPLETED_WORK, field = ticket.value.completed_work)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.DESCRIPTION, field = ticket.value.description)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.NAME, field = ticket.value.name)
             }
 
             //
@@ -231,7 +235,9 @@ class TicketUpdate {
             TicketUpdateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 bottomBarSelectable = bottomBarSelectable,
-                updateTicket = { updateTicketFunction(ticket.value, authParams) }
+                updateTicket = { updateTicketFunction(
+                    ticket.value.copy(status = selectedTicketStatus.value.value), authParams)
+                }
             )
         }
     }

@@ -2,6 +2,7 @@ package com.example.home.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -18,6 +19,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.components.CustomAlertDialog
+import com.example.core.ui.theme.AppTheme
+import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketRestriction
@@ -62,7 +65,11 @@ internal fun TicketUpdateBottomBar(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.onBackground)
-                .clickable { if (bottomBarSelectable.value) { updateTicket() } },
+                .clickable {
+                    if (bottomBarSelectable.value) {
+                        updateTicket()
+                    }
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -161,7 +168,8 @@ internal fun TicketUpdateTopBar(
         modifier = modifier
             .height(65.dp)
             .background(MaterialTheme.colors.onBackground),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             modifier = Modifier
@@ -179,16 +187,23 @@ internal fun TicketUpdateTopBar(
             tint = MaterialTheme.colors.onPrimary,
         )
 
-        if (iconsVisible.value) {
-            Row {
-
-            }
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(start = 15.dp),
+                text = "Заявка №${ticket.value.id}",
+                color = MaterialTheme.colors.onPrimary
+            )
         }
     }
 }
 
-@Preview
+@Preview(widthDp = 300)
 @Composable
 private fun Preview() {
-    TicketCreateTopBar(draft = remember { mutableStateOf(TicketEntity()) })
+    AppTheme(isSystemInDarkTheme()) {
+        TicketUpdateTopBar(ticket = remember { mutableStateOf(TicketEntity()) })
+    }
 }

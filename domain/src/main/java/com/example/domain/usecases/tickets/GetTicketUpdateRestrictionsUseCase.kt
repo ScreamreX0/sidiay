@@ -75,7 +75,6 @@ class GetTicketUpdateRestrictionsUseCase {
                         if (selectedTicketStatus == TicketStatuses.DENIED) {
                             requiredFields.addAll(
                                 listOf(
-                                    TicketFieldsEnum.STATUS,
                                     TicketFieldsEnum.COMPLETED_WORK,
                                     TicketFieldsEnum.CLOSING_DATE
                                 )

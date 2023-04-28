@@ -39,7 +39,7 @@ class PriorityClickableText(
             },
             title = "Приоритет",
             label = ticket.value.priority?.name ?: "[Выбрать приоритет]",
-            icon = R.drawable.baseline_priority_high_24,
+            icon = R.drawable.baseline_signal_cellular_alt_24,
             ticketFieldsParams = ticketFieldsParams,
         )
     }
