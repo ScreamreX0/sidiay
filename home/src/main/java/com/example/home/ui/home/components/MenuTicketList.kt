@@ -52,9 +52,9 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 internal fun MenuTicketList(
-    authParams: AuthParams? = remember { AuthParams() },
-    tickets: MutableState<List<TicketEntity>> = remember { mutableStateOf(listOf()) },
-    refreshing: MutableState<Boolean> = remember { mutableStateOf(false) },
+    authParams: AuthParams? = AuthParams(),
+    tickets: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
+    refreshing: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> }
 ) {
     LazyColumn(
@@ -64,12 +64,14 @@ internal fun MenuTicketList(
         userScrollEnabled = true,
     ) {
         if (!refreshing.value) {
-            items(tickets.value.size) {
-                MenuTicketListItem(
-                    isDarkMode = authParams?.darkMode ?: false,
-                    ticket = tickets.value[it],
-                    onClickUpdate = onClickUpdate
-                )
+            items(tickets.value?.size ?: 0) { index ->
+                tickets.value?.get(index)?.let { ticket ->
+                    MenuTicketListItem(
+                        isDarkMode = authParams?.darkMode ?: false,
+                        ticket = ticket,
+                        onClickUpdate = onClickUpdate
+                    )
+                }
             }
         }
     }
@@ -80,7 +82,7 @@ internal fun MenuTicketList(
 private fun MenuTicketListItem(
     ticket: TicketEntity,
     isDarkMode: Boolean,
-    expanded: MutableState<Boolean> = remember { mutableStateOf(false) },
+    expanded: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> }
 ) {
     val textColor = if (isDarkMode) Color.White else CustomColors.Grey780

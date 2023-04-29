@@ -1,14 +1,10 @@
 package com.example.home.ui.home
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,11 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.core.navigation.Screens
 import com.example.core.ui.theme.AppTheme
-import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.*
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.MainMenuTabEnum
@@ -33,7 +25,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 
@@ -42,48 +33,43 @@ class Home {
     @Composable
     fun HomeScreen(
         homeViewModel: HomeViewModel = hiltViewModel(),
-        navController: NavHostController = rememberNavController(),
         paddingValues: PaddingValues = remember { PaddingValues() },
         authParams: AuthParams? = remember { AuthParams() },
+        navigateToTicketFilter: () -> Unit,
+        navigateToTicketCreate: () -> Unit,
+        navigateToTicketUpdate: (TicketEntity) -> Unit,
     ) {
-        val applicationReceivingErrors = homeViewModel.applicationReceivingErrors
-        val tickets = homeViewModel.tickets
+        val ticketsReceivingState = homeViewModel.ticketsReceivingState
+        val ticketsForExecution = homeViewModel.ticketsForExecution
+        val ticketsPersonal = homeViewModel.ticketsPersonal
+        val errorMessage = homeViewModel.errorMessage
         val drafts = homeViewModel.drafts
+        val context = LocalContext.current
 
+        // Receiving tickets
         LaunchedEffect(key1 = null) {
-            homeViewModel.getTickets(
+            homeViewModel.fetchTickets(
                 url = authParams?.connectionParams?.url,
                 userId = authParams?.user?.id ?: 0
             )
         }
 
-        //
-        // LOADING
-        //
-        if ((homeViewModel.ticketsLoadingState.value == LoadingState.LOADING
-                    || homeViewModel.ticketsLoadingState.value == LoadingState.WAIT_FOR_INIT)
-            && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
-        ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                CircularProgressIndicator(color = MaterialTheme.colors.primary)
-            }
-            return
-        }
+        errorMessage.value?.let { Helper.showShortToast(context = context, text = it) }
+
         Content(
             modifier = Modifier.padding(
                 top = paddingValues.calculateTopPadding(),
                 bottom = paddingValues.calculateBottomPadding() + 50.dp
             ),
-            navController = navController,
             authParams = authParams,
-            tickets = tickets,
             drafts = drafts,
-            applicationReceivingErrors = applicationReceivingErrors,
-            getTickets = homeViewModel::getTickets,
+            fetchTickets = homeViewModel::fetchTickets,
+            navigateToTicketFilter = navigateToTicketFilter,
+            navigateToTicketCreate = navigateToTicketCreate,
+            navigateToTicketUpdate = navigateToTicketUpdate,
+            ticketsReceivingState = ticketsReceivingState,
+            ticketsForExecution = ticketsForExecution,
+            ticketsPersonal = ticketsPersonal,
         )
     }
 
@@ -91,20 +77,31 @@ class Home {
     @Composable
     private fun Content(
         modifier: Modifier = Modifier,
-        navController: NavHostController = rememberNavController(),
         authParams: AuthParams? = remember { AuthParams() },
-        tickets: MutableState<List<TicketEntity>> = rememberSaveable { mutableStateOf(listOf()) },
-        drafts: MutableState<List<TicketEntity>> = rememberSaveable { mutableStateOf(listOf()) },
+        drafts: MutableState<List<TicketEntity>> = mutableStateOf(listOf()),
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-        applicationReceivingErrors: MutableState<String?> = remember { mutableStateOf("") },
         pagerState: PagerState = rememberPagerState(),
-        context: Context = LocalContext.current,
-        getTickets: (url: String?, userId: Long) -> Unit = { _, _ -> },
+        fetchTickets: (url: String?, userId: Long) -> Unit = { _, _ -> },
+        navigateToTicketFilter: () -> Unit = {},
+        navigateToTicketCreate: () -> Unit = {},
+        navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
+        ticketsReceivingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT),
+        ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null),
+        ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
     ) {
-        // Observers
-        applicationReceivingErrors.value?.let {
-            Helper.showShortToast(context = context, text = it)
+        //
+        // TICKETS LOADING
+        //
+        if ((ticketsReceivingState.value == LoadingState.LOADING || ticketsReceivingState.value == LoadingState.WAIT_FOR_INIT)
+            && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
+        ) {
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) { CircularProgressIndicator(color = MaterialTheme.colors.primary) }
+            return
         }
 
         Column(modifier = modifier.fillMaxSize()) {
@@ -131,20 +128,22 @@ class Home {
                         contentDescription = null
                     )
                     Icon(
-                        modifier = Modifier.clickable { navController.navigate(Screens.Home.TICKET_FILTER) },
+                        modifier = Modifier.clickable { navigateToTicketFilter() },
                         painter = painterResource(id = MainMenuTopAppBarEnum.FILTER.icon),
                         contentDescription = null
                     )
                     Icon(
-                        modifier = Modifier.clickable { navController.navigate(Screens.Home.TICKET_CREATE) },
+                        modifier = Modifier.clickable { navigateToTicketCreate() },
                         painter = painterResource(id = MainMenuTopAppBarEnum.CREATE.icon),
                         contentDescription = null
                     )
                     Icon(
-                        modifier = Modifier.clickable { getTickets(
-                            authParams?.connectionParams?.url,
-                            authParams?.user?.id ?: 0
-                        ) },
+                        modifier = Modifier.clickable {
+                            fetchTickets(
+                                authParams?.connectionParams?.url,
+                                authParams?.user?.id ?: 0
+                            )
+                        },
                         painter = painterResource(id = MainMenuTopAppBarEnum.REFRESH.icon),
                         contentDescription = null
                     )
@@ -175,9 +174,6 @@ class Home {
                 }
             )
 
-            val ticketsForExecution = remember { mutableStateOf(tickets.value.filter { ticket -> ticket.executor?.id == authParams?.user?.id }) }
-            val ticketsPersonal = remember { mutableStateOf(tickets.value.filter { ticket -> ticket.author?.id == authParams?.user?.id }) }
-
             // Pages
             HorizontalPager(
                 count = MainMenuTabEnum.values().size,
@@ -189,18 +185,15 @@ class Home {
                         MenuTicketList(
                             authParams = authParams,
                             tickets = ticketsPersonal,
-                            onClickUpdate = { itTicket ->
-                                navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(itTicket)}")
-                            }
+                            onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) }
                         )
                     }
+
                     MainMenuTabEnum.USER_EXECUTOR_TICKETS.id -> {
                         MenuTicketList(
                             authParams = authParams,
                             tickets = ticketsForExecution,
-                            onClickUpdate = { itTicket ->
-                                navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(itTicket)}")
-                            }
+                            onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) }
                         )
                     }
                 }

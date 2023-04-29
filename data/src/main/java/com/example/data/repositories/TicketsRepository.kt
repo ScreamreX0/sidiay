@@ -26,8 +26,8 @@ class TicketsRepository @Inject constructor(
     override suspend fun get() = List(10) {
         TicketEntity(
             id = it.toLong(),
-            executor = UserEntity(id = 10),
-            author = UserEntity(id = 1),
+            executor = UserEntity(id = 0),
+            author = UserEntity(id = 0),
             status = TicketStatuses.values().random().value
         )
     }

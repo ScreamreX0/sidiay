@@ -1,57 +1,54 @@
 package com.example.home.ui.home
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.neverEqualPolicy
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
-import java.net.ConnectException
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase,
 ) : ViewModel() {
-    val ticketsLoadingState = mutableStateOf(LoadingState.WAIT_FOR_INIT)
-    var tickets = mutableStateOf<List<TicketEntity>>(listOf())
+    val ticketsReceivingState = mutableStateOf(LoadingState.WAIT_FOR_INIT)
+    val ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+    val ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+    val errorMessage: MutableState<String?> = mutableStateOf(null)
     var drafts = mutableStateOf<List<TicketEntity>>(listOf())
-    var applicationReceivingErrors = mutableStateOf<String?>(null)
 
-    fun getTickets(url: String?, userId: Long) {
-        Logger.m("Check network mode...")
+    fun fetchTickets(url: String?, userId: Long) {
         url?.let { currentUrl ->
-            viewModelScope.launch(getTicketsHandler()) {
-                Logger.m("Getting tickets online with userid: $userId")
-                ticketsLoadingState.value = LoadingState.LOADING
+            viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
+                errorMessage.value = LoadingState.CONNECTION_ERROR.message
+            }) {
+                ticketsReceivingState.value = LoadingState.LOADING
                 val result = getTicketsUseCase.execute(currentUrl, userId)
-
+                result.first?.let {
+                    Logger.m("Error: $it")
+                    errorMessage.value = it
+                    ticketsReceivingState.value = LoadingState.ERROR
+                }
                 result.second?.let {
-                    Logger.m("Tickets received.")
-                    tickets.value = it
-                    ticketsLoadingState.value = LoadingState.DONE
-                } ?: run {
-                    Logger.e("Tickets receiving error.")
-                    ticketsLoadingState.value = LoadingState.ERROR
-                    applicationReceivingErrors.value = result.first
+                    Logger.m("Tickets received")
+                    ticketsForExecution.value = it.filter { ticket -> ticket.executor?.id == userId }
+                    ticketsPersonal.value = it.filter { ticket -> ticket.author?.id == userId }
+                    ticketsReceivingState.value = LoadingState.DONE
                 }
             }
         } ?: run {
             Logger.m("Getting tickets offline...")
-            ticketsLoadingState.value = LoadingState.LOADING
-            // TODO("Add handler if url is null")
-        }
-    }
-
-    private fun getTicketsHandler(): CoroutineExceptionHandler {
-        return CoroutineExceptionHandler { _, throwable ->
-            if (throwable::class == ConnectException::class) {
-                applicationReceivingErrors.value = "Нет подключения к сети"
-            }
+            ticketsReceivingState.value = LoadingState.LOADING
+            // TODO("Add offline mode")
+            ticketsReceivingState.value = LoadingState.DONE
         }
     }
 }

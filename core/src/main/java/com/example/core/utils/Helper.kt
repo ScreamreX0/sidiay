@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Parcelable
 import android.widget.Toast
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineExceptionHandler
+import java.net.ConnectException
 
 class Helper {
     companion object {
@@ -32,6 +34,10 @@ class Helper {
             val newList = list?.toMutableList() ?: mutableListOf()
             newList.remove(removingItem)
             return newList.toList()
+        }
+
+        fun getCoroutineNetworkExceptionHandler(handler: () -> Unit) = CoroutineExceptionHandler { _, throwable ->
+            if (throwable::class == ConnectException::class) { handler() }
         }
     }
 }

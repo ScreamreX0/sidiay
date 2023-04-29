@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.ApplicationModes
+import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.data_classes.entities.UserEntity
@@ -102,14 +103,12 @@ class SignInViewModel @Inject constructor(
         }
 
         Logger.Companion.m("Online sign in. IP:${ConstAndVars.URL}")
-        viewModelScope.launch(getSignInHandler()) {
+        viewModelScope.launch(
+            Helper.getCoroutineNetworkExceptionHandler {
+                signInResult.value = Pair(SignInStates.NO_SERVER_CONNECTION.title, null)
+            }
+        ) {
             signInResult.value = signInUseCase.execute(url, params)
-        }
-    }
-
-    private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->
-        if (throwable::class == ConnectException::class) {
-            signInResult.value = Pair(SignInStates.NO_SERVER_CONNECTION.title, null)
         }
     }
 }

@@ -62,9 +62,11 @@ fun NavGraphBuilder.homeNavGraph(
         composable(route = BottomBarNav.Home.route) {
             AppTheme(authParams.darkMode ?: false) {
                 Home().HomeScreen(
-                    navController = navController,
                     authParams = remember { authParams },
                     paddingValues = paddingValues,
+                    navigateToTicketFilter = { navController.navigate(Screens.Home.TICKET_FILTER) },
+                    navigateToTicketCreate = { navController.navigate(Screens.Home.TICKET_CREATE) },
+                    navigateToTicketUpdate = { ticket: TicketEntity -> navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(ticket)}") }
                 )
             }
         }

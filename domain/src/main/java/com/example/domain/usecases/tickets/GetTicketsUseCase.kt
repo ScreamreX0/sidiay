@@ -11,9 +11,9 @@ class GetTicketsUseCase @Inject constructor(
     private val ticketsRepository: ITicketsRepository
 ) {
     suspend fun execute(url: String, userId: Long): Pair<String?, List<TicketEntity>?> {
-        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
-            return Pair(null, ticketsRepository.get())
-        }
+        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) return Pair(null, ticketsRepository.get())
+
+        Logger.m("Getting tickets online with userid: $userId")
         val result = ticketsRepository.get(url, userId)
 
         return when (result.first) {
