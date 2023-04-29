@@ -4,7 +4,6 @@ import com.example.domain.repositories.IAuthRepository
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
-import com.example.domain.usecases.tickets.GetDraftsUseCase
 import com.example.domain.usecases.tickets.restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.tickets.restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
@@ -34,9 +33,6 @@ class DomainModule {
     fun provideSaveTicketUseCase(ticketsRepository: ITicketsRepository): SaveTicketUseCase =
         SaveTicketUseCase(ticketRepository = ticketsRepository)
 
-    @Provides
-    fun provideGetDraftsUseCase(ticketsRepository: ITicketsRepository): GetDraftsUseCase =
-        GetDraftsUseCase(ticketsRepository)
 
     @Provides
     fun provideUpdateTicketUseCase(ticketsRepository: ITicketsRepository): UpdateTicketUseCase =
