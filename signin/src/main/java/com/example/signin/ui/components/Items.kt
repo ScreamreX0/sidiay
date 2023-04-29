@@ -68,7 +68,7 @@ internal fun AutoAuthComponent(
 internal fun CheckConnectionComponent(
     modifier: Modifier,
     selectedConnection: MutableState<ConnectionParams?>,
-    checkConnection: suspend (String?, Context) -> Unit,
+    checkConnection: suspend (String?) -> Unit,
     checkConnectionResult: MutableState<NetworkConnectionState>
 ) {
     val scope = rememberCoroutineScope()
@@ -78,9 +78,7 @@ internal fun CheckConnectionComponent(
 
     DefaultTextStyle {
         Text(
-            modifier = modifier.clickable {
-                scope.launch { checkConnection(selectedConnection.value?.url, context) }
-            },
+            modifier = modifier.clickable { scope.launch { checkConnection(selectedConnection.value?.url) } },
             text = "Проверить соединение",
             color = MaterialTheme.colors.onBackground,
         )

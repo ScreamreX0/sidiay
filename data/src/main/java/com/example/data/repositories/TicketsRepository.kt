@@ -1,5 +1,6 @@
 package com.example.data.repositories
 
+import com.example.core.utils.Endpoints
 import com.example.core.utils.Logger
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.*
@@ -10,13 +11,9 @@ import javax.inject.Inject
 class TicketsRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketsRepository {
-    private val getEndpoint = "/tickets/get-by-id"
-    private val addEndpoint = "/tickets/add"
-    private val updateEndpoint = "/tickets/update"
-
     override suspend fun get(url: String, userId: Long): Pair<Int, List<TicketEntity>?> {
-        Logger.m("Getting tickets: $url$getEndpoint/$userId")
-        val result = apiService.getTickets("$url$getEndpoint/$userId")
+        Logger.m("Getting tickets: $url${Endpoints.Tickets.GET_BY_ID}/$userId")
+        val result = apiService.getTickets("$url${Endpoints.Tickets.GET_BY_ID}/$userId")
 
         Logger.m("Getting tickets success. Result code ${result.code()}")
 
@@ -38,14 +35,14 @@ class TicketsRepository @Inject constructor(
         currentUserId: Long
     ): Pair<Int, TicketEntity?> {
         Logger.Companion.m("Sending update ticket request: $ticket")
-        val result = apiService.updateTicket("$url$updateEndpoint/$currentUserId", ticket)
+        val result = apiService.updateTicket("$url${Endpoints.Tickets.UPDATE}/$currentUserId", ticket)
         Logger.Companion.m("Update ticket request was sent")
         return Pair(result.code(), result.body())
     }
 
     override suspend fun add(url: String, ticket: TicketEntity): Pair<Int, TicketEntity?> {
         Logger.Companion.m("Sending add ticket request")
-        val result = apiService.addTicket("$url$addEndpoint", ticket)
+        val result = apiService.addTicket("$url${Endpoints.Tickets.ADD}", ticket)
         Logger.Companion.m("Add ticket request was sent")
         return Pair(result.code(), result.body())
     }

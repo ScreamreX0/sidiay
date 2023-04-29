@@ -78,12 +78,12 @@ class TicketUpdateViewModel @Inject constructor(
                 ticket = ticket
             )
             result.first?.let {
+                Logger.m("Error: ${result.second}")
+                updatingMessage.value = it
+                updatingResult.value = TicketOperationState.OPERATION_ERROR
+            } ?: run {
                 Logger.m("Success.")
                 updatingResult.value = TicketOperationState.DONE
-            } ?: run {
-                Logger.m("Error: ${result.second}")
-                updatingMessage.value = result.second
-                updatingResult.value = TicketOperationState.OPERATION_ERROR
             }
         }
     }

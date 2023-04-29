@@ -1,5 +1,6 @@
 package com.example.data.repositories
 
+import com.example.core.utils.Endpoints
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.*
 import com.example.domain.data_classes.params.TicketData
@@ -9,10 +10,8 @@ import javax.inject.Inject
 class TicketDataRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketDataRepository {
-
     override suspend fun getTicketData(url: String): Pair<Int, TicketData?> {
-        val endpoint = "/tickets/get-data"
-        val result = apiService.getTicketData(url + endpoint)
+        val result = apiService.getTicketData("$url${Endpoints.Tickets.GET_DATA}")
         return Pair(result.code(), result.body())
     }
 

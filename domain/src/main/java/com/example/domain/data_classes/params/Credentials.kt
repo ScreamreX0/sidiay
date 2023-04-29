@@ -1,3 +1,3 @@
 package com.example.domain.data_classes.params
 
-data class Credentials(val email: String, val password: String)
+data class Credentials(var email: String, var password: String)

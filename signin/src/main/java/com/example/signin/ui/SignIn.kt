@@ -1,6 +1,5 @@
 package com.example.signin.ui
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,9 +69,9 @@ internal class SignIn {
                 connectionsList = connectionsList,
                 checkConnectionResult = checkConnectionResult,
                 checkConnectionFunction = signInViewModel::checkConnection,
-                updateConnectionsListFunction = signInViewModel::updateConnectionsVar,
+                updateConnectionsListFunction = signInViewModel::fetchConnections,
                 saveConnectionsFunction = signInViewModel::saveConnections,
-                changeUIModeFunction = signInViewModel::changeUIMode,
+                changeUIModeFunction = signInViewModel::changeMode,
                 signInFunction = signInViewModel::signIn,
                 navigateToMainMenuOfflineMode = navigateToMainMenuOfflineMode
             )
@@ -84,7 +83,7 @@ internal class SignIn {
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
         checkConnectionResult: MutableState<NetworkConnectionState> = mutableStateOf(NetworkConnectionState.WAITING),
-        checkConnectionFunction: suspend (url: String?, context: Context) -> Unit = { _, _ -> },
+        checkConnectionFunction: suspend (url: String?) -> Unit = { _ -> },
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
         changeUIModeFunction: () -> Unit = {},

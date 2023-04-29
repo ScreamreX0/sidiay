@@ -62,11 +62,11 @@ class TicketCreateViewModel @Inject constructor(
             val result = saveTicketUseCase.execute(url = url, ticket = ticket)
 
             result.first?.let {
-                Logger.m("Success.")
-                savingResult.value = TicketOperationState.DONE
-            } ?: run {
                 Logger.m("Error: ${result.second}")
                 savingResult.value = TicketOperationState.OPERATION_ERROR
+            } ?: run {
+                Logger.m("Success.")
+                savingResult.value = TicketOperationState.DONE
             }
         }
     }
