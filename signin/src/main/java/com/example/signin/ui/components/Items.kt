@@ -27,8 +27,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.core.R
 import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.DefaultButtonStyle
@@ -184,7 +182,7 @@ internal fun EnterComponent(
 @Composable
 internal fun OfflineModeComponent(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navigateToMainMenuOfflineMode: () -> Unit = {}
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Text(
@@ -192,11 +190,7 @@ internal fun OfflineModeComponent(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null
-            ) {
-                navController.popBackStack()
-                val authParams = Uri.encode(Gson().toJson(AuthParams()))
-                navController.navigate(route = "${Graphs.MAIN_MENU}/$authParams",)
-            },
+            ) { navigateToMainMenuOfflineMode() },
         text = "Автономный режим",
         color = MaterialTheme.colors.onBackground,
         fontWeight = FontWeight.Bold

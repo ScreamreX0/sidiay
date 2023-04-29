@@ -15,9 +15,6 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
@@ -38,7 +35,8 @@ import com.example.signin.ui.components.TitleComponent
 internal class SignIn {
     @Composable
     fun SignInScreen(
-        navController: NavHostController,
+        navigateToMainMenu: (String) -> Unit = { _ -> },
+        navigateToMainMenuOfflineMode: () -> Unit = {},
         signInViewModel: SignInViewModel = hiltViewModel(),
     ) {
         val darkMode = signInViewModel.darkMode
@@ -60,7 +58,7 @@ internal class SignIn {
 
                 LaunchedEffect(itUser) {
                     val authParamsString = Helper.parcelableToString(authParams)
-                    navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
+                    navigateToMainMenu(authParamsString)
                 }
             }
             result.first?.let { itMessage -> Helper.showShortToast(context, itMessage) }
@@ -69,7 +67,6 @@ internal class SignIn {
         AppTheme(darkMode.value!!) {
             Content(
                 selectedConnection = selectedConnection,
-                navController = navController,
                 connectionsList = connectionsList,
                 checkConnectionResult = checkConnectionResult,
                 checkConnectionFunction = signInViewModel::checkConnection,
@@ -77,13 +74,13 @@ internal class SignIn {
                 saveConnectionsFunction = signInViewModel::saveConnections,
                 changeUIModeFunction = signInViewModel::changeUIMode,
                 signInFunction = signInViewModel::signIn,
+                navigateToMainMenuOfflineMode = navigateToMainMenuOfflineMode
             )
         }
     }
 
     @Composable
     fun Content(
-        navController: NavHostController = rememberNavController(),
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
         checkConnectionResult: MutableState<NetworkConnectionState> = mutableStateOf(NetworkConnectionState.WAITING),
@@ -93,6 +90,7 @@ internal class SignIn {
         changeUIModeFunction: () -> Unit = {},
         signInFunction: (String?, String, String) -> Unit = { _, _, _ -> },
         selectedConnection: MutableState<ConnectionParams?> = mutableStateOf(null),
+        navigateToMainMenuOfflineMode: () -> Unit = {},
     ) {
         ConstraintLayout(
             constraintSet = getConstraints(), modifier = Modifier
@@ -160,8 +158,8 @@ internal class SignIn {
 
             // Offline mode
             OfflineModeComponent(
-                navController = navController,
                 modifier = Modifier.layoutId("offlineComponentRef"),
+                navigateToMainMenuOfflineMode = navigateToMainMenuOfflineMode
             )
         }
     }
