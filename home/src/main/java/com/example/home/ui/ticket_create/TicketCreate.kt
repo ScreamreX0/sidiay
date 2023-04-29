@@ -33,7 +33,6 @@ import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
-import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.enums.states.TicketOperationState.*
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.TicketCreateBottomBar
@@ -46,7 +45,7 @@ class TicketCreate {
     fun TicketCreateScreen(
         authParams: AuthParams = AuthParams(),
         ticket: TicketEntity = TicketEntity(),
-        navigateToMainMenu: (Context) -> Unit = { _ -> },
+        navigateToBackWithMessage: (Context) -> Unit = { _ -> },
         navigateToBack: () -> Unit = {},
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
     ) {
@@ -63,7 +62,7 @@ class TicketCreate {
         // Saving
         when (ticketCreateViewModel.savingResult.value) {
             IN_PROCESS -> bottomBarSelectable.value = false
-            DONE -> { navigateToMainMenu(context) }
+            DONE -> { navigateToBackWithMessage(context) }
             OPERATION_ERROR -> {
                 Helper.showShortToast(context = context, text = OPERATION_ERROR.message!!)
                 bottomBarSelectable.value = true

@@ -77,9 +77,21 @@ fun NavGraphBuilder.homeNavGraph(
         ) {
             AppTheme(authParams.darkMode ?: false) {
                 TicketUpdate().TicketUpdateScreen(
-                    navController = navController,
                     authParams = authParams,
-                    ticket = Helper.objFromJson(it.arguments?.getString("ticket")) ?: TicketEntity()
+                    ticket = Helper.objFromJson(it.arguments?.getString("ticket")) ?: TicketEntity(),
+                    navigateToBackWithMessage = { context: Context ->
+                        navController.popBackStack(
+                            route = BottomBarNav.Home.route,
+                            inclusive = false
+                        )
+                        Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
+                    },
+                    navigateToBack = {
+                        navController.popBackStack(
+                            route = BottomBarNav.Home.route,
+                            inclusive = false
+                        )
+                    }
                 )
             }
         }
@@ -87,7 +99,7 @@ fun NavGraphBuilder.homeNavGraph(
             AppTheme(authParams.darkMode ?: false) {
                 TicketCreate().TicketCreateScreen(
                     authParams = authParams,
-                    navigateToMainMenu = { context: Context ->
+                    navigateToBackWithMessage = { context: Context ->
                         navController.popBackStack(
                             route = BottomBarNav.Home.route,
                             inclusive = false

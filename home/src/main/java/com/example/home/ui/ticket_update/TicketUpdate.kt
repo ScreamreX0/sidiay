@@ -1,5 +1,6 @@
 package com.example.home.ui.ticket_update
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -24,9 +25,6 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
@@ -43,54 +41,49 @@ import com.example.domain.enums.states.TicketOperationState
 import com.example.home.ui.common.TicketFieldsFactory
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
-import com.example.home.ui.common.impl.chip_rows.BrigadeChipRow
-import com.example.home.ui.common.impl.chip_rows.EquipmentChipRow
-import com.example.home.ui.common.impl.chip_rows.FacilitiesChipRow
-import com.example.home.ui.common.impl.chip_rows.TransportChipRow
-import com.example.home.ui.common.impl.clickable_texts.ExecutorClickableText
-import com.example.home.ui.common.impl.clickable_texts.KindClickableText
-import com.example.home.ui.common.impl.clickable_texts.PriorityClickableText
-import com.example.home.ui.common.impl.clickable_texts.ServiceClickableText
-import com.example.home.ui.common.impl.date_pickers.ClosingDatePicker
-import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
-import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
-import com.example.home.ui.common.impl.other.AuthorNonSelectableText
-import com.example.home.ui.common.impl.other.CreationDateNonSelectableText
-import com.example.home.ui.common.impl.text_fields.CompletedWorkTextField
-import com.example.home.ui.common.impl.text_fields.DescriptionTextField
-import com.example.home.ui.common.impl.text_fields.ImprovementReasonTextField
-import com.example.home.ui.common.impl.text_fields.NameTextField
 
 
 class TicketUpdate {
     @Composable
     fun TicketUpdateScreen(
-        navController: NavHostController,
         authParams: AuthParams = remember { AuthParams(user = UserEntity(id = 1)) },
         ticketUpdateViewModel: TicketUpdateViewModel = hiltViewModel(),
-        ticket: TicketEntity = remember { TicketEntity(id = 1, author = UserEntity(id = 1), executor = UserEntity(id = 2), status = TicketStatuses.NEW.value) },
+        ticket: TicketEntity = remember {
+            TicketEntity(
+                id = 1,
+                author = UserEntity(id = 1),
+                executor = UserEntity(id = 2),
+                status = TicketStatuses.NEW.value
+            )
+        },
+        navigateToBackWithMessage: (Context) -> Unit = { _ -> },
+        navigateToBack: () -> Unit = {},
     ) {
         LaunchedEffect(key1 = null) {
             ticketUpdateViewModel.initFields(url = authParams.connectionParams?.url)
         }
 
+        val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.status) ?: TicketStatuses.NOT_FORMED) }
+        val mutableTicket = remember { mutableStateOf(ticket) }
+
         Content(
-            navController = navController,
             authParams = authParams,
-            ticket = remember { mutableStateOf(ticket) },
+            ticket = mutableTicket,
             ticketData = ticketUpdateViewModel.fields,
             fieldsLoadingState = ticketUpdateViewModel.fieldsLoadingState,
             updateTicketFunction = ticketUpdateViewModel::update,
             updatingResult = ticketUpdateViewModel.updatingResult,
             updateRestrictions = ticketUpdateViewModel::initRestrictions,
             restrictions = ticketUpdateViewModel.restrictions,
-            updatingMessage = ticketUpdateViewModel.updatingMessage
+            updatingMessage = ticketUpdateViewModel.updatingMessage,
+            navigateToBackWithMessage = navigateToBackWithMessage,
+            navigateToBack = navigateToBack,
+            selectedTicketStatus = selectedTicketStatus
         )
     }
 
     @Composable
     private fun Content(
-        navController: NavHostController = rememberNavController(),
         authParams: AuthParams = remember { AuthParams() },
         ticket: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
@@ -98,13 +91,14 @@ class TicketUpdate {
         updateTicketFunction: (ticket: TicketEntity, authParams: AuthParams) -> Unit = { _, _ -> },
         updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
-        updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ ->  },
+        updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ -> },
         restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) },
-        updatingMessage: MutableState<String?> = mutableStateOf(null)
+        updatingMessage: MutableState<String?> = mutableStateOf(null),
+        navigateToBackWithMessage: (Context) -> Unit = { _ -> },
+        navigateToBack: () -> Unit = {},
+        context: Context = LocalContext.current,
+        selectedTicketStatus: MutableState<TicketStatuses> = mutableStateOf(TicketStatuses.NOT_FORMED)
     ) {
-        val context = LocalContext.current
-        val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.value.status) ?: TicketStatuses.NOT_FORMED) }
-
         LaunchedEffect(key1 = null) {
             updateRestrictions(
                 selectedTicketStatus.value,
@@ -118,21 +112,13 @@ class TicketUpdate {
         //
         when (updatingResult.value) {
             TicketOperationState.IN_PROCESS -> bottomBarSelectable.value = false
-            TicketOperationState.DONE -> {
-                navController.popBackStack(
-                    route = BottomBarNav.Home.route,
-                    inclusive = false
-                )
-                Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
-            }
-
+            TicketOperationState.DONE -> { navigateToBackWithMessage(context) }
             TicketOperationState.OPERATION_ERROR -> {
                 updatingMessage.value?.let {
                     Helper.showShortToast(context = context, text = it)
                 } ?: Helper.showShortToast(context = context, text = "Ошибка сохранения")
                 bottomBarSelectable.value = true
             }
-
             TicketOperationState.CONNECTION_ERROR -> {
                 Helper.showShortToast(context = context, text = "Ошибка подключения")
                 bottomBarSelectable.value = true
@@ -154,7 +140,7 @@ class TicketUpdate {
             val isTopIconsVisible = remember { mutableStateOf(false) }
             TicketUpdateTopBar(
                 modifier = Modifier.layoutId("topAppBarRef"),
-                navController = navController,
+                navigateToBack = navigateToBack,
                 iconsVisible = isTopIconsVisible,
                 ticket = ticket
             )
@@ -277,8 +263,6 @@ class TicketUpdate {
     @Composable
     @Preview(heightDp = 1600)
     private fun Preview() {
-        AppTheme(isSystemInDarkTheme()) {
-            Content()
-        }
+        AppTheme(isSystemInDarkTheme()) { Content() }
     }
 }

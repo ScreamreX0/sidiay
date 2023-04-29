@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
@@ -31,6 +32,7 @@ class TicketUpdateViewModel @Inject constructor(
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
+
     var updatingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
     val updatingMessage: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
     val restrictions: MutableState<TicketRestriction> = mutableStateOf(TicketRestriction.getEmpty())
@@ -38,7 +40,9 @@ class TicketUpdateViewModel @Inject constructor(
     fun initFields(url: String?) {
         Logger.m("Check network mode...")
         url?.let {
-            viewModelScope.launch(getLoadingCoroutineHandler()) {
+            viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
+                fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
+            }) {
                 Logger.m("Getting tickets' fields online...")
                 fieldsLoadingState.value = LoadingState.LOADING
                 val result = getTicketDataUseCase.execute(it)
@@ -63,7 +67,9 @@ class TicketUpdateViewModel @Inject constructor(
     }
 
     fun update(ticket: TicketEntity, authParams: AuthParams) {
-        viewModelScope.launch(getSavingCoroutineHandler()) {
+        viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
+            updatingResult.value = TicketOperationState.CONNECTION_ERROR
+        }) {
             Logger.m("Trying to update new ticket...")
             updatingResult.value = TicketOperationState.IN_PROCESS
             val result = updateTicketUseCase.execute(
@@ -89,18 +95,6 @@ class TicketUpdateViewModel @Inject constructor(
                 ticket = ticket,
                 currentUser = currentUser
             )
-        }
-    }
-
-    private fun getLoadingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
-        when (throwable::class) {
-            ConnectException::class -> fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
-        }
-    }
-
-    private fun getSavingCoroutineHandler() = CoroutineExceptionHandler { _, throwable ->
-        when (throwable::class) {
-            ConnectException::class -> updatingResult.value = TicketOperationState.CONNECTION_ERROR
         }
     }
 }
