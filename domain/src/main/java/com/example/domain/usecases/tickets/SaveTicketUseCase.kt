@@ -12,6 +12,8 @@ class SaveTicketUseCase @Inject constructor(
         if (url == null) {
             TODO("Offline mode not yet implemented")
         }
+
+        Logger.m("Saving ticket..")
         val result = ticketRepository.add(url, ticket)
 
         return when (result.first) {

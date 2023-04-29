@@ -1,5 +1,6 @@
 package com.example.home.ui.ticket_create
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -21,19 +22,13 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Helper
-import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
-import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
@@ -43,104 +38,80 @@ import com.example.domain.enums.states.TicketOperationState.*
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.TicketCreateBottomBar
 import com.example.home.ui.common.components.TicketCreateTopBar
-import com.example.home.ui.common.impl.chip_rows.FacilitiesChipRow
-import com.example.home.ui.common.impl.clickable_texts.ExecutorClickableText
-import com.example.home.ui.common.impl.clickable_texts.KindClickableText
-import com.example.home.ui.common.impl.clickable_texts.PriorityClickableText
-import com.example.home.ui.common.impl.clickable_texts.ServiceClickableText
-import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
-import com.example.home.ui.common.impl.text_fields.NameTextField
-import kotlin.reflect.KFunction3
 
 
 class TicketCreate {
 
     @Composable
     fun TicketCreateScreen(
-        navController: NavHostController,
-        authParams: AuthParams = remember { AuthParams() },
+        authParams: AuthParams = AuthParams(),
+        ticket: TicketEntity = TicketEntity(),
+        navigateToMainMenu: (Context) -> Unit = { _ -> },
+        navigateToBack: () -> Unit = {},
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
-        ticket: TicketEntity = remember { TicketEntity() },
     ) {
         LaunchedEffect(key1 = null) {
-            ticketCreateViewModel.initFields(url = authParams.connectionParams?.url)
+            ticketCreateViewModel.fetchTicketData(url = authParams.connectionParams?.url)
+        }
+
+        val context: Context = LocalContext.current
+        val newTicket: MutableState<TicketEntity> = remember { mutableStateOf(ticket) }
+        newTicket.value.author = authParams.user
+
+        val bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
+
+        // Saving
+        when (ticketCreateViewModel.savingResult.value) {
+            IN_PROCESS -> bottomBarSelectable.value = false
+            DONE -> { navigateToMainMenu(context) }
+            OPERATION_ERROR -> {
+                Helper.showShortToast(context = context, text = OPERATION_ERROR.message!!)
+                bottomBarSelectable.value = true
+            }
+            CONNECTION_ERROR -> {
+                Helper.showShortToast(context = context, text = CONNECTION_ERROR.message!!)
+                bottomBarSelectable.value = true
+            }
+            else -> {}
         }
 
         Content(
-            navController = navController,
             authParams = authParams,
-            ticket = remember { mutableStateOf(ticket) },
+            ticket = newTicket,
             ticketData = ticketCreateViewModel.fields,
             fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
             saveTicketFunction = ticketCreateViewModel::save,
-            savingResult = ticketCreateViewModel.savingResult,
-            getRestrictionsFunction = ticketCreateViewModel::getRestrictions
+            bottomBarSelectable = bottomBarSelectable,
+            getRestrictionsFunction = ticketCreateViewModel::getRestrictions,
+            navigateToBack = navigateToBack,
         )
     }
 
     @Composable
     private fun Content(
-        navController: NavHostController = rememberNavController(),
-        authParams: AuthParams = remember { AuthParams() },
-        ticket: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
-        ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
-        fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
+        authParams: AuthParams = AuthParams(),
+        ticket: MutableState<TicketEntity> = mutableStateOf(TicketEntity()),
+        ticketData: MutableState<TicketData?> = mutableStateOf(TicketData()),
+        fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.DONE),
         saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
-        savingResult: MutableState<TicketOperationState> = remember { mutableStateOf(WAITING) },
-        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
-        getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() }
+        bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
+        getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() },
+        navigateToBack: () -> Unit = {},
+        isTopIconsVisible: MutableState<Boolean> = remember { mutableStateOf(false) }
     ) {
-        val context = LocalContext.current
-
-        ticket.value.author = authParams.user
-
-        //
-        // Saving
-        //
-        when (savingResult.value) {
-            IN_PROCESS -> bottomBarSelectable.value = false
-            DONE -> {
-                navController.popBackStack(
-                    route = BottomBarNav.Home.route,
-                    inclusive = false
-                )
-                Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
-            }
-
-            OPERATION_ERROR -> {
-                Helper.showShortToast(context = context, text = "Ошибка сохранения")
-                bottomBarSelectable.value = true
-            }
-
-            CONNECTION_ERROR -> {
-                Helper.showShortToast(context = context, text = "Ошибка подключения")
-                bottomBarSelectable.value = true
-            }
-
-            else -> {}
-        }
-
-        //
-        // MAIN CONSTRAINT
-        //
         ConstraintLayout(
             constraintSet = getConstraints(),
             modifier = Modifier.fillMaxSize(),
         ) {
-            //
             // TOP BAR
-            //
-            val isTopIconsVisible = remember { mutableStateOf(false) }
             TicketCreateTopBar(
                 modifier = Modifier.layoutId("topAppBarRef"),
-                navController = navController,
+                navigateToBack = navigateToBack,
                 iconsVisible = isTopIconsVisible,
                 draft = ticket
             )
 
-            //
             // LOADING
-            //
             if ((fieldsLoadingState.value == LoadingState.LOADING
                         || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
                 && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
@@ -168,14 +139,12 @@ class TicketCreate {
                 return@ConstraintLayout
             }
 
-            //
             // TICKET CREATE ITEMS
-            //
             val mainScrollableState = rememberScrollState()
             Column(
                 modifier = Modifier
                     .layoutId("ticketCreateRef")
-                    .background(MaterialTheme.colors.background.copy(alpha = 0.98F))
+                    .background(MaterialTheme.colors.background)
                     .verticalScroll(mainScrollableState),
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
@@ -199,9 +168,7 @@ class TicketCreate {
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTOR, field = ticket.value.executor)
             }
 
-            //
             // BOTTOM BAR
-            //
             TicketCreateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 draft = ticket,
@@ -247,8 +214,6 @@ class TicketCreate {
     @Composable
     @Preview(heightDp = 1100)
     private fun Preview() {
-        AppTheme(isSystemInDarkTheme()) {
-            Content()
-        }
+        AppTheme(isSystemInDarkTheme()) { Content() }
     }
 }

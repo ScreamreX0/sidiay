@@ -1,5 +1,6 @@
 package com.example.main_menu.navigation
 
+import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -85,8 +86,20 @@ fun NavGraphBuilder.homeNavGraph(
         composable(route = Screens.Home.TICKET_CREATE) {
             AppTheme(authParams.darkMode ?: false) {
                 TicketCreate().TicketCreateScreen(
-                    navController = navController,
                     authParams = authParams,
+                    navigateToMainMenu = { context: Context ->
+                        navController.popBackStack(
+                            route = BottomBarNav.Home.route,
+                            inclusive = false
+                        )
+                        Helper.showShortToast(context = context, text = "Заявка успешно сохранена")
+                    },
+                    navigateToBack = {
+                        navController.popBackStack(
+                            route = BottomBarNav.Home.route,
+                            inclusive = false
+                        )
+                    }
                 )
             }
         }

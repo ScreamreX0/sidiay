@@ -14,6 +14,8 @@ class GetTicketDataUseCase @Inject constructor(
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
             return Pair(null ,ticketDataRepository.getTicketData())
         }
+
+        Logger.m("Getting ticket data online...")
         val result = ticketDataRepository.getTicketData(url = url)
 
         return when (result.first) {

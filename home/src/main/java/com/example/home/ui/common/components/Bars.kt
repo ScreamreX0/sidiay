@@ -20,10 +20,8 @@ import com.example.core.R
 import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.components.CustomAlertDialog
 import com.example.core.ui.theme.AppTheme
-import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
-import com.example.domain.data_classes.params.TicketRestriction
 
 @Composable
 internal fun TicketCreateBottomBar(
@@ -84,10 +82,10 @@ internal fun TicketUpdateBottomBar(
 @Composable
 internal fun TicketCreateTopBar(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
     iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
     clearFieldsDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    draft: MutableState<TicketEntity>
+    draft: MutableState<TicketEntity>,
+    navigateToBack: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -100,12 +98,7 @@ internal fun TicketCreateTopBar(
                 .padding(start = 15.dp)
                 .fillMaxHeight()
                 .width(30.dp)
-                .clickable {
-                    navController.popBackStack(
-                        route = BottomBarNav.Home.route,
-                        inclusive = false
-                    )
-                },
+                .clickable { navigateToBack() },
             painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
             contentDescription = "Back",
             tint = MaterialTheme.colors.onPrimary,
