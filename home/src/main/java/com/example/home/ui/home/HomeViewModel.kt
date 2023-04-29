@@ -30,14 +30,14 @@ class HomeViewModel @Inject constructor(
                 ticketsLoadingState.value = LoadingState.LOADING
                 val result = getTicketsUseCase.execute(currentUrl, userId)
 
-                result.first?.let {
+                result.second?.let {
                     Logger.m("Tickets received.")
                     tickets.value = it
                     ticketsLoadingState.value = LoadingState.DONE
                 } ?: run {
                     Logger.e("Tickets receiving error.")
                     ticketsLoadingState.value = LoadingState.ERROR
-                    applicationReceivingErrors.value = result.second
+                    applicationReceivingErrors.value = result.first
                 }
             }
         } ?: run {

@@ -6,14 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
-import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.domain.usecases.tickets.GetTicketCreateRestrictionsUseCase
+import com.example.domain.usecases.tickets.restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.tickets.GetTicketDataUseCase
-import com.example.domain.usecases.tickets.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -30,8 +27,7 @@ class TicketCreateViewModel @Inject constructor(
     val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
 
-    var savingResult: MutableState<TicketOperationState> =
-        mutableStateOf(TicketOperationState.WAITING)
+    var savingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
 
     fun initFields(url: String?) {
         Logger.m("Check network mode...")
@@ -41,7 +37,7 @@ class TicketCreateViewModel @Inject constructor(
                 fieldsLoadingState.value = LoadingState.LOADING
                 val result = getTicketDataUseCase.execute(it)
 
-                result.first?.let { itData ->
+                result.second?.let { itData ->
                     Logger.m("Tickets' fields received.")
                     fields.value = itData
                     fieldsLoadingState.value = LoadingState.DONE

@@ -7,8 +7,10 @@ import com.example.domain.repositories.ITicketsRepository
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
 import com.example.data.repositories.AuthRepository
+import com.example.data.repositories.NetworkConnectionRepository
 import com.example.data.repositories.TicketDataRepository
 import com.example.domain.repositories.IAuthRepository
+import com.example.domain.repositories.INetworkConnectionRepository
 import com.example.domain.repositories.ITicketDataRepository
 import dagger.Module
 import dagger.Provides
@@ -26,6 +28,8 @@ class DataModule {
     fun provideTicketRepository(apiService: ApiService): ITicketsRepository = TicketsRepository(apiService)
     @Provides
     fun provideTicketDataRepository(apiService: ApiService): ITicketDataRepository = TicketDataRepository(apiService)
+    @Provides
+    fun provideNetworkConnectionRepository(apiService: ApiService): INetworkConnectionRepository = NetworkConnectionRepository(apiService)
 
     // Datastores
     @Provides

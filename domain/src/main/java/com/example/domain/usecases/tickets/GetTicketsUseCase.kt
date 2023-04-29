@@ -10,17 +10,17 @@ import javax.inject.Inject
 class GetTicketsUseCase @Inject constructor(
     private val ticketsRepository: ITicketsRepository
 ) {
-    suspend fun execute(url: String, userId: Long): Pair<List<TicketEntity>?, String?> {
+    suspend fun execute(url: String, userId: Long): Pair<String?, List<TicketEntity>?> {
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
-            return Pair(ticketsRepository.get(), null)
+            return Pair(null, ticketsRepository.get())
         }
         val result = ticketsRepository.get(url, userId)
 
         return when (result.first) {
-            200 -> Pair(result.second, null)
+            200 -> Pair(null, result.second)
             else -> {
-                Logger.m("Error ${result.first}")
-                Pair(null, "Упс..")
+                Logger.m("Unhandled http code: ${result.first}")
+                Pair("Неизвестная ошибка", null)
             }
         }
     }

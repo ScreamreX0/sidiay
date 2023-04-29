@@ -23,19 +23,12 @@ interface ApiService {
     //
     // TICKETS
     //
-    // Tickets get
     @GET
     suspend fun getTickets(@Url url: String): Response<List<TicketEntity>>
-
-    // Ticket add
     @POST
     suspend fun addTicket(@Url url: String, @Body ticket: TicketEntity): Response<TicketEntity>
-
-    // Ticket update
     @POST
     suspend fun updateTicket(@Url url: String, @Body ticket: TicketEntity): Response<TicketEntity>
-
-    // Ticket data
     @GET
     suspend fun getTicketData(@Url url: String): Response<TicketData>
 }

@@ -1,5 +1,6 @@
 package com.example.signin.ui.components
 
+import android.content.Context
 import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -19,7 +20,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,7 +36,7 @@ import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
-import com.example.domain.enums.states.ConnectionState
+import com.example.domain.enums.states.NetworkConnectionState
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
@@ -69,9 +69,9 @@ internal fun AutoAuthComponent(
 @Composable
 internal fun CheckConnectionComponent(
     modifier: Modifier,
-    selectedConnection: MutableState<ConnectionParams>,
-    checkConnection: suspend (String) -> Unit,
-    checkConnectionResult: MutableState<ConnectionState>
+    selectedConnection: MutableState<ConnectionParams?>,
+    checkConnection: suspend (String?, Context) -> Unit,
+    checkConnectionResult: MutableState<NetworkConnectionState>
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -81,7 +81,7 @@ internal fun CheckConnectionComponent(
     DefaultTextStyle {
         Text(
             modifier = modifier.clickable {
-                scope.launch { checkConnection(selectedConnection.value.url) }
+                scope.launch { checkConnection(selectedConnection.value?.url, context) }
             },
             text = "Проверить соединение",
             color = MaterialTheme.colors.onBackground,
@@ -93,7 +93,7 @@ internal fun CheckConnectionComponent(
 internal fun ConnectionComponent(
     modifier: Modifier = Modifier,
     isConnectionDialogOpened: MutableState<Boolean>,
-    selectedConnection: MutableState<ConnectionParams>,
+    selectedConnection: MutableState<ConnectionParams?>,
 ) {
     OutlinedButton(
         modifier = modifier,
@@ -105,7 +105,7 @@ internal fun ConnectionComponent(
         shape = RoundedCornerShape(25),
     ) {
         Text(
-            text = selectedConnection.value.name,
+            text = selectedConnection.value?.name ?: "Пользовательское соединение",
             fontSize = MaterialTheme.typography.h3.fontSize,
             color = MaterialTheme.colors.onBackground,
             modifier = Modifier.padding(
@@ -153,15 +153,15 @@ internal fun EnterComponent(
     email: MutableState<String>,
     password: MutableState<String>,
     rememberMe: MutableState<Boolean> = remember { mutableStateOf(false) },
-    selectedConnection: MutableState<ConnectionParams>,
-    signInFunction: (String, String, String) -> Unit
+    selectedConnection: MutableState<ConnectionParams?>,
+    signInFunction: (String?, String, String) -> Unit
 ) {
     DefaultButtonStyle {
         Button(
             modifier = modifier,
             onClick = {
                 signInFunction(
-                    selectedConnection.value.url,
+                    selectedConnection.value?.url,
                     email.value,
                     password.value,
                 )

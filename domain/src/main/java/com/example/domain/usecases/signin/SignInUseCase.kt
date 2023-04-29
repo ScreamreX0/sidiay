@@ -9,13 +9,18 @@ import javax.inject.Inject
 class SignInUseCase @Inject constructor(
     private val authRepository: IAuthRepository
 ) {
-    suspend fun execute(url: String, credentials: Credentials): Pair<String?, UserEntity?> {
+    suspend fun execute(url: String?, credentials: Credentials): Pair<String?, UserEntity?> {
+        if (url == null) return Pair("Неверный url", null)
         val result = authRepository.signIn(url, credentials)
         Logger.m("Sign in http code: ${result.first}")
+
         return when(result.first) {
             200 -> Pair(null, result.second)
             401 -> Pair("Неверный логин или пароль", null)
-            else -> TODO("Unhandled http code: ${result.first}")
+            else -> {
+                Logger.m("Unhandled http code: ${result.first}")
+                Pair("Неизвестная ошибка", null)
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.signin.ui
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +23,7 @@ import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
-import com.example.domain.enums.states.ConnectionState
-import com.example.domain.enums.states.SignInStates
+import com.example.domain.enums.states.NetworkConnectionState
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
@@ -44,20 +44,34 @@ internal class SignIn {
         val darkMode = signInViewModel.darkMode
         if (darkMode.value == null) return
 
-        val success = signInViewModel.signInSuccess
-        val errors = signInViewModel.signInError
+        val signInResult = signInViewModel.signInResult
         val connectionsList = signInViewModel.connectionsList
         val checkConnectionResult = signInViewModel.checkConnectionResult
+        val context = LocalContext.current
+        val selectedConnection: MutableState<ConnectionParams?> = remember { mutableStateOf(ConnectionParams()) }
+
+        signInResult.value.let { result ->
+            result.second?.let { itUser ->
+                val authParams = AuthParams(
+                    user = if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) UserEntity(0) else itUser,
+                    connectionParams = selectedConnection.value,
+                    darkMode = darkMode.value,
+                )
+
+                LaunchedEffect(itUser) {
+                    val authParamsString = Helper.parcelableToString(authParams)
+                    navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
+                }
+            }
+            result.first?.let { itMessage -> Helper.showShortToast(context, itMessage) }
+        }
 
         AppTheme(darkMode.value!!) {
             Content(
+                selectedConnection = selectedConnection,
                 navController = navController,
                 connectionsList = connectionsList,
-                signInSuccess = success,
-                signInErrors = errors,
                 checkConnectionResult = checkConnectionResult,
-                darkMode = darkMode,
-
                 checkConnectionFunction = signInViewModel::checkConnection,
                 updateConnectionsListFunction = signInViewModel::updateConnectionsVar,
                 saveConnectionsFunction = signInViewModel::saveConnections,
@@ -71,43 +85,20 @@ internal class SignIn {
     fun Content(
         navController: NavHostController = rememberNavController(),
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
-        signInSuccess: MutableState<UserEntity> = remember { mutableStateOf(UserEntity(id = 0)) },
-        signInErrors: MutableState<String?> = remember { mutableStateOf(null) },
-        isConnectionDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-        checkConnectionResult: MutableState<ConnectionState> = remember { mutableStateOf(ConnectionState.WAITING) },
-        darkMode: MutableState<Boolean?> = remember { mutableStateOf(false) },
-        checkConnectionFunction: suspend (url: String) -> Unit = {},
+        isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
+        checkConnectionResult: MutableState<NetworkConnectionState> = mutableStateOf(NetworkConnectionState.WAITING),
+        checkConnectionFunction: suspend (url: String?, context: Context) -> Unit = { _, _ -> },
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
         changeUIModeFunction: () -> Unit = {},
-        signInFunction: (String, String, String) -> Unit = { _, _, _ -> },
+        signInFunction: (String?, String, String) -> Unit = { _, _, _ -> },
+        selectedConnection: MutableState<ConnectionParams?> = mutableStateOf(null),
     ) {
-        val context = LocalContext.current
-        val selectedConnection = remember {
-            mutableStateOf(ConnectionParams("Стандартное соединение", ConstAndVars.URL))
-        }
-
         ConstraintLayout(
-            constraintSet = getConstraints(),
-            modifier = Modifier
+            constraintSet = getConstraints(), modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
-            signInSuccess.value.let { currentUser ->
-                if (currentUser.id == -1L) return@let
-                val authParams = AuthParams(
-                    user = if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) UserEntity(0) else currentUser,
-                    connectionParams = selectedConnection.value,
-                    darkMode = darkMode.value,
-                )
-
-                LaunchedEffect(currentUser) {
-                    val authParamsString = Helper.parcelableToString(authParams)
-                    navController.navigate(route = "${Graphs.MAIN_MENU}/$authParamsString")
-                }
-            }
-            signInErrors.value?.let { Helper.showShortToast(context, it) }
-
             // Dialog
             ConnectionsDialog(
                 isDialogOpened = isConnectionDialogOpened,
@@ -119,8 +110,7 @@ internal class SignIn {
 
             // Title
             TitleComponent(
-                modifier = Modifier.layoutId("titleComponentRef"),
-                changeUIMode = changeUIModeFunction
+                modifier = Modifier.layoutId("titleComponentRef"), changeUIMode = changeUIModeFunction
             )
 
             // Default connection button
@@ -141,8 +131,7 @@ internal class SignIn {
             // Email
             val email = remember { mutableStateOf("") }
             EmailComponent(
-                modifier = Modifier.layoutId("emailComponentRef"),
-                email = email
+                modifier = Modifier.layoutId("emailComponentRef"), email = email
             )
 
             // Password

@@ -10,17 +10,17 @@ import javax.inject.Inject
 class GetTicketDataUseCase @Inject constructor(
     private val ticketDataRepository: ITicketDataRepository,
 ) {
-    suspend fun execute(url: String): Pair<TicketData?, String?> {
+    suspend fun execute(url: String): Pair<String?, TicketData?> {
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
-            return Pair(ticketDataRepository.getTicketData(), null)
+            return Pair(null ,ticketDataRepository.getTicketData())
         }
         val result = ticketDataRepository.getTicketData(url = url)
 
         return when (result.first) {
-            200 -> Pair(result.second, null)
+            200 -> Pair(null, result.second)
             else -> {
-                Logger.m("Error ${result.first}")
-                Pair(null, "Упс..")
+                Logger.m("Unhandled http code: ${result.first}")
+                Pair("Неизвестная ошибка", null)
             }
         }
     }

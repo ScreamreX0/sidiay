@@ -1,7 +1,7 @@
 package com.example.core.utils
 
 object ConstAndVars {
-    val APPLICATION_MODE = ApplicationModes.DEBUG_AND_ONLINE
+    val APPLICATION_MODE = ApplicationModes.DEBUG_AND_OFFLINE
 
     const val DEBUG_MODE_EMAIL = "scx0500@gmail.com"
     const val DEBUG_MODE_PASSWORD = "123123"

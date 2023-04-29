@@ -5,8 +5,8 @@ import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.usecases.tickets.GetDraftsUseCase
-import com.example.domain.usecases.tickets.GetTicketCreateRestrictionsUseCase
-import com.example.domain.usecases.tickets.GetTicketUpdateRestrictionsUseCase
+import com.example.domain.usecases.tickets.restrictions.GetTicketCreateRestrictionsUseCase
+import com.example.domain.usecases.tickets.restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase

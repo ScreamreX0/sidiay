@@ -15,7 +15,7 @@ import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.LoadingState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.usecases.tickets.GetTicketDataUseCase
-import com.example.domain.usecases.tickets.GetTicketUpdateRestrictionsUseCase
+import com.example.domain.usecases.tickets.restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -43,7 +43,7 @@ class TicketUpdateViewModel @Inject constructor(
                 fieldsLoadingState.value = LoadingState.LOADING
                 val result = getTicketDataUseCase.execute(it)
 
-                result.first?.let { itData ->
+                result.second?.let { itData ->
                     Logger.m("Ticket fields received.")
                     fields.value = itData
                     fieldsLoadingState.value = LoadingState.DONE

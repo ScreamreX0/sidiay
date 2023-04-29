@@ -1,5 +1,6 @@
 package com.example.signin.ui
 
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
@@ -15,7 +16,7 @@ import com.example.domain.data_classes.params.Credentials
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.data.datastore.ConnectionsDataStore
 import com.example.data.datastore.ThemeDataStore
-import com.example.domain.enums.states.ConnectionState
+import com.example.domain.enums.states.NetworkConnectionState
 import com.example.domain.usecases.signin.CheckConnectionUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.net.ConnectException
-import java.net.HttpURLConnection
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,10 +40,9 @@ class SignInViewModel @Inject constructor(
     internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
 
     internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
-    internal val checkConnectionResult = mutableStateOf(ConnectionState.WAITING, neverEqualPolicy())
+    internal val checkConnectionResult = mutableStateOf(NetworkConnectionState.WAITING, neverEqualPolicy())
 
-    internal var signInError: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
-    internal var signInSuccess: MutableState<UserEntity> = mutableStateOf(UserEntity(-1))
+    internal var signInResult: MutableState<Pair<String?, UserEntity?>> = mutableStateOf(Pair(null, null), neverEqualPolicy())
 
     init {
         viewModelScope.launch { updateConnectionsVar() }
@@ -63,16 +62,8 @@ class SignInViewModel @Inject constructor(
     }
 
     // Connections
-    internal suspend fun checkConnection(url: String) {
-        if (url.last().toString() != "/") {
-            url.plus("/")
-        }
-
-        checkConnectionResult.value = if (checkConnectionUseCase.execute(url = url)) {
-            ConnectionState.ESTABLISHED
-        } else {
-            ConnectionState.NOT_ESTABLISHED
-        }
+    internal suspend fun checkConnection(url: String?, context: Context) {
+        checkConnectionResult.value = checkConnectionUseCase.execute(url = url, context)
     }
 
     internal suspend fun saveConnections(connectionsList: List<ConnectionParams>) {
@@ -91,10 +82,10 @@ class SignInViewModel @Inject constructor(
     }
 
     // Sign in
-    internal fun signIn(url: String, email: String, password: String) {
+    internal fun signIn(url: String?, email: String, password: String) {
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
             Logger.Companion.m("DEBUG_AND_OFFLINE MODE ENABLED")
-            signInSuccess.value = UserEntity(id = 0)
+            signInResult.value = Pair(null, UserEntity(id = 0))
             return
         }
 
@@ -105,21 +96,20 @@ class SignInViewModel @Inject constructor(
             params = Credentials(ConstAndVars.DEBUG_MODE_EMAIL, ConstAndVars.DEBUG_MODE_PASSWORD)
         } else {
             checkFieldsUseCase.execute(params = params)?.let {
-                signInError.value = it
+                signInResult.value = Pair(it, null)
                 return
             }
         }
 
         Logger.Companion.m("Online sign in. IP:${ConstAndVars.URL}")
         viewModelScope.launch(getSignInHandler()) {
-            val signInResult = signInUseCase.execute(url, params)
-            signInResult.first?.let { signInError.value = it }
-                ?: signInResult.second?.let { signInSuccess.value = it }
+            signInResult.value = signInUseCase.execute(url, params)
         }
     }
 
     private fun getSignInHandler() = CoroutineExceptionHandler { _, throwable ->
-        if (throwable::class == ConnectException::class) signInError.value =
-            SignInStates.NO_SERVER_CONNECTION.title
+        if (throwable::class == ConnectException::class) {
+            signInResult.value = Pair(SignInStates.NO_SERVER_CONNECTION.title, null)
+        }
     }
 }

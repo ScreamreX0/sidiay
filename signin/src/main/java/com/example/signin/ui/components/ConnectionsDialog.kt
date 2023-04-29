@@ -21,6 +21,7 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.params.ConnectionParams
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun ConnectionsDialog(
     isDialogOpened: MutableState<Boolean> = mutableStateOf(true),
-    selectedConnection: MutableState<ConnectionParams>,
+    selectedConnection: MutableState<ConnectionParams?> = mutableStateOf(ConnectionParams()),
     connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
     saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
     updateConnectionsList: suspend () -> Unit = {}
@@ -237,7 +238,7 @@ private fun AddConnectionComponent(
 @Composable
 private fun ConnectionsListComponent(
     connectionsList: MutableState<List<ConnectionParams>>,
-    selectedConnection: MutableState<ConnectionParams>,
+    selectedConnection: MutableState<ConnectionParams?>,
     isDialogOpened: MutableState<Boolean>
 ) {
     val context = LocalContext.current
@@ -245,8 +246,10 @@ private fun ConnectionsListComponent(
         items(items = connectionsList.value) { connectionItem ->
             Row(
                 modifier = Modifier.clickable {
-                    selectedConnection.value = connectionItem
-                    isDialogOpened.value = false
+                    connectionItem.let {
+                        selectedConnection.value = it
+                        isDialogOpened.value = false
+                    }
                 },
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -273,14 +276,7 @@ private fun ConnectionsListComponent(
                 )
 
                 Icon(
-                    modifier = Modifier
-                        .clickable {
-                            Toast.makeText(
-                                context,
-                                "URL: ${connectionItem.url}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        },
+                    modifier = Modifier.clickable { Helper.showShortToast(context, "URL: ${connectionItem.url}") },
                     painter = painterResource(R.drawable.baseline_help_outline_24),
                     contentDescription = null,
                     tint = MaterialTheme.colors.onBackground
@@ -292,17 +288,14 @@ private fun ConnectionsListComponent(
 
 @Composable
 private fun DefaultConnectionComponent(
-    selectedConnection: MutableState<ConnectionParams>,
+    selectedConnection: MutableState<ConnectionParams?>,
     isDialogOpened: MutableState<Boolean>
 ) {
     Row(
         modifier = Modifier
             .padding(top = 5.dp)
             .clickable(onClick = {
-                selectedConnection.value = ConnectionParams(
-                    name = "Стандартное соединение",
-                    url = ConstAndVars.URL
-                )
+                selectedConnection.value = ConnectionParams()
                 isDialogOpened.value = false
             }),
         verticalAlignment = Alignment.CenterVertically
@@ -349,15 +342,4 @@ private fun DialogTitleComponent() {
 
 @ScreenPreview
 @Composable
-private fun ScreenPreview() {
-    AppTheme(isSystemInDarkTheme()) {
-        val name = "Стандартное соединение"
-        val defaultConnection = remember {
-            mutableStateOf(ConnectionParams(name, ConstAndVars.URL))
-        }
-
-        ConnectionsDialog(
-            selectedConnection = defaultConnection,
-        )
-    }
-}
+private fun ScreenPreview() { AppTheme(isSystemInDarkTheme()) { ConnectionsDialog() } }

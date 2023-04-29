@@ -16,7 +16,7 @@ class ThemeDataStore(private val context: Context) {
         private val MODE = stringPreferencesKey("mode")
     }
 
-    /** 0 - Light mode / 1 - Dark mode */
+    // 0 - Light mode; 1 - Dark mode
     val getMode: Flow<String> = context.dataStore.data.map { it[MODE] ?: ConstAndVars.NULL }
     suspend fun saveMode(darkMode: Boolean) = context.dataStore.edit { it[MODE] =
         darkMode.toString()
