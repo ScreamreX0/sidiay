@@ -8,7 +8,8 @@ import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.enums.states.LoadingState
+import com.example.domain.enums.states.INetworkState
+import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.usecases.tickets.restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.tickets.GetTicketDataUseCase
@@ -23,47 +24,47 @@ class TicketCreateViewModel @Inject constructor(
     private val saveTicketUseCase: SaveTicketUseCase,
     private val getTicketCreateRestrictionsUseCase: GetTicketCreateRestrictionsUseCase
 ) : ViewModel() {
-    val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
+    val fieldsLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
-    val savingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
+    val savingResult: MutableState<INetworkState> = mutableStateOf(TicketOperationState.WAITING)
 
     fun fetchTicketData(url: String?) {
         url?.let {
             viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-                fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
+                fieldsLoadingState.value = NetworkState.NO_SERVER_CONNECTION
             }) {
-                fieldsLoadingState.value = LoadingState.LOADING
+                fieldsLoadingState.value = NetworkState.LOADING
                 val result = getTicketDataUseCase.execute(it)
 
                 result.second?.let { ticketData ->
                     Logger.m("Ticket data received")
                     fields.value = ticketData
-                    fieldsLoadingState.value = LoadingState.DONE
+                    fieldsLoadingState.value = NetworkState.DONE
                 } ?: run {
                     Logger.e("Tickets' fields receiving error.")
-                    fieldsLoadingState.value = LoadingState.ERROR
+                    fieldsLoadingState.value = NetworkState.ERROR
                 }
             }
         } ?: run {
             viewModelScope.launch {
                 Logger.m("Getting tickets' fields offline...")
-                fieldsLoadingState.value = LoadingState.LOADING
+                fieldsLoadingState.value = NetworkState.LOADING
                 // TODO("Add load tickets offline")
-                fieldsLoadingState.value = LoadingState.DONE
+                fieldsLoadingState.value = NetworkState.DONE
             }
         }
     }
 
     fun save(url: String?, ticket: TicketEntity) {
         viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-            savingResult.value = TicketOperationState.CONNECTION_ERROR
+            savingResult.value = NetworkState.NO_SERVER_CONNECTION
         }) {
             savingResult.value = TicketOperationState.IN_PROCESS
             val result = saveTicketUseCase.execute(url = url, ticket = ticket)
 
             result.first?.let {
                 Logger.m("Error: ${result.second}")
-                savingResult.value = TicketOperationState.OPERATION_ERROR
+                savingResult.value = TicketOperationState.ERROR
             } ?: run {
                 Logger.m("Success.")
                 savingResult.value = TicketOperationState.DONE

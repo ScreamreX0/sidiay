@@ -13,15 +13,14 @@ import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketStatuses
-import com.example.domain.enums.states.LoadingState
+import com.example.domain.enums.states.INetworkState
+import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.usecases.tickets.GetTicketDataUseCase
 import com.example.domain.usecases.tickets.restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
-import java.net.ConnectException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,10 +29,10 @@ class TicketUpdateViewModel @Inject constructor(
     private val updateTicketUseCase: UpdateTicketUseCase,
     private val getTicketRestrictionsUseCase: GetTicketUpdateRestrictionsUseCase
 ) : ViewModel() {
-    val fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT)
+    val fieldsLoadingState: MutableState<INetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
 
-    var updatingResult: MutableState<TicketOperationState> = mutableStateOf(TicketOperationState.WAITING)
+    var updatingResult: MutableState<INetworkState> = mutableStateOf(TicketOperationState.WAITING)
     val updatingMessage: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
     val restrictions: MutableState<TicketRestriction> = mutableStateOf(TicketRestriction.getEmpty())
 
@@ -41,34 +40,34 @@ class TicketUpdateViewModel @Inject constructor(
         Logger.m("Check network mode...")
         url?.let {
             viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-                fieldsLoadingState.value = LoadingState.CONNECTION_ERROR
+                fieldsLoadingState.value = NetworkState.NO_SERVER_CONNECTION
             }) {
                 Logger.m("Getting tickets' fields online...")
-                fieldsLoadingState.value = LoadingState.LOADING
+                fieldsLoadingState.value = NetworkState.LOADING
                 val result = getTicketDataUseCase.execute(it)
 
                 result.second?.let { itData ->
                     Logger.m("Ticket fields received.")
                     fields.value = itData
-                    fieldsLoadingState.value = LoadingState.DONE
+                    fieldsLoadingState.value = NetworkState.DONE
                 } ?: run {
                     Logger.e("Ticket fields receiving error.")
-                    fieldsLoadingState.value = LoadingState.ERROR
+                    fieldsLoadingState.value = NetworkState.ERROR
                 }
             }
         } ?: run {
             viewModelScope.launch {
                 Logger.m("Getting tickets' fields offline...")
-                fieldsLoadingState.value = LoadingState.LOADING
+                fieldsLoadingState.value = NetworkState.LOADING
                 // TODO("Add load tickets offline")
-                fieldsLoadingState.value = LoadingState.DONE
+                fieldsLoadingState.value = NetworkState.DONE
             }
         }
     }
 
     fun update(ticket: TicketEntity, authParams: AuthParams) {
         viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-            updatingResult.value = TicketOperationState.CONNECTION_ERROR
+            updatingResult.value = NetworkState.NO_SERVER_CONNECTION
         }) {
             Logger.m("Trying to update new ticket...")
             updatingResult.value = TicketOperationState.IN_PROCESS
@@ -79,8 +78,8 @@ class TicketUpdateViewModel @Inject constructor(
             )
             result.first?.let {
                 Logger.m("Error: ${result.second}")
-                updatingMessage.value = it
-                updatingResult.value = TicketOperationState.OPERATION_ERROR
+                updatingMessage.value = it.toString()
+                updatingResult.value = TicketOperationState.ERROR
             } ?: run {
                 Logger.m("Success.")
                 updatingResult.value = TicketOperationState.DONE

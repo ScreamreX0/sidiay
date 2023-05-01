@@ -32,7 +32,7 @@ import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
-import com.example.domain.enums.states.LoadingState
+import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState.*
 import com.example.home.ui.common.*
 import com.example.home.ui.common.components.TicketCreateBottomBar
@@ -63,12 +63,12 @@ class TicketCreate {
         when (ticketCreateViewModel.savingResult.value) {
             IN_PROCESS -> bottomBarSelectable.value = false
             DONE -> { navigateToBackWithMessage(context) }
-            OPERATION_ERROR -> {
-                Helper.showShortToast(context = context, text = OPERATION_ERROR.message!!)
+            ERROR -> {
+                Helper.showShortToast(context = context, text = ERROR.name)
                 bottomBarSelectable.value = true
             }
-            CONNECTION_ERROR -> {
-                Helper.showShortToast(context = context, text = CONNECTION_ERROR.message!!)
+            NetworkState.NO_SERVER_CONNECTION -> {
+                Helper.showShortToast(context = context, text = NetworkState.NO_SERVER_CONNECTION.name)
                 bottomBarSelectable.value = true
             }
             else -> {}
@@ -91,7 +91,7 @@ class TicketCreate {
         authParams: AuthParams = AuthParams(),
         ticket: MutableState<TicketEntity> = mutableStateOf(TicketEntity()),
         ticketData: MutableState<TicketData?> = mutableStateOf(TicketData()),
-        fieldsLoadingState: MutableState<LoadingState> = mutableStateOf(LoadingState.DONE),
+        fieldsLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.DONE),
         saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
         bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
         getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() },
@@ -111,8 +111,8 @@ class TicketCreate {
             )
 
             // LOADING
-            if ((fieldsLoadingState.value == LoadingState.LOADING
-                        || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
+            if ((fieldsLoadingState.value == NetworkState.LOADING
+                        || fieldsLoadingState.value == NetworkState.WAIT_FOR_INIT)
                 && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
             ) {
                 CircularProgressIndicator(
@@ -125,7 +125,7 @@ class TicketCreate {
             }
 
             // Load error
-            if (fieldsLoadingState.value == LoadingState.CONNECTION_ERROR) {
+            if (fieldsLoadingState.value == NetworkState.NO_SERVER_CONNECTION) {
                 Text(
                     modifier = Modifier.layoutId("centralMiddleRef"),
                     color = MaterialTheme.colors.primary,

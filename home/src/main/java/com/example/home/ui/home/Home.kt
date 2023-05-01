@@ -18,7 +18,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
 import com.example.domain.data_classes.params.AuthParams
-import com.example.domain.enums.states.LoadingState
+import com.example.domain.enums.states.NetworkState
 import com.example.home.ui.home.components.MenuTicketList
 import com.example.home.ui.home.components.MenuSearch
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -54,7 +54,7 @@ class Home {
             )
         }
 
-        errorMessage.value?.let { Helper.showShortToast(context = context, text = it) }
+        errorMessage.value?.let { Helper.showShortToast(context = context, text = it.toString()) }
 
         Content(
             modifier = Modifier.padding(
@@ -86,14 +86,14 @@ class Home {
         navigateToTicketFilter: () -> Unit = {},
         navigateToTicketCreate: () -> Unit = {},
         navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
-        ticketsReceivingState: MutableState<LoadingState> = mutableStateOf(LoadingState.WAIT_FOR_INIT),
+        ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
         ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
     ) {
         //
         // TICKETS LOADING
         //
-        if ((ticketsReceivingState.value == LoadingState.LOADING || ticketsReceivingState.value == LoadingState.WAIT_FOR_INIT)
+        if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
             && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
         ) {
             Row(

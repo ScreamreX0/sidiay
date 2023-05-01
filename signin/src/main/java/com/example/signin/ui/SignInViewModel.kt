@@ -5,13 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
-import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.data_classes.params.Credentials
-import com.example.domain.enums.states.NetworkConnectionState
+import com.example.domain.enums.states.INetworkState
+import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.connections.GetConnectionsUseCase
@@ -20,7 +19,6 @@ import com.example.domain.usecases.settings.GetSettingsUseCase
 import com.example.domain.usecases.settings.SaveSettingsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,9 +34,9 @@ class SignInViewModel @Inject constructor(
     internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
 
     internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
-    internal val checkConnectionResult = mutableStateOf(NetworkConnectionState.WAITING, neverEqualPolicy())
+    internal val checkConnectionResult = mutableStateOf(NetworkState.WAIT_FOR_INIT, neverEqualPolicy())
 
-    internal var signInResult: MutableState<Pair<String?, UserEntity?>> = mutableStateOf(Pair(null, null), neverEqualPolicy())
+    internal var signInResult: MutableState<Pair<INetworkState?, UserEntity?>> = mutableStateOf(Pair(null, null), neverEqualPolicy())
 
     init {
         viewModelScope.launch { fetchConnections() }
@@ -71,7 +69,7 @@ class SignInViewModel @Inject constructor(
     internal fun signIn(url: String?, email: String, password: String) {
         viewModelScope.launch(
             Helper.getCoroutineNetworkExceptionHandler {
-                signInResult.value = Pair(SignInStates.NO_SERVER_CONNECTION.title, null)
+                signInResult.value = Pair(NetworkState.NO_SERVER_CONNECTION, null)
             }
         ) { signInResult.value = signInUseCase.execute(url, Credentials(email, password)) }
     }

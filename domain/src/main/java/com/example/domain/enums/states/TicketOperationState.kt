@@ -1,9 +1,11 @@
 package com.example.domain.enums.states
 
-enum class TicketOperationState(val message: String?) {
-    WAITING(null),
-    IN_PROCESS(null),
+enum class TicketOperationState(val title: String): INetworkState {
+    WAITING("Ожидание"),
+    IN_PROCESS("В процессе"),
     DONE("Заявка успешно сохранена"),
-    OPERATION_ERROR("Ошибка сохранения"),
-    CONNECTION_ERROR("Ошибка подключения")
+    ERROR("Ошибка сохранения"),
+    FILL_ALL_REQUIRED_FIELDS("Заполните все поля помеченные звездой");
+
+    override fun toString() = title
 }

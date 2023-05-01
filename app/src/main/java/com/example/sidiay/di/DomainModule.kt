@@ -1,10 +1,9 @@
 package com.example.sidiay.di
 
 import android.content.Context
-import com.example.data.datastore.DraftsDataStore
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.repositories.IConnectionsDataStore
-import com.example.domain.repositories.IDraftsDataStore
+import com.example.domain.repositories.ITicketsDataStore
 import com.example.domain.repositories.INetworkConnectionRepository
 import com.example.domain.repositories.IThemeDataStore
 import com.example.domain.repositories.ITicketsRepository
@@ -75,14 +74,14 @@ class DomainModule {
     fun provideGetConnectionsUseCase(connectionsDataStore: IConnectionsDataStore): GetConnectionsUseCase =
         GetConnectionsUseCase(connectionsDataStore)
     @Provides
-    fun provideGetDraftsUseCase(draftsDataStore: IDraftsDataStore): GetDraftsUseCase = GetDraftsUseCase(draftsDataStore)
+    fun provideGetDraftsUseCase(draftsDataStore: ITicketsDataStore): GetDraftsUseCase = GetDraftsUseCase(draftsDataStore)
     @Provides
     fun provideGetSettingsUseCase(themeDataStore: IThemeDataStore): GetSettingsUseCase = GetSettingsUseCase(themeDataStore)
     @Provides
     fun provideSaveConnectionsUseCase(connectionsDataStore: IConnectionsDataStore): SaveConnectionsUseCase =
         SaveConnectionsUseCase(connectionsDataStore)
     @Provides
-    fun provideSaveDraftsUseCase(draftsDataStore: IDraftsDataStore): SaveDraftsUseCase = SaveDraftsUseCase(draftsDataStore)
+    fun provideSaveDraftsUseCase(draftsDataStore: ITicketsDataStore): SaveDraftsUseCase = SaveDraftsUseCase(draftsDataStore)
     @Provides
     fun provideSaveSettingsUseCase(themeDataStore: IThemeDataStore): SaveSettingsUseCase = SaveSettingsUseCase(themeDataStore)
 }

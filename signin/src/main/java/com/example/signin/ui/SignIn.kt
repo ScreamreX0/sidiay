@@ -19,7 +19,7 @@ import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
-import com.example.domain.enums.states.NetworkConnectionState
+import com.example.domain.enums.states.NetworkState
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
@@ -60,7 +60,7 @@ internal class SignIn {
                     navigateToMainMenu(authParamsString)
                 }
             }
-            result.first?.let { itMessage -> Helper.showShortToast(context, itMessage) }
+            result.first?.let { itMessage -> Helper.showShortToast(context, itMessage.toString()) }
         }
 
         AppTheme(darkMode.value!!) {
@@ -82,7 +82,7 @@ internal class SignIn {
     fun Content(
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
-        checkConnectionResult: MutableState<NetworkConnectionState> = mutableStateOf(NetworkConnectionState.WAITING),
+        checkConnectionResult: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
         checkConnectionFunction: suspend (url: String?) -> Unit = { _ -> },
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},

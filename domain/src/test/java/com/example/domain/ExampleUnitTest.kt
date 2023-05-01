@@ -1,9 +1,7 @@
 package com.example.domain
 
-import com.example.domain.usecases.other.GenerateURLUseCase
+import org.junit.Assert
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -13,6 +11,6 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun generateUrl_isCorrect() {
-
+        Assert.assertEquals(1, 1)
     }
 }

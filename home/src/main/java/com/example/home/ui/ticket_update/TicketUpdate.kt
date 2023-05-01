@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,7 +37,8 @@ import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
-import com.example.domain.enums.states.LoadingState
+import com.example.domain.enums.states.INetworkState
+import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.home.ui.common.TicketFieldsFactory
 import com.example.home.ui.common.components.TicketUpdateBottomBar
@@ -87,9 +89,9 @@ class TicketUpdate {
         authParams: AuthParams = remember { AuthParams() },
         ticket: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
         ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
-        fieldsLoadingState: MutableState<LoadingState> = remember { mutableStateOf(LoadingState.DONE) },
+        fieldsLoadingState: MutableState<INetworkState> = remember { mutableStateOf(NetworkState.DONE) },
         updateTicketFunction: (ticket: TicketEntity, authParams: AuthParams) -> Unit = { _, _ -> },
-        updatingResult: MutableState<TicketOperationState> = remember { mutableStateOf(TicketOperationState.WAITING) },
+        updatingResult: MutableState<INetworkState> = remember { mutableStateOf(TicketOperationState.WAITING) },
         bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
         updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ -> },
         restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) },
@@ -113,13 +115,13 @@ class TicketUpdate {
         when (updatingResult.value) {
             TicketOperationState.IN_PROCESS -> bottomBarSelectable.value = false
             TicketOperationState.DONE -> { navigateToBackWithMessage(context) }
-            TicketOperationState.OPERATION_ERROR -> {
+            TicketOperationState.ERROR -> {
                 updatingMessage.value?.let {
                     Helper.showShortToast(context = context, text = it)
                 } ?: Helper.showShortToast(context = context, text = "Ошибка сохранения")
                 bottomBarSelectable.value = true
             }
-            TicketOperationState.CONNECTION_ERROR -> {
+            NetworkState.NO_SERVER_CONNECTION -> {
                 Helper.showShortToast(context = context, text = "Ошибка подключения")
                 bottomBarSelectable.value = true
             }
@@ -148,8 +150,8 @@ class TicketUpdate {
             //
             // LOADING
             //
-            if ((fieldsLoadingState.value == LoadingState.LOADING
-                        || fieldsLoadingState.value == LoadingState.WAIT_FOR_INIT)
+            if ((fieldsLoadingState.value == NetworkState.LOADING
+                        || fieldsLoadingState.value == NetworkState.WAIT_FOR_INIT)
                 && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
             ) {
                 CircularProgressIndicator(
@@ -160,20 +162,20 @@ class TicketUpdate {
             }
 
             // Load error
-            if (fieldsLoadingState.value == LoadingState.CONNECTION_ERROR) {
-                androidx.compose.material.Text(
-                    modifier = Modifier.layoutId("centralMiddleRef"),
-                    color = MaterialTheme.colors.primary,
-                    text = if (authParams.connectionParams != null) {
-                        "Нет подключения к интернету.\nВойдите в автономный режим"
-                    } else {
-                        "Нет данных для автономного режима.\nНужно хотя-бы раз войти в онлайн режим"
-                    }
-                )
-                return@ConstraintLayout
-            } else {
-                // SET ICONS ON TOP BAR VISIBLE
-                isTopIconsVisible.value = true
+            when (fieldsLoadingState.value) {
+                NetworkState.ERROR -> {
+                    Text(
+                        modifier = Modifier.layoutId("centralMiddleRef"),
+                        color = MaterialTheme.colors.primary,
+                        text = if (authParams.connectionParams != null) {
+                            "Нет подключения к интернету.\nВойдите в автономный режим"
+                        } else {
+                            "Нет данных для автономного режима.\nНужно хотя-бы раз войти в онлайн режим"
+                        }
+                    )
+                    return@ConstraintLayout
+                }
+                else -> isTopIconsVisible.value = true
             }
 
             //

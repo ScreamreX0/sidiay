@@ -2,7 +2,7 @@ package com.example.sidiay.di
 
 import android.content.Context
 import com.example.data.datastore.ConnectionsDataStore
-import com.example.data.datastore.DraftsDataStore
+import com.example.data.datastore.TicketsDataStore
 import com.example.data.datastore.ThemeDataStore
 import com.example.data.network.api.ApiService
 import com.example.data.repositories.AuthRepository
@@ -11,7 +11,7 @@ import com.example.data.repositories.TicketDataRepository
 import com.example.data.repositories.TicketsRepository
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.repositories.IConnectionsDataStore
-import com.example.domain.repositories.IDraftsDataStore
+import com.example.domain.repositories.ITicketsDataStore
 import com.example.domain.repositories.INetworkConnectionRepository
 import com.example.domain.repositories.IThemeDataStore
 import com.example.domain.repositories.ITicketDataRepository
@@ -39,7 +39,7 @@ class DataModule {
     fun provideNetworkConnectionRepository(apiService: ApiService): INetworkConnectionRepository =
         NetworkConnectionRepository(apiService)
 
-    // Datastores
+    // Datastore
     @Provides
     fun provideConnectionsDataStore(@ApplicationContext context: Context): IConnectionsDataStore = ConnectionsDataStore(context)
 
@@ -47,5 +47,5 @@ class DataModule {
     fun provideThemeDataStore(@ApplicationContext context: Context): IThemeDataStore = ThemeDataStore(context)
 
     @Provides
-    fun provideDraftsDataStore(@ApplicationContext context: Context): IDraftsDataStore = DraftsDataStore(context)
+    fun provideDraftsDataStore(@ApplicationContext context: Context): ITicketsDataStore = TicketsDataStore(context)
 }

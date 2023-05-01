@@ -1,7 +1,5 @@
 package com.example.signin.ui.components
 
-import android.content.Context
-import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -28,14 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.R
-import com.example.core.navigation.Graphs
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.Helper
-import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
-import com.example.domain.enums.states.NetworkConnectionState
-import com.google.gson.Gson
+import com.example.domain.enums.states.NetworkState
 import kotlinx.coroutines.launch
 
 @Composable
@@ -69,7 +64,7 @@ internal fun CheckConnectionComponent(
     modifier: Modifier,
     selectedConnection: MutableState<ConnectionParams?>,
     checkConnection: suspend (String?) -> Unit,
-    checkConnectionResult: MutableState<NetworkConnectionState>
+    checkConnectionResult: MutableState<NetworkState>
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current

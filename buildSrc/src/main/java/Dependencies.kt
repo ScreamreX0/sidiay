@@ -108,7 +108,7 @@ object Dependencies {
             const val KAPT = "0.5.0"
             const val APP_COMPAT = "1.5.1"
             const val KTX = "1.9.0"
-            const val GRADLE = "7.4.1"
+            const val GRADLE = "8.0.0"
             const val LIFECYCLE = "2.6.0-alpha03"
             const val JVM = "11"
         }

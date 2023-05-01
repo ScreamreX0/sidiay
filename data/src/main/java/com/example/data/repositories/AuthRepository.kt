@@ -5,7 +5,6 @@ import com.example.core.utils.Logger
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.Credentials
-import com.example.domain.enums.states.NetworkConnectionState
 import com.example.domain.repositories.IAuthRepository
 import javax.inject.Inject
 
