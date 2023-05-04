@@ -17,15 +17,17 @@ class MainMenu {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Content(
-        navController: NavHostController = rememberNavController(),
-        authParams: AuthParams = AuthParams()
+        authParams: AuthParams = AuthParams(),
+        rootNavController: NavHostController = rememberNavController()
     ) {
+        val navControllerMenu: NavHostController = rememberNavController()
         AppTheme(authParams.darkMode ?: false) {
-            Scaffold(bottomBar = { BottomBar().Content(navController = navController) }) {
+            Scaffold(bottomBar = { BottomBar().Content(navController = navControllerMenu) }) {
                 MainMenuGraph(
                     paddingValues = it,
-                    navController = navController,
-                    authParams = authParams
+                    navController = navControllerMenu,
+                    authParams = authParams,
+                    rootNavController = rootNavController
                 )
             }
         }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -22,10 +23,12 @@ import com.example.home.ui.home.Home
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
 import com.example.home.ui.tickets_filter.TicketFilter
+import com.example.settings.ui.SettingsScreen
 
 @Composable
 fun MainMenuGraph(
     navController: NavHostController,
+    rootNavController: NavHostController,
     paddingValues: PaddingValues,
     authParams: AuthParams
 ) {
@@ -40,9 +43,12 @@ fun MainMenuGraph(
         composable(route = BottomBarNav.Notifications.route) {
 
         }
-        composable(route = BottomBarNav.Settings.route) {
-
-        }
+        settingsNavGraph(
+            authParams = authParams,
+            logout = {
+                rootNavController.navigate(Graphs.AUTHENTICATION)
+            }
+        )
         homeNavGraph(
             navController = navController,
             authParams = authParams,
@@ -126,5 +132,24 @@ fun NavGraphBuilder.homeNavGraph(
     }
 }
 
+
+fun NavGraphBuilder.settingsNavGraph(
+    authParams: AuthParams,
+    logout: () -> Unit = {}
+) {
+    navigation(
+        route = Graphs.SETTINGS,
+        startDestination = BottomBarNav.Settings.route
+    ) {
+        composable(route = BottomBarNav.Settings.route) {
+            AppTheme(authParams.darkMode ?: false) {
+                SettingsScreen().Content(
+                    authParams = authParams,
+                    logout = { logout() }
+                )
+            }
+        }
+    }
+}
 
 

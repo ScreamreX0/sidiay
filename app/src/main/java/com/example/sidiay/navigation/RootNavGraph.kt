@@ -25,6 +25,7 @@ fun RootNavGraph(navController: NavHostController) {
             arguments = listOf(navArgument("params") { type = AuthParamsType() })
         ) {
             MainMenu().Content(
+                rootNavController = navController,
                 authParams = it.arguments?.getParcelable("params") ?: AuthParams()
             )
         }
