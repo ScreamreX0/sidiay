@@ -59,6 +59,10 @@ class TicketsList {
         }
         // Fetching drafts
         LaunchedEffect(key1 = null) { ticketsListViewModel.fetchDrafts() }
+        // Fetching ticket data
+        LaunchedEffect(key1 = null) {
+            ticketsListViewModel.fetchTicketData(authParams?.connectionParams?.url)
+        }
 
         errorMessage.value?.let { Helper.showShortToast(context = context, text = it.toString()) }
 

@@ -32,7 +32,6 @@ class TicketCreateViewModel @Inject constructor(
     private val saveTicketDataUseCase: SaveTicketDataUseCase,
 
     // Drafts
-    private val getDraftsUseCase: GetDraftsUseCase,
     private val saveDraftsUseCase: SaveDraftsUseCase
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
@@ -91,7 +90,7 @@ class TicketCreateViewModel @Inject constructor(
 
     fun saveDraft(drafts: TicketEntity) = viewModelScope.launch {
         savingDraftResult.value = TicketOperationState.IN_PROCESS
-        saveDraftsUseCase.execute(getDraftsUseCase.execute().plus(drafts))
+        saveDraftsUseCase.execute(drafts)
         savingDraftResult.value = TicketOperationState.DONE
     }
 }

@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetDraftsUseCase @Inject constructor(
     private val draftsDataStore: ITicketsDataStore
 ) {
-    suspend fun execute() = draftsDataStore.getDrafts.first()?.let { it as List<TicketEntity> } ?: emptyList()
+    suspend fun execute() = draftsDataStore.getDrafts.first().let { it as List<TicketEntity> }
 }

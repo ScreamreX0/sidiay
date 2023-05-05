@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.core.R
@@ -23,11 +24,9 @@ import com.example.domain.data_classes.params.AuthParams
 @Composable
 internal fun TicketCreateBottomBar(
     modifier: Modifier = Modifier,
-    draft: MutableState<TicketEntity> = mutableStateOf(TicketEntity()),
-    authParams: AuthParams = AuthParams(),
     bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
-    saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
-    saveDraftFunction: (TicketEntity) -> Unit = { _ -> }
+    saveTicket: () -> Unit = { },
+    saveDraft: () -> Unit = { }
 ) {
     Row(modifier = modifier.height(50.dp)) {
         Row(
@@ -35,12 +34,12 @@ internal fun TicketCreateBottomBar(
                 .fillMaxHeight()
                 .fillMaxWidth(0.5F)
                 .background(MaterialTheme.colors.onBackground)
-                .clickable { if (bottomBarSelectable.value) saveTicketFunction(authParams.connectionParams?.url, draft.value) },
+                .clickable { if (bottomBarSelectable.value) saveTicket() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                textAlign = TextAlign.Center,
                 text = "Сохранить",
                 color = MaterialTheme.colors.onPrimary
             )
@@ -50,12 +49,12 @@ internal fun TicketCreateBottomBar(
                 .fillMaxHeight()
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.onBackground)
-                .clickable { if (bottomBarSelectable.value) saveDraftFunction(draft.value) },
+                .clickable { if (bottomBarSelectable.value) saveDraft() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                textAlign = TextAlign.Center,
                 text = "Сохранить черновик",
                 color = MaterialTheme.colors.onPrimary
             )
@@ -66,24 +65,38 @@ internal fun TicketCreateBottomBar(
 @Composable
 internal fun TicketUpdateBottomBar(
     modifier: Modifier = Modifier,
+    bottomBarSelectable: MutableState<Boolean>,
     updateTicket: () -> Unit = { },
-    bottomBarSelectable: MutableState<Boolean>
+    saveDraft: () -> Unit = { }
 ) {
     Row(modifier = modifier.height(50.dp)) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(0.5F)
                 .background(MaterialTheme.colors.onBackground)
-                .clickable {
-                    if (bottomBarSelectable.value) {
-                        updateTicket()
-                    }
-                },
+                .clickable { if (bottomBarSelectable.value) updateTicket() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
+                textAlign = TextAlign.Center,
                 text = "Сохранить",
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.onBackground)
+                .clickable { if (bottomBarSelectable.value) saveDraft() },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                textAlign = TextAlign.Center,
+                text = "Сохранить черновик",
                 color = MaterialTheme.colors.onPrimary
             )
         }
@@ -154,7 +167,6 @@ internal fun TicketCreateTopBar(
 @Composable
 internal fun TicketUpdateTopBar(
     modifier: Modifier = Modifier,
-    iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
     ticket: MutableState<TicketEntity>,
     navigateToBack: () -> Unit = {}
 ) {

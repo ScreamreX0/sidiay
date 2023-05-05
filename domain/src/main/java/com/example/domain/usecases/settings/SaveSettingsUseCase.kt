@@ -6,7 +6,5 @@ import javax.inject.Inject
 class SaveSettingsUseCase @Inject constructor(
     private val settingsDataStore: IThemeDataStore
 ) {
-    suspend fun execute(darkMode: Boolean) {
-        settingsDataStore.saveMode(darkMode)
-    }
+    suspend fun execute(darkMode: Boolean) = settingsDataStore.saveMode(darkMode)
 }

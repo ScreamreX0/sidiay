@@ -5,7 +5,8 @@ import com.example.domain.repositories.ITicketsDataStore
 import javax.inject.Inject
 
 class SaveDraftsUseCase @Inject constructor(
-    private val draftsDataStore: ITicketsDataStore
+    private val draftsDataStore: ITicketsDataStore,
+    private val getDraftsUseCase: GetDraftsUseCase
 ) {
-    suspend fun execute(drafts: List<TicketEntity>) = draftsDataStore.saveDrafts(drafts)
+    suspend fun execute(draft: TicketEntity) = draftsDataStore.saveDrafts(getDraftsUseCase.execute().plus(draft))
 }

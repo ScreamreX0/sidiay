@@ -62,7 +62,7 @@ class TicketUpdate {
         navigateToBack: () -> Unit = {},
     ) {
         LaunchedEffect(key1 = null) {
-            ticketUpdateViewModel.initFields(url = authParams.connectionParams?.url)
+            ticketUpdateViewModel.fetchTicketData(url = authParams.connectionParams?.url)
         }
 
         val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.status) ?: TicketStatuses.NOT_FORMED) }
@@ -75,12 +75,13 @@ class TicketUpdate {
             fieldsLoadingState = ticketUpdateViewModel.fieldsLoadingState,
             updateTicketFunction = ticketUpdateViewModel::update,
             updatingResult = ticketUpdateViewModel.updatingResult,
-            updateRestrictions = ticketUpdateViewModel::initRestrictions,
+            updateRestrictions = ticketUpdateViewModel::fetchRestrictions,
             restrictions = ticketUpdateViewModel.restrictions,
             updatingMessage = ticketUpdateViewModel.updatingMessage,
             navigateToBackWithMessage = navigateToBackWithMessage,
             navigateToBack = navigateToBack,
-            selectedTicketStatus = selectedTicketStatus
+            selectedTicketStatus = selectedTicketStatus,
+            saveDraft = ticketUpdateViewModel::saveDraft
         )
     }
 
@@ -99,7 +100,8 @@ class TicketUpdate {
         navigateToBackWithMessage: (Context) -> Unit = { _ -> },
         navigateToBack: () -> Unit = {},
         context: Context = LocalContext.current,
-        selectedTicketStatus: MutableState<TicketStatuses> = mutableStateOf(TicketStatuses.NOT_FORMED)
+        selectedTicketStatus: MutableState<TicketStatuses> = mutableStateOf(TicketStatuses.NOT_FORMED),
+        saveDraft: (TicketEntity) -> Unit = { _ -> }
     ) {
         LaunchedEffect(key1 = null) {
             updateRestrictions(
@@ -114,13 +116,17 @@ class TicketUpdate {
         //
         when (updatingResult.value) {
             TicketOperationState.IN_PROCESS -> bottomBarSelectable.value = false
-            TicketOperationState.DONE -> { navigateToBackWithMessage(context) }
+            TicketOperationState.DONE -> {
+                navigateToBackWithMessage(context)
+            }
+
             TicketOperationState.ERROR -> {
                 updatingMessage.value?.let {
                     Helper.showShortToast(context = context, text = it)
                 } ?: Helper.showShortToast(context = context, text = "Ошибка сохранения")
                 bottomBarSelectable.value = true
             }
+
             NetworkState.NO_SERVER_CONNECTION -> {
                 Helper.showShortToast(context = context, text = "Ошибка подключения")
                 bottomBarSelectable.value = true
@@ -143,7 +149,6 @@ class TicketUpdate {
             TicketUpdateTopBar(
                 modifier = Modifier.layoutId("topAppBarRef"),
                 navigateToBack = navigateToBack,
-                iconsVisible = isTopIconsVisible,
                 ticket = ticket
             )
 
@@ -175,6 +180,7 @@ class TicketUpdate {
                     )
                     return@ConstraintLayout
                 }
+
                 else -> isTopIconsVisible.value = true
             }
 
@@ -223,9 +229,8 @@ class TicketUpdate {
             TicketUpdateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 bottomBarSelectable = bottomBarSelectable,
-                updateTicket = { updateTicketFunction(
-                    ticket.value.copy(status = selectedTicketStatus.value.value), authParams)
-                }
+                updateTicket = { updateTicketFunction(ticket.value.copy(status = selectedTicketStatus.value.value), authParams) },
+                saveDraft = { saveDraft(ticket.value) }
             )
         }
     }

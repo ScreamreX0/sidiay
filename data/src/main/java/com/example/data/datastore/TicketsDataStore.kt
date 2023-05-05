@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class TicketsDataStore(private val context: Context, ): ITicketsDataStore {
+class TicketsDataStore(private val context: Context): ITicketsDataStore {
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("Tickets")
         private val DRAFTS = stringPreferencesKey("drafts")
@@ -22,15 +22,15 @@ class TicketsDataStore(private val context: Context, ): ITicketsDataStore {
         private val TICKET_DATA = stringPreferencesKey("ticketData")
     }
 
-    override val getDrafts: Flow<Collection<TicketEntity>?> = context.dataStore.data.map {
+    override val getDrafts: Flow<Collection<TicketEntity>> = context.dataStore.data.map {
         Gson().fromJson<List<TicketEntity>>(it[DRAFTS] ?: "", (object : TypeToken<List<TicketEntity>>() {}).type)
     }
 
-    override val getTickets: Flow<Collection<TicketEntity>?> = context.dataStore.data.map {
+    override val getTickets: Flow<Collection<TicketEntity>> = context.dataStore.data.map {
         Gson().fromJson<List<TicketEntity>>(it[TICKETS] ?: "", (object : TypeToken<List<TicketEntity>>() {}).type)
     }
 
-    override val getTicketData: Flow<TicketData?> = context.dataStore.data.map {
+    override val getTicketData: Flow<TicketData> = context.dataStore.data.map {
         Gson().fromJson(it[TICKET_DATA] ?: "", (object : TypeToken<TicketData>() {}).type)
     }
 

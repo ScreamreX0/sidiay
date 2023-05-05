@@ -86,11 +86,11 @@ class TicketCreate {
             ticket = newTicket,
             ticketData = ticketCreateViewModel.fields,
             fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
-            saveTicketFunction = ticketCreateViewModel::save,
+            saveTicket = ticketCreateViewModel::save,
             bottomBarSelectable = bottomBarSelectable,
             getRestrictionsFunction = ticketCreateViewModel::getRestrictions,
             navigateToBack = navigateToBack,
-            saveDraftFunction = ticketCreateViewModel::saveDraft
+            saveDraft = ticketCreateViewModel::saveDraft
         )
     }
 
@@ -100,8 +100,8 @@ class TicketCreate {
         ticket: MutableState<TicketEntity> = mutableStateOf(TicketEntity()),
         ticketData: MutableState<TicketData?> = mutableStateOf(TicketData()),
         fieldsLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.DONE),
-        saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
-        saveDraftFunction: (TicketEntity) -> Unit = { _ -> },
+        saveTicket: (String?, TicketEntity) -> Unit = { _, _ -> },
+        saveDraft: (TicketEntity) -> Unit = { _ -> },
         bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
         getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() },
         navigateToBack: () -> Unit = {},
@@ -179,11 +179,9 @@ class TicketCreate {
             // BOTTOM BAR
             TicketCreateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
-                draft = ticket,
-                authParams = authParams,
                 bottomBarSelectable = bottomBarSelectable,
-                saveTicketFunction = saveTicketFunction,
-                saveDraftFunction = saveDraftFunction
+                saveTicket = { saveTicket(authParams.connectionParams?.url, ticket.value) },
+                saveDraft = { saveDraft(ticket.value) }
             )
         }
     }

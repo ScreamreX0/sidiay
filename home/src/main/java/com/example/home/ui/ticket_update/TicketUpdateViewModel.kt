@@ -16,7 +16,10 @@ import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
+import com.example.domain.usecases.drafts.GetDraftsUseCase
+import com.example.domain.usecases.drafts.SaveDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
+import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +28,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TicketUpdateViewModel @Inject constructor(
+    // Ticket data
     private val getTicketDataUseCase: GetTicketDataUseCase,
+    private val saveTicketDataUseCase: SaveTicketDataUseCase,
+
+    // Tickets
     private val updateTicketUseCase: UpdateTicketUseCase,
-    private val getTicketRestrictionsUseCase: GetTicketUpdateRestrictionsUseCase
+    private val getTicketRestrictionsUseCase: GetTicketUpdateRestrictionsUseCase,
+
+    // Drafts
+    private val saveDraftsUseCase: SaveDraftsUseCase,
 ) : ViewModel() {
     val fieldsLoadingState: MutableState<INetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
     val fields: MutableState<TicketData?> = mutableStateOf(null)
@@ -36,7 +46,9 @@ class TicketUpdateViewModel @Inject constructor(
     val updatingMessage: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
     val restrictions: MutableState<TicketRestriction> = mutableStateOf(TicketRestriction.getEmpty())
 
-    fun initFields(url: String?) {
+    val savingDraftResult: MutableState<INetworkState> = mutableStateOf(TicketOperationState.WAITING)
+
+    fun fetchTicketData(url: String?) {
         Logger.m("Check network mode...")
         url?.let {
             viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
@@ -48,6 +60,7 @@ class TicketUpdateViewModel @Inject constructor(
 
                 result.second?.let { itData ->
                     Logger.m("Ticket fields received.")
+                    saveTicketDataUseCase.execute(itData)
                     fields.value = itData
                     fieldsLoadingState.value = NetworkState.DONE
                 } ?: run {
@@ -87,7 +100,13 @@ class TicketUpdateViewModel @Inject constructor(
         }
     }
 
-    fun initRestrictions(selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) {
+    fun saveDraft(draft: TicketEntity) = viewModelScope.launch {
+        savingDraftResult.value = TicketOperationState.IN_PROCESS
+        saveDraftsUseCase.execute(draft)
+        savingDraftResult.value = TicketOperationState.DONE
+    }
+
+    fun fetchRestrictions(selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) {
         viewModelScope.launch {
             restrictions.value = getTicketRestrictionsUseCase.execute(
                 selectedTicketStatus = selectedTicketStatus,
