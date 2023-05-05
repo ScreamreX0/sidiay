@@ -54,7 +54,7 @@ class SignInViewModel @Inject constructor(
     }
 
     // Connections
-    internal suspend fun checkConnection(url: String?) {
+    internal suspend fun checkConnection(url: String) {
         checkConnectionResult.value = checkConnectionUseCase.execute(url)
     }
 

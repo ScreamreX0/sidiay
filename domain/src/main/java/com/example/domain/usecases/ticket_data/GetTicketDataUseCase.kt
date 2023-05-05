@@ -1,4 +1,4 @@
-package com.example.domain.usecases.tickets
+package com.example.domain.usecases.ticket_data
 
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.ConstAndVars

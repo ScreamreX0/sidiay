@@ -199,29 +199,20 @@ private fun AddConnectionComponent(
                     ),
                     onClick = {
                         if (connectionName.value.isBlank() || url.value.isBlank()) {
-                            Toast.makeText(
-                                context, "Заполните все поля", Toast.LENGTH_SHORT
-                            ).show()
+                            Helper.showShortToast(context, "Заполните все поля")
                             return@Button
                         }
 
                         if (connectionsList.value.size > 10) {
-                            Toast.makeText(
-                                context, "Слишком много соединений", Toast.LENGTH_SHORT
-                            ).show()
+                            Helper.showShortToast(context, "Слишком много соединений")
                             return@Button
                         }
 
-                        connectionsList.value = connectionsList.value
-                            .plus(
-                                ConnectionParams(connectionName.value, url.value)
-                            )
+                        connectionsList.value = connectionsList.value.plus(ConnectionParams(connectionName.value, url.value))
                         connectionName.value = ""
                         url.value = ""
 
-                        Toast.makeText(
-                            context, "Соединение добавлено", Toast.LENGTH_SHORT
-                        ).show()
+                        Helper.showShortToast(context, "Соединение добавлено")
                     }) {
                     DefaultTextStyle {
                         Text(

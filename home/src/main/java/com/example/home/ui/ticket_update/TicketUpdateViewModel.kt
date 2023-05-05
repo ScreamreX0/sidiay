@@ -16,8 +16,8 @@ import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.domain.usecases.tickets.GetTicketDataUseCase
-import com.example.domain.usecases.tickets.restrictions.GetTicketUpdateRestrictionsUseCase
+import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
+import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

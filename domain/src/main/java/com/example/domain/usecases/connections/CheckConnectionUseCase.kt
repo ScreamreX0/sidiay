@@ -9,9 +9,7 @@ class CheckConnectionUseCase @Inject constructor(
     private val networkConnectionRepository: INetworkConnectionRepository,
     private val context: Context
 ) {
-    suspend fun execute(url: String?): NetworkState {
-        if (url == null) return NetworkState.NO_SERVER_CONNECTION
-
+    suspend fun execute(url: String): NetworkState {
         if (url.last().toString() != "/") {
             url.plus("/")
         }

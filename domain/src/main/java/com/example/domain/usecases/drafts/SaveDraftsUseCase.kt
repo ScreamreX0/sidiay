@@ -1,4 +1,4 @@
-package com.example.domain.usecases.tickets
+package com.example.domain.usecases.drafts
 
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.repositories.ITicketsDataStore

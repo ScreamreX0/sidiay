@@ -1,4 +1,4 @@
-package com.example.domain.usecases.tickets.restrictions
+package com.example.domain.usecases.ticket_restrictions
 
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity

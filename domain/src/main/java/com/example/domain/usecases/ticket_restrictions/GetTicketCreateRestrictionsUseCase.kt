@@ -1,4 +1,4 @@
-package com.example.domain.usecases.tickets.restrictions
+package com.example.domain.usecases.ticket_restrictions
 
 import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.TicketFieldsEnum

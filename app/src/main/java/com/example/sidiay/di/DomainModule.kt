@@ -14,13 +14,13 @@ import com.example.domain.usecases.settings.GetSettingsUseCase
 import com.example.domain.usecases.settings.SaveSettingsUseCase
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
-import com.example.domain.usecases.tickets.GetDraftsUseCase
+import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
-import com.example.domain.usecases.tickets.SaveDraftsUseCase
+import com.example.domain.usecases.drafts.SaveDraftsUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
-import com.example.domain.usecases.tickets.restrictions.GetTicketCreateRestrictionsUseCase
-import com.example.domain.usecases.tickets.restrictions.GetTicketUpdateRestrictionsUseCase
+import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
+import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

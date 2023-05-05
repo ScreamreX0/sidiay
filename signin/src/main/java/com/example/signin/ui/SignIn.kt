@@ -83,7 +83,7 @@ internal class SignIn {
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
         checkConnectionResult: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
-        checkConnectionFunction: suspend (url: String?) -> Unit = { _ -> },
+        checkConnectionFunction: suspend (url: String) -> Unit = { _ -> },
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
         changeUIModeFunction: () -> Unit = {},
