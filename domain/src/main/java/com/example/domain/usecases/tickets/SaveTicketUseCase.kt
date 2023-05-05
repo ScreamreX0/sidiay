@@ -18,14 +18,14 @@ class SaveTicketUseCase @Inject constructor(
     suspend fun execute(url: String?, ticket: TicketEntity): Pair<INetworkState?, TicketEntity?> {
         if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) return Pair(null, TicketEntity())
 
+        if (url == null) {
+            TODO("Offline mode not yet implemented")
+        }
+
         checkConnectionUseCase.execute(url).let {
             if (it == NetworkState.NO_SERVER_CONNECTION) {
                 return Pair(it, null)
             }
-        }
-
-        if (url == null) {
-            TODO("Offline mode not yet implemented")
         }
 
         Logger.m("Saving ticket..")

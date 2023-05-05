@@ -15,12 +15,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.*
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.enums.MainMenuOfflineTabEnum
 import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
-import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.enums.states.NetworkState
-import com.example.home.ui.tickets_list.components.MenuTicketList
+import com.example.home.ui.tickets_list.components.CustomTabRow
 import com.example.home.ui.tickets_list.components.MenuSearch
+import com.example.home.ui.tickets_list.components.MenuTicketList
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -41,18 +43,22 @@ class TicketsList {
     ) {
         val ticketsReceivingState = ticketsListViewModel.ticketsReceivingState
         val ticketsForExecution = ticketsListViewModel.ticketsForExecution
+        val tickets = ticketsListViewModel.tickets
+
         val ticketsPersonal = ticketsListViewModel.ticketsPersonal
         val errorMessage = ticketsListViewModel.errorMessage
         val drafts = ticketsListViewModel.drafts
         val context = LocalContext.current
 
-        // Receiving tickets
+        // Fetching tickets
         LaunchedEffect(key1 = null) {
             ticketsListViewModel.fetchTickets(
                 url = authParams?.connectionParams?.url,
                 userId = authParams?.user?.id ?: 0
             )
         }
+        // Fetching drafts
+        LaunchedEffect(key1 = null) { ticketsListViewModel.fetchDrafts() }
 
         errorMessage.value?.let { Helper.showShortToast(context = context, text = it.toString()) }
 
@@ -62,14 +68,15 @@ class TicketsList {
                 bottom = paddingValues.calculateBottomPadding() + 50.dp
             ),
             authParams = authParams,
-            drafts = drafts,
             fetchTickets = ticketsListViewModel::fetchTickets,
             navigateToTicketFilter = navigateToTicketFilter,
             navigateToTicketCreate = navigateToTicketCreate,
             navigateToTicketUpdate = navigateToTicketUpdate,
             ticketsReceivingState = ticketsReceivingState,
+            drafts = drafts,
             ticketsForExecution = ticketsForExecution,
             ticketsPersonal = ticketsPersonal,
+            tickets = tickets
         )
     }
 
@@ -78,7 +85,6 @@ class TicketsList {
     private fun Content(
         modifier: Modifier = Modifier,
         authParams: AuthParams? = remember { AuthParams() },
-        drafts: MutableState<List<TicketEntity>> = mutableStateOf(listOf()),
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
         pagerState: PagerState = rememberPagerState(),
@@ -87,12 +93,12 @@ class TicketsList {
         navigateToTicketCreate: () -> Unit = {},
         navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
         ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
+        drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
         ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
+        tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
     ) {
-        //
         // TICKETS LOADING
-        //
         if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
             && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
         ) {
@@ -150,51 +156,91 @@ class TicketsList {
                 }
             }
 
-            // Tabs
-            val scrollCoroutineScope = rememberCoroutineScope()
-            ScrollableTabRow(
-                modifier = Modifier.height(40.dp),
-                selectedTabIndex = pagerState.currentPage,
-                contentColor = MaterialTheme.colors.onBackground,
-                edgePadding = 0.dp,
-                tabs = {
-                    MainMenuTabEnum.values().forEachIndexed { index, it ->
-                        Tab(
-                            modifier = Modifier.background(MaterialTheme.colors.background),
-                            selected = pagerState.currentPage == index,
-                            onClick = { scrollCoroutineScope.launch { pagerState.scrollToPage(index) } },
-                            text = {
-                                Text(
-                                    text = it.title,
-                                    color = MaterialTheme.colors.onBackground,
-                                    fontSize = MaterialTheme.typography.h3.fontSize
-                                )
-                            })
+            authParams?.connectionParams?.url?.let {
+                // Online mode
+                CustomTabRow(
+                    pagerState = pagerState,
+                    values = MainMenuTabEnum.values(),
+                    valueTitle = { it.title }
+                )
+
+                HorizontalPager(
+                    count = MainMenuTabEnum.values().size,
+                    state = pagerState,
+                ) { pageNumber ->
+                    when (pageNumber) {
+                        MainMenuTabEnum.USER_AUTHOR_TICKETS.id -> {
+                            MenuTicketList(
+                                authParams = authParams,
+                                tickets = ticketsPersonal,
+                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
+                                emptyListTitle = "Заявок не найдено :("
+                            )
+                        }
+                        MainMenuTabEnum.USER_EXECUTOR_TICKETS.id -> {
+                            MenuTicketList(
+                                authParams = authParams,
+                                tickets = ticketsForExecution,
+                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
+                                emptyListTitle = "Заявок не найдено :("
+                            )
+                        }
+                        MainMenuTabEnum.DRAFTS.id -> {
+                            MenuTicketList(
+                                authParams = authParams,
+                                tickets = drafts,
+                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
+                                emptyListTitle = "Черновиков не найдено :("
+                            )
+                        }
                     }
                 }
-            )
-
-            // Pages
-            HorizontalPager(
-                count = MainMenuTabEnum.values().size,
-                state = pagerState,
-            ) { pageNumber ->
-                when (pageNumber) {
-
-                    MainMenuTabEnum.USER_AUTHOR_TICKETS.id -> {
-                        MenuTicketList(
-                            authParams = authParams,
-                            tickets = ticketsPersonal,
-                            onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) }
-                        )
+            } ?: run {
+                // Offline mode
+                val scrollCoroutineScope = rememberCoroutineScope()
+                TabRow(
+                    modifier = Modifier.height(40.dp),
+                    selectedTabIndex = pagerState.currentPage,
+                    contentColor = MaterialTheme.colors.onBackground,
+                    tabs = {
+                        MainMenuOfflineTabEnum.values().forEachIndexed { index, it ->
+                            Tab(
+                                modifier = Modifier.background(MaterialTheme.colors.background),
+                                selected = pagerState.currentPage == index,
+                                onClick = { scrollCoroutineScope.launch { pagerState.scrollToPage(index) } },
+                                text = {
+                                    Text(
+                                        text = it.title,
+                                        color = MaterialTheme.colors.onBackground,
+                                        fontSize = MaterialTheme.typography.h3.fontSize
+                                    )
+                                }
+                            )
+                        }
                     }
+                )
 
-                    MainMenuTabEnum.USER_EXECUTOR_TICKETS.id -> {
-                        MenuTicketList(
-                            authParams = authParams,
-                            tickets = ticketsForExecution,
-                            onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) }
-                        )
+                HorizontalPager(
+                    count = MainMenuTabEnum.values().size,
+                    state = pagerState,
+                ) { pageNumber ->
+                    when (pageNumber) {
+                        MainMenuOfflineTabEnum.TICKETS.id -> {
+                            MenuTicketList(
+                                authParams = authParams,
+                                tickets = tickets,
+                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
+                                emptyListTitle = "Заявок не найдено :("
+                            )
+                        }
+                        MainMenuOfflineTabEnum.DRAFTS.id -> {
+                            MenuTicketList(
+                                authParams = authParams,
+                                tickets = drafts,
+                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
+                                emptyListTitle = "Черновиков не найдено :("
+                            )
+                        }
                     }
                 }
             }

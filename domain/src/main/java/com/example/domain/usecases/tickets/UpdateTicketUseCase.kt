@@ -21,11 +21,11 @@ class UpdateTicketUseCase @Inject constructor(
             return Pair(null, TicketEntity())
         }
 
+        if (url == null || currentUserId == null) { TODO("Offline mode") }
+
         checkConnectionUseCase.execute(url).let {
             if (it == NetworkState.NO_SERVER_CONNECTION) return Pair(it, null)
         }
-
-        if (url == null || currentUserId == null) { TODO("Offline mode") }
 
         val result = ticketRepository.update(url = url, ticket = ticket, currentUserId = currentUserId)
         return when (result.first) {

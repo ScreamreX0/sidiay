@@ -24,20 +24,23 @@ class SignInUseCase @Inject constructor(
                 credentials.email = ConstAndVars.DEBUG_MODE_EMAIL
                 credentials.password = ConstAndVars.DEBUG_MODE_PASSWORD
             }
+
             ApplicationModes.DEBUG, ApplicationModes.RELEASE -> {
                 checkSignInFieldsUseCase.execute(credentials)?.let { return Pair(it, null) }
             }
         }
 
-        checkConnectionUseCase.execute(url).let {
-            if (it == NetworkState.NO_SERVER_CONNECTION) return Pair(it, null)
-        }
+        url?.let { itUrl ->
+            checkConnectionUseCase.execute(itUrl).let {
+                if (it == NetworkState.NO_SERVER_CONNECTION) return Pair(it, null)
+            }
+        } ?: return Pair(NetworkState.NO_SERVER_CONNECTION, null)
 
         Logger.Companion.m("Online sign in. IP:${ConstAndVars.URL}")
-        val result = authRepository.signIn(url!!, credentials)
+        val result = authRepository.signIn(url, credentials)
         Logger.m("Sign in http code: ${result.first}")
 
-        return when(result.first) {
+        return when (result.first) {
             200 -> Pair(null, result.second)
             401 -> Pair(SignInStates.WRONG_EMAIL_OR_PASSWORD, null)
             else -> {

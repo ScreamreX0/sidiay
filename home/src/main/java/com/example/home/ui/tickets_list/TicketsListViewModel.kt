@@ -9,6 +9,7 @@ import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
+import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,12 +18,16 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketsListViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase,
+    private val getDraftsUseCase: GetDraftsUseCase
 ) : ViewModel() {
-    val ticketsReceivingState = mutableStateOf(NetworkState.WAIT_FOR_INIT)
+    val tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
     val ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null)
     val ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+    val ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
+
+    var drafts: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+
     val errorMessage: MutableState<INetworkState?> = mutableStateOf(null)
-    var drafts = mutableStateOf<List<TicketEntity>>(listOf())
 
     fun fetchTickets(url: String?, userId: Long) {
         url?.let { currentUrl ->
@@ -38,6 +43,7 @@ class TicketsListViewModel @Inject constructor(
                 }
                 result.second?.let {
                     Logger.m("Tickets received")
+                    tickets.value = it
                     ticketsForExecution.value = it.filter { ticket -> ticket.executor?.id == userId }
                     ticketsPersonal.value = it.filter { ticket -> ticket.author?.id == userId }
                     ticketsReceivingState.value = NetworkState.DONE
@@ -50,6 +56,8 @@ class TicketsListViewModel @Inject constructor(
             ticketsReceivingState.value = NetworkState.DONE
         }
     }
+
+    fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
 }
 
 

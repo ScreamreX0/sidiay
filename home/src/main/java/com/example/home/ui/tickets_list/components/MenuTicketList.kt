@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -48,28 +51,46 @@ internal fun MenuTicketList(
     authParams: AuthParams? = AuthParams(),
     tickets: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
     refreshing: MutableState<Boolean> = mutableStateOf(false),
-    onClickUpdate: (TicketEntity) -> Unit = { _ -> }
+    onClickUpdate: (TicketEntity) -> Unit = { _ -> },
+    emptyListTitle: String = "Пусто"
 ) {
+    if (tickets.value == null || tickets.value?.size == 0) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = emptyListTitle,
+                fontSize = MaterialTheme.typography.h4.fontSize,
+                color = MaterialTheme.colors.onBackground
+            )
+        }
+        return
+    }
+
+    if (refreshing.value) {
+        Column(Modifier.fillMaxSize()) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
     LazyColumn(
         modifier = Modifier
             .background(MaterialTheme.colors.background.copy(alpha = 0.9F))
             .fillMaxSize(),
         userScrollEnabled = true,
     ) {
-        if (!refreshing.value) {
-            items(tickets.value?.size ?: 0) { index ->
-                tickets.value?.get(index)?.let { ticket ->
-                    MenuTicketListItem(
-                        isDarkMode = authParams?.darkMode ?: false,
-                        ticket = ticket,
-                        onClickUpdate = onClickUpdate
-                    )
-                }
-            }
+        items(tickets.value!!.size) { index ->
+            MenuTicketListItem(
+                isDarkMode = authParams?.darkMode ?: false,
+                ticket = tickets.value!![index],
+                onClickUpdate = onClickUpdate
+            )
         }
     }
 }
-
 
 @Composable
 private fun MenuTicketListItem(
@@ -473,9 +494,6 @@ private fun CustomCircle(color: Color) {
 @ComponentPreview
 private fun ContentPreview() {
     AppTheme(isSystemInDarkTheme()) {
-        MenuTicketListItem(
-            isDarkMode = isSystemInDarkTheme(),
-            ticket = TicketEntity(id = 0)
-        )
+        MenuTicketList()
     }
 }
