@@ -5,6 +5,5 @@ enum class ApplicationModes {
     DEBUG_AND_ONLINE,
 
     // Program chooses internet mode at it's discretion
-    DEBUG,
     RELEASE,
 }

@@ -50,14 +50,16 @@ class DomainModule {
     @Provides
     fun provideSaveTicketUseCase(
         ticketsRepository: ITicketsRepository,
-        checkConnectionUseCase: CheckConnectionUseCase
-    ): SaveTicketUseCase = SaveTicketUseCase(ticketsRepository, checkConnectionUseCase)
+        checkConnectionUseCase: CheckConnectionUseCase,
+        ticketDataStore: ITicketsDataStore
+    ): SaveTicketUseCase = SaveTicketUseCase(ticketsRepository, checkConnectionUseCase, ticketDataStore)
 
     @Provides
     fun provideUpdateTicketUseCase(
         ticketsRepository: ITicketsRepository,
-        checkConnectionUseCase: CheckConnectionUseCase
-    ): UpdateTicketUseCase = UpdateTicketUseCase(ticketsRepository, checkConnectionUseCase)
+        checkConnectionUseCase: CheckConnectionUseCase,
+        ticketDataStore: ITicketsDataStore
+    ): UpdateTicketUseCase = UpdateTicketUseCase(ticketsRepository, checkConnectionUseCase, ticketDataStore)
 
     @Provides
     fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase = GetTicketUpdateRestrictionsUseCase()

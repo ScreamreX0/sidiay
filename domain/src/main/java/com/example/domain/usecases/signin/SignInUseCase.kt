@@ -25,7 +25,7 @@ class SignInUseCase @Inject constructor(
                 credentials.password = ConstAndVars.DEBUG_MODE_PASSWORD
             }
 
-            ApplicationModes.DEBUG, ApplicationModes.RELEASE -> {
+            ApplicationModes.RELEASE -> {
                 checkSignInFieldsUseCase.execute(credentials)?.let { return Pair(it, null) }
             }
         }
