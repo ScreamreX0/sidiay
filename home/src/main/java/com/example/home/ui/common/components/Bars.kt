@@ -14,10 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.core.R
-import com.example.core.navigation.BottomBarNav
 import com.example.core.ui.components.CustomAlertDialog
 import com.example.core.ui.theme.AppTheme
 import com.example.domain.data_classes.entities.TicketEntity
@@ -26,26 +23,40 @@ import com.example.domain.data_classes.params.AuthParams
 @Composable
 internal fun TicketCreateBottomBar(
     modifier: Modifier = Modifier,
-    draft: MutableState<TicketEntity>,
-    saveTicketFunction: (String?, TicketEntity) -> Unit,
-    authParams: AuthParams,
-    bottomBarSelectable: MutableState<Boolean>
+    draft: MutableState<TicketEntity> = mutableStateOf(TicketEntity()),
+    authParams: AuthParams = AuthParams(),
+    bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
+    saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
+    saveDraftFunction: (TicketEntity) -> Unit = { _ -> }
 ) {
     Row(modifier = modifier.height(50.dp)) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxHeight()
+                .fillMaxWidth(0.5F)
                 .background(MaterialTheme.colors.onBackground)
-                .clickable {
-                    if (bottomBarSelectable.value) {
-                        saveTicketFunction(authParams.connectionParams?.url, draft.value)
-                    }
-                },
+                .clickable { if (bottomBarSelectable.value) saveTicketFunction(authParams.connectionParams?.url, draft.value) },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                 text = "Сохранить",
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.onBackground)
+                .clickable { if (bottomBarSelectable.value) saveDraftFunction(draft.value) },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                text = "Сохранить черновик",
                 color = MaterialTheme.colors.onPrimary
             )
         }
@@ -84,7 +95,7 @@ internal fun TicketCreateTopBar(
     modifier: Modifier = Modifier,
     iconsVisible: MutableState<Boolean> = remember { mutableStateOf(true) },
     clearFieldsDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
-    draft: MutableState<TicketEntity>,
+    ticket: MutableState<TicketEntity>,
     navigateToBack: () -> Unit = {}
 ) {
     Row(
@@ -110,16 +121,6 @@ internal fun TicketCreateTopBar(
                     modifier = Modifier
                         .padding(end = 30.dp)
                         .fillMaxHeight()
-                        .width(30.dp),
-                    painter = painterResource(id = R.drawable.baseline_save_as_24),
-                    contentDescription = "Save draft",
-                    tint = MaterialTheme.colors.onPrimary,
-                )
-
-                Icon(
-                    modifier = Modifier
-                        .padding(end = 30.dp)
-                        .fillMaxHeight()
                         .width(30.dp)
                         .clickable { clearFieldsDialogOpened.value = true },
                     painter = painterResource(id = R.drawable.baseline_format_clear_24),
@@ -134,7 +135,7 @@ internal fun TicketCreateTopBar(
                 title = "Вы уверены, что хотите очистить все поля?",
                 isDialogOpened = clearFieldsDialogOpened,
                 onConfirm = {
-                    draft.value = draft.value.copy(
+                    ticket.value = ticket.value.copy(
                         name = null,
                         facilities = null,
                         service = null,
@@ -192,6 +193,6 @@ internal fun TicketUpdateTopBar(
 @Composable
 private fun Preview() {
     AppTheme(isSystemInDarkTheme()) {
-        TicketUpdateTopBar(ticket = remember { mutableStateOf(TicketEntity()) })
+        TicketCreateBottomBar()
     }
 }

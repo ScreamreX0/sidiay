@@ -40,7 +40,6 @@ import com.example.home.ui.common.components.TicketCreateTopBar
 
 
 class TicketCreate {
-
     @Composable
     fun TicketCreateScreen(
         authParams: AuthParams = AuthParams(),
@@ -56,11 +55,10 @@ class TicketCreate {
         val context: Context = LocalContext.current
         val newTicket: MutableState<TicketEntity> = remember { mutableStateOf(ticket) }
         newTicket.value.author = authParams.user
-
         val bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
 
         // Saving
-        when (ticketCreateViewModel.savingResult.value) {
+        when (ticketCreateViewModel.savingTicketResult.value) {
             IN_PROCESS -> bottomBarSelectable.value = false
             DONE -> { navigateToBackWithMessage(context) }
             ERROR -> {
@@ -69,6 +67,15 @@ class TicketCreate {
             }
             NetworkState.NO_SERVER_CONNECTION -> {
                 Helper.showShortToast(context = context, text = NetworkState.NO_SERVER_CONNECTION.name)
+                bottomBarSelectable.value = true
+            }
+            else -> {}
+        }
+        when (ticketCreateViewModel.savingDraftResult.value) {
+            IN_PROCESS -> bottomBarSelectable.value = false
+            DONE -> { navigateToBackWithMessage(context) }
+            ERROR -> {
+                Helper.showShortToast(context = context, text = ERROR.name)
                 bottomBarSelectable.value = true
             }
             else -> {}
@@ -83,6 +90,7 @@ class TicketCreate {
             bottomBarSelectable = bottomBarSelectable,
             getRestrictionsFunction = ticketCreateViewModel::getRestrictions,
             navigateToBack = navigateToBack,
+            saveDraftFunction = ticketCreateViewModel::saveDraft
         )
     }
 
@@ -93,6 +101,7 @@ class TicketCreate {
         ticketData: MutableState<TicketData?> = mutableStateOf(TicketData()),
         fieldsLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.DONE),
         saveTicketFunction: (String?, TicketEntity) -> Unit = { _, _ -> },
+        saveDraftFunction: (TicketEntity) -> Unit = { _ -> },
         bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
         getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() },
         navigateToBack: () -> Unit = {},
@@ -107,7 +116,7 @@ class TicketCreate {
                 modifier = Modifier.layoutId("topAppBarRef"),
                 navigateToBack = navigateToBack,
                 iconsVisible = isTopIconsVisible,
-                draft = ticket
+                ticket = ticket
             )
 
             // LOADING
@@ -172,8 +181,9 @@ class TicketCreate {
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 draft = ticket,
                 authParams = authParams,
+                bottomBarSelectable = bottomBarSelectable,
                 saveTicketFunction = saveTicketFunction,
-                bottomBarSelectable = bottomBarSelectable
+                saveDraftFunction = saveDraftFunction
             )
         }
     }
