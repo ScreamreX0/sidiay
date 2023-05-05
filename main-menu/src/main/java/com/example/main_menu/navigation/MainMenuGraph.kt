@@ -18,7 +18,7 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
-import com.example.home.ui.tickets_list.Home
+import com.example.home.ui.tickets_list.TicketsList
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
 import com.example.home.ui.tickets_filter.TicketFilter
@@ -67,7 +67,7 @@ fun NavGraphBuilder.homeNavGraph(
     ) {
         composable(route = BottomBarNav.Home.route) {
             AppTheme(authParams.darkMode ?: false) {
-                Home().HomeScreen(
+                TicketsList().HomeScreen(
                     authParams = remember { authParams },
                     paddingValues = paddingValues,
                     navigateToTicketFilter = { navController.navigate(Screens.Home.TICKET_FILTER) },
