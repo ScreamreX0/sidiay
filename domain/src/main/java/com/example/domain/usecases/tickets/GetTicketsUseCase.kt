@@ -2,7 +2,7 @@ package com.example.domain.usecases.tickets
 
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.repositories.ITicketsRepository
-import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Constants
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Logger
 import com.example.domain.enums.states.INetworkState
@@ -18,11 +18,11 @@ class GetTicketsUseCase @Inject constructor(
     private val ticketDataStore: ITicketsDataStore,
 ) {
     suspend fun execute(url: String?, userId: Long): Pair<INetworkState?, List<TicketEntity>?> {
-        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) return Pair(null, ticketsRepository.get())
+        if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) return Pair(null, ticketsRepository.get())
 
         if (url == null) {
             Logger.m("Getting tickets offline")
-            return Pair(NetworkState.DONE, ticketDataStore.getTickets.first().toList())
+            return Pair(NetworkState.DONE, ticketDataStore.getTickets.first()?.toList())
         }
 
         checkConnectionUseCase.execute(url).let {
@@ -33,13 +33,9 @@ class GetTicketsUseCase @Inject constructor(
 
         ticketsRepository.get(url, userId).let { result ->
             return when (result.first) {
-                200 -> Pair(null, result.second)
-                else -> {
-                    Logger.m("Unhandled http code: ${result.first}")
-                    Pair(NetworkState.ERROR, null)
+                200 -> {
+                    ticketDataStore.saveTickets(result.second?.toList() ?: listOf())
+                    Pair(null, result.second)
                 }
-            }
-        }
-    }
-}
-
+                else -> {
+                    Logger.m("Unhandled http code: 

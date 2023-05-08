@@ -104,7 +104,7 @@ class TicketsList {
     ) {
         // TICKETS LOADING
         if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
-            && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
+            && Constants.APPLICATION_MODE != ApplicationModes.OFFLINE
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),

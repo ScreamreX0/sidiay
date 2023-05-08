@@ -20,7 +20,7 @@ import com.example.core.R
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.ui.theme.DefaultTextStyle
-import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Constants
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.params.ConnectionParams
@@ -305,7 +305,7 @@ private fun DefaultConnectionComponent(
         IconButton(onClick = {
             Toast.makeText(
                 context,
-                "URL: ${ConstAndVars.URL}",
+                "URL: ${Constants.URL}",
                 Toast.LENGTH_SHORT
             ).show()
         }) {

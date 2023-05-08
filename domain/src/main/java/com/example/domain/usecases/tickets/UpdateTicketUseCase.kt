@@ -1,6 +1,6 @@
 package com.example.domain.usecases.tickets
 
-import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Constants
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
@@ -19,13 +19,13 @@ class UpdateTicketUseCase @Inject constructor(
     private val ticketDataStore: ITicketsDataStore
 ) {
     suspend fun execute(url: String?, currentUserId: Long?, ticket: TicketEntity): Pair<INetworkState?, TicketEntity?> {
-        if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) {
+        if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) {
             Logger.m(ticket.toString())
             return Pair(null, TicketEntity())
         }
 
         if (url == null || currentUserId == null) {
-            ticketDataStore.saveTickets(ticketDataStore.getTickets.first().plus(ticket))
+            ticketDataStore.saveTickets(ticketDataStore.getTickets.first()?.plus(ticket) ?: listOf(ticket))
             return Pair(NetworkState.DONE, null)
         }
 

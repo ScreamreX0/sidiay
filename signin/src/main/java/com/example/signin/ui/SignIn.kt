@@ -16,7 +16,7 @@ import androidx.constraintlayout.compose.atLeastWrapContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
-import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Constants
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
 import com.example.domain.enums.states.NetworkState
@@ -50,7 +50,7 @@ internal class SignIn {
         signInResult.value.let { result ->
             result.second?.let { itUser ->
                 val authParams = AuthParams(
-                    user = if (ConstAndVars.APPLICATION_MODE == ApplicationModes.DEBUG_AND_OFFLINE) UserEntity(0) else itUser,
+                    user = if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) UserEntity(0) else itUser,
                     connectionParams = selectedConnection.value,
                     darkMode = darkMode.value,
                 )

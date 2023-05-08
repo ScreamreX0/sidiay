@@ -1,7 +1,7 @@
 package com.example.domain.usecases.signin
 
 import com.example.core.utils.ApplicationModes
-import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Constants
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.Credentials
@@ -18,11 +18,11 @@ class SignInUseCase @Inject constructor(
     private val checkSignInFieldsUseCase: CheckSignInFieldsUseCase,
 ) {
     suspend fun execute(url: String?, credentials: Credentials): Pair<INetworkState?, UserEntity?> {
-        when (ConstAndVars.APPLICATION_MODE) {
-            ApplicationModes.DEBUG_AND_OFFLINE -> return Pair(null, UserEntity(id = 1))
-            ApplicationModes.DEBUG_AND_ONLINE -> {
-                credentials.email = ConstAndVars.DEBUG_MODE_EMAIL
-                credentials.password = ConstAndVars.DEBUG_MODE_PASSWORD
+        when (Constants.APPLICATION_MODE) {
+            ApplicationModes.OFFLINE -> return Pair(null, UserEntity(id = 1))
+            ApplicationModes.ONLINE -> {
+                credentials.email = Constants.DEBUG_MODE_EMAIL
+                credentials.password = Constants.DEBUG_MODE_PASSWORD
             }
 
             ApplicationModes.RELEASE -> {
@@ -36,7 +36,7 @@ class SignInUseCase @Inject constructor(
             }
         } ?: return Pair(NetworkState.NO_SERVER_CONNECTION, null)
 
-        Logger.Companion.m("Online sign in. IP:${ConstAndVars.URL}")
+        Logger.Companion.m("Online sign in. IP:${Constants.URL}")
         val result = authRepository.signIn(url, credentials)
         Logger.m("Sign in http code: ${result.first}")
 

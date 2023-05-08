@@ -28,7 +28,7 @@ import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
-import com.example.core.utils.ConstAndVars
+import com.example.core.utils.Constants
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
@@ -157,7 +157,7 @@ class TicketUpdate {
             //
             if ((fieldsLoadingState.value == NetworkState.LOADING
                         || fieldsLoadingState.value == NetworkState.WAIT_FOR_INIT)
-                && ConstAndVars.APPLICATION_MODE != ApplicationModes.DEBUG_AND_OFFLINE
+                && Constants.APPLICATION_MODE != ApplicationModes.OFFLINE
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.layoutId("centralMiddleRef"),

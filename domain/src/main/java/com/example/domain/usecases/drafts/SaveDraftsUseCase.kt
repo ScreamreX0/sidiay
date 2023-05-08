@@ -8,5 +8,7 @@ class SaveDraftsUseCase @Inject constructor(
     private val draftsDataStore: ITicketsDataStore,
     private val getDraftsUseCase: GetDraftsUseCase
 ) {
-    suspend fun execute(draft: TicketEntity) = draftsDataStore.saveDrafts(getDraftsUseCase.execute().plus(draft))
+    suspend fun execute(draft: TicketEntity) = draftsDataStore.saveDrafts(
+        getDraftsUseCase.execute()?.plus(draft) ?: listOf(draft)
+    )
 }
