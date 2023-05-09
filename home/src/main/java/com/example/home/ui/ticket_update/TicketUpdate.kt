@@ -65,6 +65,10 @@ class TicketUpdate {
             ticketUpdateViewModel.fetchTicketData(url = authParams.connectionParams?.url)
         }
 
+        if (ticketUpdateViewModel.savingDraftResult.value == TicketOperationState.DONE) {
+            navigateToBackWithMessage(LocalContext.current)
+        }
+
         val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.status) ?: TicketStatuses.NOT_FORMED) }
         val mutableTicket = remember { mutableStateOf(ticket) }
 

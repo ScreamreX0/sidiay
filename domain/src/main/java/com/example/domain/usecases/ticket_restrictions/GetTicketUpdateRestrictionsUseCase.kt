@@ -12,10 +12,6 @@ class GetTicketUpdateRestrictionsUseCase {
         ticket: TicketEntity,
         currentUser: UserEntity?,
     ): TicketRestriction {
-        if (currentUser == null) {
-            TODO("Offline mode")
-        }
-
         val allowedFields = arrayListOf<TicketFieldsEnum>()
         val requiredFields = arrayListOf<TicketFieldsEnum>()
         val availableStatuses = arrayListOf<TicketStatuses>()
@@ -23,7 +19,7 @@ class GetTicketUpdateRestrictionsUseCase {
         when (TicketStatuses.get(ticket.status)) {
             TicketStatuses.NOT_FORMED -> {
                 when (currentUser) {
-                    ticket.author -> {
+                    ticket.author, null -> {
                         allowedFields.addAll(
                             listOf(
                                 TicketFieldsEnum.NAME,
@@ -110,7 +106,45 @@ class GetTicketUpdateRestrictionsUseCase {
                         }
                     }
 
-                    else -> {}
+                    null -> {
+                        allowedFields.addAll(
+                            listOf(
+                                TicketFieldsEnum.EXECUTOR,
+                                TicketFieldsEnum.STATUS,
+                                TicketFieldsEnum.FACILITIES,
+                                TicketFieldsEnum.SERVICE,
+                                TicketFieldsEnum.KIND,
+                                TicketFieldsEnum.PRIORITY,
+                                TicketFieldsEnum.PLANE_DATE,
+                                TicketFieldsEnum.NAME,
+                                TicketFieldsEnum.BRIGADE,
+                                TicketFieldsEnum.TRANSPORT,
+                                TicketFieldsEnum.EQUIPMENT,
+                                TicketFieldsEnum.DESCRIPTION
+                            )
+                        )
+
+                        availableStatuses.addAll(
+                            listOf(
+                                TicketStatuses.NEW,
+                                TicketStatuses.ACCEPTED,
+                                TicketStatuses.DENIED,
+                                TicketStatuses.CLOSED
+                            )
+                        )
+
+                        if (selectedTicketStatus == TicketStatuses.DENIED) {
+                            requiredFields.addAll(
+                                listOf(
+                                    TicketFieldsEnum.COMPLETED_WORK,
+                                    TicketFieldsEnum.CLOSING_DATE
+                                )
+                            )
+                        }
+                        if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
+                        }
+                    }
                 }
             }
 
@@ -148,7 +182,30 @@ class GetTicketUpdateRestrictionsUseCase {
                         }
                     }
 
-                    else -> {}
+                    null -> {
+                        allowedFields.addAll(listOf(
+                            TicketFieldsEnum.STATUS
+                        ))
+                        availableStatuses.addAll(
+                            listOf(
+                                TicketStatuses.ACCEPTED,
+                                TicketStatuses.SUSPENDED,
+                                TicketStatuses.COMPLETED,
+                                TicketStatuses.CLOSED
+                            )
+                        )
+                        if (selectedTicketStatus == TicketStatuses.COMPLETED) {
+                            requiredFields.addAll(
+                                listOf(
+                                    TicketFieldsEnum.COMPLETED_WORK,
+                                    TicketFieldsEnum.CLOSING_DATE
+                                )
+                            )
+                        }
+                        if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
+                        }
+                    }
                 }
             }
 
@@ -173,12 +230,24 @@ class GetTicketUpdateRestrictionsUseCase {
                         }
                     }
 
-                    else -> {}
+                    null -> {
+                        allowedFields.add(TicketFieldsEnum.STATUS)
+                        availableStatuses.addAll(
+                            listOf(
+                                TicketStatuses.SUSPENDED,
+                                TicketStatuses.ACCEPTED,
+                                TicketStatuses.CLOSED
+                            )
+                        )
+                        if (selectedTicketStatus == TicketStatuses.CLOSED) {
+                            requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
+                        }
+                    }
                 }
 
             TicketStatuses.COMPLETED ->
                 when (currentUser) {
-                    ticket.author -> {
+                    ticket.author, null -> {
                         allowedFields.add(TicketFieldsEnum.STATUS)
                         availableStatuses.addAll(
                             listOf(
@@ -194,8 +263,6 @@ class GetTicketUpdateRestrictionsUseCase {
                             requiredFields.add(TicketFieldsEnum.CLOSING_DATE)
                         }
                     }
-
-                    else -> {}
                 }
 
             TicketStatuses.DENIED -> {}

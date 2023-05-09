@@ -9,6 +9,7 @@ import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
+import com.example.domain.usecases.drafts.DeleteDraftsUseCase
 import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
 import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class TicketsListViewModel @Inject constructor(
     private val getTicketsUseCase: GetTicketsUseCase,
     private val getDraftsUseCase: GetDraftsUseCase,
+    private val deleteDraftsUseCase: DeleteDraftsUseCase,
     private val getTicketDataUseCase: GetTicketDataUseCase
 ) : ViewModel() {
     val tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
@@ -62,8 +64,11 @@ class TicketsListViewModel @Inject constructor(
 
     fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
 
-    fun fetchTicketData(url: String?) = viewModelScope.launch {
-        getTicketDataUseCase.execute(url)
+    fun fetchTicketData(url: String?) = viewModelScope.launch { getTicketDataUseCase.execute(url) }
+
+    fun deleteDraft(ticket: TicketEntity) = viewModelScope.launch {
+        deleteDraftsUseCase.execute(ticket)
+        drafts.value = getDraftsUseCase.execute()
     }
 }
 

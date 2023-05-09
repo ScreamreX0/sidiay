@@ -23,7 +23,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,7 +51,9 @@ internal fun MenuTicketList(
     tickets: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
     refreshing: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
-    emptyListTitle: String = "Пусто"
+    emptyListTitle: String = "Пусто",
+    isDraftsList: Boolean = false,
+    deleteDraft: (TicketEntity) -> Unit = { _ -> }
 ) {
     if (tickets.value == null || tickets.value?.size == 0) {
         Column(
@@ -86,7 +87,9 @@ internal fun MenuTicketList(
             MenuTicketListItem(
                 isDarkMode = authParams?.darkMode ?: false,
                 ticket = tickets.value!![index],
-                onClickUpdate = onClickUpdate
+                onClickUpdate = onClickUpdate,
+                isDraft = isDraftsList,
+                deleteDraft = deleteDraft
             )
         }
     }
@@ -94,10 +97,12 @@ internal fun MenuTicketList(
 
 @Composable
 private fun MenuTicketListItem(
-    ticket: TicketEntity,
-    isDarkMode: Boolean,
+    ticket: TicketEntity = TicketEntity(),
+    isDarkMode: Boolean = false,
     expanded: MutableState<Boolean> = mutableStateOf(false),
-    onClickUpdate: (TicketEntity) -> Unit = { _ -> }
+    onClickUpdate: (TicketEntity) -> Unit = { _ -> },
+    isDraft: Boolean = false,
+    deleteDraft: (TicketEntity) -> Unit = { _ -> }
 ) {
     val textColor = if (isDarkMode) Color.White else CustomColors.Grey780
     val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
@@ -108,22 +113,14 @@ private fun MenuTicketListItem(
         MaterialTheme.colors.background
     }
 
-    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp, bottom = 5.dp, top = 5.dp)
             .shadow(elevation = 3.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null
-            ) { expanded.value = !expanded.value }
+            .clickable { expanded.value = !expanded.value }
     ) {
-        var defaultTextSize: TextUnit = MaterialTheme.typography.h2.fontSize
-
-        // TODO("Возможность изменения размера шрифта
-        //  (1.6 - очень большой, 1.4 - большой, 1.2 - средний, 1 - мелкий)")
-        defaultTextSize = defaultTextSize.times(1)
+        val defaultTextSize: TextUnit = MaterialTheme.typography.h2.fontSize
 
         ConstraintLayout(
             constraintSet = getConstraints(expanded = expanded),
@@ -207,6 +204,22 @@ private fun MenuTicketListItem(
                 textColor = textColor,
                 fontSize = defaultTextSize,
             )
+
+            if (isDraft) {
+                // Trash button
+                Icon(
+                    modifier = Modifier
+                        .layoutId("trashCanRef")
+                        .padding(start = 5.dp)
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = null
+                        ) { deleteDraft(ticket) },
+                    painter = painterResource(id = R.drawable.baseline_restore_from_trash_24),
+                    contentDescription = null,
+                    tint = CustomColors.Orange700,
+                )
+            }
 
             // Expand icon
             Icon(
@@ -337,11 +350,8 @@ private fun ItemText(
 }
 
 private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
-    // Top
     val numberRef = createRefFor("numberRef")
     val titleRef = createRefFor("titleRef")
-
-    // Shrink
     val serviceRef = createRefFor("serviceRef")
     val executorRef = createRefFor("executorRef")
     val dateRef = createRefFor("dateRef")
@@ -349,7 +359,7 @@ private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
     val statusRef = createRefFor("statusRef")
     val updateRef = createRefFor("updateRef")
     val expandRef = createRefFor("expandRef")
-
+    val trashCanRef = createRefFor("trashCanRef")
     // Top
     constrain(numberRef) {
         top.linkTo(parent.top, 10.dp)
@@ -382,6 +392,10 @@ private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
     constrain(updateRef) {
         top.linkTo(serviceRef.top)
         bottom.linkTo(serviceRef.bottom)
+        end.linkTo(parent.end, margin = 10.dp)
+    }
+    constrain(trashCanRef) {
+        bottom.linkTo(updateRef.top)
         end.linkTo(parent.end, margin = 10.dp)
     }
     constrain(statusRef) {
@@ -493,7 +507,5 @@ private fun CustomCircle(color: Color) {
 @Composable
 @ComponentPreview
 private fun ContentPreview() {
-    AppTheme(isSystemInDarkTheme()) {
-        MenuTicketList()
-    }
+    AppTheme(isSystemInDarkTheme()) { MenuTicketListItem() }
 }

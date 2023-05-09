@@ -10,6 +10,7 @@ import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.connections.GetConnectionsUseCase
 import com.example.domain.usecases.connections.SaveConnectionsUseCase
+import com.example.domain.usecases.drafts.DeleteDraftsUseCase
 import com.example.domain.usecases.settings.GetSettingsUseCase
 import com.example.domain.usecases.settings.SaveSettingsUseCase
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
@@ -78,6 +79,8 @@ class DomainModule {
         GetConnectionsUseCase(connectionsDataStore)
     @Provides
     fun provideGetDraftsUseCase(draftsDataStore: ITicketsDataStore): GetDraftsUseCase = GetDraftsUseCase(draftsDataStore)
+    @Provides
+    fun provideDeleteDraftsUseCase(draftsDataStore: ITicketsDataStore): DeleteDraftsUseCase = DeleteDraftsUseCase(draftsDataStore)
     @Provides
     fun provideGetSettingsUseCase(themeDataStore: IThemeDataStore): GetSettingsUseCase = GetSettingsUseCase(themeDataStore)
     @Provides

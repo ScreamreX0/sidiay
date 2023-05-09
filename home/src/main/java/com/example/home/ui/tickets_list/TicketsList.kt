@@ -80,7 +80,8 @@ class TicketsList {
             drafts = drafts,
             ticketsForExecution = ticketsForExecution,
             ticketsPersonal = ticketsPersonal,
-            tickets = tickets
+            tickets = tickets,
+            deleteDraft = ticketsListViewModel::deleteDraft
         )
     }
 
@@ -101,6 +102,7 @@ class TicketsList {
         ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
+        deleteDraft: (TicketEntity) -> Unit = {}
     ) {
         // TICKETS LOADING
         if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
@@ -194,7 +196,9 @@ class TicketsList {
                                 authParams = authParams,
                                 tickets = drafts,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Черновиков не найдено :("
+                                emptyListTitle = "Черновиков не найдено :(",
+                                isDraftsList = true,
+                                deleteDraft = { deleteDraft(it) }
                             )
                         }
                     }
@@ -242,7 +246,9 @@ class TicketsList {
                                 authParams = authParams,
                                 tickets = drafts,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Черновиков не найдено :("
+                                emptyListTitle = "Черновиков не найдено :(",
+                                isDraftsList = true,
+                                deleteDraft = { deleteDraft(it) }
                             )
                         }
                     }
