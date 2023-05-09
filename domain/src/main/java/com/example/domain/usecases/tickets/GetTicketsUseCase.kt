@@ -37,5 +37,12 @@ class GetTicketsUseCase @Inject constructor(
                     ticketDataStore.saveTickets(result.second?.toList() ?: listOf())
                     Pair(null, result.second)
                 }
+
                 else -> {
-                    Logger.m("Unhandled http code: 
+                    Logger.m("Unhandled http code while getting tickets: ${result.first}}")
+                    Pair(NetworkState.ERROR, null)
+                }
+            }
+        }
+    }
+}

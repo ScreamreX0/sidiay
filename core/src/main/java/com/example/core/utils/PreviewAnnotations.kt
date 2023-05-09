@@ -13,7 +13,8 @@ const val device = Devices.PIXEL_2
     device = device,
     uiMode = UI_MODE_NIGHT_NO,
     locale = locale,
-    group = "screens"
+    group = "screens",
+    backgroundColor = 0
 )
 @Preview(
     device = device,

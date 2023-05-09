@@ -21,7 +21,6 @@ import com.example.domain.data_classes.params.AuthParams
 import com.example.home.ui.tickets_list.TicketsList
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
-import com.example.home.ui.tickets_filter.TicketFilter
 import com.example.settings.ui.SettingsScreen
 
 @Composable
@@ -70,7 +69,7 @@ fun NavGraphBuilder.homeNavGraph(
                 TicketsList().HomeScreen(
                     authParams = remember { authParams },
                     paddingValues = paddingValues,
-                    navigateToTicketFilter = { navController.navigate(Screens.Home.TICKET_FILTER) },
+                    navigateToTicketFilter = {  },
                     navigateToTicketCreate = { navController.navigate(Screens.Home.TICKET_CREATE) },
                     navigateToTicketUpdate = { ticket: TicketEntity -> navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(ticket)}") }
                 )
@@ -117,14 +116,6 @@ fun NavGraphBuilder.homeNavGraph(
                             inclusive = false
                         )
                     }
-                )
-            }
-        }
-        composable(route = Screens.Home.TICKET_FILTER) {
-            AppTheme(authParams.darkMode ?: false) {
-                TicketFilter().TicketFilterScreen(
-                    navController = navController,
-                    authParams = authParams,
                 )
             }
         }

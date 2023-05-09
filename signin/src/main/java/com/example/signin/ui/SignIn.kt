@@ -138,14 +138,6 @@ internal class SignIn {
                 password = password,
             )
 
-            // Auto auth
-            // TODO("Add auto auth function")
-            val autoAuth = remember { mutableStateOf(false) }
-            AutoAuthComponent(
-                modifier = Modifier.layoutId("rememberComponentRef"),
-                autoAuth = autoAuth,
-            )
-
             // Enter
             EnterComponent(
                 modifier = Modifier.layoutId("enterComponentRef"),

@@ -35,4 +35,11 @@ class GetTicketDataUseCase @Inject constructor(
                 Pair(null, result.second)
             }
 
+            else -> {
+                Logger.m("Unresolved error while getting ticket data. Status code: ${result.first}")
+                Pair(NetworkState.ERROR, null)
+            }
+        }
+    }
+}
     
