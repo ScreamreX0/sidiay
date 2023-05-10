@@ -81,7 +81,8 @@ class TicketsList {
             ticketsForExecution = ticketsForExecution,
             ticketsPersonal = ticketsPersonal,
             tickets = tickets,
-            deleteDraft = ticketsListViewModel::deleteDraft
+            deleteDraft = ticketsListViewModel::deleteDraft,
+            deleteTicket = ticketsListViewModel::deleteTicket
         )
     }
 
@@ -102,7 +103,8 @@ class TicketsList {
         ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
-        deleteDraft: (TicketEntity) -> Unit = {}
+        deleteDraft: (TicketEntity) -> Unit = {},
+        deleteTicket: (TicketEntity) -> Unit = {}
     ) {
         // TICKETS LOADING
         if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
@@ -197,8 +199,8 @@ class TicketsList {
                                 tickets = drafts,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Черновиков не найдено :(",
-                                isDraftsList = true,
-                                deleteDraft = { deleteDraft(it) }
+                                showTrashCan = true,
+                                onTrashClick = { deleteDraft(it) }
                             )
                         }
                     }
@@ -238,7 +240,9 @@ class TicketsList {
                                 authParams = authParams,
                                 tickets = tickets,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Заявок не найдено :("
+                                emptyListTitle = "Заявок не найдено :(",
+                                showTrashCan = true,
+                                onTrashClick = { deleteTicket(it) }
                             )
                         }
                         MainMenuOfflineTabEnum.DRAFTS.id -> {
@@ -247,8 +251,8 @@ class TicketsList {
                                 tickets = drafts,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Черновиков не найдено :(",
-                                isDraftsList = true,
-                                deleteDraft = { deleteDraft(it) }
+                                showTrashCan = true,
+                                onTrashClick = { deleteDraft(it) }
                             )
                         }
                     }

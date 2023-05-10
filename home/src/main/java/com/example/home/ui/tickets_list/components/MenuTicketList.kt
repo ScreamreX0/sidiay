@@ -1,7 +1,10 @@
 package com.example.home.ui.tickets_list.components
 
+import android.content.Context
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
@@ -40,6 +44,7 @@ import com.example.core.R
 import com.example.core.ui.theme.AppTheme
 import com.example.core.ui.theme.CustomColors
 import com.example.core.utils.ComponentPreview
+import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.enums.TicketStatuses
@@ -52,8 +57,8 @@ internal fun MenuTicketList(
     refreshing: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
     emptyListTitle: String = "Пусто",
-    isDraftsList: Boolean = false,
-    deleteDraft: (TicketEntity) -> Unit = { _ -> }
+    showTrashCan: Boolean = false,
+    onTrashClick: (TicketEntity) -> Unit = { _ -> }
 ) {
     if (tickets.value == null || tickets.value?.size == 0) {
         Column(
@@ -88,8 +93,8 @@ internal fun MenuTicketList(
                 isDarkMode = authParams?.darkMode ?: false,
                 ticket = tickets.value!![index],
                 onClickUpdate = onClickUpdate,
-                isDraft = isDraftsList,
-                deleteDraft = deleteDraft
+                showTrashCan = showTrashCan,
+                onTrashClick = onTrashClick
             )
         }
     }
@@ -101,8 +106,8 @@ private fun MenuTicketListItem(
     isDarkMode: Boolean = false,
     expanded: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
-    isDraft: Boolean = false,
-    deleteDraft: (TicketEntity) -> Unit = { _ -> }
+    showTrashCan: Boolean = false,
+    onTrashClick: (TicketEntity) -> Unit = { _ -> }
 ) {
     val textColor = if (isDarkMode) Color.White else CustomColors.Grey780
     val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
@@ -137,6 +142,7 @@ private fun MenuTicketListItem(
                 textColor = textColor,
                 fontSize = defaultTextSize.times(1.3),
                 isCircleEnabled = false,
+                label = "Номер"
             )
 
             // Title
@@ -147,6 +153,7 @@ private fun MenuTicketListItem(
                 textColor = textColor,
                 fontSize = defaultTextSize.times(1.6),
                 isCircleEnabled = false,
+                label = "Заголовок"
             )
 
             // Service
@@ -156,6 +163,7 @@ private fun MenuTicketListItem(
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
+                label = "Сервис"
             )
 
             // Executor
@@ -167,6 +175,7 @@ private fun MenuTicketListItem(
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
+                label = "Исполнитель"
             )
 
             // Plane date
@@ -177,7 +186,8 @@ private fun MenuTicketListItem(
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
-                isCircleEnabled = false
+                isCircleEnabled = false,
+                label = "Плановая дата"
             )
 
             // Update button
@@ -203,9 +213,10 @@ private fun MenuTicketListItem(
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
+                label = "Статус"
             )
 
-            if (isDraft) {
+            if (showTrashCan) {
                 // Trash button
                 Icon(
                     modifier = Modifier
@@ -214,7 +225,7 @@ private fun MenuTicketListItem(
                         .clickable(
                             interactionSource = MutableInteractionSource(),
                             indication = null
-                        ) { deleteDraft(ticket) },
+                        ) { onTrashClick(ticket) },
                     painter = painterResource(id = R.drawable.baseline_restore_from_trash_24),
                     contentDescription = null,
                     tint = CustomColors.Orange700,
@@ -247,6 +258,7 @@ private fun MenuTicketListItem(
                 circleColor = circleColor,
                 textColor = getPriorityColor(isDarkMode, ticket.priority?.value ?: 1),
                 fontSize = defaultTextSize,
+                label = "Приоритет заявки"
             )
 
             // Expansion
@@ -268,6 +280,7 @@ private fun MenuTicketListItem(
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
+                    label = "Автор"
                 )
 
                 // Kind
@@ -279,6 +292,7 @@ private fun MenuTicketListItem(
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
+                    label = "Вид"
                 )
 
                 // Terms
@@ -289,6 +303,7 @@ private fun MenuTicketListItem(
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
+                    label = "Дата создания - дата окончания"
                 )
 
                 // Objects
@@ -299,6 +314,7 @@ private fun MenuTicketListItem(
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
+                    label = "Объекты"
                 )
 
                 // Completed work
@@ -308,6 +324,7 @@ private fun MenuTicketListItem(
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
+                    label = "Завершенные работы"
                 )
 
                 // Description
@@ -317,12 +334,14 @@ private fun MenuTicketListItem(
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
+                    label = "Описание"
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ItemText(
     modifier: Modifier,
@@ -331,15 +350,21 @@ private fun ItemText(
     isCircleEnabled: Boolean = true,
     textColor: Color,
     fontSize: TextUnit,
+    label: String,
+    context: Context = LocalContext.current
 ) {
-
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (isCircleEnabled) CustomCircle(circleColor)
         Text(
-            modifier = Modifier.padding(start = 5.dp),
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .combinedClickable(
+                    onClick = {},
+                    onLongClick = { Helper.showShortToast(context, label) }
+                ),
             text = text,
             fontSize = fontSize,
             color = textColor,

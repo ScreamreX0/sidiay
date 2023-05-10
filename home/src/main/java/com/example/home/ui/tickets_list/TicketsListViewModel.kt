@@ -13,6 +13,7 @@ import com.example.domain.usecases.drafts.DeleteDraftsUseCase
 import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
 import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
+import com.example.domain.usecases.tickets.DeleteTicketsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,9 +21,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TicketsListViewModel @Inject constructor(
+    // Tickets
     private val getTicketsUseCase: GetTicketsUseCase,
+    private val deleteTicketsUseCase: DeleteTicketsUseCase,
+
+    // Drafts
     private val getDraftsUseCase: GetDraftsUseCase,
     private val deleteDraftsUseCase: DeleteDraftsUseCase,
+
+    // Ticket data
     private val getTicketDataUseCase: GetTicketDataUseCase
 ) : ViewModel() {
     val tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
@@ -69,6 +76,11 @@ class TicketsListViewModel @Inject constructor(
     fun deleteDraft(ticket: TicketEntity) = viewModelScope.launch {
         deleteDraftsUseCase.execute(ticket)
         drafts.value = getDraftsUseCase.execute()
+    }
+
+    fun deleteTicket(ticket: TicketEntity) = viewModelScope.launch {
+        deleteTicketsUseCase.execute(ticket)
+        tickets.value = getTicketsUseCase.execute(url = null, userId = 0).second
     }
 }
 
