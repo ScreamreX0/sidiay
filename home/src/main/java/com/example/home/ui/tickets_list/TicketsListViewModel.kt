@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.usecases.drafts.DeleteDraftsUseCase
@@ -41,37 +42,41 @@ class TicketsListViewModel @Inject constructor(
 
     val errorMessage: MutableState<INetworkState?> = mutableStateOf(null)
 
+    val ticketData: MutableState<TicketData?> = mutableStateOf(null)
+    val ticketDataFetchingResult: MutableState<INetworkState?> = mutableStateOf(null)
+
     fun fetchTickets(url: String?, userId: Long) {
-        url?.let { currentUrl ->
-            viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-                errorMessage.value = NetworkState.NO_SERVER_CONNECTION
-            }) {
-                ticketsReceivingState.value = NetworkState.LOADING
-                val result = getTicketsUseCase.execute(currentUrl, userId)
-                result.first?.let {
-                    Logger.m("Error: $it")
-                    errorMessage.value = it
-                    ticketsReceivingState.value = NetworkState.ERROR
-                }
-                result.second?.let {
-                    Logger.m("Tickets received")
-                    tickets.value = it
-                    ticketsForExecution.value = it.filter { ticket -> ticket.executor?.id == userId }
-                    ticketsPersonal.value = it.filter { ticket -> ticket.author?.id == userId }
-                    ticketsReceivingState.value = NetworkState.DONE
-                }
-            }
-        } ?: run {
-            Logger.m("Getting tickets offline...")
+        viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
+            errorMessage.value = NetworkState.NO_SERVER_CONNECTION
+        }) {
             ticketsReceivingState.value = NetworkState.LOADING
-            // TODO("Add offline mode")
-            ticketsReceivingState.value = NetworkState.DONE
+            val result = getTicketsUseCase.execute(url, userId)
+            result.first?.let {
+                Logger.m("Error: $it")
+                errorMessage.value = it
+                ticketsReceivingState.value = NetworkState.ERROR
+            }
+            result.second?.let {
+                Logger.m("Tickets received")
+                tickets.value = it
+                ticketsForExecution.value = it.filter { ticket -> ticket.executor?.id == userId }
+                ticketsPersonal.value = it.filter { ticket -> ticket.author?.id == userId }
+                ticketsReceivingState.value = NetworkState.DONE
+            }
         }
     }
 
     fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
 
-    fun fetchTicketData(url: String?) = viewModelScope.launch { getTicketDataUseCase.execute(url) }
+    fun fetchTicketData(url: String?) = viewModelScope.launch(
+        Helper.getCoroutineNetworkExceptionHandler { ticketDataFetchingResult.value = NetworkState.NO_SERVER_CONNECTION }
+    ) {
+        getTicketDataUseCase.execute(url).let {
+            ticketDataFetchingResult.value = NetworkState.LOADING
+            ticketData.value = it.second
+            ticketDataFetchingResult.value = NetworkState.DONE
+        }
+    }
 
     fun deleteDraft(ticket: TicketEntity) = viewModelScope.launch {
         deleteDraftsUseCase.execute(ticket)

@@ -69,7 +69,6 @@ fun NavGraphBuilder.homeNavGraph(
                 TicketsList().HomeScreen(
                     authParams = remember { authParams },
                     paddingValues = paddingValues,
-                    navigateToTicketFilter = {  },
                     navigateToTicketCreate = { navController.navigate(Screens.Home.TICKET_CREATE) },
                     navigateToTicketUpdate = { ticket: TicketEntity -> navController.navigate("${Screens.Home.TICKET_UPDATE}/${Helper.objToJson(ticket)}") }
                 )

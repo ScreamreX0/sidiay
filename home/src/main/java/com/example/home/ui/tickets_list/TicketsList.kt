@@ -16,11 +16,15 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.*
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.data_classes.params.FilteringParams
+import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.MainMenuOfflineTabEnum
 import com.example.domain.enums.MainMenuTabEnum
 import com.example.domain.enums.MainMenuTopAppBarEnum
+import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.states.NetworkState
 import com.example.home.ui.tickets_list.components.CustomTabRow
+import com.example.home.ui.tickets_list.components.FilterDialog
 import com.example.home.ui.tickets_list.components.MenuSearch
 import com.example.home.ui.tickets_list.components.MenuTicketList
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -37,18 +41,20 @@ class TicketsList {
         ticketsListViewModel: TicketsListViewModel = hiltViewModel(),
         paddingValues: PaddingValues = remember { PaddingValues() },
         authParams: AuthParams? = remember { AuthParams() },
-        navigateToTicketFilter: () -> Unit,
         navigateToTicketCreate: () -> Unit,
         navigateToTicketUpdate: (TicketEntity) -> Unit,
     ) {
         val ticketsReceivingState = ticketsListViewModel.ticketsReceivingState
         val ticketsForExecution = ticketsListViewModel.ticketsForExecution
         val tickets = ticketsListViewModel.tickets
-
         val ticketsPersonal = ticketsListViewModel.ticketsPersonal
         val errorMessage = ticketsListViewModel.errorMessage
         val drafts = ticketsListViewModel.drafts
+        val ticketData = ticketsListViewModel.ticketData
+
         val context = LocalContext.current
+        val sortingParams: MutableState<TicketFieldsEnum?> = remember { mutableStateOf(null) }
+        val filteringParams: MutableState<FilteringParams> = remember { mutableStateOf(FilteringParams()) }
 
         // Fetching tickets
         LaunchedEffect(key1 = null) {
@@ -73,7 +79,6 @@ class TicketsList {
             ),
             authParams = authParams,
             fetchTickets = ticketsListViewModel::fetchTickets,
-            navigateToTicketFilter = navigateToTicketFilter,
             navigateToTicketCreate = navigateToTicketCreate,
             navigateToTicketUpdate = navigateToTicketUpdate,
             ticketsReceivingState = ticketsReceivingState,
@@ -82,7 +87,10 @@ class TicketsList {
             ticketsPersonal = ticketsPersonal,
             tickets = tickets,
             deleteDraft = ticketsListViewModel::deleteDraft,
-            deleteTicket = ticketsListViewModel::deleteTicket
+            deleteTicket = ticketsListViewModel::deleteTicket,
+            sortingParams = sortingParams,
+            filteringParams = filteringParams,
+            ticketData = ticketData
         )
     }
 
@@ -92,10 +100,10 @@ class TicketsList {
         modifier: Modifier = Modifier,
         authParams: AuthParams? = remember { AuthParams() },
         isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
+        isFilterDialogEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
         pagerState: PagerState = rememberPagerState(),
         fetchTickets: (url: String?, userId: Long) -> Unit = { _, _ -> },
-        navigateToTicketFilter: () -> Unit = {},
         navigateToTicketCreate: () -> Unit = {},
         navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
         ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
@@ -104,7 +112,10 @@ class TicketsList {
         ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         deleteDraft: (TicketEntity) -> Unit = {},
-        deleteTicket: (TicketEntity) -> Unit = {}
+        deleteTicket: (TicketEntity) -> Unit = {},
+        sortingParams: MutableState<TicketFieldsEnum?> = mutableStateOf(null),
+        filteringParams: MutableState<FilteringParams> = mutableStateOf(FilteringParams()),
+        ticketData: MutableState<TicketData?> = mutableStateOf(null)
     ) {
         // TICKETS LOADING
         if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
@@ -116,6 +127,15 @@ class TicketsList {
                 horizontalArrangement = Arrangement.Center
             ) { CircularProgressIndicator(color = MaterialTheme.colors.primary) }
             return
+        }
+
+        if (isFilterDialogEnabled.value) {
+            FilterDialog(
+                sortingParams = sortingParams,
+                filteringParams = filteringParams,
+                isDialogOpened = isFilterDialogEnabled,
+                ticketData = ticketData
+            )
         }
 
         Column(modifier = modifier.fillMaxSize()) {
@@ -142,7 +162,7 @@ class TicketsList {
                         contentDescription = null
                     )
                     Icon(
-                        modifier = Modifier.clickable { navigateToTicketFilter() },
+                        modifier = Modifier.clickable { isFilterDialogEnabled.value = true },
                         painter = painterResource(id = MainMenuTopAppBarEnum.FILTER.icon),
                         contentDescription = null
                     )
