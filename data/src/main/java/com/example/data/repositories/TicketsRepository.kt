@@ -25,7 +25,8 @@ class TicketsRepository @Inject constructor(
             id = it.toLong(),
             executor = UserEntity(id = 0),
             author = UserEntity(id = 0),
-            status = TicketStatuses.values().random().value
+            status = TicketStatuses.values().random().value,
+            priority = PriorityEntity(id = (0..5).random().toLong())
         )
     }
 

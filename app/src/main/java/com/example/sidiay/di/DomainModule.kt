@@ -23,6 +23,7 @@ import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.DeleteTicketsUseCase
+import com.example.domain.usecases.tickets.FilterTicketsListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -102,4 +103,7 @@ class DomainModule {
 
     @Provides
     fun provideSaveSettingsUseCase(themeDataStore: IThemeDataStore): SaveSettingsUseCase = SaveSettingsUseCase(themeDataStore)
+
+    @Provides
+    fun provideFilterTicketsListUseCase(): FilterTicketsListUseCase = FilterTicketsListUseCase()
 }

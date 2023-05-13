@@ -45,9 +45,7 @@ class TicketsList {
         navigateToTicketUpdate: (TicketEntity) -> Unit,
     ) {
         val ticketsReceivingState = ticketsListViewModel.ticketsReceivingState
-        val ticketsForExecution = ticketsListViewModel.ticketsForExecution
-        val tickets = ticketsListViewModel.tickets
-        val ticketsPersonal = ticketsListViewModel.ticketsPersonal
+        val tickets = ticketsListViewModel.filteredAndSearchedTickets
         val errorMessage = ticketsListViewModel.errorMessage
         val drafts = ticketsListViewModel.drafts
         val ticketData = ticketsListViewModel.ticketData
@@ -55,19 +53,38 @@ class TicketsList {
         val context = LocalContext.current
         val sortingParams: MutableState<TicketFieldsEnum?> = remember { mutableStateOf(null) }
         val filteringParams: MutableState<FilteringParams> = remember { mutableStateOf(FilteringParams()) }
+        val searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) }
+        val isFilterDialogEnabled: MutableState<Boolean> = remember { mutableStateOf(false) }
+        val fetchTickets = remember {
+            {
+                ticketsListViewModel.fetchTickets(
+                    authParams?.connectionParams?.url,
+                    authParams?.user?.id ?: 0,
+                    filteringParams.value,
+                    sortingParams.value,
+                    searchText.value
+                )
+            }
+        }
 
         // Fetching tickets
-        LaunchedEffect(key1 = null) {
-            ticketsListViewModel.fetchTickets(
-                url = authParams?.connectionParams?.url,
-                userId = authParams?.user?.id ?: 0
-            )
-        }
+        LaunchedEffect(key1 = null) { fetchTickets() }
         // Fetching drafts
         LaunchedEffect(key1 = null) { ticketsListViewModel.fetchDrafts() }
         // Fetching ticket data
-        LaunchedEffect(key1 = null) {
-            ticketsListViewModel.fetchTicketData(authParams?.connectionParams?.url)
+        LaunchedEffect(key1 = null) { ticketsListViewModel.fetchTicketData(authParams?.connectionParams?.url) }
+
+        if (isFilterDialogEnabled.value) {
+            FilterDialog(
+                onConfirmButton = {
+                    ticketsListViewModel.filterTickets(filteringParams.value, sortingParams.value, searchText.value)
+                    isFilterDialogEnabled.value = false
+                },
+                sortingParams = sortingParams,
+                filteringParams = filteringParams,
+                isDialogOpened = isFilterDialogEnabled,
+                ticketData = ticketData
+            )
         }
 
         errorMessage.value?.let { Helper.showShortToast(context = context, text = it.toString()) }
@@ -78,19 +95,19 @@ class TicketsList {
                 bottom = paddingValues.calculateBottomPadding() + 50.dp
             ),
             authParams = authParams,
-            fetchTickets = ticketsListViewModel::fetchTickets,
+            fetchTickets = fetchTickets,
             navigateToTicketCreate = navigateToTicketCreate,
             navigateToTicketUpdate = navigateToTicketUpdate,
             ticketsReceivingState = ticketsReceivingState,
             drafts = drafts,
-            ticketsForExecution = ticketsForExecution,
-            ticketsPersonal = ticketsPersonal,
             tickets = tickets,
             deleteDraft = ticketsListViewModel::deleteDraft,
             deleteTicket = ticketsListViewModel::deleteTicket,
             sortingParams = sortingParams,
             filteringParams = filteringParams,
-            ticketData = ticketData
+            searchText = searchText,
+            isFilterDialogEnabled = isFilterDialogEnabled,
+            searchTickets = ticketsListViewModel::searchTickets
         )
     }
 
@@ -103,19 +120,17 @@ class TicketsList {
         isFilterDialogEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
         searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
         pagerState: PagerState = rememberPagerState(),
-        fetchTickets: (url: String?, userId: Long) -> Unit = { _, _ -> },
+        fetchTickets: () -> Unit = { },
         navigateToTicketCreate: () -> Unit = {},
         navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
         ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
         drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
-        ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null),
-        ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         deleteDraft: (TicketEntity) -> Unit = {},
-        deleteTicket: (TicketEntity) -> Unit = {},
+        deleteTicket: (TicketEntity, FilteringParams?, TicketFieldsEnum?, TextFieldValue) -> Unit = { _, _, _, _ -> },
         sortingParams: MutableState<TicketFieldsEnum?> = mutableStateOf(null),
         filteringParams: MutableState<FilteringParams> = mutableStateOf(FilteringParams()),
-        ticketData: MutableState<TicketData?> = mutableStateOf(null)
+        searchTickets: (searchText: TextFieldValue) -> Unit = {}
     ) {
         // TICKETS LOADING
         if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
@@ -129,15 +144,6 @@ class TicketsList {
             return
         }
 
-        if (isFilterDialogEnabled.value) {
-            FilterDialog(
-                sortingParams = sortingParams,
-                filteringParams = filteringParams,
-                isDialogOpened = isFilterDialogEnabled,
-                ticketData = ticketData
-            )
-        }
-
         Column(modifier = modifier.fillMaxSize()) {
             // App bar
             TopAppBar(
@@ -148,6 +154,7 @@ class TicketsList {
                     MenuSearch(
                         isSearchEnabled = isSearchEnabled,
                         textState = searchText,
+                        searchTickets = searchTickets
                     )
                     return@TopAppBar
                 }
@@ -172,12 +179,7 @@ class TicketsList {
                         contentDescription = null
                     )
                     Icon(
-                        modifier = Modifier.clickable {
-                            fetchTickets(
-                                authParams?.connectionParams?.url,
-                                authParams?.user?.id ?: 0
-                            )
-                        },
+                        modifier = Modifier.clickable { fetchTickets() },
                         painter = painterResource(id = MainMenuTopAppBarEnum.REFRESH.icon),
                         contentDescription = null
                     )
@@ -200,23 +202,25 @@ class TicketsList {
                         MainMenuTabEnum.USER_AUTHOR_TICKETS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
-                                tickets = ticketsPersonal,
+                                tickets = tickets.value?.filter { authParams.user?.id == it.author?.id },
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Заявок не найдено :("
                             )
                         }
+
                         MainMenuTabEnum.USER_EXECUTOR_TICKETS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
-                                tickets = ticketsForExecution,
+                                tickets = tickets.value?.filter { authParams.user?.id == it.executor?.id },
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Заявок не найдено :("
                             )
                         }
+
                         MainMenuTabEnum.DRAFTS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
-                                tickets = drafts,
+                                tickets = drafts.value,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Черновиков не найдено :(",
                                 showTrashCan = true,
@@ -258,17 +262,18 @@ class TicketsList {
                         MainMenuOfflineTabEnum.TICKETS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
-                                tickets = tickets,
+                                tickets = tickets.value,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Заявок не найдено :(",
                                 showTrashCan = true,
-                                onTrashClick = { deleteTicket(it) }
+                                onTrashClick = { deleteTicket(it, filteringParams.value, sortingParams.value, searchText.value) }
                             )
                         }
+
                         MainMenuOfflineTabEnum.DRAFTS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
-                                tickets = drafts,
+                                tickets = drafts.value,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Черновиков не найдено :(",
                                 showTrashCan = true,

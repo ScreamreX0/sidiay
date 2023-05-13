@@ -56,7 +56,7 @@ internal fun FilterDialog(
     sortingParams: MutableState<TicketFieldsEnum?> = mutableStateOf(null),
     filteringParams: MutableState<FilteringParams> = mutableStateOf(FilteringParams()),
     isDialogOpened: MutableState<Boolean> = mutableStateOf(true),
-    ticketData: MutableState<TicketData?> = mutableStateOf(null)
+    ticketData: MutableState<TicketData?> = mutableStateOf(null),
 ) {
     if (!isDialogOpened.value) return
 
@@ -237,7 +237,7 @@ private fun FiltersComponent(
         itemText = { it.name ?: "Объект №${it.id}" }
     )
 
-    // facilities
+    // equipment
     DropdownCheckboxMenu(
         items = ticketData.value?.equipment ?: listOf(),
         label = "По оборудованию",

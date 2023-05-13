@@ -2,19 +2,22 @@ package com.example.home.ui.tickets_list
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.enums.TicketFieldsEnum
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.usecases.drafts.DeleteDraftsUseCase
 import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
-import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
 import com.example.domain.usecases.tickets.DeleteTicketsUseCase
+import com.example.domain.usecases.tickets.FilterTicketsListUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +28,7 @@ class TicketsListViewModel @Inject constructor(
     // Tickets
     private val getTicketsUseCase: GetTicketsUseCase,
     private val deleteTicketsUseCase: DeleteTicketsUseCase,
+    private val filterTicketsListUseCase: FilterTicketsListUseCase,
 
     // Drafts
     private val getDraftsUseCase: GetDraftsUseCase,
@@ -33,19 +37,22 @@ class TicketsListViewModel @Inject constructor(
     // Ticket data
     private val getTicketDataUseCase: GetTicketDataUseCase
 ) : ViewModel() {
-    val tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
-    val ticketsForExecution: MutableState<List<TicketEntity>?> = mutableStateOf(null)
-    val ticketsPersonal: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+    private val tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+    private val filteredTickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
+    val filteredAndSearchedTickets: MutableState<List<TicketEntity>?> = mutableStateOf(null)
     val ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
 
     var drafts: MutableState<List<TicketEntity>?> = mutableStateOf(null)
-
     val errorMessage: MutableState<INetworkState?> = mutableStateOf(null)
-
     val ticketData: MutableState<TicketData?> = mutableStateOf(null)
-    val ticketDataFetchingResult: MutableState<INetworkState?> = mutableStateOf(null)
 
-    fun fetchTickets(url: String?, userId: Long) {
+    fun fetchTickets(
+        url: String?,
+        userId: Long,
+        filteringParams: FilteringParams?,
+        sortingParams: TicketFieldsEnum?,
+        searchText: TextFieldValue
+    ) {
         viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
             errorMessage.value = NetworkState.NO_SERVER_CONNECTION
         }) {
@@ -59,33 +66,52 @@ class TicketsListViewModel @Inject constructor(
             result.second?.let {
                 Logger.m("Tickets received")
                 tickets.value = it
-                ticketsForExecution.value = it.filter { ticket -> ticket.executor?.id == userId }
-                ticketsPersonal.value = it.filter { ticket -> ticket.author?.id == userId }
+                filterTickets(filteringParams, sortingParams, searchText)
                 ticketsReceivingState.value = NetworkState.DONE
             }
         }
     }
 
-    fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
+    fun filterTickets(
+        filteringParams: FilteringParams?,
+        sortingParams: TicketFieldsEnum?,
+        searchText: TextFieldValue
+    ) = viewModelScope.launch {
+        filteredTickets.value = filterTicketsListUseCase.execute(filteringParams, sortingParams, tickets.value)
+        searchTickets(searchText)
+    }
 
-    fun fetchTicketData(url: String?) = viewModelScope.launch(
-        Helper.getCoroutineNetworkExceptionHandler { ticketDataFetchingResult.value = NetworkState.NO_SERVER_CONNECTION }
-    ) {
-        getTicketDataUseCase.execute(url).let {
-            ticketDataFetchingResult.value = NetworkState.LOADING
-            ticketData.value = it.second
-            ticketDataFetchingResult.value = NetworkState.DONE
+    fun searchTickets(searchText: TextFieldValue) = viewModelScope.launch {
+        if (searchText.text != "") {
+            filteredAndSearchedTickets.value = filteredTickets.value?.filter { it.name?.contains(searchText.text) ?: false }
+        } else {
+            filteredAndSearchedTickets.value = filteredTickets.value
         }
     }
+
+    fun deleteTicket(
+        ticket: TicketEntity,
+        filteringParams: FilteringParams?,
+        sortingParams: TicketFieldsEnum?,
+        searchText: TextFieldValue
+    ) = viewModelScope.launch {
+        deleteTicketsUseCase.execute(ticket)
+        val ticketsFromMemory = getTicketsUseCase.execute(url = null, userId = 0).second
+        tickets.value = ticketsFromMemory
+        filterTickets(filteringParams, sortingParams, searchText)
+    }
+
+    // Drafts
+    fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
 
     fun deleteDraft(ticket: TicketEntity) = viewModelScope.launch {
         deleteDraftsUseCase.execute(ticket)
         drafts.value = getDraftsUseCase.execute()
     }
 
-    fun deleteTicket(ticket: TicketEntity) = viewModelScope.launch {
-        deleteTicketsUseCase.execute(ticket)
-        tickets.value = getTicketsUseCase.execute(url = null, userId = 0).second
+    // Ticket data
+    fun fetchTicketData(url: String?) = viewModelScope.launch {
+        getTicketDataUseCase.execute(url).let { ticketData.value = it.second }
     }
 }
 

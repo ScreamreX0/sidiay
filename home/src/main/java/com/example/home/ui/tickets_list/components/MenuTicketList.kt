@@ -53,14 +53,14 @@ import java.time.format.DateTimeFormatter
 @Composable
 internal fun MenuTicketList(
     authParams: AuthParams? = AuthParams(),
-    tickets: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
+    tickets: List<TicketEntity>? = listOf(),
     refreshing: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
     emptyListTitle: String = "Пусто",
     showTrashCan: Boolean = false,
     onTrashClick: (TicketEntity) -> Unit = { _ -> }
 ) {
-    if (tickets.value == null || tickets.value?.size == 0) {
+    if (tickets.isNullOrEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -88,10 +88,10 @@ internal fun MenuTicketList(
             .fillMaxSize(),
         userScrollEnabled = true,
     ) {
-        items(tickets.value!!.size) { index ->
+        items(tickets.size) { index ->
             MenuTicketListItem(
                 isDarkMode = authParams?.darkMode ?: false,
-                ticket = tickets.value!![index],
+                ticket = tickets[index],
                 onClickUpdate = onClickUpdate,
                 showTrashCan = showTrashCan,
                 onTrashClick = onTrashClick

@@ -24,12 +24,16 @@ import com.example.core.utils.ComponentPreview
 
 @Composable
 internal fun MenuSearch(
-    textState: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
-    isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(true) },
+    textState: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
+    isSearchEnabled: MutableState<Boolean> = mutableStateOf(true),
+    searchTickets: (searchText: TextFieldValue) -> Unit = {}
 ) {
     TextField(
         value = textState.value,
-        onValueChange = { textState.value = it },
+        onValueChange = {
+            textState.value = it
+            searchTickets(it)
+        },
         modifier = Modifier.fillMaxWidth(),
         leadingIcon = {
             Icon(
@@ -43,7 +47,10 @@ internal fun MenuSearch(
         },
         trailingIcon = {
             IconButton(
-                onClick = { textState.value = TextFieldValue("") }
+                onClick = {
+                    textState.value = TextFieldValue("")
+                    searchTickets(textState.value)
+                }
             ) {
                 Icon(
                     Icons.Default.Close,
