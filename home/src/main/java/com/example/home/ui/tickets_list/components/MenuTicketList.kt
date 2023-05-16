@@ -47,6 +47,9 @@ import com.example.core.utils.ComponentPreview
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.enums.KindsEnum
+import com.example.domain.enums.PrioritiesEnum
+import com.example.domain.enums.ServicesEnum
 import com.example.domain.enums.TicketStatuses
 import java.time.format.DateTimeFormatter
 
@@ -148,7 +151,7 @@ private fun MenuTicketListItem(
             // Title
             ItemText(
                 modifier = Modifier.layoutId("titleRef"),
-                text = ticket.name ?: "[Заголовок]",
+                text = ticket.ticket_name ?: "[Заголовок]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize.times(1.6),
@@ -159,7 +162,7 @@ private fun MenuTicketListItem(
             // Service
             ItemText(
                 modifier = Modifier.layoutId("serviceRef"),
-                text = ticket.service?.name ?: "[Сервис не указан]",
+                text = ticket.service?.let { ServicesEnum.getByValue(it) }?.name ?: "[Сервис не указан]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
@@ -171,7 +174,7 @@ private fun MenuTicketListItem(
                 modifier = Modifier
                     .layoutId("executorRef")
                     .padding(bottom = 10.dp),
-                text = ticket.executor?.getFullName() ?: "[Исполнитель не назначен]",
+                text = ticket.executors?.joinToString { it.getFullName() } ?: "[Исполнитель(-и) не назначен(ы)]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
@@ -254,9 +257,9 @@ private fun MenuTicketListItem(
                     .layoutId("priorityRef")
                     .padding(bottom = 10.dp)
                     .fillMaxWidth(0.3F),
-                text = ticket.priority?.name ?: "Неизвестный",
+                text = PrioritiesEnum.getByValue(ticket.priority)?.label ?: "Неизвестный",
                 circleColor = circleColor,
-                textColor = getPriorityColor(isDarkMode, ticket.priority?.value ?: 1),
+                textColor = getPriorityColor(isDarkMode, ticket.priority ?: 1),
                 fontSize = defaultTextSize,
                 label = "Приоритет заявки"
             )
@@ -288,22 +291,21 @@ private fun MenuTicketListItem(
                     modifier = Modifier
                         .layoutId("kindRef")
                         .fillMaxWidth(0.3F),
-                    text = ticket.service?.name ?: "[Вид не указан]",
+                    text = KindsEnum.getByValue(ticket.kind)?.label ?: "[Вид не указан]",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
                     label = "Вид"
                 )
 
-                // Terms
+                // Creation date
                 ItemText(
-                    modifier = Modifier.layoutId("termsRef"),
-                    text = "${ticket.creation_date ?: "[Дата создания не указана]"} " +
-                            "- ${ticket.closing_date ?: "[Дата окончания не указана]"}",
+                    modifier = Modifier.layoutId("creationDateRef"),
+                    text = "${ticket.creation_date ?: "[Дата создания не указана]"} ",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
-                    label = "Дата создания - дата окончания"
+                    label = "Дата создания"
                 )
 
                 // Objects
@@ -330,7 +332,7 @@ private fun MenuTicketListItem(
                 // Description
                 ItemText(
                     modifier = Modifier.layoutId("descriptionRef"),
-                    text = ticket.description ?: "[Нет описания]",
+                    text = ticket.description_of_work ?: "[Нет описания]",
                     circleColor = circleColor,
                     textColor = textColor,
                     fontSize = defaultTextSize,
@@ -449,7 +451,7 @@ private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
     val dividerRef = createRefFor("dividerRef")
     val kindRef = createRefFor("kindRef")
     val authorRef = createRefFor("authorRef")
-    val termsRef = createRefFor("termsRef")
+    val creationDateRef = createRefFor("creationDateRef")
     val objectsRef = createRefFor("objectsRef")
     val completedWorkRef = createRefFor("completedWorkRef")
     val descriptionRef = createRefFor("descriptionRef")
@@ -472,15 +474,15 @@ private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
         end.linkTo(authorRef.start, margin = 10.dp)
         width = Dimension.fillToConstraints
     }
-    constrain(termsRef) {
+    constrain(creationDateRef) {
         top.linkTo(kindRef.bottom, margin = 10.dp)
         start.linkTo(kindRef.start)
         end.linkTo(parent.end, margin = 10.dp)
         width = Dimension.fillToConstraints
     }
     constrain(objectsRef) {
-        top.linkTo(termsRef.bottom, margin = 10.dp)
-        start.linkTo(termsRef.start)
+        top.linkTo(creationDateRef.bottom, margin = 10.dp)
+        start.linkTo(creationDateRef.start)
         end.linkTo(parent.end, margin = 10.dp)
         width = Dimension.fillToConstraints
     }

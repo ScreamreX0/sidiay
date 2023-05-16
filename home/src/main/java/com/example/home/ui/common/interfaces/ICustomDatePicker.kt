@@ -1,12 +1,10 @@
-package com.example.home.ui.common
+package com.example.home.ui.common.interfaces
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
 import com.example.home.ui.common.components.CustomDatePicker
 import com.example.home.ui.common.components.CustomText
 

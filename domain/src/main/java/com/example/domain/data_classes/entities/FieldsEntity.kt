@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ServiceEntity constructor (
+data class FieldsEntity(
     var id: Long,
     var name: String? = null,
 ) : Parcelable

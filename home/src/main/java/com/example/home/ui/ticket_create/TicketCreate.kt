@@ -30,7 +30,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState.*
@@ -167,13 +167,13 @@ class TicketCreate {
                     selectedTicketStatus = remember { mutableStateOf(TicketStatuses.NEW) },
                 )
 
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.NAME, field = ticket.value.name)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.TICKET_NAME, field = ticket.value.ticket_name)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.FACILITIES, field = ticket.value.facilities)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = ticket.value.service)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.DESCRIPTION_OF_WORK, field = ticket.value.description_of_work)
                 fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.KIND, field = ticket.value.kind)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PLANE_DATE, field = ticket.value.plane_date)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PRIORITY, field = ticket.value.priority)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTOR, field = ticket.value.executor)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = ticket.value.service)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EQUIPMENT, field = ticket.value.equipment)
+                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.TRANSPORT, field = ticket.value.transport)
             }
 
             // BOTTOM BAR

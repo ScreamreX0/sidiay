@@ -1,4 +1,4 @@
-package com.example.home.ui.common
+package com.example.home.ui.common.interfaces
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
@@ -8,10 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.home.ui.common.components.CustomChipRow
 import com.example.home.ui.common.components.CustomDialog
+import com.example.home.ui.common.components.CustomText
 
-internal interface ICustomChipRow<T, E> : ITicketField<E> {
+internal interface ICustomClickableText<T, E> : ITicketField<E> {
     val ticketData: List<T>?
     @Composable
     fun <T> Component(
@@ -24,11 +24,10 @@ internal interface ICustomChipRow<T, E> : ITicketField<E> {
         isDialogOpened: MutableState<Boolean> = remember { mutableStateOf(false) },
         scrollState: ScrollState = rememberScrollState(),
 
-        // Chip row
-        title: String,
+        // Clickable text
         icon: Int,
-        addingChipTitle: String,
-        chips: @Composable () -> Unit,
+        title: String,
+        label: String,
         ticketFieldsParams: TicketFieldParams
     ) {
         CustomDialog(
@@ -38,17 +37,15 @@ internal interface ICustomChipRow<T, E> : ITicketField<E> {
             fields = ticketData,
             predicate = predicate,
             listItem = { listItem(it, isDialogOpened) },
-            searchTextState = searchTextState
+            searchTextState = searchTextState,
         )
         TicketFieldComponent(
             title = title,
             icon = icon,
             item = {
-                CustomChipRow(
-                    addingChipTitle = addingChipTitle,
-                    isDialogOpened = isDialogOpened,
-                    chips = { chips() },
-                    isClickable = ticketFieldsParams.isClickable
+                CustomText(
+                    label = label,
+                    onClick = { if (ticketFieldsParams.isClickable) isDialogOpened.value = true }
                 )
             },
             ticketFieldsParams = ticketFieldsParams,

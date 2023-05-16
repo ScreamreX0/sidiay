@@ -10,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.domain.enums.MainMenuTabEnum
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun <T> CustomTabRow(
+internal fun <T> CustomScrollableTabRow(
     pagerState: PagerState,
     values: Array<T>,
     valueTitle: (T) -> String

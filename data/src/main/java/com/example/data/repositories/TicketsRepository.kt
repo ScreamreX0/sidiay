@@ -4,6 +4,7 @@ import com.example.core.utils.Endpoints
 import com.example.core.utils.Logger
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.*
+import com.example.domain.enums.PrioritiesEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
@@ -23,10 +24,10 @@ class TicketsRepository @Inject constructor(
     override suspend fun get() = List(10) {
         TicketEntity(
             id = it.toLong(),
-            executor = UserEntity(id = 0),
+            executors = listOf(UserEntity(id = 0), UserEntity(id = 1)),
             author = UserEntity(id = 0),
             status = TicketStatuses.values().random().value,
-            priority = PriorityEntity(id = (0..5).random().toLong())
+            priority = PrioritiesEnum.values().random().value
         )
     }
 

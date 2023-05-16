@@ -1,4 +1,4 @@
-package com.example.domain.enums
+package com.example.domain.enums.ui
 
 enum class MainMenuTopAppBarEnum(
     val id: Int,

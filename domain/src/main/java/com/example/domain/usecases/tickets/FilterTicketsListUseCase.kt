@@ -1,10 +1,9 @@
 package com.example.domain.usecases.tickets
 
 import androidx.compose.runtime.mutableStateOf
-import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.FilteringParams
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 import javax.inject.Inject
 
 class FilterTicketsListUseCase @Inject constructor() {
@@ -36,6 +35,7 @@ class FilterTicketsListUseCase @Inject constructor() {
 
         sortingParams?.let {
             // SORTING
+
             filteredList.value = filteredList.value.sortedBy {
                 when (sortingParams) {
                     TicketFieldsEnum.ID -> { it.id.toString() }

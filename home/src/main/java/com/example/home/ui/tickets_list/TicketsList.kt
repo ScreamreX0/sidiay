@@ -17,13 +17,12 @@ import com.example.core.utils.*
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.FilteringParams
-import com.example.domain.data_classes.params.TicketData
-import com.example.domain.enums.MainMenuOfflineTabEnum
-import com.example.domain.enums.MainMenuTabEnum
-import com.example.domain.enums.MainMenuTopAppBarEnum
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.MainMenuOfflineTabEnum
+import com.example.domain.enums.ui.MainMenuTabEnum
+import com.example.domain.enums.ui.MainMenuTopAppBarEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.states.NetworkState
-import com.example.home.ui.tickets_list.components.CustomTabRow
+import com.example.home.ui.tickets_list.components.CustomScrollableTabRow
 import com.example.home.ui.tickets_list.components.FilterDialog
 import com.example.home.ui.tickets_list.components.MenuSearch
 import com.example.home.ui.tickets_list.components.MenuTicketList
@@ -102,9 +101,6 @@ class TicketsList {
             drafts = drafts,
             tickets = tickets,
             deleteDraft = ticketsListViewModel::deleteDraft,
-            deleteTicket = ticketsListViewModel::deleteTicket,
-            sortingParams = sortingParams,
-            filteringParams = filteringParams,
             searchText = searchText,
             isFilterDialogEnabled = isFilterDialogEnabled,
             searchTickets = ticketsListViewModel::searchTickets
@@ -127,9 +123,6 @@ class TicketsList {
         drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
         deleteDraft: (TicketEntity) -> Unit = {},
-        deleteTicket: (TicketEntity, FilteringParams?, TicketFieldsEnum?, TextFieldValue) -> Unit = { _, _, _, _ -> },
-        sortingParams: MutableState<TicketFieldsEnum?> = mutableStateOf(null),
-        filteringParams: MutableState<FilteringParams> = mutableStateOf(FilteringParams()),
         searchTickets: (searchText: TextFieldValue) -> Unit = {}
     ) {
         // TICKETS LOADING
@@ -188,56 +181,13 @@ class TicketsList {
 
             authParams?.connectionParams?.url?.let {
                 // Online mode
-                CustomTabRow(
-                    pagerState = pagerState,
-                    values = MainMenuTabEnum.values(),
-                    valueTitle = { it.title }
-                )
-
-                HorizontalPager(
-                    count = MainMenuTabEnum.values().size,
-                    state = pagerState,
-                ) { pageNumber ->
-                    when (pageNumber) {
-                        MainMenuTabEnum.USER_AUTHOR_TICKETS.id -> {
-                            MenuTicketList(
-                                authParams = authParams,
-                                tickets = tickets.value?.filter { authParams.user?.id == it.author?.id },
-                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Заявок не найдено :("
-                            )
-                        }
-
-                        MainMenuTabEnum.USER_EXECUTOR_TICKETS.id -> {
-                            MenuTicketList(
-                                authParams = authParams,
-                                tickets = tickets.value?.filter { authParams.user?.id == it.executor?.id },
-                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Заявок не найдено :("
-                            )
-                        }
-
-                        MainMenuTabEnum.DRAFTS.id -> {
-                            MenuTicketList(
-                                authParams = authParams,
-                                tickets = drafts.value,
-                                onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Черновиков не найдено :(",
-                                showTrashCan = true,
-                                onTrashClick = { deleteDraft(it) }
-                            )
-                        }
-                    }
-                }
-            } ?: run {
-                // Offline mode
                 val scrollCoroutineScope = rememberCoroutineScope()
                 TabRow(
                     modifier = Modifier.height(40.dp),
                     selectedTabIndex = pagerState.currentPage,
                     contentColor = MaterialTheme.colors.onBackground,
                     tabs = {
-                        MainMenuOfflineTabEnum.values().forEachIndexed { index, it ->
+                        MainMenuTabEnum.values().forEachIndexed { index, it ->
                             Tab(
                                 modifier = Modifier.background(MaterialTheme.colors.background),
                                 selected = pagerState.currentPage == index,
@@ -259,18 +209,16 @@ class TicketsList {
                     state = pagerState,
                 ) { pageNumber ->
                     when (pageNumber) {
-                        MainMenuOfflineTabEnum.TICKETS.id -> {
+                        MainMenuTabEnum.TICKETS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
                                 tickets = tickets.value,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Заявок не найдено :(",
-                                showTrashCan = true,
-                                onTrashClick = { deleteTicket(it, filteringParams.value, sortingParams.value, searchText.value) }
+                                emptyListTitle = "Заявок не найдено :("
                             )
                         }
 
-                        MainMenuOfflineTabEnum.DRAFTS.id -> {
+                        MainMenuTabEnum.DRAFTS.id -> {
                             MenuTicketList(
                                 authParams = authParams,
                                 tickets = drafts.value,
@@ -282,6 +230,16 @@ class TicketsList {
                         }
                     }
                 }
+            } ?: run {
+                // Offline mode
+                MenuTicketList(
+                    authParams = authParams,
+                    tickets = drafts.value,
+                    onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
+                    emptyListTitle = "Черновиков не найдено :(",
+                    showTrashCan = true,
+                    onTrashClick = { deleteDraft(it) }
+                )
             }
         }
     }

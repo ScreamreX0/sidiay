@@ -1,6 +1,6 @@
-package com.example.domain.enums
+package com.example.domain.enums.ui
 
-enum class MainMenuOfflineTabEnum(
+enum class MainMenuTabEnum(
     val id: Int,
     val title: String,
 ) {

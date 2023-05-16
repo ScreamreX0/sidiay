@@ -1,4 +1,4 @@
-package com.example.home.ui.common
+package com.example.home.ui.common.interfaces
 
 import androidx.compose.runtime.Composable
 import com.example.domain.data_classes.params.TicketFieldParams

@@ -14,34 +14,49 @@ enum class TicketStatuses(
         title = "Новая",
     ),
 
-    ACCEPTED(
+    EVALUATED(
         value = 3,
+        title = "Оценена",
+    ),
+
+    REJECTED(
+        value = 4,
+        title = "Отклонена",
+    ),
+
+    ACCEPTED(
+        value = 5,
         title = "Принята",
     ),
 
-    DENIED(
-        value = 4,
-        title = "Отклонена"
-    ),
-
     SUSPENDED(
-        value = 5,
+        value = 6,
         title = "Приостановлена"
     ),
 
     COMPLETED(
-        value = 6,
+        value = 7,
         title = "Завершена"
     ),
 
+    QUALITY_CHECKING(
+        value = 8,
+        title = "Контроль качества"
+    ),
+
     CLOSED(
-        value = 7,
+        value = 9,
         title = "Закрыта"
     ),
 
     FOR_REVISION(
-        value = 8,
+        value = 10,
         title = "На доработку"
+    ),
+
+    CANCELED(
+        value = 11,
+        title = "Отменена"
     );
 
     companion object {

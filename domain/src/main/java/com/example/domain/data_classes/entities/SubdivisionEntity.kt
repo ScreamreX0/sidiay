@@ -4,7 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class KindEntity constructor (
+data class SubdivisionEntity(
     var id: Long,
-    var name: String? = null
+    var name: String? = null,
+    var field: FieldsEntity? = null
 ) : Parcelable

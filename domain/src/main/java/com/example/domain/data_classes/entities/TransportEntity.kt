@@ -7,4 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class TransportEntity constructor (
     var id: Long,
     var name: String? = null,
+    var field: FieldsEntity? = null
 ) : Parcelable

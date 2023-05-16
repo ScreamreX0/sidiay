@@ -10,4 +10,7 @@ data class EmployeeEntity(
     var name: String? = null,
     var lastname: String? = null,
     var email: String? = null,
+    var jobTitle: Int? = null,
+    var subdivision: SubdivisionEntity? = null,
+    var facility: FacilityEntity? = null
 ) : Parcelable

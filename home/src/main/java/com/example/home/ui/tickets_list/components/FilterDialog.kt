@@ -36,16 +36,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ScreenPreview
-import com.example.domain.data_classes.entities.EquipmentEntity
-import com.example.domain.data_classes.entities.FacilityEntity
-import com.example.domain.data_classes.entities.KindEntity
-import com.example.domain.data_classes.entities.PriorityEntity
-import com.example.domain.data_classes.entities.ServiceEntity
-import com.example.domain.data_classes.entities.TransportEntity
-import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.home.ui.common.components.CustomDatePicker
 import com.google.accompanist.flowlayout.FlowRow
@@ -294,9 +287,8 @@ private fun SortingChipRow(
         crossAxisSpacing = 10.dp,
     ) {
         SortingChip(TicketFieldsEnum.ID, sortingParams, "По номеру")
-        SortingChip(TicketFieldsEnum.NAME, sortingParams, "По названию")
+        SortingChip(TicketFieldsEnum.TICKET_NAME, sortingParams, "По названию")
         SortingChip(TicketFieldsEnum.SERVICE, sortingParams, "По сервису")
-        SortingChip(TicketFieldsEnum.EXECUTOR, sortingParams, "По исполнителю")
         SortingChip(TicketFieldsEnum.PLANE_DATE, sortingParams, "По плановой дате")
         SortingChip(TicketFieldsEnum.STATUS, sortingParams, "По статусу")
         SortingChip(TicketFieldsEnum.PRIORITY, sortingParams, "По приоритету")
@@ -304,7 +296,7 @@ private fun SortingChipRow(
         SortingChip(TicketFieldsEnum.KIND, sortingParams, "По виду")
         SortingChip(TicketFieldsEnum.CLOSING_DATE, sortingParams, "По дате закрытия")
         SortingChip(TicketFieldsEnum.CREATION_DATE, sortingParams, "По дате создания")
-        SortingChip(TicketFieldsEnum.DESCRIPTION, sortingParams, "По описанию")
+        SortingChip(TicketFieldsEnum.DESCRIPTION_OF_WORK, sortingParams, "По описанию")
     }
 }
 

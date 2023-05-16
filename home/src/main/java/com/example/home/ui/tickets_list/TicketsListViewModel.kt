@@ -10,7 +10,7 @@ import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.usecases.drafts.DeleteDraftsUseCase
@@ -83,7 +83,7 @@ class TicketsListViewModel @Inject constructor(
 
     fun searchTickets(searchText: TextFieldValue) = viewModelScope.launch {
         if (searchText.text != "") {
-            filteredAndSearchedTickets.value = filteredTickets.value?.filter { it.name?.contains(searchText.text) ?: false }
+            filteredAndSearchedTickets.value = filteredTickets.value?.filter { it.ticket_name?.contains(searchText.text) ?: false }
         } else {
             filteredAndSearchedTickets.value = filteredTickets.value
         }

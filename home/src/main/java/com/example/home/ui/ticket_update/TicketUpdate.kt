@@ -35,7 +35,7 @@ import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
@@ -54,7 +54,7 @@ class TicketUpdate {
             TicketEntity(
                 id = 1,
                 author = UserEntity(id = 1),
-                executor = UserEntity(id = 2),
+                executors = listOf(UserEntity(id = 2)),
                 status = TicketStatuses.NEW.value
             )
         },
@@ -208,23 +208,35 @@ class TicketUpdate {
                     selectedTicketStatus = selectedTicketStatus,
                 )
 
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.STATUS, field = ticket.value.status)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.NAME, field = ticket.value.name)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PRIORITY, field = ticket.value.priority)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = ticket.value.service)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.KIND, field = ticket.value.kind)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.AUTHOR, field = ticket.value.author)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTOR, field = ticket.value.executor)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.BRIGADE, field = ticket.value.brigade)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.TRANSPORT, field = ticket.value.transport)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.FACILITIES, field = ticket.value.facilities)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EQUIPMENT, field = ticket.value.equipment)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.IMPROVEMENT_REASON, field = ticket.value.improvement_reason)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PLANE_DATE, field = ticket.value.plane_date)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CLOSING_DATE, field = ticket.value.closing_date)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CREATION_DATE, field = ticket.value.creation_date)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.COMPLETED_WORK, field = ticket.value.completed_work)
-                fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.DESCRIPTION, field = ticket.value.description)
+                with(ticket.value) {
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.ID, field = id)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.STATUS, field = status)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.AUTHOR, field = author)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.FIELD, field = field)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.DISPATCHER, field = dispatcher)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTORS_NOMINATOR, field = executors_nominator)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.QUALITY_CONTROLLERS_NOMINATOR, field = quality_controllers_nominator)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CREATION_DATE, field = creation_date)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.TICKET_NAME, field = ticket_name)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.DESCRIPTION_OF_WORK, field = description_of_work)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.KIND, field = kind)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.SERVICE, field = service)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.FACILITIES, field = facilities)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EQUIPMENT, field = equipment)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.TRANSPORT, field = transport)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PRIORITY, field = priority)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.ASSESSED_VALUE, field = assessed_value)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION, field = assessed_value_description)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.REASON_FOR_CANCELLATION, field = reason_for_cancellation)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.REASON_FOR_REJECTION, field = reason_for_rejection)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTORS, field = executors)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PLANE_DATE, field = plane_date)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.REASON_FOR_SUSPENSION, field = reason_for_suspension)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.COMPLETED_WORK, field = completed_work)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.QUALITY_CONTROLLERS, field = quality_controllers)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.IMPROVEMENT_COMMENT, field = improvement_comment)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.CLOSING_DATE, field = closing_date)
+                }
             }
 
             //

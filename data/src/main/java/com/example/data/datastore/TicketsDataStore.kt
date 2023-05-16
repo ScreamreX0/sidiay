@@ -18,7 +18,7 @@ class TicketsDataStore(private val context: Context): ITicketsDataStore {
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("Tickets")
         private val DRAFTS = stringPreferencesKey("drafts")
-        private val TICKETS = stringPreferencesKey("tickets")
+        private val TICKETS = stringPreferencesKey("tickets")  // УДАЛИТЬ
         private val TICKET_DATA = stringPreferencesKey("ticketData")
     }
 

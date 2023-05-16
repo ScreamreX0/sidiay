@@ -2,15 +2,13 @@ package com.example.home.ui.common.impl.other
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
-import com.example.home.ui.common.INonSelectableText
+import com.example.domain.enums.ui.TicketFieldsEnum
+import com.example.home.ui.common.interfaces.INonSelectableText
 
-class CreationDateNonSelectableText(
+class CreationDateText(
     override val field: String?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,

@@ -2,13 +2,11 @@ package com.example.home.ui.common.impl.date_pickers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import com.example.core.R
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.TicketFieldsEnum
-import com.example.home.ui.common.ICustomDatePicker
+import com.example.domain.enums.ui.TicketFieldsEnum
+import com.example.home.ui.common.interfaces.ICustomDatePicker
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

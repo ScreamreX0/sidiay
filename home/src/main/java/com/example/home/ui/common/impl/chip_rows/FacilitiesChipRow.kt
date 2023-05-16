@@ -7,8 +7,8 @@ import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.FacilityEntity
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.enums.TicketFieldsEnum
-import com.example.home.ui.common.ICustomChipRow
+import com.example.domain.enums.ui.TicketFieldsEnum
+import com.example.home.ui.common.interfaces.ICustomChipRow
 import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 

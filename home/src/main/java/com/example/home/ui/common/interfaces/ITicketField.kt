@@ -1,4 +1,4 @@
-package com.example.home.ui.common
+package com.example.home.ui.common.interfaces
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.domain.data_classes.params.TicketFieldParams
-import com.example.domain.enums.TicketFieldsEnum
+import com.example.domain.enums.ui.TicketFieldsEnum
 
 internal interface ITicketField<T> {
     val fieldEnum: TicketFieldsEnum
