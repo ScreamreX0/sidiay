@@ -9,7 +9,6 @@ import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.interfaces.ICustomTextField
 
 class ImprovementCommentTextField(
-    override val field: String?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
     override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.IMPROVEMENT_COMMENT,

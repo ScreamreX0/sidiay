@@ -17,7 +17,7 @@ internal class BottomBar {
     fun Content(navController: NavHostController) {
         val screens = listOf(
             BottomBarNav.Home,
-            BottomBarNav.Scanner,
+            BottomBarNav.History,
             BottomBarNav.Notifications,
             BottomBarNav.Settings,
         )

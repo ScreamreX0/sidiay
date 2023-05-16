@@ -11,7 +11,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class PlaneDatePicker(
-    override val field: String?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
     override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.PLANE_DATE,

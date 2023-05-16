@@ -3,12 +3,14 @@ package com.example.home.ui.common.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 
 
@@ -17,7 +19,8 @@ internal fun CustomTextField(
     text: String?,
     onValueChange: (newValue: String) -> Unit,
     hint: String,
-    isClickable: Boolean
+    isClickable: Boolean,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
 ) {
     BasicTextField(
         enabled = isClickable,
@@ -37,7 +40,8 @@ internal fun CustomTextField(
                 )
             }
             innerTextField()
-        }
+        },
+        keyboardOptions = keyboardOptions
     )
 }
 

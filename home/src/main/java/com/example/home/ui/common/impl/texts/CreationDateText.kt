@@ -1,4 +1,4 @@
-package com.example.home.ui.common.impl.other
+package com.example.home.ui.common.impl.texts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -9,7 +9,6 @@ import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.interfaces.INonSelectableText
 
 class CreationDateText(
-    override val field: String?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
     override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.CREATION_DATE,

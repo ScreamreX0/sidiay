@@ -10,7 +10,6 @@ import com.example.domain.enums.TicketStatuses
 import com.example.home.ui.common.interfaces.ICustomDropDownMenu
 
 class StatusDropDownMenu(
-    override val field: TicketStatuses?,
     override val ticketData: List<TicketStatuses>?,
     override val ticketFieldsParams: TicketFieldParams,
     private val updateRestrictions: () -> Unit,

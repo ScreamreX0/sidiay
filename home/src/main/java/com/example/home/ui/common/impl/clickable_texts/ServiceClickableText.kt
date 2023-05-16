@@ -11,12 +11,11 @@ import com.example.home.ui.common.interfaces.ICustomClickableText
 import com.example.home.ui.common.components.ListElement
 
 class ServiceClickableText(
-    override val field: Int?,
-    override val ticketData: List<Int>?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
+    override val ticketData: List<ServicesEnum>? = ServicesEnum.values().toList(),
     override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.SERVICE,
-) : ICustomClickableText<Int, Int> {
+) : ICustomClickableText<ServicesEnum, ServicesEnum> {
     @Composable
     fun Content() {
         if (!ticketFieldsParams.isVisible) return
@@ -24,16 +23,11 @@ class ServiceClickableText(
         Component(
             dialogTitle = "Выберите сервис",
             ticketData = ticketData,
-            predicate = { it, searchTextState ->
-                val service = ServicesEnum.getByValue(it)
-                service?.label?.contains(searchTextState.text, true) ?: false
-            },
+            predicate = { it, searchTextState -> it.label.contains(searchTextState.text, true) },
             listItem = { it, isDialogOpened ->
-                ServicesEnum.getByValue(it)?.let { service ->
-                    ListElement(title = service.name) {
-                        ticket.value = ticket.value.copy(service = service.value)
-                        isDialogOpened.value = false
-                    }
+                ListElement(title = it.label) {
+                    ticket.value = ticket.value.copy(service = it.value)
+                    isDialogOpened.value = false
                 }
             },
             title = "Сервисы",

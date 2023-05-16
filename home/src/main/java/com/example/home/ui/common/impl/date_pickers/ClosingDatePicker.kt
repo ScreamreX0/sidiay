@@ -11,7 +11,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ClosingDatePicker(
-    override val field: String?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
     override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.CLOSING_DATE,

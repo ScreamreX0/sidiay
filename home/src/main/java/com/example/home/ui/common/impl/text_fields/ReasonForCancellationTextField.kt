@@ -8,21 +8,21 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.interfaces.ICustomTextField
 
-class CompletedWorkTextField(
+class ReasonForCancellationTextField(
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
-    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.COMPLETED_WORK,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.REASON_FOR_CANCELLATION,
 ) : ICustomTextField<String> {
     @Composable
     fun Content() {
         if (!ticketFieldsParams.isVisible) return
 
         Component(
-            title = "Завершенная работа",
-            icon = R.drawable.baseline_fast_forward_24,
-            text = ticket.value.completed_work,
-            onValueChange = { ticket.value = ticket.value.copy(completed_work = it) },
-            textFieldHint = ticket.value.completed_work ?: "Ввести завершенную работу",
+            title = "Причина отмены заявки",
+            icon = R.drawable.baseline_description_24,
+            text = ticket.value.reason_for_cancellation,
+            onValueChange = { ticket.value = ticket.value.copy(reason_for_cancellation = it) },
+            textFieldHint = ticket.value.reason_for_cancellation ?: "Ввести причину",
             ticketFieldsParams = ticketFieldsParams,
         )
     }

@@ -4,49 +4,51 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import com.example.core.R
 import com.example.core.utils.Helper
-import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.EquipmentEntity
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.interfaces.ICustomChipRow
 import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 
-class FacilitiesChipRow(
-    override val ticketData: List<FacilityEntity>?,
+class QualityControllersChipRow(
+    override val ticketData: List<UserEntity>?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
-    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.FACILITIES,
-) : ICustomChipRow<FacilityEntity, List<FacilityEntity>> {
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.QUALITY_CONTROLLERS,
+) : ICustomChipRow<UserEntity, List<UserEntity>> {
     @Composable
     fun Content() {
         if (!ticketFieldsParams.isVisible) return
 
         Component(
-            dialogTitle = "Выберите объект",
+            dialogTitle = "Выберите сотрудников",
             ticketData = ticketData,
             predicate = { it, searchTextState ->
-                it.name?.contains(searchTextState.text, true) ?: false
+                it.employee?.firstname?.contains(searchTextState.text, true) ?: false
+                        || it.employee?.name?.contains(searchTextState.text, true) ?: false
             },
             listItem = { it, isDialogOpened ->
-                ListElement(title = it.name ?: "") {
-                    if (ticket.value.facilities?.contains(it) != true) {
+                ListElement(title = it.getFullName()) {
+                    if (ticket.value.quality_controllers?.contains(it) != true) {
                         ticket.value = ticket.value.copy(
-                            facilities = Helper.addToList(ticket.value.facilities, it)
+                            quality_controllers = Helper.addToList(ticket.value.quality_controllers, it)
                         )
                     }
                     isDialogOpened.value = false
                 }
             },
-            title = "Объекты",
-            icon = R.drawable.baseline_oil_barrel_24,
-            addingChipTitle = "Добавить объекты",
+            title = "Сотрудники по контролю качества",
+            icon = R.drawable.baseline_computer_24,
+            addingChipTitle = "Добавить сотрудников",
             chips = {
-                ticket.value.facilities?.forEach {
-                    CustomChip(title = it.name ?: "") {
+                ticket.value.quality_controllers?.forEach {
+                    CustomChip(title = it.getFullName()) {
                         if (ticketFieldsParams.isClickable) {
                             ticket.value = ticket.value.copy(
-                                facilities = Helper.removeFromList(ticket.value.facilities, it)
+                                quality_controllers = Helper.removeFromList(ticket.value.quality_controllers, it)
                             )
                         }
                     }

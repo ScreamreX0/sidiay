@@ -2,17 +2,17 @@ package com.example.domain.data_classes.params
 
 import com.example.domain.data_classes.entities.EquipmentEntity
 import com.example.domain.data_classes.entities.FacilityEntity
-import com.example.domain.data_classes.entities.KindEntity
-import com.example.domain.data_classes.entities.PriorityEntity
-import com.example.domain.data_classes.entities.ServiceEntity
 import com.example.domain.data_classes.entities.TransportEntity
 import com.example.domain.data_classes.entities.UserEntity
+import com.example.domain.enums.KindsEnum
+import com.example.domain.enums.PrioritiesEnum
+import com.example.domain.enums.ServicesEnum
 import com.example.domain.enums.TicketStatuses
 
 data class FilteringParams(
-    val priority: List<PriorityEntity> = emptyList(),
-    val services: List<ServiceEntity> = emptyList(),
-    val kinds: List<KindEntity> = emptyList(),
+    val priority: List<PrioritiesEnum> = emptyList(),
+    val services: List<ServicesEnum> = emptyList(),
+    val kinds: List<KindsEnum> = emptyList(),
     val authors: List<UserEntity> = emptyList(),
     val executors: List<UserEntity> = emptyList(),
     val brigade: List<UserEntity> = emptyList(),

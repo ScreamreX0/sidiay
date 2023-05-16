@@ -38,6 +38,9 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.enums.KindsEnum
+import com.example.domain.enums.PrioritiesEnum
+import com.example.domain.enums.ServicesEnum
 import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.home.ui.common.components.CustomDatePicker
@@ -160,29 +163,29 @@ private fun FiltersComponent(
 ) {
     // priorities
     DropdownCheckboxMenu(
-        items = ticketData.value?.priorities ?: listOf(),
+        items = PrioritiesEnum.values().toList(),
         label = "По приоритетам",
         onSelectionChange = { filteringParams.value = filteringParams.value.copy(priority = it) },
         selectedItems = filteringParams.value.priority,
-        itemText = { it.name ?: "Приоритет ${it.id}" }
+        itemText = { it.label }
     )
 
     // services
     DropdownCheckboxMenu(
-        items = ticketData.value?.services ?: listOf(),
+        items = ServicesEnum.values().toList(),
         label = "По сервисам",
         onSelectionChange = { filteringParams.value = filteringParams.value.copy(services = it) },
         selectedItems = filteringParams.value.services,
-        itemText = { it.name ?: "Сервис №${it.id}" }
+        itemText = { it.label }
     )
 
     // kinds
     DropdownCheckboxMenu(
-        items = ticketData.value?.kinds ?: listOf(),
+        items = KindsEnum.values().toList(),
         label = "По видам",
         onSelectionChange = { filteringParams.value = filteringParams.value.copy(kinds = it) },
         selectedItems = filteringParams.value.kinds,
-        itemText = { it.name ?: "Вид №${it.id}" }
+        itemText = { it.label }
     )
 
     // authors
@@ -203,15 +206,6 @@ private fun FiltersComponent(
         itemText = { it.getFullName() }
     )
 
-    // brigades
-    DropdownCheckboxMenu(
-        items = ticketData.value?.users ?: listOf(),
-        label = "По бригаде",
-        onSelectionChange = { filteringParams.value = filteringParams.value.copy(brigade = it) },
-        selectedItems = filteringParams.value.brigade,
-        itemText = { it.getFullName() }
-    )
-
     // transport
     DropdownCheckboxMenu(
         items = ticketData.value?.transport ?: listOf(),
@@ -228,15 +222,6 @@ private fun FiltersComponent(
         onSelectionChange = { filteringParams.value = filteringParams.value.copy(facilities = it) },
         selectedItems = filteringParams.value.facilities,
         itemText = { it.name ?: "Объект №${it.id}" }
-    )
-
-    // equipment
-    DropdownCheckboxMenu(
-        items = ticketData.value?.equipment ?: listOf(),
-        label = "По оборудованию",
-        onSelectionChange = { filteringParams.value = filteringParams.value.copy(equipment = it) },
-        selectedItems = filteringParams.value.equipment,
-        itemText = { it.name ?: "Оборудование №${it.id}" }
     )
 
     // statuses

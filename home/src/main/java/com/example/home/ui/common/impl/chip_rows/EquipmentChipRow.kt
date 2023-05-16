@@ -13,7 +13,6 @@ import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 
 class EquipmentChipRow(
-    override val field: List<EquipmentEntity>?,
     override val ticketData: List<EquipmentEntity>?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,

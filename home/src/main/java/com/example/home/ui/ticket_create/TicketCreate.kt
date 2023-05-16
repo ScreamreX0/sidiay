@@ -34,9 +34,9 @@ import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState.*
-import com.example.home.ui.common.*
 import com.example.home.ui.common.components.TicketCreateBottomBar
 import com.example.home.ui.common.components.TicketCreateTopBar
+import com.example.home.ui.common.impl.TicketFieldsFactory
 
 
 class TicketCreate {

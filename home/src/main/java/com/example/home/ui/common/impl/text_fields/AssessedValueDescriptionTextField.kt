@@ -8,21 +8,21 @@ import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.interfaces.ICustomTextField
 
-class CompletedWorkTextField(
+class AssessedValueDescriptionTextField(
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
-    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.COMPLETED_WORK,
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION,
 ) : ICustomTextField<String> {
     @Composable
     fun Content() {
         if (!ticketFieldsParams.isVisible) return
 
         Component(
-            title = "Завершенная работа",
-            icon = R.drawable.baseline_fast_forward_24,
-            text = ticket.value.completed_work,
-            onValueChange = { ticket.value = ticket.value.copy(completed_work = it) },
-            textFieldHint = ticket.value.completed_work ?: "Ввести завершенную работу",
+            title = "Описание оценочной стоимости",
+            icon = R.drawable.baseline_description_24,
+            text = ticket.value.assessed_value_description,
+            onValueChange = { ticket.value = ticket.value.copy(description_of_work = it) },
+            textFieldHint = ticket.value.assessed_value_description ?: "Ввести описание оценочной стоимости",
             ticketFieldsParams = ticketFieldsParams,
         )
     }

@@ -40,7 +40,7 @@ import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.home.ui.common.TicketFieldsFactory
+import com.example.home.ui.common.impl.TicketFieldsFactory
 import com.example.home.ui.common.components.TicketUpdateBottomBar
 import com.example.home.ui.common.components.TicketUpdateTopBar
 

@@ -4,49 +4,51 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import com.example.core.R
 import com.example.core.utils.Helper
-import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.EquipmentEntity
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketFieldParams
 import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.interfaces.ICustomChipRow
 import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 
-class FacilitiesChipRow(
-    override val ticketData: List<FacilityEntity>?,
+class ExecutorsChipRow(
+    override val ticketData: List<UserEntity>?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,
-    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.FACILITIES,
-) : ICustomChipRow<FacilityEntity, List<FacilityEntity>> {
+    override val fieldEnum: TicketFieldsEnum = TicketFieldsEnum.EXECUTORS,
+) : ICustomChipRow<UserEntity, List<UserEntity>> {
     @Composable
     fun Content() {
         if (!ticketFieldsParams.isVisible) return
 
         Component(
-            dialogTitle = "Выберите объект",
+            dialogTitle = "Выберите исполнителей",
             ticketData = ticketData,
             predicate = { it, searchTextState ->
-                it.name?.contains(searchTextState.text, true) ?: false
+                it.employee?.firstname?.contains(searchTextState.text, true) ?: false
+                        || it.employee?.name?.contains(searchTextState.text, true) ?: false
             },
             listItem = { it, isDialogOpened ->
-                ListElement(title = it.name ?: "") {
-                    if (ticket.value.facilities?.contains(it) != true) {
+                ListElement(title = it.getFullName()) {
+                    if (ticket.value.executors?.contains(it) != true) {
                         ticket.value = ticket.value.copy(
-                            facilities = Helper.addToList(ticket.value.facilities, it)
+                            executors = Helper.addToList(ticket.value.executors, it)
                         )
                     }
                     isDialogOpened.value = false
                 }
             },
-            title = "Объекты",
-            icon = R.drawable.baseline_oil_barrel_24,
-            addingChipTitle = "Добавить объекты",
+            title = "Исполнители",
+            icon = R.drawable.baseline_computer_24,
+            addingChipTitle = "Добавить исполнителей",
             chips = {
-                ticket.value.facilities?.forEach {
-                    CustomChip(title = it.name ?: "") {
+                ticket.value.executors?.forEach {
+                    CustomChip(title = it.getFullName()) {
                         if (ticketFieldsParams.isClickable) {
                             ticket.value = ticket.value.copy(
-                                facilities = Helper.removeFromList(ticket.value.facilities, it)
+                                executors = Helper.removeFromList(ticket.value.executors, it)
                             )
                         }
                     }

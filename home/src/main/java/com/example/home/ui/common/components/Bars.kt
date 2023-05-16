@@ -148,15 +148,7 @@ internal fun TicketCreateTopBar(
                 title = "Вы уверены, что хотите очистить все поля?",
                 isDialogOpened = clearFieldsDialogOpened,
                 onConfirm = {
-                    ticket.value = ticket.value.copy(
-                        name = null,
-                        facilities = null,
-                        service = null,
-                        kind = null,
-                        plane_date = null,
-                        priority = null,
-                        executor = null
-                    )
+                    ticket.value = TicketEntity()
                     clearFieldsDialogOpened.value = false
                 }
             )

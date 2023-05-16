@@ -13,7 +13,6 @@ import com.example.home.ui.common.components.CustomChip
 import com.example.home.ui.common.components.ListElement
 
 class TransportChipRow(
-    override val field: List<TransportEntity>?,
     override val ticketData: List<TransportEntity>?,
     override val ticketFieldsParams: TicketFieldParams,
     private val ticket: MutableState<TicketEntity>,

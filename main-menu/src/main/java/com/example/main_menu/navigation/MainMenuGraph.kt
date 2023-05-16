@@ -35,7 +35,7 @@ fun MainMenuGraph(
         route = Graphs.MAIN_MENU,
         startDestination = Graphs.HOME
     ) {
-        composable(route = BottomBarNav.Scanner.route) {
+        composable(route = BottomBarNav.History.route) {
 
         }
         composable(route = BottomBarNav.Notifications.route) {

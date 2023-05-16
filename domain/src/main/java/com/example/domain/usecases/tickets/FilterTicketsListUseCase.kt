@@ -3,6 +3,9 @@ package com.example.domain.usecases.tickets
 import androidx.compose.runtime.mutableStateOf
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.FilteringParams
+import com.example.domain.enums.KindsEnum
+import com.example.domain.enums.PrioritiesEnum
+import com.example.domain.enums.ServicesEnum
 import com.example.domain.enums.ui.TicketFieldsEnum
 import javax.inject.Inject
 
@@ -18,13 +21,11 @@ class FilterTicketsListUseCase @Inject constructor() {
 
         filterParams?.let { params ->
             // FILTERING
-            filteredList.value = filteredList.value.filterWithList(params.priority) { itTicket, it -> itTicket.priority?.id == it.id }
-            filteredList.value = filteredList.value.filterWithList(params.services) { itTicket, it -> itTicket.service?.id == it.id }
-            filteredList.value = filteredList.value.filterWithList(params.kinds) { itTicket, it -> itTicket.kind?.id == it.id }
+            filteredList.value = filteredList.value.filterWithList(params.priority) { itTicket, it -> itTicket.priority == it.value }
+            filteredList.value = filteredList.value.filterWithList(params.services) { itTicket, it -> itTicket.service == it.value }
+            filteredList.value = filteredList.value.filterWithList(params.kinds) { itTicket, it -> itTicket.kind == it.value }
             filteredList.value = filteredList.value.filterWithList(params.authors) { itTicket, it -> itTicket.author?.id == it.id }
-            filteredList.value = filteredList.value.filterWithList(params.executors) { itTicket, it -> itTicket.executor?.id == it.id }
             filteredList.value = filteredList.value.filterWithList(params.status) { itTicket, it -> itTicket.status == it.value }
-            filteredList.value = filteredList.value.filterWithList(params.brigade) { itTicket, it -> itTicket.brigade?.contains(it) ?: true }
             filteredList.value = filteredList.value.filterWithList(params.transport) { itTicket, it -> itTicket.transport?.contains(it) ?: true }
             filteredList.value = filteredList.value.filterWithList(params.facilities) { itTicket, it -> itTicket.facilities?.contains(it) ?: true }
             filteredList.value = filteredList.value.filterWithList(params.equipment) { itTicket, it -> itTicket.equipment?.contains(it) ?: true }
@@ -39,19 +40,18 @@ class FilterTicketsListUseCase @Inject constructor() {
             filteredList.value = filteredList.value.sortedBy {
                 when (sortingParams) {
                     TicketFieldsEnum.ID -> { it.id.toString() }
-                    TicketFieldsEnum.NAME -> { it.name ?: ""  }
-                    TicketFieldsEnum.DESCRIPTION -> { it.description ?: ""  }
-                    TicketFieldsEnum.SERVICE -> { it.service?.id?.toString() ?: ""  }
-                    TicketFieldsEnum.KIND -> { it.kind?.id?.toString() ?: ""  }
-                    TicketFieldsEnum.PRIORITY -> { it.priority?.id?.toString() ?: ""  }
-                    TicketFieldsEnum.EXECUTOR -> { it.executor?.employee?.firstname ?: "" }
+                    TicketFieldsEnum.TICKET_NAME -> { it.ticket_name ?: ""  }
+                    TicketFieldsEnum.DESCRIPTION_OF_WORK -> { it.description_of_work ?: ""  }
+                    TicketFieldsEnum.SERVICE -> { it.service?.let { itService -> ServicesEnum.getByValue(itService) }?.label ?: ""  }
+                    TicketFieldsEnum.KIND -> { it.kind?.let { itKind -> KindsEnum.getByValue(itKind) }?.label ?: ""  }
+                    TicketFieldsEnum.PRIORITY -> { it.priority?.let { itPriority -> PrioritiesEnum.getByValue(itPriority) }?.label ?: ""  }
                     TicketFieldsEnum.COMPLETED_WORK -> { it.completed_work ?: "" }
                     TicketFieldsEnum.PLANE_DATE -> { it.plane_date ?: "" }
                     TicketFieldsEnum.CLOSING_DATE -> { it.closing_date ?: "" }
                     TicketFieldsEnum.CREATION_DATE -> { it.creation_date ?: "" }
                     TicketFieldsEnum.AUTHOR -> { it.author?.employee?.firstname ?: "" }
                     TicketFieldsEnum.STATUS -> { it.status.toString() }
-                    TicketFieldsEnum.IMPROVEMENT_REASON -> { it.improvement_reason ?: "" }
+                    TicketFieldsEnum.IMPROVEMENT_COMMENT -> { it.improvement_comment ?: "" }
                     else -> { it.id.toString() }
                 }
             }

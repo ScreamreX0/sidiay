@@ -20,7 +20,6 @@ import com.example.domain.enums.ui.TicketFieldsEnum
 
 internal interface ITicketField<T> {
     val fieldEnum: TicketFieldsEnum
-    val field: T?
     val ticketFieldsParams: TicketFieldParams
 
     @Composable
