@@ -104,7 +104,7 @@ dependencies {
         implementation(project(path = DOMAIN))
         implementation(project(path = CORE))
         implementation(project(path = HOME))
-        implementation(project(path = SCANNER))
+        implementation(project(path = HISTORY))
         implementation(project(path = NOTIFICATIONS))
         implementation(project(path = SETTINGS))
     }

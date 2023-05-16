@@ -1,4 +1,4 @@
-package com.example.scanner
+package com.example.history
 
 import org.junit.Test
 

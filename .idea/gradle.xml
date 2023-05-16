@@ -16,10 +16,10 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/history" />
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/main-menu" />
             <option value="$PROJECT_DIR$/notifications" />
-            <option value="$PROJECT_DIR$/scanner" />
             <option value="$PROJECT_DIR$/settings" />
             <option value="$PROJECT_DIR$/signin" />
           </set>

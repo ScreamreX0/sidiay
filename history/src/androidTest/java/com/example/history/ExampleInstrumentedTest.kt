@@ -1,4 +1,4 @@
-package com.example.scanner
+package com.example.history
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

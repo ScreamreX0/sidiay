@@ -99,7 +99,7 @@ dependencies {
         implementation(project(path = SIGN_IN))
         implementation(project(path = HOME))
         implementation(project(path = NOTIFICATIONS))
-        implementation(project(path = SCANNER))
+        implementation(project(path = HISTORY))
         implementation(project(path = SETTINGS))
         implementation(project(path = MAIN_MENU))
     }

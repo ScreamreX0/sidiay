@@ -93,7 +93,7 @@ object Dependencies {
         const val APP = ":app"
         const val HOME = ":home"
         const val NOTIFICATIONS = ":notifications"
-        const val SCANNER = ":scanner"
+        const val HISTORY = ":history"
         const val SETTINGS = ":settings"
         const val MAIN_MENU = ":main-menu"
     }
