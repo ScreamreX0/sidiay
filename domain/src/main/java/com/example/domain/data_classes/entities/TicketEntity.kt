@@ -28,6 +28,7 @@ data class TicketEntity constructor (
     var assessed_value_description: String? = null,
     var reason_for_cancellation: String? = null,
     var reason_for_rejection: String? = null,
+    var execution_problem_description: String? = null,
     var executors: List<UserEntity>? = null,
     var plane_date: String? = null,
     var reason_for_suspension: String? = null,

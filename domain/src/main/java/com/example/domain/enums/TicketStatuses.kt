@@ -57,9 +57,13 @@ enum class TicketStatuses(
     CANCELED(
         value = 11,
         title = "Отменена"
+    ),
+    EXECUTION_PROBLEM(
+        value = 12,
+        title = "Проблема при выполнении"
     );
 
     companion object {
-        fun get(status: Int?) = TicketStatuses.values().find { it.value == status }
+        fun getByValue(value: Int?) = TicketStatuses.values().find { it.value == value }
     }
 }

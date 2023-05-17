@@ -24,11 +24,7 @@ class FilterTicketsListUseCase @Inject constructor() {
             filteredList.value = filteredList.value.filterWithList(params.priority) { itTicket, it -> itTicket.priority == it.value }
             filteredList.value = filteredList.value.filterWithList(params.services) { itTicket, it -> itTicket.service == it.value }
             filteredList.value = filteredList.value.filterWithList(params.kinds) { itTicket, it -> itTicket.kind == it.value }
-            filteredList.value = filteredList.value.filterWithList(params.authors) { itTicket, it -> itTicket.author?.id == it.id }
             filteredList.value = filteredList.value.filterWithList(params.status) { itTicket, it -> itTicket.status == it.value }
-            filteredList.value = filteredList.value.filterWithList(params.transport) { itTicket, it -> itTicket.transport?.contains(it) ?: true }
-            filteredList.value = filteredList.value.filterWithList(params.facilities) { itTicket, it -> itTicket.facilities?.contains(it) ?: true }
-            filteredList.value = filteredList.value.filterWithList(params.equipment) { itTicket, it -> itTicket.equipment?.contains(it) ?: true }
             filteredList.value = filteredList.value.filter { params.planeDate?.equals(it.plane_date) ?: true }
             filteredList.value = filteredList.value.filter { params.closingDate?.equals(it.closing_date) ?: true }
             filteredList.value = filteredList.value.filter { params.creationDate?.equals(it.creation_date) ?: true }

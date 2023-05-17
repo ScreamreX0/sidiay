@@ -14,7 +14,8 @@ import com.example.domain.enums.states.NetworkState
 import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.connections.GetConnectionsUseCase
 import com.example.domain.usecases.connections.SaveConnectionsUseCase
-import com.example.domain.usecases.settings.GetSettingsUseCase
+import com.example.domain.usecases.settings.GetLastAuthorizedUserUseCase
+import com.example.domain.usecases.settings.GetUIModeUseCase
 import com.example.domain.usecases.settings.SaveSettingsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +24,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    // Sign in
     private val signInUseCase: SignInUseCase,
+
+    // Connections
     private val checkConnectionUseCase: CheckConnectionUseCase,
     private val getConnectionsUseCase: GetConnectionsUseCase,
     private val saveConnectionsUseCase: SaveConnectionsUseCase,
-    private val getSettingsUseCase: GetSettingsUseCase,
-    private val saveSettingsUseCase: SaveSettingsUseCase
+
+    // Settings
+    private val getUIModeUseCase: GetUIModeUseCase,
+    private val saveSettingsUseCase: SaveSettingsUseCase,
+    private val getLastAuthorizedUserUseCase: GetLastAuthorizedUserUseCase
 ) : ViewModel() {
     internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
 
@@ -39,19 +46,29 @@ class SignInViewModel @Inject constructor(
     internal var signInResult: MutableState<Pair<INetworkState?, UserEntity?>> =
         mutableStateOf(Pair(null, null), neverEqualPolicy())
 
+    internal val fetchingLastAuthorizedUserState = mutableStateOf(NetworkState.WAIT_FOR_INIT)
+    internal val lastAuthorizedUser: MutableState<UserEntity?> = mutableStateOf(null)
+
     init {
         viewModelScope.launch { fetchConnections() }
         viewModelScope.launch { fetchUIMode() }
+        viewModelScope.launch { fetchLastAuthorizedUser() }
     }
 
-    // UI mode
+    // Settings
     internal fun changeMode() = viewModelScope.launch {
         saveSettingsUseCase.execute(darkMode.value?.let { !it } ?: false)
         fetchUIMode()
     }
 
     private suspend fun fetchUIMode() {
-        darkMode.value = getSettingsUseCase.execute()
+        darkMode.value = getUIModeUseCase.execute()
+    }
+
+    private fun fetchLastAuthorizedUser() = viewModelScope.launch {
+        fetchingLastAuthorizedUserState.value = NetworkState.LOADING
+        lastAuthorizedUser.value = getLastAuthorizedUserUseCase.execute()
+        fetchingLastAuthorizedUserState.value = NetworkState.DONE
     }
 
     // Connections

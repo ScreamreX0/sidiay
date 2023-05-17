@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.utils.Helper
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.enums.states.NetworkState
 import kotlinx.coroutines.launch

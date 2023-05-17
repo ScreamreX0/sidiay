@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -35,7 +36,7 @@ internal class SignIn {
     @Composable
     fun SignInScreen(
         navigateToMainMenu: (String) -> Unit = { _ -> },
-        navigateToMainMenuOfflineMode: () -> Unit = {},
+        navigateToMainMenuOfflineMode: (UserEntity) -> Unit = {},
         signInViewModel: SignInViewModel = hiltViewModel(),
     ) {
         val darkMode = signInViewModel.darkMode
@@ -45,7 +46,8 @@ internal class SignIn {
         val connectionsList = signInViewModel.connectionsList
         val checkConnectionResult = signInViewModel.checkConnectionResult
         val context = LocalContext.current
-        val selectedConnection: MutableState<ConnectionParams?> = remember { mutableStateOf(ConnectionParams()) }
+        val selectedConnection: MutableState<ConnectionParams?> =
+            remember { mutableStateOf(ConnectionParams()) }
 
         // Signing in
         signInResult.value.let { result ->
@@ -64,7 +66,8 @@ internal class SignIn {
             }
             result.first?.let {
                 // Sign in error
-                itMessage -> Helper.showShortToast(context, itMessage.toString())
+                    itMessage ->
+                Helper.showShortToast(context, itMessage.toString())
             }
         }
 
@@ -78,7 +81,13 @@ internal class SignIn {
                 saveConnectionsFunction = signInViewModel::saveConnections,
                 changeUIModeFunction = signInViewModel::changeMode,
                 signInFunction = signInViewModel::signIn,
-                navigateToMainMenuOfflineMode = navigateToMainMenuOfflineMode
+                navigateToMainMenuOfflineMode = {
+                    signInViewModel.lastAuthorizedUser.value?.let { itUser ->
+                        navigateToMainMenuOfflineMode(itUser)
+                    } ?: run {
+                        Helper.showLongToast(context, "Для того чтобы войти в автономный режим нужно хотя бы раз авторизоваться")
+                    }
+                },
             )
         }
     }
@@ -94,7 +103,7 @@ internal class SignIn {
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
         selectedConnection: MutableState<ConnectionParams?> = mutableStateOf(null),
 
-        // UI mode
+        // Settings
         changeUIModeFunction: () -> Unit = {},
 
         // Sign in
@@ -117,7 +126,8 @@ internal class SignIn {
 
             // App title
             TitleComponent(
-                modifier = Modifier.layoutId("titleComponentRef"), changeUIMode = changeUIModeFunction
+                modifier = Modifier.layoutId("titleComponentRef"),
+                changeUIMode = changeUIModeFunction
             )
 
             // Connections button

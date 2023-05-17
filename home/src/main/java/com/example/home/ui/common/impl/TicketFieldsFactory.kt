@@ -24,6 +24,7 @@ import com.example.home.ui.common.impl.texts.AuthorText
 import com.example.home.ui.common.impl.texts.CreationDateText
 import com.example.home.ui.common.impl.text_fields.CompletedWorkTextField
 import com.example.home.ui.common.impl.text_fields.DescriptionTextField
+import com.example.home.ui.common.impl.text_fields.ExecutionProblemReasonTextField
 import com.example.home.ui.common.impl.text_fields.ImprovementCommentTextField
 import com.example.home.ui.common.impl.text_fields.NameTextField
 import com.example.home.ui.common.impl.text_fields.ReasonForCancellationTextField
@@ -65,6 +66,7 @@ class TicketFieldsFactory(
             TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION -> AssessedValueTextField(params, ticket).Content()
             TicketFieldsEnum.REASON_FOR_CANCELLATION -> ReasonForCancellationTextField(params, ticket).Content()
             TicketFieldsEnum.REASON_FOR_REJECTION -> ReasonForRejectionTextField(params, ticket).Content()
+            TicketFieldsEnum.EXECUTION_PROBLEM_DESCRIPTION -> ExecutionProblemReasonTextField(params, ticket).Content()
             TicketFieldsEnum.EXECUTORS -> ExecutorsChipRow(ticketData?.users, params, ticket).Content()
             TicketFieldsEnum.PLANE_DATE -> PlaneDatePicker(params, ticket).Content()
             TicketFieldsEnum.REASON_FOR_SUSPENSION -> ReasonForSuspensionTextField(params, ticket).Content()

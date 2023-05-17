@@ -69,7 +69,7 @@ class TicketUpdate {
             navigateToBackWithMessage(LocalContext.current)
         }
 
-        val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.get(ticket.status) ?: TicketStatuses.NOT_FORMED) }
+        val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.getByValue(ticket.status) ?: TicketStatuses.NOT_FORMED) }
         val mutableTicket = remember { mutableStateOf(ticket) }
 
         Content(
@@ -229,6 +229,7 @@ class TicketUpdate {
                     fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION, field = assessed_value_description)
                     fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.REASON_FOR_CANCELLATION, field = reason_for_cancellation)
                     fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.REASON_FOR_REJECTION, field = reason_for_rejection)
+                    fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTION_PROBLEM_DESCRIPTION, field = execution_problem_description)
                     fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.EXECUTORS, field = executors)
                     fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.PLANE_DATE, field = plane_date)
                     fieldsFactory.GetField(fieldEnum = TicketFieldsEnum.REASON_FOR_SUSPENSION, field = reason_for_suspension)

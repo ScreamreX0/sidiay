@@ -4,15 +4,14 @@ import com.example.domain.data_classes.params.TicketRestriction
 import com.example.domain.enums.ui.TicketFieldsEnum
 
 class GetTicketCreateRestrictionsUseCase {
-    fun execute() = TicketRestriction(  // TODO("Переделать")
-        allowedFields = listOf(TicketFieldsEnum.TICKET_NAME),
+    fun execute() = TicketRestriction(
+        allowedFields = listOf(),
         requiredFields = listOf(
-            TicketFieldsEnum.FACILITIES,
-            TicketFieldsEnum.SERVICE,
+            TicketFieldsEnum.TICKET_NAME,
+            TicketFieldsEnum.DESCRIPTION_OF_WORK,
             TicketFieldsEnum.KIND,
-            TicketFieldsEnum.PRIORITY,
-            TicketFieldsEnum.EXECUTORS,
-            TicketFieldsEnum.PLANE_DATE
+            TicketFieldsEnum.SERVICE,
+            TicketFieldsEnum.FACILITIES,
         ),
         availableStatuses = listOf()
     )

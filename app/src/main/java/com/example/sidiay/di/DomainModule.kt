@@ -11,13 +11,14 @@ import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.connections.GetConnectionsUseCase
 import com.example.domain.usecases.connections.SaveConnectionsUseCase
 import com.example.domain.usecases.drafts.DeleteDraftsUseCase
-import com.example.domain.usecases.settings.GetSettingsUseCase
+import com.example.domain.usecases.settings.GetUIModeUseCase
 import com.example.domain.usecases.settings.SaveSettingsUseCase
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import com.example.domain.usecases.drafts.SaveDraftsUseCase
+import com.example.domain.usecases.settings.GetLastAuthorizedUserUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
@@ -40,7 +41,8 @@ class DomainModule {
         userRepository: IAuthRepository,
         checkConnectionUseCase: CheckConnectionUseCase,
         checkSignInFieldsUseCase: CheckSignInFieldsUseCase
-    ): SignInUseCase = SignInUseCase(userRepository, checkConnectionUseCase, checkSignInFieldsUseCase)
+    ): SignInUseCase =
+        SignInUseCase(userRepository, checkConnectionUseCase, checkSignInFieldsUseCase)
 
     @Provides
     fun provideGetTicketsUseCase(
@@ -61,10 +63,12 @@ class DomainModule {
     ): UpdateTicketUseCase = UpdateTicketUseCase(ticketsRepository, checkConnectionUseCase)
 
     @Provides
-    fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase = GetTicketUpdateRestrictionsUseCase()
+    fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase =
+        GetTicketUpdateRestrictionsUseCase()
 
     @Provides
-    fun provideGetTicketCreateRestrictionsUseCase(): GetTicketCreateRestrictionsUseCase = GetTicketCreateRestrictionsUseCase()
+    fun provideGetTicketCreateRestrictionsUseCase(): GetTicketCreateRestrictionsUseCase =
+        GetTicketCreateRestrictionsUseCase()
 
     @Provides
     fun provideCheckConnectionUseCase(
@@ -77,24 +81,35 @@ class DomainModule {
         GetConnectionsUseCase(connectionsDataStore)
 
     @Provides
-    fun provideGetDraftsUseCase(draftsDataStore: ITicketsDataStore): GetDraftsUseCase = GetDraftsUseCase(draftsDataStore)
+    fun provideGetDraftsUseCase(draftsDataStore: ITicketsDataStore): GetDraftsUseCase =
+        GetDraftsUseCase(draftsDataStore)
 
     @Provides
-    fun provideDeleteDraftsUseCase(draftsDataStore: ITicketsDataStore): DeleteDraftsUseCase = DeleteDraftsUseCase(draftsDataStore)
+    fun provideDeleteDraftsUseCase(draftsDataStore: ITicketsDataStore): DeleteDraftsUseCase =
+        DeleteDraftsUseCase(draftsDataStore)
 
     @Provides
-    fun provideGetSettingsUseCase(themeDataStore: ISettingsDataStore): GetSettingsUseCase = GetSettingsUseCase(themeDataStore)
+    fun provideGetUIModeUseCase(settingsDataStore: ISettingsDataStore): GetUIModeUseCase =
+        GetUIModeUseCase(settingsDataStore)
+
+    @Provides
+    fun provideGetLastAuthorizedUserUseCase(settingsDataStore: ISettingsDataStore): GetLastAuthorizedUserUseCase =
+        GetLastAuthorizedUserUseCase(settingsDataStore)
 
     @Provides
     fun provideSaveConnectionsUseCase(connectionsDataStore: IConnectionsDataStore): SaveConnectionsUseCase =
         SaveConnectionsUseCase(connectionsDataStore)
 
     @Provides
-    fun provideSaveDraftsUseCase(draftsDataStore: ITicketsDataStore, getDraftsUseCase: GetDraftsUseCase): SaveDraftsUseCase =
+    fun provideSaveDraftsUseCase(
+        draftsDataStore: ITicketsDataStore,
+        getDraftsUseCase: GetDraftsUseCase
+    ): SaveDraftsUseCase =
         SaveDraftsUseCase(draftsDataStore, getDraftsUseCase)
 
     @Provides
-    fun provideSaveSettingsUseCase(themeDataStore: ISettingsDataStore): SaveSettingsUseCase = SaveSettingsUseCase(themeDataStore)
+    fun provideSaveSettingsUseCase(themeDataStore: ISettingsDataStore): SaveSettingsUseCase =
+        SaveSettingsUseCase(themeDataStore)
 
     @Provides
     fun provideFilterTicketsListUseCase(): FilterTicketsListUseCase = FilterTicketsListUseCase()

@@ -188,42 +188,6 @@ private fun FiltersComponent(
         itemText = { it.label }
     )
 
-    // authors
-    DropdownCheckboxMenu(
-        items = ticketData.value?.users ?: listOf(),
-        label = "По заявителям",
-        onSelectionChange = { filteringParams.value = filteringParams.value.copy(authors = it) },
-        selectedItems = filteringParams.value.authors,
-        itemText = { it.getFullName() }
-    )
-
-    // executor
-    DropdownCheckboxMenu(
-        items = ticketData.value?.users ?: listOf(),
-        label = "По исполнителям",
-        onSelectionChange = { filteringParams.value = filteringParams.value.copy(executors = it) },
-        selectedItems = filteringParams.value.executors,
-        itemText = { it.getFullName() }
-    )
-
-    // transport
-    DropdownCheckboxMenu(
-        items = ticketData.value?.transport ?: listOf(),
-        label = "По транспорту",
-        onSelectionChange = { filteringParams.value = filteringParams.value.copy(transport = it) },
-        selectedItems = filteringParams.value.transport,
-        itemText = { it.name ?: "Транспорт №${it.id}" }
-    )
-
-    // facilities
-    DropdownCheckboxMenu(
-        items = ticketData.value?.facilities ?: listOf(),
-        label = "По объектам",
-        onSelectionChange = { filteringParams.value = filteringParams.value.copy(facilities = it) },
-        selectedItems = filteringParams.value.facilities,
-        itemText = { it.name ?: "Объект №${it.id}" }
-    )
-
     // statuses
     DropdownCheckboxMenu(
         items = TicketStatuses.values().toList(),
