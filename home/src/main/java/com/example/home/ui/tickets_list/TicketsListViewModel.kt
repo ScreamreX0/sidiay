@@ -9,6 +9,7 @@ import com.example.core.utils.Helper
 import com.example.core.utils.Logger
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.FilteringParams
+import com.example.domain.data_classes.params.SortingParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.states.INetworkState
@@ -48,7 +49,7 @@ class TicketsListViewModel @Inject constructor(
         url: String?,
         userId: Long,
         filteringParams: FilteringParams?,
-        sortingParams: TicketFieldsEnum?,
+        sortingParams: SortingParams?,
         searchText: TextFieldValue
     ) {
         viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
@@ -72,14 +73,14 @@ class TicketsListViewModel @Inject constructor(
 
     suspend fun filterTickets(
         filteringParams: FilteringParams?,
-        sortingParams: TicketFieldsEnum?,
+        sortingParams: SortingParams?,
         searchText: TextFieldValue
     ) = viewModelScope.launch {
         filteredTickets.value = filterTicketsListUseCase.execute(filteringParams, sortingParams, tickets.value)
         searchTickets(searchText)
     }
 
-    suspend fun searchTickets(searchText: TextFieldValue) = viewModelScope.launch {
+    fun searchTickets(searchText: TextFieldValue) = viewModelScope.launch {
         if (searchText.text.isNotBlank()) {
             filteredAndSearchedTickets.value = filteredTickets.value?.filter { it.ticket_name?.contains(searchText.text) ?: false }
         } else {

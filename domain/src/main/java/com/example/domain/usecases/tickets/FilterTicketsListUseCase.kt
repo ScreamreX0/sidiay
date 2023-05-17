@@ -1,8 +1,12 @@
 package com.example.domain.usecases.tickets
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.domain.R
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.FilteringParams
+import com.example.domain.data_classes.params.SortBy
+import com.example.domain.data_classes.params.SortBy.*
+import com.example.domain.data_classes.params.SortingParams
 import com.example.domain.enums.KindsEnum
 import com.example.domain.enums.PrioritiesEnum
 import com.example.domain.enums.ServicesEnum
@@ -12,7 +16,7 @@ import javax.inject.Inject
 class FilterTicketsListUseCase @Inject constructor() {
     suspend fun execute(
         filterParams: FilteringParams?,
-        sortingParams: TicketFieldsEnum?,
+        sortingParams: SortingParams?,
         ticketsList: List<TicketEntity>?
     ): List<TicketEntity>? {
         ticketsList ?: return null
@@ -32,25 +36,27 @@ class FilterTicketsListUseCase @Inject constructor() {
 
         sortingParams?.let {
             // SORTING
-
-            filteredList.value = filteredList.value.sortedBy {
-                when (sortingParams) {
-                    TicketFieldsEnum.ID -> { it.id.toString() }
-                    TicketFieldsEnum.TICKET_NAME -> { it.ticket_name ?: ""  }
-                    TicketFieldsEnum.DESCRIPTION_OF_WORK -> { it.description_of_work ?: ""  }
-                    TicketFieldsEnum.SERVICE -> { it.service?.let { itService -> ServicesEnum.getByValue(itService) }?.label ?: ""  }
-                    TicketFieldsEnum.KIND -> { it.kind?.let { itKind -> KindsEnum.getByValue(itKind) }?.label ?: ""  }
-                    TicketFieldsEnum.PRIORITY -> { it.priority?.let { itPriority -> PrioritiesEnum.getByValue(itPriority) }?.label ?: ""  }
-                    TicketFieldsEnum.COMPLETED_WORK -> { it.completed_work ?: "" }
-                    TicketFieldsEnum.PLANE_DATE -> { it.plane_date ?: "" }
-                    TicketFieldsEnum.CLOSING_DATE -> { it.closing_date ?: "" }
-                    TicketFieldsEnum.CREATION_DATE -> { it.creation_date ?: "" }
-                    TicketFieldsEnum.AUTHOR -> { it.author?.employee?.firstname ?: "" }
-                    TicketFieldsEnum.STATUS -> { it.status.toString() }
-                    TicketFieldsEnum.IMPROVEMENT_COMMENT -> { it.improvement_comment ?: "" }
-                    else -> { it.id.toString() }
-                }
-            }
+            filteredList.value = filteredList.value.sortedBy(
+                selector = {
+                    when (sortingParams.field) {
+                        TicketFieldsEnum.ID -> { it.id.toString() }
+                        TicketFieldsEnum.TICKET_NAME -> { it.ticket_name ?: ""  }
+                        TicketFieldsEnum.DESCRIPTION_OF_WORK -> { it.description_of_work ?: ""  }
+                        TicketFieldsEnum.SERVICE -> { it.service?.let { itService -> ServicesEnum.getByValue(itService) }?.label ?: ""  }
+                        TicketFieldsEnum.KIND -> { it.kind?.let { itKind -> KindsEnum.getByValue(itKind) }?.label ?: ""  }
+                        TicketFieldsEnum.PRIORITY -> { it.priority?.let { itPriority -> PrioritiesEnum.getByValue(itPriority) }?.label ?: ""  }
+                        TicketFieldsEnum.COMPLETED_WORK -> { it.completed_work ?: "" }
+                        TicketFieldsEnum.PLANE_DATE -> { it.plane_date ?: "" }
+                        TicketFieldsEnum.CLOSING_DATE -> { it.closing_date ?: "" }
+                        TicketFieldsEnum.CREATION_DATE -> { it.creation_date ?: "" }
+                        TicketFieldsEnum.AUTHOR -> { it.author?.employee?.firstname ?: "" }
+                        TicketFieldsEnum.STATUS -> { it.status.toString() }
+                        TicketFieldsEnum.IMPROVEMENT_COMMENT -> { it.improvement_comment ?: "" }
+                        else -> { it.id.toString() }
+                    }
+                },
+                sortBy = sortingParams.sortBy
+            )
         }
         return filteredList.value
     }
@@ -61,5 +67,12 @@ class FilterTicketsListUseCase @Inject constructor() {
     ): List<TicketEntity> {
         if (params.isEmpty()) return this
         return params.flatMap { itParam -> this.filter { itTicket -> predicate(itTicket, itParam) } }
+    }
+
+    private inline fun <T, R : Comparable<R>> List<T>.sortedBy(
+        crossinline selector: (T) -> R?,
+        sortBy: SortBy
+    ): List<T> {
+        return if (sortBy == ASCENDING) this.sortedBy(selector) else this.sortedByDescending(selector)
     }
 }

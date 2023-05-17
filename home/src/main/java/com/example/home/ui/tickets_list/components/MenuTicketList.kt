@@ -212,7 +212,7 @@ private fun MenuTicketListItem(
                 modifier = Modifier
                     .layoutId("statusRef")
                     .fillMaxWidth(0.3F),
-                text = TicketStatuses.get(ticket.status)?.title ?: "[Статус неизвестен]",
+                text = TicketStatuses.getByValue(ticket.status)?.title ?: "[Статус неизвестен]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,

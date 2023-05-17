@@ -37,6 +37,8 @@ import androidx.compose.ui.window.Dialog
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.params.FilteringParams
+import com.example.domain.data_classes.params.SortBy
+import com.example.domain.data_classes.params.SortingParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.KindsEnum
 import com.example.domain.enums.PrioritiesEnum
@@ -49,7 +51,7 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 internal fun FilterDialog(
     onConfirmButton: () -> Unit = {},
-    sortingParams: MutableState<TicketFieldsEnum?> = mutableStateOf(null),
+    sortingParams: MutableState<SortingParams> = mutableStateOf(SortingParams()),
     filteringParams: MutableState<FilteringParams> = mutableStateOf(FilteringParams()),
     isDialogOpened: MutableState<Boolean> = mutableStateOf(true),
     ticketData: MutableState<TicketData?> = mutableStateOf(null),
@@ -64,7 +66,7 @@ internal fun FilterDialog(
                 modifier = Modifier.height(600.dp)
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
                     content = {
                         item {
                             //
@@ -75,16 +77,6 @@ internal fun FilterDialog(
                                     text = "Фильтрация и сортировка",
                                     fontSize = MaterialTheme.typography.h4.fontSize,
                                     fontWeight = FontWeight.Bold,
-                                )
-                                Icon(
-                                    modifier = Modifier
-                                        .clickable {
-                                            sortingParams.value = null
-                                            filteringParams.value = FilteringParams()
-                                        },
-                                    painter = painterResource(com.example.core.R.drawable.baseline_delete_24),
-                                    contentDescription = "clear all",
-                                    tint = MaterialTheme.colors.onBackground.copy(alpha = 0.8F)
                                 )
                             }
 
@@ -97,14 +89,44 @@ internal fun FilterDialog(
                                     fontSize = MaterialTheme.typography.h4.fontSize,
                                 )
                                 Icon(
-                                    modifier = Modifier.clickable { sortingParams.value = null },
+                                    modifier = Modifier.clickable {
+                                        sortingParams.value = sortingParams.value.copy(
+                                            sortBy = when (sortingParams.value.sortBy) {
+                                                SortBy.ASCENDING -> {
+                                                    SortBy.DESCENDING
+                                                }
+
+                                                else -> {
+                                                    SortBy.ASCENDING
+                                                }
+                                            }
+                                        )
+                                    },
+                                    painter = painterResource(
+                                        if (sortingParams.value.sortBy == SortBy.ASCENDING) {
+                                            com.example.core.R.drawable.baseline_keyboard_arrow_down_24
+                                        } else {
+                                            com.example.core.R.drawable.baseline_keyboard_arrow_up_24
+                                        }
+                                    ),
+                                    contentDescription = "sorting ascending and descending",
+                                    tint = MaterialTheme.colors.onBackground.copy(alpha = 0.65F)
+                                )
+                                Icon(
+                                    modifier = Modifier.clickable {
+                                        sortingParams.value = SortingParams()
+                                    },
                                     painter = painterResource(com.example.core.R.drawable.baseline_delete_24),
                                     contentDescription = "clear sorting params",
-                                    tint = MaterialTheme.colors.onBackground.copy(alpha = 0.8F)
+                                    tint = MaterialTheme.colors.onBackground.copy(alpha = 0.65F)
                                 )
                             }
                             SortingChipRow(
-                                modifier = Modifier.padding(bottom = 8.dp),
+                                modifier = Modifier.padding(
+                                    start = 8.dp,
+                                    end = 8.dp,
+                                    bottom = 8.dp
+                                ),
                                 sortingParams = sortingParams,
                             )
                             Divider(modifier = Modifier.padding(vertical = 8.dp))
@@ -118,10 +140,12 @@ internal fun FilterDialog(
                                     fontSize = MaterialTheme.typography.h4.fontSize,
                                 )
                                 Icon(
-                                    modifier = Modifier.clickable { filteringParams.value = FilteringParams() },
+                                    modifier = Modifier.clickable {
+                                        filteringParams.value = FilteringParams()
+                                    },
                                     painter = painterResource(com.example.core.R.drawable.baseline_delete_24),
                                     contentDescription = "clear filtering params",
-                                    tint = MaterialTheme.colors.onBackground.copy(alpha = 0.8F)
+                                    tint = MaterialTheme.colors.onBackground.copy(alpha = 0.65F)
                                 )
                             }
                             FiltersComponent(
@@ -228,7 +252,7 @@ private fun DatePicker(
 @Composable
 private fun SortingChipRow(
     modifier: Modifier = Modifier,
-    sortingParams: MutableState<TicketFieldsEnum?> = mutableStateOf(null),
+    sortingParams: MutableState<SortingParams> = mutableStateOf(SortingParams()),
 ) {
     FlowRow(
         modifier = modifier,
@@ -252,10 +276,10 @@ private fun SortingChipRow(
 @Composable
 private fun SortingChip(
     ticketField: TicketFieldsEnum,
-    sortingParams: MutableState<TicketFieldsEnum?>,
+    sortingParams: MutableState<SortingParams>,
     title: String
 ) {
-    val currentChipSelected = sortingParams.value == ticketField
+    val currentChipSelected = sortingParams.value.field == ticketField
 
     Box(
         modifier = Modifier
@@ -265,7 +289,7 @@ private fun SortingChip(
                 if (currentChipSelected) {
                     MaterialTheme.colors.onBackground
                 } else {
-                    MaterialTheme.colors.onBackground.copy(alpha = 0.8F)
+                    MaterialTheme.colors.onBackground.copy(alpha = 0.65F)
                 }
             ),
         contentAlignment = Alignment.Center
@@ -278,9 +302,9 @@ private fun SortingChip(
                     indication = null
                 ) {
                     if (currentChipSelected) {
-                        sortingParams.value = null
+                        sortingParams.value = SortingParams()
                     } else {
-                        sortingParams.value = ticketField
+                        sortingParams.value = sortingParams.value.copy(field = ticketField)
                     }
                 },
             verticalAlignment = Alignment.CenterVertically,

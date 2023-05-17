@@ -17,6 +17,7 @@ import com.example.core.utils.*
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.FilteringParams
+import com.example.domain.data_classes.params.SortingParams
 import com.example.domain.enums.ui.MainMenuOfflineTabEnum
 import com.example.domain.enums.ui.MainMenuTabEnum
 import com.example.domain.enums.ui.MainMenuTopAppBarEnum
@@ -50,7 +51,7 @@ class TicketsList {
         val ticketData = ticketsListViewModel.ticketData
 
         val context = LocalContext.current
-        val sortingParams: MutableState<TicketFieldsEnum?> = remember { mutableStateOf(null) }
+        val sortingParams: MutableState<SortingParams> = remember { mutableStateOf(SortingParams()) }
         val filteringParams: MutableState<FilteringParams> = remember { mutableStateOf(FilteringParams()) }
         val searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) }
         val isFilterDialogEnabled: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -65,7 +66,6 @@ class TicketsList {
                 )
             }
         }
-
         // Fetching tickets
         LaunchedEffect(key1 = null) { fetchTickets() }
         // Fetching drafts
@@ -78,7 +78,11 @@ class TicketsList {
             FilterDialog(
                 onConfirmButton = {
                     filterTicketsCoroutineScope.launch {
-                        ticketsListViewModel.filterTickets(filteringParams.value, sortingParams.value, searchText.value)
+                        ticketsListViewModel.filterTickets(
+                            filteringParams.value,
+                            sortingParams.value,
+                            searchText.value
+                        )
                         isFilterDialogEnabled.value = false
                     }
                 },
