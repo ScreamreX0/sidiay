@@ -12,20 +12,29 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ScreenPreview
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.domain.data_classes.params.ConnectionParams
+import com.example.domain.enums.JobTitlesEnum
 
 class SettingsScreen {
     @Composable
     fun Content(
-        authParams: AuthParams = AuthParams(),
+        authParams: AuthParams = AuthParams(
+            user = UserEntity(id = 5),
+            connectionParams = ConnectionParams()
+        ),
         logout: () -> Unit = {}
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(32.dp)
+        ) {
 
             Text(
                 modifier = Modifier,
@@ -55,13 +64,11 @@ class SettingsScreen {
         }
     }
 
-    private fun getUserTitle(authParams: AuthParams): String = authParams.connectionParams?.url?.let {
-        authParams.user?.getFullName() ?: "ФИО не найдено"
-    } ?: "Гость"
+    private fun getUserTitle(authParams: AuthParams) = "${authParams.user?.getFullName()}" +
+            (authParams.connectionParams?.url?.let { " (Автономный режим)" } ?: "")
 
-    private fun getUserRole(authParams: AuthParams): String = authParams.connectionParams?.url?.let {
-        authParams.user?.getFullName() ?: "Пользователь"
-    } ?: ""
+    private fun getUserRole(authParams: AuthParams) =
+        authParams.user?.employee?.jobTitle?.let { JobTitlesEnum.getByValue(it)?.label } ?: "Пользователь"
 
     @Composable
     @ScreenPreview
