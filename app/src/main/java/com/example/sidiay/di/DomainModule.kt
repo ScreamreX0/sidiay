@@ -5,7 +5,7 @@ import com.example.domain.repositories.IAuthRepository
 import com.example.domain.repositories.IConnectionsDataStore
 import com.example.domain.repositories.ITicketsDataStore
 import com.example.domain.repositories.INetworkConnectionRepository
-import com.example.domain.repositories.IThemeDataStore
+import com.example.domain.repositories.ISettingsDataStore
 import com.example.domain.repositories.ITicketsRepository
 import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.connections.GetConnectionsUseCase
@@ -18,12 +18,11 @@ import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import com.example.domain.usecases.drafts.SaveDraftsUseCase
-import com.example.domain.usecases.tickets.SaveTicketUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
-import com.example.domain.usecases.tickets.DeleteTicketsUseCase
 import com.example.domain.usecases.tickets.FilterTicketsListUseCase
+import com.example.domain.usecases.tickets.SaveTicketUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,26 +46,19 @@ class DomainModule {
     fun provideGetTicketsUseCase(
         ticketsRepository: ITicketsRepository,
         checkConnectionUseCase: CheckConnectionUseCase,
-        ticketDataStore: ITicketsDataStore
-    ): GetTicketsUseCase = GetTicketsUseCase(ticketsRepository, checkConnectionUseCase, ticketDataStore)
-
-    @Provides
-    fun provideDeleteTicketsUseCase(ticketDataStore: ITicketsDataStore): DeleteTicketsUseCase =
-        DeleteTicketsUseCase(ticketDataStore)
+    ): GetTicketsUseCase = GetTicketsUseCase(ticketsRepository, checkConnectionUseCase)
 
     @Provides
     fun provideSaveTicketUseCase(
         ticketsRepository: ITicketsRepository,
-        checkConnectionUseCase: CheckConnectionUseCase,
-        ticketDataStore: ITicketsDataStore
-    ): SaveTicketUseCase = SaveTicketUseCase(ticketsRepository, checkConnectionUseCase, ticketDataStore)
+        checkConnectionUseCase: CheckConnectionUseCase
+    ): SaveTicketUseCase = SaveTicketUseCase(ticketsRepository, checkConnectionUseCase)
 
     @Provides
     fun provideUpdateTicketUseCase(
         ticketsRepository: ITicketsRepository,
         checkConnectionUseCase: CheckConnectionUseCase,
-        ticketDataStore: ITicketsDataStore
-    ): UpdateTicketUseCase = UpdateTicketUseCase(ticketsRepository, checkConnectionUseCase, ticketDataStore)
+    ): UpdateTicketUseCase = UpdateTicketUseCase(ticketsRepository, checkConnectionUseCase)
 
     @Provides
     fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase = GetTicketUpdateRestrictionsUseCase()
@@ -91,7 +83,7 @@ class DomainModule {
     fun provideDeleteDraftsUseCase(draftsDataStore: ITicketsDataStore): DeleteDraftsUseCase = DeleteDraftsUseCase(draftsDataStore)
 
     @Provides
-    fun provideGetSettingsUseCase(themeDataStore: IThemeDataStore): GetSettingsUseCase = GetSettingsUseCase(themeDataStore)
+    fun provideGetSettingsUseCase(themeDataStore: ISettingsDataStore): GetSettingsUseCase = GetSettingsUseCase(themeDataStore)
 
     @Provides
     fun provideSaveConnectionsUseCase(connectionsDataStore: IConnectionsDataStore): SaveConnectionsUseCase =
@@ -102,7 +94,7 @@ class DomainModule {
         SaveDraftsUseCase(draftsDataStore, getDraftsUseCase)
 
     @Provides
-    fun provideSaveSettingsUseCase(themeDataStore: IThemeDataStore): SaveSettingsUseCase = SaveSettingsUseCase(themeDataStore)
+    fun provideSaveSettingsUseCase(themeDataStore: ISettingsDataStore): SaveSettingsUseCase = SaveSettingsUseCase(themeDataStore)
 
     @Provides
     fun provideFilterTicketsListUseCase(): FilterTicketsListUseCase = FilterTicketsListUseCase()

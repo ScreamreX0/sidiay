@@ -73,11 +73,14 @@ class TicketsList {
         // Fetching ticket data
         LaunchedEffect(key1 = null) { ticketsListViewModel.fetchTicketData(authParams?.connectionParams?.url) }
 
+        val filterTicketsCoroutineScope = rememberCoroutineScope()
         if (isFilterDialogEnabled.value) {
             FilterDialog(
                 onConfirmButton = {
-                    ticketsListViewModel.filterTickets(filteringParams.value, sortingParams.value, searchText.value)
-                    isFilterDialogEnabled.value = false
+                    filterTicketsCoroutineScope.launch {
+                        ticketsListViewModel.filterTickets(filteringParams.value, sortingParams.value, searchText.value)
+                        isFilterDialogEnabled.value = false
+                    }
                 },
                 sortingParams = sortingParams,
                 filteringParams = filteringParams,
@@ -111,22 +114,29 @@ class TicketsList {
     @Composable
     private fun Content(
         modifier: Modifier = Modifier,
-        authParams: AuthParams? = remember { AuthParams() },
-        isSearchEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
-        isFilterDialogEnabled: MutableState<Boolean> = remember { mutableStateOf(false) },
-        searchText: MutableState<TextFieldValue> = remember { mutableStateOf(TextFieldValue("")) },
+        authParams: AuthParams? = AuthParams(),
         pagerState: PagerState = rememberPagerState(),
+
+        // Searching and filtering
+        isSearchEnabled: MutableState<Boolean> = mutableStateOf(false),
+        isFilterDialogEnabled: MutableState<Boolean> = mutableStateOf(false),
+        searchText: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
+        searchTickets: suspend (searchText: TextFieldValue) -> Unit = {},
+
+        // Tickets
         fetchTickets: () -> Unit = { },
         navigateToTicketCreate: () -> Unit = {},
         navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
         ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
-        drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
+
+        // Drafts
+        drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
         deleteDraft: (TicketEntity) -> Unit = {},
-        searchTickets: (searchText: TextFieldValue) -> Unit = {}
     ) {
-        // TICKETS LOADING
-        if ((ticketsReceivingState.value == NetworkState.LOADING || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
+        // Tickets receiving progress
+        if ((ticketsReceivingState.value == NetworkState.LOADING
+                    || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
             && Constants.APPLICATION_MODE != ApplicationModes.OFFLINE
         ) {
             Row(
@@ -138,7 +148,6 @@ class TicketsList {
         }
 
         Column(modifier = modifier.fillMaxSize()) {
-            // App bar
             TopAppBar(
                 contentColor = MaterialTheme.colors.onBackground,
                 backgroundColor = MaterialTheme.colors.background

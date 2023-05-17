@@ -10,7 +10,7 @@ import com.example.domain.enums.ui.TicketFieldsEnum
 import javax.inject.Inject
 
 class FilterTicketsListUseCase @Inject constructor() {
-    fun execute(
+    suspend fun execute(
         filterParams: FilteringParams?,
         sortingParams: TicketFieldsEnum?,
         ticketsList: List<TicketEntity>?

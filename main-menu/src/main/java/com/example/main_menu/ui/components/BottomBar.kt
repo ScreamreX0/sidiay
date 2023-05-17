@@ -62,6 +62,7 @@ internal class BottomBar {
                     popUpTo(navController.graph.findStartDestination().id)
                     launchSingleTop = true
                 }
-            })
+            }
+        )
     }
 }

@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.TicketData
+import com.example.domain.enums.ui.MainMenuTabEnum
 import com.example.domain.repositories.ITicketsDataStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -18,16 +19,11 @@ class TicketsDataStore(private val context: Context): ITicketsDataStore {
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("Tickets")
         private val DRAFTS = stringPreferencesKey("drafts")
-        private val TICKETS = stringPreferencesKey("tickets")  // УДАЛИТЬ
         private val TICKET_DATA = stringPreferencesKey("ticketData")
     }
 
     override val getDrafts: Flow<Collection<TicketEntity>?> = context.dataStore.data.map {
         Gson().fromJson<List<TicketEntity>>(it[DRAFTS] ?: "", (object : TypeToken<List<TicketEntity>>() {}).type)
-    }
-
-    override val getTickets: Flow<Collection<TicketEntity>?> = context.dataStore.data.map {
-        Gson().fromJson<List<TicketEntity>>(it[TICKETS] ?: "", (object : TypeToken<List<TicketEntity>>() {}).type)
     }
 
     override val getTicketData: Flow<TicketData?> = context.dataStore.data.map {
@@ -36,10 +32,6 @@ class TicketsDataStore(private val context: Context): ITicketsDataStore {
 
     override suspend fun saveDrafts(drafts: Collection<TicketEntity>) {
         context.dataStore.edit { it[DRAFTS] = Gson().toJson(drafts) }
-    }
-
-    override suspend fun saveTickets(tickets: Collection<TicketEntity>) {
-        context.dataStore.edit { it[TICKETS] = Gson().toJson(tickets) }
     }
 
     override suspend fun saveTicketData(ticketData: TicketData) {

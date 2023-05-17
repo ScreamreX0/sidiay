@@ -16,7 +16,6 @@ import javax.inject.Inject
 class UpdateTicketUseCase @Inject constructor(
     private val ticketRepository: ITicketsRepository,
     private val checkConnectionUseCase: CheckConnectionUseCase,
-    private val ticketDataStore: ITicketsDataStore
 ) {
     suspend fun execute(url: String?, currentUserId: Long?, ticket: TicketEntity): Pair<INetworkState?, TicketEntity?> {
         if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) {
@@ -24,10 +23,8 @@ class UpdateTicketUseCase @Inject constructor(
             return Pair(null, TicketEntity())
         }
 
-        if (url == null || currentUserId == null) {
-            ticketDataStore.saveTickets(ticketDataStore.getTickets.first()?.plus(ticket) ?: listOf(ticket))
-            return Pair(NetworkState.DONE, null)
-        }
+        url ?: run { return Pair(NetworkState.NO_SERVER_CONNECTION, null) }
+        currentUserId ?: run { return Pair(NetworkState.NO_SERVER_CONNECTION, null) }
 
         checkConnectionUseCase.execute(url).let {
             if (it == NetworkState.NO_SERVER_CONNECTION) return Pair(it, null)

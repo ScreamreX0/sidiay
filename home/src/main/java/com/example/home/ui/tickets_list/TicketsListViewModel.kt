@@ -16,7 +16,6 @@ import com.example.domain.enums.states.NetworkState
 import com.example.domain.usecases.drafts.DeleteDraftsUseCase
 import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
-import com.example.domain.usecases.tickets.DeleteTicketsUseCase
 import com.example.domain.usecases.tickets.FilterTicketsListUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +26,6 @@ import javax.inject.Inject
 class TicketsListViewModel @Inject constructor(
     // Tickets
     private val getTicketsUseCase: GetTicketsUseCase,
-    private val deleteTicketsUseCase: DeleteTicketsUseCase,
     private val filterTicketsListUseCase: FilterTicketsListUseCase,
 
     // Drafts
@@ -72,7 +70,7 @@ class TicketsListViewModel @Inject constructor(
         }
     }
 
-    fun filterTickets(
+    suspend fun filterTickets(
         filteringParams: FilteringParams?,
         sortingParams: TicketFieldsEnum?,
         searchText: TextFieldValue
@@ -81,24 +79,12 @@ class TicketsListViewModel @Inject constructor(
         searchTickets(searchText)
     }
 
-    fun searchTickets(searchText: TextFieldValue) = viewModelScope.launch {
-        if (searchText.text != "") {
+    suspend fun searchTickets(searchText: TextFieldValue) = viewModelScope.launch {
+        if (searchText.text.isNotBlank()) {
             filteredAndSearchedTickets.value = filteredTickets.value?.filter { it.ticket_name?.contains(searchText.text) ?: false }
         } else {
             filteredAndSearchedTickets.value = filteredTickets.value
         }
-    }
-
-    fun deleteTicket(
-        ticket: TicketEntity,
-        filteringParams: FilteringParams?,
-        sortingParams: TicketFieldsEnum?,
-        searchText: TextFieldValue
-    ) = viewModelScope.launch {
-        deleteTicketsUseCase.execute(ticket)
-        val ticketsFromMemory = getTicketsUseCase.execute(url = null, userId = 0).second
-        tickets.value = ticketsFromMemory
-        filterTickets(filteringParams, sortingParams, searchText)
     }
 
     // Drafts

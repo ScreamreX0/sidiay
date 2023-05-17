@@ -47,8 +47,10 @@ internal class SignIn {
         val context = LocalContext.current
         val selectedConnection: MutableState<ConnectionParams?> = remember { mutableStateOf(ConnectionParams()) }
 
+        // Signing in
         signInResult.value.let { result ->
             result.second?.let { itUser ->
+                // Sign in success
                 val authParams = AuthParams(
                     user = if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) UserEntity(0) else itUser,
                     connectionParams = selectedConnection.value,
@@ -60,7 +62,10 @@ internal class SignIn {
                     navigateToMainMenu(authParamsString)
                 }
             }
-            result.first?.let { itMessage -> Helper.showShortToast(context, itMessage.toString()) }
+            result.first?.let {
+                // Sign in error
+                itMessage -> Helper.showShortToast(context, itMessage.toString())
+            }
         }
 
         AppTheme(darkMode.value!!) {
@@ -80,15 +85,20 @@ internal class SignIn {
 
     @Composable
     fun Content(
+        // Connections
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
         checkConnectionResult: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
         checkConnectionFunction: suspend (url: String) -> Unit = { _ -> },
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
-        changeUIModeFunction: () -> Unit = {},
-        signInFunction: (String?, String, String) -> Unit = { _, _, _ -> },
         selectedConnection: MutableState<ConnectionParams?> = mutableStateOf(null),
+
+        // UI mode
+        changeUIModeFunction: () -> Unit = {},
+
+        // Sign in
+        signInFunction: (String?, String, String) -> Unit = { _, _, _ -> },
         navigateToMainMenuOfflineMode: () -> Unit = {},
     ) {
         ConstraintLayout(
@@ -96,7 +106,7 @@ internal class SignIn {
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
-            // Dialog
+            // Connections dialog
             ConnectionsDialog(
                 isDialogOpened = isConnectionDialogOpened,
                 selectedConnection = selectedConnection,
@@ -105,19 +115,19 @@ internal class SignIn {
                 updateConnectionsList = updateConnectionsListFunction
             )
 
-            // Title
+            // App title
             TitleComponent(
                 modifier = Modifier.layoutId("titleComponentRef"), changeUIMode = changeUIModeFunction
             )
 
-            // Default connection button
+            // Connections button
             ConnectionComponent(
                 modifier = Modifier.layoutId("connectionComponentRef"),
                 isConnectionDialogOpened = isConnectionDialogOpened,
                 selectedConnection = selectedConnection
             )
 
-            // Check connection
+            // Check connection button
             CheckConnectionComponent(
                 modifier = Modifier.layoutId("checkConnectionComponentRef"),
                 selectedConnection = selectedConnection,
@@ -125,20 +135,20 @@ internal class SignIn {
                 checkConnectionResult = checkConnectionResult
             )
 
-            // Email
+            // Email text field
             val email = remember { mutableStateOf("") }
             EmailComponent(
                 modifier = Modifier.layoutId("emailComponentRef"), email = email
             )
 
-            // Password
+            // Password text field
             val password = remember { mutableStateOf("") }
             PasswordComponent(
                 modifier = Modifier.layoutId("passwordComponentRef"),
                 password = password,
             )
 
-            // Enter
+            // Enter button
             EnterComponent(
                 modifier = Modifier.layoutId("enterComponentRef"),
                 email = email,
@@ -147,7 +157,7 @@ internal class SignIn {
                 signInFunction = signInFunction,
             )
 
-            // Offline mode
+            // Offline mode button
             OfflineModeComponent(
                 modifier = Modifier.layoutId("offlineComponentRef"),
                 navigateToMainMenuOfflineMode = navigateToMainMenuOfflineMode

@@ -88,23 +88,3 @@ fun DefaultButtonStyle(content: @Composable () -> Unit) {
         content()
     }
 }
-
-@Composable
-fun DefaultTextStyle(content: @Composable () -> Unit) {
-    MaterialTheme(
-        typography = MaterialTheme.typography.copy(
-            h1 = MaterialTheme.typography.h1,
-            h2 = MaterialTheme.typography.h2,
-            h3 = MaterialTheme.typography.h3,
-            h4 = MaterialTheme.typography.h4,
-            h5 = MaterialTheme.typography.h5,
-            h6 = MaterialTheme.typography.h6,
-        ),
-        colors = MaterialTheme.colors.copy(
-            primary = MaterialTheme.colors.primary,
-            onPrimary = MaterialTheme.colors.onPrimary
-        )
-    ) {
-        content()
-    }
-}

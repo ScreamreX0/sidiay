@@ -11,7 +11,6 @@ import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.data_classes.params.Credentials
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
-import com.example.domain.enums.states.SignInStates
 import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.connections.GetConnectionsUseCase
 import com.example.domain.usecases.connections.SaveConnectionsUseCase
@@ -34,16 +33,18 @@ class SignInViewModel @Inject constructor(
     internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
 
     internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
-    internal val checkConnectionResult = mutableStateOf(NetworkState.WAIT_FOR_INIT, neverEqualPolicy())
+    internal val checkConnectionResult =
+        mutableStateOf(NetworkState.WAIT_FOR_INIT, neverEqualPolicy())
 
-    internal var signInResult: MutableState<Pair<INetworkState?, UserEntity?>> = mutableStateOf(Pair(null, null), neverEqualPolicy())
+    internal var signInResult: MutableState<Pair<INetworkState?, UserEntity?>> =
+        mutableStateOf(Pair(null, null), neverEqualPolicy())
 
     init {
         viewModelScope.launch { fetchConnections() }
         viewModelScope.launch { fetchUIMode() }
     }
 
-    // Mode
+    // UI mode
     internal fun changeMode() = viewModelScope.launch {
         saveSettingsUseCase.execute(darkMode.value?.let { !it } ?: false)
         fetchUIMode()
@@ -66,11 +67,10 @@ class SignInViewModel @Inject constructor(
     }
 
     // Sign in
-    internal fun signIn(url: String?, email: String, password: String) {
-        viewModelScope.launch(
-            Helper.getCoroutineNetworkExceptionHandler {
-                signInResult.value = Pair(NetworkState.NO_SERVER_CONNECTION, null)
-            }
-        ) { signInResult.value = signInUseCase.execute(url, Credentials(email, password)) }
-    }
+    internal fun signIn(url: String?, email: String, password: String) =
+        viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
+            signInResult.value = Pair(NetworkState.NO_SERVER_CONNECTION, null)
+        }) {
+            signInResult.value = signInUseCase.execute(url, Credentials(email, password))
+        }
 }

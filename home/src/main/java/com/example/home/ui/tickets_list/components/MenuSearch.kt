@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -20,19 +21,23 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ComponentPreview
+import kotlinx.coroutines.launch
 
 
 @Composable
 internal fun MenuSearch(
     textState: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
     isSearchEnabled: MutableState<Boolean> = mutableStateOf(true),
-    searchTickets: (searchText: TextFieldValue) -> Unit = {}
+    searchTickets: suspend (searchText: TextFieldValue) -> Unit = {},
 ) {
+    val searchTicketsCoroutineScope = rememberCoroutineScope()
     TextField(
         value = textState.value,
         onValueChange = {
-            textState.value = it
-            searchTickets(it)
+            searchTicketsCoroutineScope.launch {
+                textState.value = it
+                searchTickets(it)
+            }
         },
         modifier = Modifier.fillMaxWidth(),
         leadingIcon = {
@@ -48,8 +53,10 @@ internal fun MenuSearch(
         trailingIcon = {
             IconButton(
                 onClick = {
-                    textState.value = TextFieldValue("")
-                    searchTickets(textState.value)
+                    searchTicketsCoroutineScope.launch {
+                        textState.value = TextFieldValue("")
+                        searchTickets(textState.value)
+                    }
                 }
             ) {
                 Icon(

@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
-import com.example.core.ui.theme.DefaultTextStyle
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.enums.states.NetworkState
@@ -66,24 +65,22 @@ internal fun CheckConnectionComponent(
     checkConnection: suspend (String) -> Unit,
     checkConnectionResult: MutableState<NetworkState>
 ) {
-    val scope = rememberCoroutineScope()
+    val checkConnectionCoroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     checkConnectionResult.value.title?.let { Helper.showShortToast(context, it) }
 
-    DefaultTextStyle {
-        Text(
-            modifier = modifier.clickable {
-                scope.launch {
-                    selectedConnection.value?.url?.let {
-                        checkConnection(it)
-                    } ?: run { checkConnectionResult.value = NetworkState.NO_SERVER_CONNECTION }
-                }
-            },
-            text = "Проверить соединение",
-            color = MaterialTheme.colors.onBackground,
-        )
-    }
+    Text(
+        modifier = modifier.clickable {
+            checkConnectionCoroutineScope.launch {
+                selectedConnection.value?.url?.let {
+                    checkConnection(it)
+                } ?: run { checkConnectionResult.value = NetworkState.NO_SERVER_CONNECTION }
+            }
+        },
+        text = "Проверить соединение",
+        color = MaterialTheme.colors.onBackground,
+    )
 }
 
 @Composable

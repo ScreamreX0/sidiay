@@ -11,11 +11,9 @@ import com.example.domain.data_classes.params.TicketData
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.drafts.SaveDraftsUseCase
-import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
-import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
+import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,12 +22,11 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketCreateViewModel @Inject constructor(
     // Tickets
-    private val saveTicketUseCase: SaveTicketUseCase,
     private val getTicketCreateRestrictionsUseCase: GetTicketCreateRestrictionsUseCase,
+    private val saveTicketUseCase: SaveTicketUseCase,
 
     // Ticket data
     private val getTicketDataUseCase: GetTicketDataUseCase,
-    private val saveTicketDataUseCase: SaveTicketDataUseCase,
 
     // Drafts
     private val saveDraftsUseCase: SaveDraftsUseCase
@@ -51,7 +48,6 @@ class TicketCreateViewModel @Inject constructor(
 
                 result.second?.let { ticketData ->
                     Logger.m("Ticket data received")
-                    saveTicketDataUseCase.execute(ticketData)
                     fields.value = ticketData
                     fieldsLoadingState.value = NetworkState.DONE
                 } ?: run {
