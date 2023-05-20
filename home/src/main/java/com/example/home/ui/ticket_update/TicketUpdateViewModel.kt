@@ -18,7 +18,6 @@ import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
 import com.example.domain.usecases.drafts.SaveDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
-import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketDataRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
@@ -91,9 +90,9 @@ class TicketUpdateViewModel @Inject constructor(
     }
 
 
-    fun saveDraft(draft: TicketEntity) = viewModelScope.launch {
+    fun saveDraft(draft: TicketEntity, currentUser: UserEntity) = viewModelScope.launch {
         savingDraftResult.value = TicketOperationState.IN_PROCESS
-        saveDraftsUseCase.execute(draft)
+        saveDraftsUseCase.execute(draft, currentUser)
         savingDraftResult.value = TicketOperationState.DONE
     }
 

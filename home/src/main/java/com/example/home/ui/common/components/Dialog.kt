@@ -129,10 +129,19 @@ internal fun <T> CustomDialog(
                     .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (isSearchSelected.value) {
-                    fields?.filter(searchTextState, predicate)?.forEach { listItem(it) }
+                if (fields.isNullOrEmpty()) {
+                    Text(
+                        modifier = Modifier.padding(top = 8.dp),
+                        text = "Упс.. Ничего не найдено",
+                        fontSize = MaterialTheme.typography.h4.fontSize,
+                        color = MaterialTheme.colors.onBackground,
+                    )
                 } else {
-                    fields?.forEach { listItem(it) }
+                    if (isSearchSelected.value) {
+                        fields.filter(searchTextState, predicate).forEach { listItem(it) }
+                    } else {
+                        fields.forEach { listItem(it) }
+                    }
                 }
             }
 

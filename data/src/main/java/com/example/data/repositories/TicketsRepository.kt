@@ -5,6 +5,7 @@ import com.example.core.utils.Logger
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.*
 import com.example.domain.enums.PrioritiesEnum
+import com.example.domain.enums.ServicesEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.repositories.ITicketsRepository
 import javax.inject.Inject
@@ -27,7 +28,8 @@ class TicketsRepository @Inject constructor(
             executors = listOf(UserEntity(id = 0), UserEntity(id = 1)),
             author = UserEntity(id = 0),
             status = TicketStatuses.values().random().value,
-            priority = PrioritiesEnum.values().random().value
+            priority = PrioritiesEnum.values().random().value,
+            service = ServicesEnum.values().random().value
         )
     }
 

@@ -107,7 +107,7 @@ class TicketUpdate {
         navigateToBack: () -> Unit = {},
         context: Context = LocalContext.current,
         selectedTicketStatus: MutableState<TicketStatuses> = mutableStateOf(TicketStatuses.NOT_FORMED),
-        saveDraft: (TicketEntity) -> Unit = { _ -> }
+        saveDraft: (TicketEntity, UserEntity) -> Unit = { _, _ -> }
     ) {
         LaunchedEffect(key1 = null) {
             updateRestrictions(
@@ -249,7 +249,7 @@ class TicketUpdate {
                 modifier = Modifier.layoutId("bottomAppBarRef"),
                 bottomBarSelectable = bottomBarSelectable,
                 updateTicket = { updateTicketFunction(ticket.value.copy(status = selectedTicketStatus.value.value), authParams) },
-                saveDraft = { saveDraft(ticket.value) }
+                saveDraft = { saveDraft(ticket.value, authParams.user!!) }
             )
         }
     }
