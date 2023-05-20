@@ -61,22 +61,24 @@ class TicketUpdate {
         navigateToBackWithMessage: (Context) -> Unit = { _ -> },
         navigateToBack: () -> Unit = {},
     ) {
-        LaunchedEffect(key1 = null) {
-            ticketUpdateViewModel.fetchTicketData(url = authParams.connectionParams?.url)
-        }
-
-        if (ticketUpdateViewModel.savingDraftResult.value == TicketOperationState.DONE) {
-            navigateToBackWithMessage(LocalContext.current)
-        }
+        if (ticketUpdateViewModel.savingDraftResult.value == TicketOperationState.DONE) navigateToBackWithMessage(LocalContext.current)
 
         val selectedTicketStatus = remember { mutableStateOf(TicketStatuses.getByValue(ticket.status) ?: TicketStatuses.NOT_FORMED) }
         val mutableTicket = remember { mutableStateOf(ticket) }
 
+        LaunchedEffect(key1 = null) {
+            ticketUpdateViewModel.fetchTicketData(
+                url = authParams.connectionParams?.url,
+                ticket = mutableTicket.value,
+                currentUser = authParams.user
+            )
+        }
+
         Content(
             authParams = authParams,
             ticket = mutableTicket,
-            ticketData = ticketUpdateViewModel.fields,
-            fieldsLoadingState = ticketUpdateViewModel.fieldsLoadingState,
+            ticketData = ticketUpdateViewModel.ticketData,
+            fieldsLoadingState = ticketUpdateViewModel.ticketDataLoadingState,
             updateTicketFunction = ticketUpdateViewModel::update,
             updatingResult = ticketUpdateViewModel.updatingResult,
             updateRestrictions = ticketUpdateViewModel::fetchRestrictions,

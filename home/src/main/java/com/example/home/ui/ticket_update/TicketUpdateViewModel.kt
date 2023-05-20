@@ -16,10 +16,10 @@ import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.TicketOperationState
-import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.drafts.SaveDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
 import com.example.domain.usecases.ticket_data.SaveTicketDataUseCase
+import com.example.domain.usecases.ticket_restrictions.GetTicketDataRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,8 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketUpdateViewModel @Inject constructor(
     // Ticket data
+    private val getTicketDataRestrictionsUseCase: GetTicketDataRestrictionsUseCase,
     private val getTicketDataUseCase: GetTicketDataUseCase,
-    private val saveTicketDataUseCase: SaveTicketDataUseCase,
 
     // Tickets
     private val updateTicketUseCase: UpdateTicketUseCase,
@@ -39,8 +39,8 @@ class TicketUpdateViewModel @Inject constructor(
     // Drafts
     private val saveDraftsUseCase: SaveDraftsUseCase,
 ) : ViewModel() {
-    val fieldsLoadingState: MutableState<INetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
-    val fields: MutableState<TicketData?> = mutableStateOf(null)
+    val ticketDataLoadingState: MutableState<INetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT)
+    val ticketData: MutableState<TicketData?> = mutableStateOf(null)
 
     var updatingResult: MutableState<INetworkState> = mutableStateOf(TicketOperationState.WAITING)
     val updatingMessage: MutableState<String?> = mutableStateOf(null, neverEqualPolicy())
@@ -48,57 +48,48 @@ class TicketUpdateViewModel @Inject constructor(
 
     val savingDraftResult: MutableState<INetworkState> = mutableStateOf(TicketOperationState.WAITING)
 
-    fun fetchTicketData(url: String?) {
-        Logger.m("Check network mode...")
-        url?.let {
-            viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-                fieldsLoadingState.value = NetworkState.NO_SERVER_CONNECTION
-            }) {
-                Logger.m("Getting tickets' fields online...")
-                fieldsLoadingState.value = NetworkState.LOADING
-                val result = getTicketDataUseCase.execute(it)
-
-                result.second?.let { itData ->
-                    Logger.m("Ticket fields received.")
-                    saveTicketDataUseCase.execute(itData)
-                    fields.value = itData
-                    fieldsLoadingState.value = NetworkState.DONE
-                } ?: run {
-                    Logger.e("Ticket fields receiving error.")
-                    fieldsLoadingState.value = NetworkState.ERROR
-                }
-            }
-        } ?: run {
-            viewModelScope.launch {
-                Logger.m("Getting tickets' fields offline...")
-                fieldsLoadingState.value = NetworkState.LOADING
-                // TODO("Add load tickets offline")
-                fieldsLoadingState.value = NetworkState.DONE
-            }
-        }
-    }
-
-    fun update(ticket: TicketEntity, authParams: AuthParams) {
+    fun fetchTicketData(url: String?, ticket: TicketEntity, currentUser: UserEntity?) =
         viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
-            updatingResult.value = NetworkState.NO_SERVER_CONNECTION
+            ticketDataLoadingState.value = NetworkState.NO_SERVER_CONNECTION
         }) {
-            Logger.m("Trying to update new ticket...")
-            updatingResult.value = TicketOperationState.IN_PROCESS
-            val result = updateTicketUseCase.execute(
-                url = authParams.connectionParams?.url,
-                currentUserId = authParams.user?.id,
-                ticket = ticket
-            )
-            result.first?.let {
-                Logger.m("Error: ${result.second}")
-                updatingMessage.value = it.toString()
-                updatingResult.value = TicketOperationState.ERROR
+            Logger.m("Getting tickets' fields online...")
+            ticketDataLoadingState.value = NetworkState.LOADING
+            val result = getTicketDataUseCase.execute(url)
+
+            result.second?.let { itTicketData ->
+                Logger.m("Ticket fields received.")
+                ticketData.value = getTicketDataRestrictionsUseCase.execute(
+                    ticket = ticket,
+                    currentUser = currentUser,
+                    ticketData = itTicketData
+                )
+                ticketDataLoadingState.value = NetworkState.DONE
             } ?: run {
-                Logger.m("Success.")
-                updatingResult.value = TicketOperationState.DONE
+                Logger.e("Ticket fields receiving error.")
+                ticketDataLoadingState.value = NetworkState.ERROR
             }
         }
+
+    fun update(ticket: TicketEntity, authParams: AuthParams) = viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
+        updatingResult.value = NetworkState.NO_SERVER_CONNECTION
+    }) {
+        Logger.m("Trying to update new ticket...")
+        updatingResult.value = TicketOperationState.IN_PROCESS
+        val result = updateTicketUseCase.execute(
+            url = authParams.connectionParams?.url,
+            currentUserId = authParams.user?.id,
+            ticket = ticket
+        )
+        result.first?.let {
+            Logger.m("Error: ${result.second}")
+            updatingMessage.value = it.toString()
+            updatingResult.value = TicketOperationState.ERROR
+        } ?: run {
+            Logger.m("Success.")
+            updatingResult.value = TicketOperationState.DONE
+        }
     }
+
 
     fun saveDraft(draft: TicketEntity) = viewModelScope.launch {
         savingDraftResult.value = TicketOperationState.IN_PROCESS

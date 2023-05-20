@@ -19,6 +19,7 @@ class FilteringUnitTest {
 
     @Test
     fun `should return original list if params is null`() {
+
         Assert.assertSame(useCase.execute(null, null, ticketsList), ticketsList)
     }
 }

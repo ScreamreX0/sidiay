@@ -8,5 +8,6 @@ import kotlinx.parcelize.Parcelize
 data class FacilityEntity constructor(
     var id: Long,
     var name: String? = null,
-    var field: FieldsEntity? = null
+    var field: FieldsEntity? = null,
+    var equipment: List<EquipmentEntity>? = null
 ) : Parcelable

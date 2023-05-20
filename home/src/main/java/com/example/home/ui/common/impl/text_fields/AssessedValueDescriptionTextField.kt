@@ -21,7 +21,7 @@ class AssessedValueDescriptionTextField(
             title = "Описание оценочной стоимости",
             icon = R.drawable.baseline_description_24,
             text = ticket.value.assessed_value_description,
-            onValueChange = { ticket.value = ticket.value.copy(description_of_work = it) },
+            onValueChange = { ticket.value = ticket.value.copy(assessed_value_description = it) },
             textFieldHint = ticket.value.assessed_value_description ?: "Ввести описание оценочной стоимости",
             ticketFieldsParams = ticketFieldsParams,
         )

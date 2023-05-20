@@ -7,5 +7,4 @@ import kotlinx.parcelize.Parcelize
 data class EquipmentEntity(
     var id: Long,
     var name: String? = null,
-    var facility: FacilityEntity? = null
 ) : Parcelable

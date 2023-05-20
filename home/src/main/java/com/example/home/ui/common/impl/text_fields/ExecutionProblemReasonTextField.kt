@@ -22,7 +22,7 @@ class ExecutionProblemReasonTextField(
             icon = R.drawable.baseline_description_24,
             text = ticket.value.execution_problem_description,
             onValueChange = { ticket.value = ticket.value.copy(execution_problem_description = it) },
-            textFieldHint = ticket.value.execution_problem_description ?: "Описание проблемы",
+            textFieldHint = ticket.value.execution_problem_description ?: "[Описание проблемы]",
             ticketFieldsParams = ticketFieldsParams,
         )
     }

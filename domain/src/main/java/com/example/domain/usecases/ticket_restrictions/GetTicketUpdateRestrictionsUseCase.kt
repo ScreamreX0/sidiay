@@ -132,7 +132,33 @@ class GetTicketUpdateRestrictionsUseCase @Inject constructor() {
                 else -> {}
             }
 
-            TicketStatuses.SUSPENDED,
+            TicketStatuses.SUSPENDED -> when (currentUserJobTitle) {
+                SECTION_CHIEF, CHIEF_ENGINEER, CHIEF_GEOLOGIST -> {
+                    allowedFields.add(TicketFieldsEnum.STATUS)
+                    availableStatuses.add(
+                        TicketStatuses.ACCEPTED,
+                        TicketStatuses.REJECTED,
+                    )
+                    when (selectedTicketStatus) {
+                        TicketStatuses.ACCEPTED -> {
+                            allowedFields.add(TicketFieldsEnum.PRIORITY)
+                            requiredFields.add(
+                                TicketFieldsEnum.EXECUTORS,
+                                TicketFieldsEnum.PLANE_DATE
+                            )
+                        }
+
+                        TicketStatuses.REJECTED -> {
+                            requiredFields.add(TicketFieldsEnum.REASON_FOR_REJECTION)
+                        }
+
+                        else -> {}
+                    }
+                }
+
+                else -> {}
+            }
+
             TicketStatuses.FOR_REVISION,
             TicketStatuses.EXECUTION_PROBLEM -> when (currentUserJobTitle) {
                 SECTION_CHIEF, CHIEF_ENGINEER, CHIEF_GEOLOGIST -> {

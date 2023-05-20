@@ -23,7 +23,7 @@ class AssessedValueTextField(
         Component(
             title = "Оценочная стоимость",
             icon = R.drawable.baseline_fast_forward_24,
-            text = ticket.value.assessed_value?.toString() ?: "[Оценочная стоимость]",
+            text = ticket.value.assessed_value?.toString() ?: "",
             onValueChange = {
                 it.toFloatOrNull()?.let { itNumber ->
                     ticket.value = ticket.value.copy(assessed_value = itNumber)

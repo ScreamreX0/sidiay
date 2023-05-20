@@ -18,6 +18,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.SortingParams
+import com.example.domain.enums.JobTitlesEnum
 import com.example.domain.enums.ui.MainMenuOfflineTabEnum
 import com.example.domain.enums.ui.MainMenuTabEnum
 import com.example.domain.enums.ui.MainMenuTopAppBarEnum
@@ -179,11 +180,13 @@ class TicketsList {
                         painter = painterResource(id = MainMenuTopAppBarEnum.FILTER.icon),
                         contentDescription = null
                     )
-                    Icon(
-                        modifier = Modifier.clickable { navigateToTicketCreate() },
-                        painter = painterResource(id = MainMenuTopAppBarEnum.CREATE.icon),
-                        contentDescription = null
-                    )
+                    if (authParams?.user?.employee?.jobTitle?.let { it == JobTitlesEnum.OPERATOR.value } != false) {
+                        Icon(
+                            modifier = Modifier.clickable { navigateToTicketCreate() },
+                            painter = painterResource(id = MainMenuTopAppBarEnum.CREATE.icon),
+                            contentDescription = null
+                        )
+                    }
                     Icon(
                         modifier = Modifier.clickable { fetchTickets() },
                         painter = painterResource(id = MainMenuTopAppBarEnum.REFRESH.icon),

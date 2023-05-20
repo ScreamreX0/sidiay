@@ -21,6 +21,7 @@ import com.example.domain.usecases.drafts.SaveDraftsUseCase
 import com.example.domain.usecases.settings.GetLastAuthorizedUserUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
+import com.example.domain.usecases.ticket_restrictions.GetTicketDataRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.FilterTicketsListUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
@@ -65,6 +66,10 @@ class DomainModule {
     @Provides
     fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase =
         GetTicketUpdateRestrictionsUseCase()
+
+    @Provides
+    fun provideGetTicketDataRestrictionsUseCase(): GetTicketDataRestrictionsUseCase =
+        GetTicketDataRestrictionsUseCase()
 
     @Provides
     fun provideGetTicketCreateRestrictionsUseCase(): GetTicketCreateRestrictionsUseCase =

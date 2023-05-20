@@ -27,6 +27,7 @@ import com.example.core.utils.Constants
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
@@ -48,44 +49,59 @@ class TicketCreate {
         navigateToBack: () -> Unit = {},
         ticketCreateViewModel: TicketCreateViewModel = hiltViewModel(),
     ) {
-        LaunchedEffect(key1 = null) {
-            ticketCreateViewModel.fetchTicketData(url = authParams.connectionParams?.url)
-        }
-
         val context: Context = LocalContext.current
         val newTicket: MutableState<TicketEntity> = remember { mutableStateOf(ticket) }
         newTicket.value.author = authParams.user
+        newTicket.value.status = TicketStatuses.NOT_FORMED.value
+
         val bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) }
+
+        LaunchedEffect(key1 = null) {
+            ticketCreateViewModel.fetchTicketData(
+                url = authParams.connectionParams?.url,
+                ticket = newTicket.value,
+                currentUser = authParams.user
+            )
+        }
 
         // Saving
         when (ticketCreateViewModel.savingTicketResult.value) {
             IN_PROCESS -> bottomBarSelectable.value = false
-            DONE -> { navigateToBackWithMessage(context) }
+            DONE -> {
+                navigateToBackWithMessage(context)
+            }
+
             ERROR -> {
                 Helper.showShortToast(context = context, text = ERROR.name)
                 bottomBarSelectable.value = true
             }
+
             NetworkState.NO_SERVER_CONNECTION -> {
                 Helper.showShortToast(context = context, text = NetworkState.NO_SERVER_CONNECTION.name)
                 bottomBarSelectable.value = true
             }
+
             else -> {}
         }
         when (ticketCreateViewModel.savingDraftResult.value) {
             IN_PROCESS -> bottomBarSelectable.value = false
-            DONE -> { navigateToBackWithMessage(context) }
+            DONE -> {
+                navigateToBackWithMessage(context)
+            }
+
             ERROR -> {
                 Helper.showShortToast(context = context, text = ERROR.name)
                 bottomBarSelectable.value = true
             }
+
             else -> {}
         }
 
         Content(
             authParams = authParams,
             ticket = newTicket,
-            ticketData = ticketCreateViewModel.fields,
-            fieldsLoadingState = ticketCreateViewModel.fieldsLoadingState,
+            ticketData = ticketCreateViewModel.ticketData,
+            fieldsLoadingState = ticketCreateViewModel.ticketDataLoadingState,
             saveTicket = ticketCreateViewModel::save,
             bottomBarSelectable = bottomBarSelectable,
             getRestrictionsFunction = ticketCreateViewModel::getRestrictions,

@@ -20,10 +20,12 @@ import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Constants
 import com.example.core.utils.Helper
 import com.example.core.utils.ScreenPreview
+import com.example.domain.data_classes.entities.EmployeeEntity
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
+import com.example.domain.enums.JobTitlesEnum
 import com.example.signin.ui.components.*
 import com.example.signin.ui.components.CheckConnectionComponent
 import com.example.signin.ui.components.EnterComponent
@@ -54,7 +56,9 @@ internal class SignIn {
             result.second?.let { itUser ->
                 // Sign in success
                 val authParams = AuthParams(
-                    user = if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) UserEntity(0) else itUser,
+                    user = if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) {
+                        UserEntity(id = 0, employee = EmployeeEntity(id = 0, jobTitle = JobTitlesEnum.CHIEF_ENGINEER.value))
+                    } else { itUser },
                     connectionParams = selectedConnection.value,
                     darkMode = darkMode.value,
                 )

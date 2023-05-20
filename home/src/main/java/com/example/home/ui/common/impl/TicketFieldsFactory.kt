@@ -19,6 +19,7 @@ import com.example.home.ui.common.impl.clickable_texts.ServiceClickableText
 import com.example.home.ui.common.impl.date_pickers.ClosingDatePicker
 import com.example.home.ui.common.impl.date_pickers.PlaneDatePicker
 import com.example.home.ui.common.impl.drop_down_menu.StatusDropDownMenu
+import com.example.home.ui.common.impl.text_fields.AssessedValueDescriptionTextField
 import com.example.home.ui.common.impl.text_fields.AssessedValueTextField
 import com.example.home.ui.common.impl.texts.AuthorText
 import com.example.home.ui.common.impl.texts.CreationDateText
@@ -59,11 +60,11 @@ class TicketFieldsFactory(
             TicketFieldsEnum.KIND -> KindClickableText(params, ticket).Content()
             TicketFieldsEnum.SERVICE -> ServiceClickableText(params, ticket).Content()
             TicketFieldsEnum.FACILITIES -> FacilitiesChipRow(ticketData?.facilities, params, ticket).Content()
-            // TicketFieldsEnum.EQUIPMENT -> EquipmentChipRow(params, ticket).Content() TODO("Изменять в зависимости от выбранного объекта")
+            TicketFieldsEnum.EQUIPMENT -> EquipmentChipRow(ticketData?.facilities?.flatMap { it.equipment ?: emptyList() }, params, ticket).Content()
             TicketFieldsEnum.TRANSPORT -> TransportChipRow(ticketData?.transport, params, ticket).Content()
             TicketFieldsEnum.PRIORITY -> PriorityClickableText(params, ticket).Content()
             TicketFieldsEnum.ASSESSED_VALUE -> AssessedValueTextField(params, ticket).Content()
-            TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION -> AssessedValueTextField(params, ticket).Content()
+            TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION -> AssessedValueDescriptionTextField(params, ticket).Content()
             TicketFieldsEnum.REASON_FOR_CANCELLATION -> ReasonForCancellationTextField(params, ticket).Content()
             TicketFieldsEnum.REASON_FOR_REJECTION -> ReasonForRejectionTextField(params, ticket).Content()
             TicketFieldsEnum.EXECUTION_PROBLEM_DESCRIPTION -> ExecutionProblemReasonTextField(params, ticket).Content()
