@@ -94,6 +94,7 @@ dependencies {
 
     Dependencies.Firebase.apply {
         implementation(GMS)
+        implementation(MESSAGING)
     }
 
     Dependencies.Modules.apply {

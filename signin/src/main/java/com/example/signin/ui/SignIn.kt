@@ -47,8 +47,7 @@ internal class SignIn {
         val connectionsList = signInViewModel.connectionsList
         val checkConnectionResult = signInViewModel.checkConnectionResult
         val context = LocalContext.current
-        val selectedConnection: MutableState<ConnectionParams?> =
-            remember { mutableStateOf(ConnectionParams()) }
+        val selectedConnection: MutableState<ConnectionParams?> = remember { mutableStateOf(ConnectionParams()) }
 
         // Signing in
         signInResult.value.let { result ->

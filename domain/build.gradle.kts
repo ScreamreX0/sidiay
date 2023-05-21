@@ -4,6 +4,7 @@ plugins {
     id(Plugins.AppConfig.LIBRARY)
     id(Plugins.AppConfig.ANDROID)
     id(Plugins.Core.PARSELIZE)
+    id(Plugins.Firebase.GMS)
 }
 
 android {
@@ -73,6 +74,6 @@ dependencies {
     }
 
     Dependencies.Firebase.apply {
-        implementation(GMS)
+        implementation(MESSAGING)
     }
 }

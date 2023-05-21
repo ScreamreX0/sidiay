@@ -82,6 +82,7 @@ object Dependencies {
     object Firebase {
         const val BOM = "com.google.firebase:firebase-bom:${Versions.Firebase.BOM}"
         const val GMS = "com.google.gms:google-services:${Versions.Firebase.GMS}"
+        const val MESSAGING = "com.google.firebase:firebase-messaging-ktx:${Versions.Firebase.MESSAGING}"
     }
 
     object Other {
@@ -172,6 +173,7 @@ object Dependencies {
         object Firebase {
             const val GMS = "4.3.15"
             const val BOM = "32.0.0"
+            const val MESSAGING = "23.0.2"
         }
     }
 }

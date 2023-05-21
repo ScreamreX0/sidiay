@@ -10,7 +10,10 @@ import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.usecases.connections.CheckConnectionUseCase
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
+
 
 class SignInUseCase @Inject constructor(
     private val authRepository: IAuthRepository,
@@ -18,8 +21,22 @@ class SignInUseCase @Inject constructor(
     private val checkSignInFieldsUseCase: CheckSignInFieldsUseCase,
 ) {
     suspend fun execute(url: String?, credentials: Credentials): Pair<INetworkState?, UserEntity?> {
+        FirebaseMessaging.getInstance()
+            .subscribeToTopic("Custom_topic")
+            .addOnCompleteListener { if (!it.isSuccessful) { Logger.m("Notification receiving error") } }
+
         when (Constants.APPLICATION_MODE) {
-            ApplicationModes.OFFLINE -> return Pair(null, UserEntity(id = 1))
+            ApplicationModes.OFFLINE -> {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Logger.m("Fetching fcm failed")
+                        return@OnCompleteListener
+                    }
+                    Logger.m("fsm -> ${task.result}")
+                })
+                return Pair(null, UserEntity(id = 1))
+            }
+
             ApplicationModes.ONLINE -> {
                 credentials.email = Constants.DEBUG_MODE_EMAIL
                 credentials.password = Constants.DEBUG_MODE_PASSWORD

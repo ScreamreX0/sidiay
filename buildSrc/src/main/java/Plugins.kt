@@ -16,6 +16,10 @@ object Plugins {
         const val HILT = "dagger.hilt.android.plugin"
     }
 
+    object Firebase {
+        const val GMS = "com.google.gms.google-services"
+    }
+
     object Versions {
         const val APPLICATION = "7.4.1"
         const val ANDROID = "1.8.10"

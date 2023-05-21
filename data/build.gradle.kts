@@ -38,7 +38,6 @@ dependencies {
     Dependencies.Core.apply {
         implementation(FRAGMENT)
         implementation(KTX)
-
     }
     Dependencies.Multithreading.apply {
         implementation(COROUTINES)
@@ -56,6 +55,9 @@ dependencies {
     Dependencies.Test.apply {
         implementation(JUNIT)
         implementation(ANDROID_JUNIT)
+    }
+    Dependencies.Firebase.apply {
+        implementation(MESSAGING)
     }
     Dependencies.Modules.apply {
         implementation(project(path = DOMAIN))
