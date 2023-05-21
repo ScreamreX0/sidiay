@@ -19,12 +19,9 @@ import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.SortingParams
 import com.example.domain.enums.JobTitlesEnum
-import com.example.domain.enums.ui.MainMenuOfflineTabEnum
 import com.example.domain.enums.ui.MainMenuTabEnum
 import com.example.domain.enums.ui.MainMenuTopAppBarEnum
-import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.states.NetworkState
-import com.example.home.ui.tickets_list.components.CustomScrollableTabRow
 import com.example.home.ui.tickets_list.components.FilterDialog
 import com.example.home.ui.tickets_list.components.MenuSearch
 import com.example.home.ui.tickets_list.components.MenuTicketList
@@ -240,8 +237,8 @@ class TicketsList {
                                 tickets = drafts.value,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Черновиков не найдено :(",
-                                showTrashCan = true,
-                                onTrashClick = { deleteDraft(it) }
+                                isDraft = true,
+                                onDraftDelete = { deleteDraft(it) }
                             )
                         }
                     }
@@ -253,8 +250,8 @@ class TicketsList {
                     tickets = drafts.value,
                     onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                     emptyListTitle = "Черновиков не найдено :(",
-                    showTrashCan = true,
-                    onTrashClick = { deleteDraft(it) }
+                    isDraft = true,
+                    onDraftDelete = { deleteDraft(it) }
                 )
             }
         }

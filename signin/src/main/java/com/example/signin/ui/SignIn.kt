@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -57,7 +56,7 @@ internal class SignIn {
                 // Sign in success
                 val authParams = AuthParams(
                     user = if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) {
-                        UserEntity(id = 0, employee = EmployeeEntity(id = 0, jobTitle = JobTitlesEnum.CHIEF_ENGINEER.value))
+                        UserEntity(id = 0, employee = EmployeeEntity(id = 0, jobTitle = JobTitlesEnum.OPERATOR.value))
                     } else { itUser },
                     connectionParams = selectedConnection.value,
                     darkMode = darkMode.value,

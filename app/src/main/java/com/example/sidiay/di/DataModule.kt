@@ -8,6 +8,7 @@ import com.example.data.network.api.ApiService
 import com.example.data.repositories.AuthRepository
 import com.example.data.repositories.NetworkConnectionRepository
 import com.example.data.repositories.TicketDataRepository
+import com.example.data.repositories.TicketsHistoryRepository
 import com.example.data.repositories.TicketsRepository
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.repositories.IConnectionsDataStore
@@ -15,6 +16,7 @@ import com.example.domain.repositories.ITicketsDataStore
 import com.example.domain.repositories.INetworkConnectionRepository
 import com.example.domain.repositories.ISettingsDataStore
 import com.example.domain.repositories.ITicketDataRepository
+import com.example.domain.repositories.ITicketsHistoryRepository
 import com.example.domain.repositories.ITicketsRepository
 import dagger.Module
 import dagger.Provides
@@ -36,15 +38,17 @@ class DataModule {
     fun provideTicketDataRepository(apiService: ApiService): ITicketDataRepository = TicketDataRepository(apiService)
 
     @Provides
-    fun provideNetworkConnectionRepository(apiService: ApiService): INetworkConnectionRepository =
-        NetworkConnectionRepository(apiService)
+    fun provideNetworkConnectionRepository(apiService: ApiService): INetworkConnectionRepository = NetworkConnectionRepository(apiService)
+
+    @Provides
+    fun provideTicketsHistoryRepository(apiService: ApiService): ITicketsHistoryRepository = TicketsHistoryRepository(apiService)
 
     // Datastore
     @Provides
     fun provideConnectionsDataStore(@ApplicationContext context: Context): IConnectionsDataStore = ConnectionsDataStore(context)
 
     @Provides
-    fun provideThemeDataStore(@ApplicationContext context: Context): ISettingsDataStore = SettingsDataStore(context)
+    fun provideSettingsDataStore(@ApplicationContext context: Context): ISettingsDataStore = SettingsDataStore(context)
 
     @Provides
     fun provideDraftsDataStore(@ApplicationContext context: Context): ITicketsDataStore = TicketsDataStore(context)

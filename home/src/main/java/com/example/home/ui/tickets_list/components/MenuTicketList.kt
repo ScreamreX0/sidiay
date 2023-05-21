@@ -60,8 +60,8 @@ internal fun MenuTicketList(
     refreshing: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
     emptyListTitle: String = "Пусто",
-    showTrashCan: Boolean = false,
-    onTrashClick: (TicketEntity) -> Unit = { _ -> }
+    isDraft: Boolean = false,
+    onDraftDelete: (TicketEntity) -> Unit = { _ -> }
 ) {
     if (tickets.isNullOrEmpty()) {
         Column(
@@ -96,8 +96,8 @@ internal fun MenuTicketList(
                 isDarkMode = authParams?.darkMode ?: false,
                 ticket = tickets[index],
                 onClickUpdate = onClickUpdate,
-                showTrashCan = showTrashCan,
-                onTrashClick = onTrashClick
+                showTrashCan = isDraft,
+                onTrashClick = onDraftDelete
             )
         }
     }

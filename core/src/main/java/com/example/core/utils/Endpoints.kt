@@ -12,5 +12,6 @@ object Endpoints {
         const val GET_BY_ID = "$TICKETS/get-by-id"
         const val ADD = "$TICKETS/add"
         const val UPDATE = "$TICKETS/update"
+        const val GET_HISTORY = "$TICKETS/get-history"
     }
 }

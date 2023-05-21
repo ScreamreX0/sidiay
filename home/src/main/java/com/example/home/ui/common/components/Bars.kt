@@ -55,7 +55,7 @@ internal fun TicketCreateBottomBar(
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Сохранить черновик",
+                text = "Черновик",
                 color = MaterialTheme.colors.onPrimary
             )
         }
@@ -96,7 +96,7 @@ internal fun TicketUpdateBottomBar(
         ) {
             Text(
                 textAlign = TextAlign.Center,
-                text = "Сохранить черновик",
+                text = "Черновик",
                 color = MaterialTheme.colors.onPrimary
             )
         }

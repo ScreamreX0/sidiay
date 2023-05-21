@@ -32,6 +32,7 @@ fun CustomAlertDialog(
             backgroundColor = MaterialTheme.colors.background,
             title = {
                 Text(
+                    modifier = Modifier.padding(bottom = 16.dp),
                     color = MaterialTheme.colors.onBackground,
                     text = title
                 )
@@ -41,7 +42,7 @@ fun CustomAlertDialog(
                 Text(
                     modifier = Modifier
                         .clickable { onConfirm() }
-                        .padding(end = 10.dp, bottom = 5.dp),
+                        .padding(end = 16.dp, bottom = 16.dp),
                     color = MaterialTheme.colors.onBackground,
                     text = AnnotatedString("Да"),
                 )
@@ -50,7 +51,7 @@ fun CustomAlertDialog(
                 Text(
                     modifier = Modifier
                         .clickable { onDismiss() }
-                        .padding(end = 10.dp, bottom = 5.dp),
+                        .padding(end = 16.dp, bottom = 16.dp),
                     color = MaterialTheme.colors.onBackground,
                     text = AnnotatedString("Отмена"),
                 )

@@ -31,4 +31,6 @@ interface ApiService {
     suspend fun updateTicket(@Url url: String, @Body ticket: TicketEntity): Response<TicketEntity>
     @GET
     suspend fun getTicketData(@Url url: String): Response<TicketData>
+    @GET
+    suspend fun getTicketsHistory(@Url url: String): Response<List<TicketEntity>>
 }

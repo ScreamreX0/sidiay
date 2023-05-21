@@ -18,6 +18,8 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
+import com.example.history.ui.ticket_history.History
+import com.example.history.ui.tickets_history_list.HistoryList
 import com.example.home.ui.tickets_list.TicketsList
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
@@ -35,9 +37,6 @@ fun MainMenuGraph(
         route = Graphs.MAIN_MENU,
         startDestination = Graphs.HOME
     ) {
-        composable(route = BottomBarNav.History.route) {
-
-        }
         composable(route = BottomBarNav.Notifications.route) {
 
         }
@@ -51,6 +50,10 @@ fun MainMenuGraph(
             navController = navController,
             authParams = authParams,
             paddingValues = paddingValues,
+        )
+        historyNavGraph(
+            navController = navController,
+            authParams = authParams,
         )
     }
 }
@@ -136,6 +139,31 @@ fun NavGraphBuilder.settingsNavGraph(
                     authParams = authParams,
                     logout = { logout() }
                 )
+            }
+        }
+    }
+}
+
+fun NavGraphBuilder.historyNavGraph(
+    navController: NavHostController,
+    authParams: AuthParams,
+) {
+    navigation(
+        route = Graphs.HISTORY,
+        startDestination = BottomBarNav.History.route
+    ) {
+        composable(route = BottomBarNav.History.route) {
+            AppTheme(authParams.darkMode ?: false) {
+                HistoryList().HistoryListScreen(
+                    authParams = remember { authParams },
+                    navigateToTicketHistory = { ticket: TicketEntity -> navController.navigate("${Screens.History.TICKET_HISTORY}/${Helper.objToJson(ticket)}") }
+                )
+            }
+        }
+
+        composable(route = "${Screens.History.TICKET_HISTORY}/{ticket}") {
+            AppTheme(authParams.darkMode ?: false) {
+                History().HistoryScreen(Helper.objFromJson(it.arguments?.getString("ticket")) ?: TicketEntity(),)
             }
         }
     }

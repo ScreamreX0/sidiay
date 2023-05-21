@@ -64,6 +64,7 @@ dependencies {
 
     Dependencies.DI.apply {
         implementation(HILT)
+        implementation(NAVIGATION)
         kapt(HILT_COMPILER)
     }
 
@@ -90,8 +91,15 @@ dependencies {
         androidTestImplementation(composeBom)
         implementation(LIVE_DATA)
         implementation(MATERIAL3)
+        implementation(MATERIAL)
         implementation(VIEW_MODEL)
         implementation(CONSTRAINT)
+        implementation(FOUNDATION)
+        implementation(FRAMEWORK)
+        implementation(UI)
+        implementation(RUNTIME)
+        implementation(TAB_PAGING)
+        implementation(FLOW_LAYOUTS)
         debugImplementation(PREVIEW)
         debugImplementation(NAVIGATION)
     }
