@@ -71,4 +71,8 @@ dependencies {
     Dependencies.Modules.apply {
         implementation(project(path = CORE))
     }
+
+    Dependencies.Firebase.apply {
+        implementation(GMS)
+    }
 }

@@ -109,4 +109,8 @@ dependencies {
         implementation(project(path = DOMAIN))
         implementation(project(path = CORE))
     }
+
+    Dependencies.Firebase.apply {
+        implementation(GMS)
+    }
 }

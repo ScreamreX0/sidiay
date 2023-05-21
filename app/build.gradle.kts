@@ -92,6 +92,10 @@ dependencies {
         implementation(LOGGER)
     }
 
+    Dependencies.Firebase.apply {
+        implementation(GMS)
+    }
+
     Dependencies.Modules.apply {
         implementation(project(path = DATA))
         implementation(project(path = DOMAIN))

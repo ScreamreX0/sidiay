@@ -79,6 +79,11 @@ object Dependencies {
         const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.DataStore.DATA_STORE}"
     }
 
+    object Firebase {
+        const val BOM = "com.google.firebase:firebase-bom:${Versions.Firebase.BOM}"
+        const val GMS = "com.google.gms:google-services:${Versions.Firebase.GMS}"
+    }
+
     object Other {
         const val VIEW_BINDING = true
         const val SAFE_ARGS = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.UI.NAVIGATION}"
@@ -162,6 +167,11 @@ object Dependencies {
             const val DATA_STORE = "1.0.0"
             const val JAVALITE = "3.21.5"
             const val KOTLINLITE = "3.21.5"
+        }
+
+        object Firebase {
+            const val GMS = "4.3.15"
+            const val BOM = "32.0.0"
         }
     }
 }

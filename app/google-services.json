@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "589519645759",
+    "project_id": "cdiproject-cd200",
+    "storage_bucket": "cdiproject-cd200.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589519645759:android:b6b7debf4e5b5157565c8a",
+        "android_client_info": {
+          "package_name": "com.example.sidiay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589519645759-ue0t3edag8dc7stq65tc8lep6vr46cnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSrl1JhMZDjWxvHAX5clCJRXHIaN6sg1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589519645759-ue0t3edag8dc7stq65tc8lep6vr46cnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
