@@ -16,7 +16,7 @@ import com.example.domain.usecases.connections.GetConnectionsUseCase
 import com.example.domain.usecases.connections.SaveConnectionsUseCase
 import com.example.domain.usecases.settings.GetLastAuthorizedUserUseCase
 import com.example.domain.usecases.settings.GetUIModeUseCase
-import com.example.domain.usecases.settings.SaveSettingsUseCase
+import com.example.domain.usecases.settings.SaveUIModeUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ class SignInViewModel @Inject constructor(
 
     // Settings
     private val getUIModeUseCase: GetUIModeUseCase,
-    private val saveSettingsUseCase: SaveSettingsUseCase,
+    private val saveUIModeUseCase: SaveUIModeUseCase,
     private val getLastAuthorizedUserUseCase: GetLastAuthorizedUserUseCase
 ) : ViewModel() {
     internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
@@ -46,7 +46,6 @@ class SignInViewModel @Inject constructor(
     internal var signInResult: MutableState<Pair<INetworkState?, UserEntity?>> =
         mutableStateOf(Pair(null, null), neverEqualPolicy())
 
-    internal val fetchingLastAuthorizedUserState = mutableStateOf(NetworkState.WAIT_FOR_INIT)
     internal val lastAuthorizedUser: MutableState<UserEntity?> = mutableStateOf(null)
 
     init {
@@ -57,7 +56,7 @@ class SignInViewModel @Inject constructor(
 
     // Settings
     internal fun changeMode() = viewModelScope.launch {
-        saveSettingsUseCase.execute(darkMode.value?.let { !it } ?: false)
+        saveUIModeUseCase.execute(darkMode.value?.let { !it } ?: false)
         fetchUIMode()
     }
 
@@ -66,9 +65,7 @@ class SignInViewModel @Inject constructor(
     }
 
     private fun fetchLastAuthorizedUser() = viewModelScope.launch {
-        fetchingLastAuthorizedUserState.value = NetworkState.LOADING
         lastAuthorizedUser.value = getLastAuthorizedUserUseCase.execute()
-        fetchingLastAuthorizedUserState.value = NetworkState.DONE
     }
 
     // Connections

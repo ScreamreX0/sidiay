@@ -1,6 +1,5 @@
 package com.example.data.repositories
 
-import com.example.core.utils.Endpoints
 import com.example.data.network.api.ApiService
 import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.entities.UserEntity
@@ -14,7 +13,7 @@ class TicketsHistoryRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketsHistoryRepository {
     override suspend fun getTicketsHistory(url: String): Pair<Int, List<TicketEntity>?> {
-        val result = apiService.getTicketsHistory("${Endpoints.Tickets.GET_HISTORY}$url")
+        val result = apiService.getTicketsHistory(url)
         return Pair(result.code(), result.body())
     }
 

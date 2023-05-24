@@ -11,7 +11,7 @@ object Constants {
     const val MIN_PASSWORD_LENGTH = 6
     const val MAX_PASSWORD_LENGTH = 32
 
-    const val URL = "https://61df-87-117-185-29.ngrok-free.app"
+    const val URL = "https://f90f-87-117-185-29.ngrok-free.app"
 }
 
 

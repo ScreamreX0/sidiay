@@ -10,6 +10,7 @@ import com.example.domain.enums.states.NetworkState
 import com.example.domain.enums.states.SignInStates
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.usecases.connections.CheckConnectionUseCase
+import com.example.domain.usecases.settings.SaveLastAuthorizedUseCase
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +24,7 @@ class SignInUseCase @Inject constructor(
     private val authRepository: IAuthRepository,
     private val checkConnectionUseCase: CheckConnectionUseCase,
     private val checkSignInFieldsUseCase: CheckSignInFieldsUseCase,
+    private val saveLastAuthorizedUseCase: SaveLastAuthorizedUseCase
 ) {
     suspend fun execute(url: String?, credentials: Credentials): Pair<INetworkState?, UserEntity?> {
         if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) return Pair(null, UserEntity(id = 1))
@@ -51,7 +53,10 @@ class SignInUseCase @Inject constructor(
                         Logger.m("Sign in http code: ${result.first}")
 
                         itContinuation.resume(when (result.first) {
-                            200 -> Pair(null, result.second)
+                            200 -> {
+                                saveLastAuthorizedUseCase.execute(result.second)
+                                Pair(null, result.second)
+                            }
                             401 -> Pair(SignInStates.WRONG_EMAIL_OR_PASSWORD, null)
                             else -> {
                                 Logger.m("Unhandled http code: ${result.first}")

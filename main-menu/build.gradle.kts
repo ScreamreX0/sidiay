@@ -105,7 +105,7 @@ dependencies {
         implementation(project(path = CORE))
         implementation(project(path = HOME))
         implementation(project(path = HISTORY))
-        implementation(project(path = NOTIFICATIONS))
+        implementation(project(path = SUBSCRIPTIONS))
         implementation(project(path = SETTINGS))
     }
 }

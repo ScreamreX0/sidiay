@@ -20,6 +20,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.history.ui.ticket_history.History
 import com.example.history.ui.tickets_history_list.HistoryList
+import com.example.subscriptions.ui.subscriptions_list.Subscriptions
 import com.example.home.ui.tickets_list.TicketsList
 import com.example.home.ui.ticket_create.TicketCreate
 import com.example.home.ui.ticket_update.TicketUpdate
@@ -37,15 +38,6 @@ fun MainMenuGraph(
         route = Graphs.MAIN_MENU,
         startDestination = Graphs.HOME
     ) {
-        composable(route = BottomBarNav.Notifications.route) {
-
-        }
-        settingsNavGraph(
-            authParams = authParams,
-            logout = {
-                rootNavController.navigate(Graphs.AUTHENTICATION)
-            }
-        )
         homeNavGraph(
             navController = navController,
             authParams = authParams,
@@ -54,6 +46,13 @@ fun MainMenuGraph(
         historyNavGraph(
             navController = navController,
             authParams = authParams,
+        )
+        notificationsNavGraph(authParams = authParams)
+        settingsNavGraph(
+            authParams = authParams,
+            logout = {
+                rootNavController.navigate(Graphs.AUTHENTICATION)
+            }
         )
     }
 }
@@ -169,4 +168,16 @@ fun NavGraphBuilder.historyNavGraph(
     }
 }
 
+fun NavGraphBuilder.notificationsNavGraph(authParams: AuthParams) {
+    navigation(
+        route = Graphs.NOTIFICATIONS,
+        startDestination = BottomBarNav.Notifications.route
+    ) {
+        composable(route = BottomBarNav.Notifications.route) {
+            AppTheme(authParams.darkMode ?: false) {
+                Subscriptions().NotificationsListScreen(authParams = remember { authParams })
+            }
+        }
+    }
+}
 

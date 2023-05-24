@@ -1,4 +1,4 @@
-package com.example.notifications
+package com.example.subscriptions
 
 import org.junit.Test
 

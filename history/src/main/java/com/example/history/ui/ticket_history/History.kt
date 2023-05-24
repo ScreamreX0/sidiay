@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.core.R
 import com.example.core.ui.theme.AppTheme
@@ -43,14 +44,12 @@ class History {
 
     @Composable
     fun Content(ticket: TicketEntity = TicketEntity()) {
-        TopBar()
-
         val mainScrollableState = rememberScrollState()
         Column(
             modifier = Modifier
                 .verticalScroll(mainScrollableState)
-                .padding(top = 80.dp),
         ) {
+            TopBar()
             ListItemText(ticket.id, { it.toString() }, "Номер")
             ListItemText(ticket.status, { it.toString() }, "Статус")
             ListItemText(ticket.author, { it.getFullName() }, "Автор")
@@ -63,7 +62,7 @@ class History {
             ListItemText(ticket.description_of_work, { it }, "Описание")
             ListItemText(ticket.kind, { KindsEnum.getByValue(it)?.label }, "Вид")
             ListItemText(ticket.service, { ServicesEnum.getByValue(it)?.label }, "Сервис")
-            ListItemIterable(ticket.facilities, { it.name ?: "Объект №${it.id}" }, "Объекты/скважины")
+            ListItemIterable(ticket.facilities, { it.name ?: "Объект №${it.id}" }, "Объекты")
             ListItemIterable(ticket.equipment, { it.name ?: "Оборудование №${it.id}" }, "Оборудование")
             ListItemIterable(ticket.transport, { it.name ?: "Транспорт №${it.id}" }, "Транспорт")
             ListItemText(ticket.priority, { PrioritiesEnum.getByValue(it)?.label }, "Приоритет")
@@ -86,15 +85,16 @@ class History {
     private fun TopBar() {
         Row(
             modifier = Modifier
-                .height(65.dp)
+                .height(80.dp)
+                .padding(bottom = 20.dp)
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.onBackground),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.padding(start = 16.dp),
-                text = "История заявки",
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                text = "Заявка",
                 fontSize = MaterialTheme.typography.h4.fontSize,
                 color = MaterialTheme.colors.background
             )
@@ -106,16 +106,10 @@ class History {
         Row {
             Text(
                 modifier = Modifier.padding(start = 24.dp, bottom = 16.dp),
-                text = "$itemLabel -> ",
+                text = "$itemLabel -> $text",
                 color = MaterialTheme.colors.onBackground,
                 fontSize = MaterialTheme.typography.h5.fontSize,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = text,
-                color = MaterialTheme.colors.onBackground,
-                fontSize = MaterialTheme.typography.h4.fontSize,
+                overflow = TextOverflow.Visible,
             )
         }
     }
@@ -125,8 +119,10 @@ class History {
         item?.let { text(it)?.let { itLabel -> ListItem(itLabel, itemLabel) } }
 
     @Composable
-    private fun <T> ListItemIterable(items: List<T>?, text: (T) -> String, itemLabel: String) =
-        items?.let { itList -> ListItem(itList.joinToString { text(it) }, itemLabel) }
+    private fun <T> ListItemIterable(items: List<T>?, text: (T) -> String, itemLabel: String) {
+        if (!items.isNullOrEmpty()) ListItem(items.joinToString { text(it) }, itemLabel)
+    }
+
 
     @ScreenPreview
     @Composable

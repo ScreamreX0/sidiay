@@ -98,7 +98,7 @@ object Dependencies {
         const val SIGN_IN = ":signin"
         const val APP = ":app"
         const val HOME = ":home"
-        const val NOTIFICATIONS = ":notifications"
+        const val SUBSCRIPTIONS = ":subscriptions"
         const val HISTORY = ":history"
         const val SETTINGS = ":settings"
         const val MAIN_MENU = ":main-menu"

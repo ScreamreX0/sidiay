@@ -101,7 +101,7 @@ class HistoryList {
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = "История заявок",
+                text = "История",
                 fontSize = MaterialTheme.typography.h4.fontSize,
                 color = MaterialTheme.colors.onBackground
             )

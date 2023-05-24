@@ -16,7 +16,8 @@ import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.drafts.SaveDraftsUseCase
 import com.example.domain.usecases.settings.GetLastAuthorizedUserUseCase
 import com.example.domain.usecases.settings.GetUIModeUseCase
-import com.example.domain.usecases.settings.SaveSettingsUseCase
+import com.example.domain.usecases.settings.SaveLastAuthorizedUseCase
+import com.example.domain.usecases.settings.SaveUIModeUseCase
 import com.example.domain.usecases.signin.CheckSignInFieldsUseCase
 import com.example.domain.usecases.signin.SignInUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictionsUseCase
@@ -44,7 +45,7 @@ class DomainModule {
     fun provideCheckSignInFieldsUseCase(): CheckSignInFieldsUseCase = CheckSignInFieldsUseCase()
 
     @Provides
-    fun provideSignInUseCase(userRepository: IAuthRepository, checkConnectionUseCase: CheckConnectionUseCase, checkSignInFieldsUseCase: CheckSignInFieldsUseCase): SignInUseCase = SignInUseCase(userRepository, checkConnectionUseCase, checkSignInFieldsUseCase)
+    fun provideSignInUseCase(userRepository: IAuthRepository, checkConnectionUseCase: CheckConnectionUseCase, checkSignInFieldsUseCase: CheckSignInFieldsUseCase, saveLastAuthorizedUseCase: SaveLastAuthorizedUseCase): SignInUseCase = SignInUseCase(userRepository, checkConnectionUseCase, checkSignInFieldsUseCase, saveLastAuthorizedUseCase)
 
     // Tickets
     @Provides
@@ -107,7 +108,10 @@ class DomainModule {
     fun provideGetLastAuthorizedUserUseCase(settingsDataStore: ISettingsDataStore): GetLastAuthorizedUserUseCase = GetLastAuthorizedUserUseCase(settingsDataStore)
 
     @Provides
-    fun provideSaveSettingsUseCase(themeDataStore: ISettingsDataStore): SaveSettingsUseCase = SaveSettingsUseCase(themeDataStore)
+    fun provideSaveLastAuthorizedUserUseCase(settingsDataStore: ISettingsDataStore): SaveLastAuthorizedUseCase = SaveLastAuthorizedUseCase(settingsDataStore)
+
+    @Provides
+    fun provideSaveSettingsUseCase(themeDataStore: ISettingsDataStore): SaveUIModeUseCase = SaveUIModeUseCase(themeDataStore)
 
     // Filtering
     @Provides
