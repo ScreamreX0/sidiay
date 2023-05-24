@@ -70,7 +70,11 @@ class TicketCreate {
             DONE -> {
                 navigateToBackWithMessage(context)
             }
-
+            FILL_ALL_REQUIRED_FIELDS -> {
+                Helper.showShortToast(context = context, text = FILL_ALL_REQUIRED_FIELDS.title)
+                bottomBarSelectable.value = true
+                ticketCreateViewModel.savingTicketResult.value = WAITING
+            }
             ERROR -> {
                 Helper.showShortToast(context = context, text = ERROR.name)
                 bottomBarSelectable.value = true

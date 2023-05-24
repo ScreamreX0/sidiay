@@ -47,9 +47,29 @@ class TicketsRepository @Inject constructor(
     override suspend fun add(url: String, ticket: TicketEntity): Pair<Int, TicketEntity?> {
         Logger.Companion.m("Sending add ticket request")
         val result = apiService.addTicket("$url${Endpoints.Tickets.ADD}", ticket)
-        Logger.Companion.m("Add ticket request was sent")
+        Logger.Companion.m("Add ticket request was sent. result code: ${result.code()}")
         return Pair(result.code(), result.body())
     }
 
     override suspend fun add() = TicketEntity(id = 0)
+    override suspend fun subscribe(url: String): Pair<Int, UserEntity?> {
+        Logger.m("Sending subscribing ticket request")
+        val result = apiService.subscribeToTicket(url)
+        Logger.m("Subscribing request was sent")
+        return Pair(result.code(), result.body())
+    }
+
+    override suspend fun unsubscribe(url: String): Pair<Int, UserEntity?> {
+        Logger.m("Sending unsubscribing ticket request")
+        val result = apiService.unsubscribeFromTicket(url)
+        Logger.m("Unsubscribing request was sent")
+        return Pair(result.code(), result.body())
+    }
+
+    override suspend fun getSubscriptions(url: String): Pair<Int, List<TicketEntity>?> {
+        Logger.m("Sending get subscriptions request")
+        val result = apiService.getSubscriptions(url)
+        Logger.m("Get subscriptions request was sent")
+        return Pair(result.code(), result.body())
+    }
 }

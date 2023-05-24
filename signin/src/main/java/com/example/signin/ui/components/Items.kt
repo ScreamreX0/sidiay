@@ -10,8 +10,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -28,7 +41,6 @@ import androidx.compose.ui.unit.sp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.utils.Helper
-import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.enums.states.NetworkState
 import kotlinx.coroutines.launch
@@ -76,7 +88,9 @@ internal fun CheckConnectionComponent(
             checkConnectionCoroutineScope.launch {
                 selectedConnection.value?.url?.let {
                     checkConnection(it)
-                } ?: run { checkConnectionResult.value = NetworkState.NO_SERVER_CONNECTION }
+                } ?: run {
+                    checkConnectionResult.value = NetworkState.NO_SERVER_CONNECTION
+                }
             }
         },
         text = "Проверить соединение",

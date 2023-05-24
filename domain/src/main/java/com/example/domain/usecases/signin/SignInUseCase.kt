@@ -21,19 +21,16 @@ class SignInUseCase @Inject constructor(
     private val checkSignInFieldsUseCase: CheckSignInFieldsUseCase,
 ) {
     suspend fun execute(url: String?, credentials: Credentials): Pair<INetworkState?, UserEntity?> {
-        FirebaseMessaging.getInstance()
-            .subscribeToTopic("Custom_topic")
-            .addOnCompleteListener { if (!it.isSuccessful) { Logger.m("Notification receiving error") } }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Logger.m("Fetching fcm failed")
+                return@OnCompleteListener
+            }
+            Logger.m("fsm -> ${task.result}")
+        })
 
         when (Constants.APPLICATION_MODE) {
             ApplicationModes.OFFLINE -> {
-                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Logger.m("Fetching fcm failed")
-                        return@OnCompleteListener
-                    }
-                    Logger.m("fsm -> ${task.result}")
-                })
                 return Pair(null, UserEntity(id = 1))
             }
 
@@ -47,11 +44,9 @@ class SignInUseCase @Inject constructor(
             }
         }
 
-        url?.let { itUrl ->
-            checkConnectionUseCase.execute(itUrl).let {
-                if (it == NetworkState.NO_SERVER_CONNECTION) return Pair(it, null)
-            }
-        } ?: return Pair(NetworkState.NO_SERVER_CONNECTION, null)
+        if (url == null || checkConnectionUseCase.execute(url) == NetworkState.NO_SERVER_CONNECTION) {
+            return Pair(NetworkState.NO_SERVER_CONNECTION, null)
+        }
 
         Logger.Companion.m("Online sign in. IP:${Constants.URL}")
         val result = authRepository.signIn(url, credentials)

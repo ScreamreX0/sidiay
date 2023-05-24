@@ -46,7 +46,7 @@ class TicketCreateViewModel @Inject constructor(
         }) {
             ticketDataLoadingState.value = NetworkState.LOADING
 
-            val result = getTicketDataUseCase.execute(url)
+            val result = getTicketDataUseCase.execute(url, currentUser?.id)
 
             result.second?.let { itTicketData ->
                 Logger.m("Ticket data received")
@@ -71,7 +71,7 @@ class TicketCreateViewModel @Inject constructor(
 
         result.first?.let {
             Logger.m("Error: ${result.second}")
-            savingTicketResult.value = TicketOperationState.ERROR
+            savingTicketResult.value = TicketOperationState.FILL_ALL_REQUIRED_FIELDS
         } ?: run {
             Logger.m("Success.")
             savingTicketResult.value = TicketOperationState.DONE

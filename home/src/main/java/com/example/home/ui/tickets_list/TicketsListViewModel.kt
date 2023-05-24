@@ -11,7 +11,6 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.data_classes.params.FilteringParams
 import com.example.domain.data_classes.params.SortingParams
 import com.example.domain.data_classes.params.TicketData
-import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import com.example.domain.usecases.drafts.DeleteDraftsUseCase
@@ -19,6 +18,7 @@ import com.example.domain.usecases.drafts.GetDraftsUseCase
 import com.example.domain.usecases.ticket_data.GetTicketDataUseCase
 import com.example.domain.usecases.tickets.FilterTicketsListUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
+import com.example.domain.usecases.tickets.SubscribeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +28,7 @@ class TicketsListViewModel @Inject constructor(
     // Tickets
     private val getTicketsUseCase: GetTicketsUseCase,
     private val filterTicketsListUseCase: FilterTicketsListUseCase,
+    private val subscribeUseCase: SubscribeUseCase,
 
     // Drafts
     private val getDraftsUseCase: GetDraftsUseCase,
@@ -71,7 +72,7 @@ class TicketsListViewModel @Inject constructor(
         }
     }
 
-    suspend fun filterTickets(
+    fun filterTickets(
         filteringParams: FilteringParams?,
         sortingParams: SortingParams?,
         searchText: TextFieldValue
@@ -88,6 +89,10 @@ class TicketsListViewModel @Inject constructor(
         }
     }
 
+    fun subscribeToTicket(url: String?, currentUserId: Long?, ticketId: Long) = viewModelScope.launch {
+        subscribeUseCase.execute(url, currentUserId, ticketId)
+    }
+
     // Drafts
     fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
 
@@ -97,8 +102,8 @@ class TicketsListViewModel @Inject constructor(
     }
 
     // Ticket data
-    fun fetchTicketData(url: String?) = viewModelScope.launch {
-        getTicketDataUseCase.execute(url).let { ticketData.value = it.second }
+    fun fetchTicketData(url: String?, currentUserId: Long?) = viewModelScope.launch {
+        getTicketDataUseCase.execute(url, currentUserId).let { ticketData.value = it.second }
     }
 }
 

@@ -68,8 +68,7 @@ internal class SignIn {
             }
             result.first?.let {
                 // Sign in error
-                    itMessage ->
-                Helper.showShortToast(context, itMessage.toString())
+                    itMessage -> Helper.showShortToast(context, itMessage.toString())
             }
         }
 

@@ -61,7 +61,9 @@ internal fun MenuTicketList(
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
     emptyListTitle: String = "Пусто",
     isDraft: Boolean = false,
-    onDraftDelete: (TicketEntity) -> Unit = { _ -> }
+    onDraftDelete: (TicketEntity) -> Unit = { _ -> },
+    showNotificationButton: Boolean = false,
+    onNotificationClick: (TicketEntity) -> Unit = { _ -> }
 ) {
     if (tickets.isNullOrEmpty()) {
         Column(
@@ -97,7 +99,9 @@ internal fun MenuTicketList(
                 ticket = tickets[index],
                 onClickUpdate = onClickUpdate,
                 showTrashCan = isDraft,
-                onTrashClick = onDraftDelete
+                onTrashClick = onDraftDelete,
+                showNotificationButton = showNotificationButton,
+                onNotificationClick = onNotificationClick
             )
         }
     }
@@ -110,7 +114,9 @@ private fun MenuTicketListItem(
     expanded: MutableState<Boolean> = mutableStateOf(false),
     onClickUpdate: (TicketEntity) -> Unit = { _ -> },
     showTrashCan: Boolean = false,
-    onTrashClick: (TicketEntity) -> Unit = { _ -> }
+    onTrashClick: (TicketEntity) -> Unit = { _ -> },
+    showNotificationButton: Boolean = false,
+    onNotificationClick: (TicketEntity) -> Unit = { _ -> }
 ) {
     val textColor = if (isDarkMode) Color.White else CustomColors.Grey780
     val circleColor = CustomColors.Orange700.copy(alpha = 0.8F)
@@ -162,7 +168,7 @@ private fun MenuTicketListItem(
             // Service
             ItemText(
                 modifier = Modifier.layoutId("serviceRef"),
-                text = ticket.service?.let { ServicesEnum.getByValue(it) }?.name ?: "[Сервис не указан]",
+                text = ticket.service?.let { ServicesEnum.getByValue(it) }?.label ?: "[Сервис не указан]",
                 circleColor = circleColor,
                 textColor = textColor,
                 fontSize = defaultTextSize,
@@ -230,6 +236,20 @@ private fun MenuTicketListItem(
                             indication = null
                         ) { onTrashClick(ticket) },
                     painter = painterResource(id = R.drawable.baseline_restore_from_trash_24),
+                    contentDescription = null,
+                    tint = CustomColors.Orange700,
+                )
+            } else if (showNotificationButton) {
+                // Notificate button
+                Icon(
+                    modifier = Modifier
+                        .layoutId("trashCanRef")
+                        .padding(start = 5.dp)
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = null
+                        ) { onNotificationClick(ticket) },
+                    painter = painterResource(id = R.drawable.ic_baseline_notifications_24),
                     contentDescription = null,
                     tint = CustomColors.Orange700,
                 )
@@ -401,13 +421,13 @@ private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
 
     // Shrink
     constrain(serviceRef) {
-        top.linkTo(titleRef.bottom, margin = 5.dp)
+        top.linkTo(titleRef.bottom, margin = 10.dp)
         start.linkTo(titleRef.start)
         end.linkTo(statusRef.start, margin = 10.dp)
         width = Dimension.fillToConstraints
     }
     constrain(executorRef) {
-        top.linkTo(serviceRef.bottom, margin = 10.dp)
+        top.linkTo(serviceRef.bottom, margin = 15.dp)
         start.linkTo(serviceRef.start)
         end.linkTo(priorityRef.start, margin = 10.dp)
         width = Dimension.fillToConstraints
@@ -422,7 +442,7 @@ private fun getConstraints(expanded: MutableState<Boolean>) = ConstraintSet {
         end.linkTo(parent.end, margin = 10.dp)
     }
     constrain(trashCanRef) {
-        bottom.linkTo(updateRef.top)
+        bottom.linkTo(updateRef.top, margin = 10.dp)
         end.linkTo(parent.end, margin = 10.dp)
     }
     constrain(statusRef) {

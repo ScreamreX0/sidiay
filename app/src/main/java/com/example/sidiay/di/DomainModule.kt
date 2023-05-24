@@ -23,8 +23,11 @@ import com.example.domain.usecases.ticket_restrictions.GetTicketCreateRestrictio
 import com.example.domain.usecases.ticket_restrictions.GetTicketDataRestrictionsUseCase
 import com.example.domain.usecases.ticket_restrictions.GetTicketUpdateRestrictionsUseCase
 import com.example.domain.usecases.tickets.FilterTicketsListUseCase
+import com.example.domain.usecases.tickets.GetSubscriptionsUseCase
 import com.example.domain.usecases.tickets.GetTicketsUseCase
 import com.example.domain.usecases.tickets.SaveTicketUseCase
+import com.example.domain.usecases.tickets.SubscribeUseCase
+import com.example.domain.usecases.tickets.UnsubscribeUseCase
 import com.example.domain.usecases.tickets.UpdateTicketUseCase
 import com.example.domain.usecases.tickets_history.GetTicketsHistoryUseCase
 import dagger.Module
@@ -55,6 +58,15 @@ class DomainModule {
 
     @Provides
     fun provideGetTicketsHistoryUseCase(ticketsHistoryRepository: ITicketsHistoryRepository): GetTicketsHistoryUseCase = GetTicketsHistoryUseCase(ticketsHistoryRepository)
+
+    @Provides
+    fun provideSubscribeUseCase(ticketsRepository: ITicketsRepository, checkConnectionUseCase: CheckConnectionUseCase): SubscribeUseCase = SubscribeUseCase(ticketsRepository, checkConnectionUseCase)
+
+    @Provides
+    fun provideUnsubscribeUseCase(ticketsRepository: ITicketsRepository, checkConnectionUseCase: CheckConnectionUseCase): UnsubscribeUseCase = UnsubscribeUseCase(ticketsRepository, checkConnectionUseCase)
+
+    @Provides
+    fun provideGetSubscriptionsUseCase(ticketsRepository: ITicketsRepository, checkConnectionUseCase: CheckConnectionUseCase): GetSubscriptionsUseCase = GetSubscriptionsUseCase(ticketsRepository, checkConnectionUseCase)
 
     // Restrictions
     @Provides

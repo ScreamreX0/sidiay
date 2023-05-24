@@ -53,7 +53,7 @@ class TicketUpdateViewModel @Inject constructor(
         }) {
             Logger.m("Getting tickets' fields online...")
             ticketDataLoadingState.value = NetworkState.LOADING
-            val result = getTicketDataUseCase.execute(url)
+            val result = getTicketDataUseCase.execute(url, currentUser?.id)
 
             result.second?.let { itTicketData ->
                 Logger.m("Ticket fields received.")

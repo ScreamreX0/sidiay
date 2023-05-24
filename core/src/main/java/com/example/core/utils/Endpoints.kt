@@ -13,5 +13,8 @@ object Endpoints {
         const val ADD = "$TICKETS/add"
         const val UPDATE = "$TICKETS/update"
         const val GET_HISTORY = "$TICKETS/get-history"
+        const val SUBSCRIBE = "$TICKETS/subscribe"
+        const val UNSUBSCRIBE = "$TICKETS/unsubscribe"
+        const val GET_SUBS = "$TICKETS/get-subscriptions"
     }
 }

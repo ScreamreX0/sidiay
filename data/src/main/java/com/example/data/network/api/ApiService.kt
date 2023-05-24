@@ -33,4 +33,10 @@ interface ApiService {
     suspend fun getTicketData(@Url url: String): Response<TicketData>
     @GET
     suspend fun getTicketsHistory(@Url url: String): Response<List<TicketEntity>>
+    @GET
+    suspend fun subscribeToTicket(@Url url: String): Response<UserEntity>
+    @GET
+    suspend fun unsubscribeFromTicket(@Url url: String): Response<UserEntity>
+    @GET
+    suspend fun getSubscriptions(@Url url: String): Response<List<TicketEntity>>
 }

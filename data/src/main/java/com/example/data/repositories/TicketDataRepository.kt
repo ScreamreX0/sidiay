@@ -1,18 +1,19 @@
 package com.example.data.repositories
 
-import com.example.core.utils.Endpoints
 import com.example.data.network.api.ApiService
-import com.example.domain.data_classes.entities.*
+import com.example.domain.data_classes.entities.EmployeeEntity
+import com.example.domain.data_classes.entities.FacilityEntity
+import com.example.domain.data_classes.entities.TransportEntity
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.repositories.ITicketDataRepository
-import java.lang.Math.random
 import javax.inject.Inject
 
 class TicketDataRepository @Inject constructor(
     private val apiService: ApiService
 ) : ITicketDataRepository {
     override suspend fun getTicketData(url: String): Pair<Int, TicketData?> {
-        val result = apiService.getTicketData("$url${Endpoints.Tickets.GET_DATA}")
+        val result = apiService.getTicketData(url)
         return Pair(result.code(), result.body())
     }
 

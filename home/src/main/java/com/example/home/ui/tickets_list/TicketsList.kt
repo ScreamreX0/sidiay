@@ -69,7 +69,12 @@ class TicketsList {
         // Fetching drafts
         LaunchedEffect(key1 = null) { ticketsListViewModel.fetchDrafts() }
         // Fetching ticket data
-        LaunchedEffect(key1 = null) { ticketsListViewModel.fetchTicketData(authParams?.connectionParams?.url) }
+        LaunchedEffect(key1 = null) {
+            ticketsListViewModel.fetchTicketData(
+                authParams?.connectionParams?.url,
+                authParams?.user?.id
+            )
+        }
 
         val filterTicketsCoroutineScope = rememberCoroutineScope()
         if (isFilterDialogEnabled.value) {
@@ -108,7 +113,8 @@ class TicketsList {
             deleteDraft = ticketsListViewModel::deleteDraft,
             searchText = searchText,
             isFilterDialogEnabled = isFilterDialogEnabled,
-            searchTickets = ticketsListViewModel::searchTickets
+            searchTickets = ticketsListViewModel::searchTickets,
+            subscribeToTicket = ticketsListViewModel::subscribeToTicket
         )
     }
 
@@ -131,11 +137,14 @@ class TicketsList {
         navigateToTicketUpdate: (TicketEntity) -> Unit = { _ -> },
         ticketsReceivingState: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
         tickets: MutableState<List<TicketEntity>?> = mutableStateOf(null),
+        subscribeToTicket: (String?, Long?, Long) -> Unit = { _, _, _ -> },
 
         // Drafts
         drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
         deleteDraft: (TicketEntity) -> Unit = {},
     ) {
+        val context = LocalContext.current
+
         // Tickets receiving progress
         if ((ticketsReceivingState.value == NetworkState.LOADING
                     || ticketsReceivingState.value == NetworkState.WAIT_FOR_INIT)
@@ -217,6 +226,7 @@ class TicketsList {
                     }
                 )
 
+
                 HorizontalPager(
                     count = MainMenuTabEnum.values().size,
                     state = pagerState,
@@ -227,7 +237,12 @@ class TicketsList {
                                 authParams = authParams,
                                 tickets = tickets.value,
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
-                                emptyListTitle = "Заявок не найдено :("
+                                emptyListTitle = "Заявок не найдено :(",
+                                showNotificationButton = true,
+                                onNotificationClick = {
+                                    subscribeToTicket(authParams.connectionParams?.url, authParams.user?.id, it.id)
+                                    Helper.showShortToast(context, "Вы подписались на заявку")
+                                }
                             )
                         }
 
