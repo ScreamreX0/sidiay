@@ -88,6 +88,6 @@ class SignInViewModel @Inject constructor(
         viewModelScope.launch(Helper.getCoroutineNetworkExceptionHandler {
             signInResult.value = Pair(NetworkState.NO_SERVER_CONNECTION, null)
         }) {
-            signInResult.value = signInUseCase.execute(url, Credentials(email, password))
+            signInResult.value = signInUseCase.execute(url, Credentials(email, password, ""))
         }
 }
