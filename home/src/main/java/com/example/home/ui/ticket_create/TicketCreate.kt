@@ -12,7 +12,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,18 +27,21 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.layoutId
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.ui.theme.AppTheme
-import com.example.core.utils.Constants
 import com.example.core.utils.ApplicationModes
+import com.example.core.utils.Constants
 import com.example.core.utils.Helper
 import com.example.domain.data_classes.entities.TicketEntity
-import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.TicketData
 import com.example.domain.data_classes.params.TicketRestriction
-import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.domain.enums.TicketStatuses
 import com.example.domain.enums.states.NetworkState
-import com.example.domain.enums.states.TicketOperationState.*
+import com.example.domain.enums.states.TicketOperationState.DONE
+import com.example.domain.enums.states.TicketOperationState.ERROR
+import com.example.domain.enums.states.TicketOperationState.FILL_ALL_REQUIRED_FIELDS
+import com.example.domain.enums.states.TicketOperationState.IN_PROCESS
+import com.example.domain.enums.states.TicketOperationState.WAITING
+import com.example.domain.enums.ui.TicketFieldsEnum
 import com.example.home.ui.common.components.TicketCreateBottomBar
 import com.example.home.ui.common.components.TicketCreateTopBar
 import com.example.home.ui.common.impl.TicketFieldsFactory
@@ -67,21 +74,19 @@ class TicketCreate {
         // Saving
         when (ticketCreateViewModel.savingTicketResult.value) {
             IN_PROCESS -> bottomBarSelectable.value = false
-            DONE -> {
-                navigateToBackWithMessage(context)
-            }
+            DONE -> navigateToBackWithMessage(context)
             FILL_ALL_REQUIRED_FIELDS -> {
                 Helper.showShortToast(context = context, text = FILL_ALL_REQUIRED_FIELDS.title)
                 bottomBarSelectable.value = true
                 ticketCreateViewModel.savingTicketResult.value = WAITING
             }
             ERROR -> {
-                Helper.showShortToast(context = context, text = ERROR.name)
+                Helper.showShortToast(context = context, text = ERROR.title)
                 bottomBarSelectable.value = true
             }
 
             NetworkState.NO_SERVER_CONNECTION -> {
-                Helper.showShortToast(context = context, text = NetworkState.NO_SERVER_CONNECTION.name)
+                if (!authParams.connectionParams?.url.isNullOrEmpty()) Helper.showShortToast(context = context, text = NetworkState.NO_SERVER_CONNECTION.title!!)
                 bottomBarSelectable.value = true
             }
 
@@ -121,7 +126,7 @@ class TicketCreate {
         ticketData: MutableState<TicketData?> = mutableStateOf(TicketData()),
         fieldsLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.DONE),
         saveTicket: (String?, TicketEntity) -> Unit = { _, _ -> },
-        saveDraft: (TicketEntity, UserEntity) -> Unit = { _, _ -> },
+        saveDraft: (TicketEntity) -> Unit = { _ -> },
         bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
         getRestrictionsFunction: () -> TicketRestriction = { TicketRestriction.getEmpty() },
         navigateToBack: () -> Unit = {},
@@ -199,9 +204,10 @@ class TicketCreate {
             // BOTTOM BAR
             TicketCreateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
+                authParams = authParams,
                 bottomBarSelectable = bottomBarSelectable,
                 saveTicket = { saveTicket(authParams.connectionParams?.url, ticket.value) },
-                saveDraft = { saveDraft(ticket.value, authParams.user!!) }
+                saveDraft = { saveDraft(ticket.value) }
             )
         }
     }

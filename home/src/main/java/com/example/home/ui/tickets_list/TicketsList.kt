@@ -96,7 +96,9 @@ class TicketsList {
             )
         }
 
-        errorMessage.value?.let { Helper.showShortToast(context = context, text = it.toString()) }
+        errorMessage.value?.let {
+            if (!authParams?.connectionParams?.url.isNullOrEmpty()) Helper.showShortToast(context = context, text = it.toString())
+        }
 
         Content(
             modifier = Modifier.padding(

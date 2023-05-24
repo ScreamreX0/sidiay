@@ -11,9 +11,7 @@ import com.example.domain.enums.states.SignInStates
 import com.example.domain.repositories.IAuthRepository
 import com.example.domain.usecases.connections.CheckConnectionUseCase
 import com.example.domain.usecases.settings.SaveLastAuthorizedUseCase
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -29,6 +27,10 @@ class SignInUseCase @Inject constructor(
     suspend fun execute(url: String?, credentials: Credentials): Pair<INetworkState?, UserEntity?> {
         if (Constants.APPLICATION_MODE == ApplicationModes.OFFLINE) return Pair(null, UserEntity(id = 1))
 
+        if (url == null || checkConnectionUseCase.execute(url) == NetworkState.NO_SERVER_CONNECTION) {
+            return Pair(NetworkState.NO_SERVER_CONNECTION, null)
+        }
+
         return suspendCoroutine { itContinuation ->
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -43,10 +45,6 @@ class SignInUseCase @Inject constructor(
                     }
 
                     runBlocking {
-                        if (url == null || checkConnectionUseCase.execute(url) == NetworkState.NO_SERVER_CONNECTION) {
-                            itContinuation.resume(Pair(NetworkState.NO_SERVER_CONNECTION, null))
-                        }
-
                         Logger.Companion.m("Online sign in. IP:${Constants.URL}")
 
                         val result = authRepository.signIn(url!!, credentials)

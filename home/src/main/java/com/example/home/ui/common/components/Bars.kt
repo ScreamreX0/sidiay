@@ -24,25 +24,28 @@ import com.example.domain.data_classes.params.AuthParams
 @Composable
 internal fun TicketCreateBottomBar(
     modifier: Modifier = Modifier,
+    authParams: AuthParams = AuthParams(),
     bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
     saveTicket: () -> Unit = { },
     saveDraft: () -> Unit = { }
 ) {
     Row(modifier = modifier.height(50.dp)) {
-        Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.5F)
-                .background(MaterialTheme.colors.onBackground)
-                .clickable { if (bottomBarSelectable.value) saveTicket() },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                textAlign = TextAlign.Center,
-                text = "Сохранить",
-                color = MaterialTheme.colors.onPrimary
-            )
+        if (!authParams.connectionParams?.url.isNullOrEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5F)
+                    .background(MaterialTheme.colors.onBackground)
+                    .clickable { if (bottomBarSelectable.value) saveTicket() },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "Сохранить",
+                    color = MaterialTheme.colors.onPrimary
+                )
+            }
         }
         Row(
             modifier = Modifier
@@ -65,25 +68,28 @@ internal fun TicketCreateBottomBar(
 @Composable
 internal fun TicketUpdateBottomBar(
     modifier: Modifier = Modifier,
+    authParams: AuthParams = AuthParams(),
     bottomBarSelectable: MutableState<Boolean>,
     updateTicket: () -> Unit = { },
     saveDraft: () -> Unit = { }
 ) {
     Row(modifier = modifier.height(50.dp)) {
-        Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.5F)
-                .background(MaterialTheme.colors.onBackground)
-                .clickable { if (bottomBarSelectable.value) updateTicket() },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                textAlign = TextAlign.Center,
-                text = "Сохранить",
-                color = MaterialTheme.colors.onPrimary
-            )
+        if (!authParams.connectionParams?.url.isNullOrEmpty()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.5F)
+                    .background(MaterialTheme.colors.onBackground)
+                    .clickable { if (bottomBarSelectable.value) updateTicket() },
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "Сохранить",
+                    color = MaterialTheme.colors.onPrimary
+                )
+            }
         }
         Row(
             modifier = Modifier

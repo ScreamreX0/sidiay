@@ -93,21 +93,21 @@ class TicketUpdate {
 
     @Composable
     private fun Content(
-        authParams: AuthParams = remember { AuthParams() },
-        ticket: MutableState<TicketEntity> = remember { mutableStateOf(TicketEntity()) },
-        ticketData: MutableState<TicketData?> = remember { mutableStateOf(TicketData()) },
-        fieldsLoadingState: MutableState<INetworkState> = remember { mutableStateOf(NetworkState.DONE) },
+        authParams: AuthParams = AuthParams(),
+        ticket: MutableState<TicketEntity> = mutableStateOf(TicketEntity()),
+        ticketData: MutableState<TicketData?> = mutableStateOf(TicketData()),
+        fieldsLoadingState: MutableState<INetworkState> = mutableStateOf(NetworkState.DONE),
         updateTicketFunction: (ticket: TicketEntity, authParams: AuthParams) -> Unit = { _, _ -> },
-        updatingResult: MutableState<INetworkState> = remember { mutableStateOf(TicketOperationState.WAITING) },
-        bottomBarSelectable: MutableState<Boolean> = remember { mutableStateOf(true) },
+        updatingResult: MutableState<INetworkState> = mutableStateOf(TicketOperationState.WAITING),
+        bottomBarSelectable: MutableState<Boolean> = mutableStateOf(true),
         updateRestrictions: (selectedTicketStatus: TicketStatuses, ticket: TicketEntity, currentUser: UserEntity?) -> Unit = { _, _, _ -> },
-        restrictions: MutableState<TicketRestriction> = remember { mutableStateOf(TicketRestriction.getEmpty()) },
+        restrictions: MutableState<TicketRestriction> = mutableStateOf(TicketRestriction.getEmpty()),
         updatingMessage: MutableState<String?> = mutableStateOf(null),
         navigateToBackWithMessage: (Context) -> Unit = { _ -> },
         navigateToBack: () -> Unit = {},
         context: Context = LocalContext.current,
         selectedTicketStatus: MutableState<TicketStatuses> = mutableStateOf(TicketStatuses.NOT_FORMED),
-        saveDraft: (TicketEntity, UserEntity) -> Unit = { _, _ -> }
+        saveDraft: (TicketEntity) -> Unit = { _ -> }
     ) {
         LaunchedEffect(key1 = null) {
             updateRestrictions(
@@ -247,9 +247,10 @@ class TicketUpdate {
             //
             TicketUpdateBottomBar(
                 modifier = Modifier.layoutId("bottomAppBarRef"),
+                authParams = authParams,
                 bottomBarSelectable = bottomBarSelectable,
                 updateTicket = { updateTicketFunction(ticket.value.copy(status = selectedTicketStatus.value.value), authParams) },
-                saveDraft = { saveDraft(ticket.value, authParams.user!!) }
+                saveDraft = { saveDraft(ticket.value) }
             )
         }
     }

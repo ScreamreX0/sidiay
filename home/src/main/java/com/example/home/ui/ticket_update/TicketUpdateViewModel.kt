@@ -90,9 +90,9 @@ class TicketUpdateViewModel @Inject constructor(
     }
 
 
-    fun saveDraft(draft: TicketEntity, currentUser: UserEntity) = viewModelScope.launch {
+    fun saveDraft(draft: TicketEntity) = viewModelScope.launch {
         savingDraftResult.value = TicketOperationState.IN_PROCESS
-        saveDraftsUseCase.execute(draft, currentUser)
+        saveDraftsUseCase.execute(draft)
         savingDraftResult.value = TicketOperationState.DONE
     }
 

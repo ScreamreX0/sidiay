@@ -4,10 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -18,15 +23,16 @@ import com.example.core.ui.theme.AppTheme
 import com.example.core.utils.ApplicationModes
 import com.example.core.utils.Constants
 import com.example.core.utils.Helper
-import com.example.core.utils.ScreenPreview
 import com.example.domain.data_classes.entities.EmployeeEntity
-import com.example.domain.enums.states.NetworkState
 import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.enums.JobTitlesEnum
-import com.example.signin.ui.components.*
+import com.example.domain.enums.states.NetworkState
 import com.example.signin.ui.components.CheckConnectionComponent
+import com.example.signin.ui.components.ConnectionComponent
+import com.example.signin.ui.components.ConnectionsDialog
+import com.example.signin.ui.components.EmailComponent
 import com.example.signin.ui.components.EnterComponent
 import com.example.signin.ui.components.OfflineModeComponent
 import com.example.signin.ui.components.PasswordComponent
@@ -149,7 +155,8 @@ internal class SignIn {
             // Email text field
             val email = remember { mutableStateOf("") }
             EmailComponent(
-                modifier = Modifier.layoutId("emailComponentRef"), email = email
+                modifier = Modifier.layoutId("emailComponentRef"),
+                login = email
             )
 
             // Password text field
@@ -225,7 +232,7 @@ internal class SignIn {
         }
     }
 
-    @ScreenPreview
+    @Preview(heightDp = 1000, widthDp = 700)
     @Composable
     private fun ScreenPreview() {
         AppTheme(isSystemInDarkTheme()) { Content() }

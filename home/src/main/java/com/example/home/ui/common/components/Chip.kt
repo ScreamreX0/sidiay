@@ -3,7 +3,11 @@ package com.example.home.ui.common.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -50,13 +54,13 @@ internal fun CustomChip(
 ) {
     Box(
         modifier = modifier
-            .height(35.dp)
+            .wrapContentHeight()
             .clip(CircleShape)
             .background(MaterialTheme.colors.onBackground)
     ) {
         Row(
             modifier = modifier
-                .padding(start = 10.dp, end = 10.dp, top = 5.dp)
+                .padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
                     indication = null

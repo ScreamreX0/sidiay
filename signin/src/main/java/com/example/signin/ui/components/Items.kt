@@ -131,10 +131,10 @@ internal fun ConnectionComponent(
 @Composable
 internal fun EmailComponent(
     modifier: Modifier = Modifier,
-    email: MutableState<String> = remember { mutableStateOf("") }
+    login: MutableState<String> = remember { mutableStateOf("") },
 ) {
     OutlinedTextField(
-        value = email.value,
+        value = login.value,
         modifier = modifier,
         shape = RoundedCornerShape(15.dp),
         maxLines = 1,
@@ -152,7 +152,7 @@ internal fun EmailComponent(
                 fontSize = MaterialTheme.typography.h3.fontSize
             )
         },
-        onValueChange = { email.value = it }
+        onValueChange = { login.value = it }
     )
 }
 

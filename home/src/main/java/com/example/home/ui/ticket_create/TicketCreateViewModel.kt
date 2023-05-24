@@ -71,7 +71,7 @@ class TicketCreateViewModel @Inject constructor(
 
         result.first?.let {
             Logger.m("Error: ${result.second}")
-            savingTicketResult.value = TicketOperationState.FILL_ALL_REQUIRED_FIELDS
+            savingTicketResult.value = it
         } ?: run {
             Logger.m("Success.")
             savingTicketResult.value = TicketOperationState.DONE
@@ -81,9 +81,9 @@ class TicketCreateViewModel @Inject constructor(
 
     fun getRestrictions() = getTicketCreateRestrictionsUseCase.execute()
 
-    fun saveDraft(drafts: TicketEntity, currentUser: UserEntity) = viewModelScope.launch {
+    fun saveDraft(drafts: TicketEntity) = viewModelScope.launch {
         savingDraftResult.value = TicketOperationState.IN_PROCESS
-        saveDraftsUseCase.execute(drafts, currentUser)
+        saveDraftsUseCase.execute(drafts)
         savingDraftResult.value = TicketOperationState.DONE
     }
 }
