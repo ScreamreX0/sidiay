@@ -35,6 +35,7 @@ import com.example.domain.data_classes.entities.TicketEntity
 import com.example.domain.enums.KindsEnum
 import com.example.domain.enums.PrioritiesEnum
 import com.example.domain.enums.ServicesEnum
+import com.example.domain.enums.TicketStatuses
 
 
 class History {
@@ -51,7 +52,7 @@ class History {
         ) {
             TopBar()
             ListItemText(ticket.id, { it.toString() }, "Номер")
-            ListItemText(ticket.status, { it.toString() }, "Статус")
+            ListItemText(ticket.status, { TicketStatuses.getByValue(it)?.title }, "Статус")
             ListItemText(ticket.author, { it.getFullName() }, "Автор")
             ListItemText(ticket.field, { it.name }, "Участок")
             ListItemText(ticket.dispatcher, { it.getFullName() }, "Диспетчер")
