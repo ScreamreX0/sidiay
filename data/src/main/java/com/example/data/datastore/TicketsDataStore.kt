@@ -30,7 +30,7 @@ class TicketsDataStore(private val context: Context): ITicketsDataStore {
         Gson().fromJson(it[TICKET_DATA] ?: "", (object : TypeToken<TicketData>() {}).type)
     }
 
-    override suspend fun saveDrafts(drafts: Collection<TicketEntity>) {
+    override suspend fun saveDrafts(drafts: List<TicketEntity>) {
         context.dataStore.edit { it[DRAFTS] = Gson().toJson(drafts) }
     }
 

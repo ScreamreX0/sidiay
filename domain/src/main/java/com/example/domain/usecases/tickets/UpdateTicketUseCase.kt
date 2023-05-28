@@ -30,7 +30,12 @@ class UpdateTicketUseCase @Inject constructor(
             if (it == NetworkState.NO_SERVER_CONNECTION) return Pair(it, null)
         }
 
-        val result = ticketRepository.update(url = url, ticket = ticket, currentUserId = currentUserId)
+        val result: Pair<Int?, TicketEntity?> = if (ticket.id == -1L) {
+            ticketRepository.add(url = url, ticket = ticket)
+        } else {
+            ticketRepository.update(url = url, ticket = ticket, currentUserId = currentUserId)
+        }
+
         return when (result.first) {
             200 -> Pair(null, result.second)
             422 -> Pair(TicketOperationState.FILL_ALL_REQUIRED_FIELDS, null)

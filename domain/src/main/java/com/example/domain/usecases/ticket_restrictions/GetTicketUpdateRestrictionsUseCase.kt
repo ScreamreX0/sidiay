@@ -42,19 +42,22 @@ class GetTicketUpdateRestrictionsUseCase @Inject constructor() {
 
             TicketStatuses.NEW -> when (currentUserJobTitle) {
                 DISPATCHER -> {
-                    requiredFields.add(
-                        TicketFieldsEnum.PRIORITY,
-                        TicketFieldsEnum.ASSESSED_VALUE,
-                        TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION,
-                    )
+                    requiredFields.add(TicketFieldsEnum.STATUS)
+                    availableStatuses.add(TicketStatuses.EVALUATED)
+                    if (selectedTicketStatus == TicketStatuses.EVALUATED) {
+                        requiredFields.add(
+                            TicketFieldsEnum.PRIORITY,
+                            TicketFieldsEnum.ASSESSED_VALUE,
+                            TicketFieldsEnum.ASSESSED_VALUE_DESCRIPTION,
+                        )
+                    }
+
+
                 }
 
                 OPERATOR -> {
                     requiredFields.add(TicketFieldsEnum.STATUS)
-                    availableStatuses.add(
-                        TicketStatuses.CANCELED,
-                        TicketStatuses.NEW
-                    )
+                    availableStatuses.add(TicketStatuses.CANCELED)
                     if (selectedTicketStatus == TicketStatuses.CANCELED) {
                         requiredFields.add(TicketFieldsEnum.REASON_FOR_CANCELLATION)
                     }

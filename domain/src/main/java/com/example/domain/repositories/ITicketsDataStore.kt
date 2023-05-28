@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface ITicketsDataStore {
     // Drafts
     val getDrafts: Flow<Collection<TicketEntity>?>
-    suspend fun saveDrafts(drafts: Collection<TicketEntity>)
+    suspend fun saveDrafts(drafts: List<TicketEntity>)
 
     // Ticket data
     val getTicketData: Flow<TicketData?>

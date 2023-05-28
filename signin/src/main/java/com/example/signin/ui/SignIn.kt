@@ -28,7 +28,7 @@ import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.AuthParams
 import com.example.domain.data_classes.params.ConnectionParams
 import com.example.domain.enums.JobTitlesEnum
-import com.example.domain.enums.states.NetworkState
+import com.example.domain.enums.states.INetworkState
 import com.example.signin.ui.components.CheckConnectionComponent
 import com.example.signin.ui.components.ConnectionComponent
 import com.example.signin.ui.components.ConnectionsDialog
@@ -51,7 +51,6 @@ internal class SignIn {
 
         val signInResult = signInViewModel.signInResult
         val connectionsList = signInViewModel.connectionsList
-        val checkConnectionResult = signInViewModel.checkConnectionResult
         val context = LocalContext.current
         val selectedConnection: MutableState<ConnectionParams?> = remember { mutableStateOf(ConnectionParams()) }
 
@@ -82,7 +81,7 @@ internal class SignIn {
             Content(
                 selectedConnection = selectedConnection,
                 connectionsList = connectionsList,
-                checkConnectionResult = checkConnectionResult,
+                signInResult = signInResult,
                 checkConnectionFunction = signInViewModel::checkConnection,
                 updateConnectionsListFunction = signInViewModel::fetchConnections,
                 saveConnectionsFunction = signInViewModel::saveConnections,
@@ -104,7 +103,6 @@ internal class SignIn {
         // Connections
         connectionsList: MutableState<List<ConnectionParams>> = mutableStateOf(listOf()),
         isConnectionDialogOpened: MutableState<Boolean> = mutableStateOf(false),
-        checkConnectionResult: MutableState<NetworkState> = mutableStateOf(NetworkState.WAIT_FOR_INIT),
         checkConnectionFunction: suspend (url: String) -> Unit = { _ -> },
         updateConnectionsListFunction: suspend () -> Unit = {},
         saveConnectionsFunction: suspend (connectionsList: List<ConnectionParams>) -> Unit = {},
@@ -116,6 +114,7 @@ internal class SignIn {
         // Sign in
         signInFunction: (String?, String, String) -> Unit = { _, _, _ -> },
         navigateToMainMenuOfflineMode: () -> Unit = {},
+        signInResult: MutableState<Pair<INetworkState?, UserEntity?>> = mutableStateOf(Pair(null, null)),
     ) {
         ConstraintLayout(
             constraintSet = getConstraints(), modifier = Modifier
@@ -149,7 +148,7 @@ internal class SignIn {
                 modifier = Modifier.layoutId("checkConnectionComponentRef"),
                 selectedConnection = selectedConnection,
                 checkConnection = checkConnectionFunction,
-                checkConnectionResult = checkConnectionResult
+                checkConnectionResult = signInResult
             )
 
             // Email text field

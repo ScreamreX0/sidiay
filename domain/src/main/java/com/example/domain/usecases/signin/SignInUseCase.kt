@@ -40,27 +40,31 @@ class SignInUseCase @Inject constructor(
                     if (Constants.APPLICATION_MODE == ApplicationModes.ONLINE) {
                         credentials.email = Constants.DEBUG_MODE_EMAIL
                         credentials.password = Constants.DEBUG_MODE_PASSWORD
-                    } else if (Constants.APPLICATION_MODE == ApplicationModes.RELEASE) {
-                        checkSignInFieldsUseCase.execute(credentials)?.let { itContinuation.resume(Pair(it, null)) }
                     }
 
-                    runBlocking {
-                        Logger.Companion.m("Online sign in. IP:${Constants.URL}")
 
-                        val result = authRepository.signIn(url!!, credentials)
-                        Logger.m("Sign in http code: ${result.first}")
+                    val checkSignInFieldsResult = checkSignInFieldsUseCase.execute(credentials)
+                    if (checkSignInFieldsResult != null) {
+                        itContinuation.resume(Pair(checkSignInFieldsResult, null))
+                    } else {
+                        runBlocking {
+                            Logger.Companion.m("Online sign in. IP:${Constants.URL}")
 
-                        itContinuation.resume(when (result.first) {
-                            200 -> {
-                                saveLastAuthorizedUseCase.execute(result.second)
-                                Pair(null, result.second)
-                            }
-                            401 -> Pair(SignInStates.WRONG_EMAIL_OR_PASSWORD, null)
-                            else -> {
-                                Logger.m("Unhandled http code: ${result.first}")
-                                Pair(SignInStates.UNKNOWN_EXCEPTION, null)
-                            }
-                        })
+                            val result = authRepository.signIn(url, credentials)
+                            Logger.m("Sign in http code: ${result.first}")
+
+                            itContinuation.resume(when (result.first) {
+                                200 -> {
+                                    saveLastAuthorizedUseCase.execute(result.second)
+                                    Pair(null, result.second)
+                                }
+                                401 -> Pair(SignInStates.WRONG_EMAIL_OR_PASSWORD, null)
+                                else -> {
+                                    Logger.m("Unhandled http code: ${result.first}")
+                                    Pair(SignInStates.UNKNOWN_EXCEPTION, null)
+                                }
+                            })
+                        }
                     }
                 } else {
                     Logger.m("Error -> ${task.result}")

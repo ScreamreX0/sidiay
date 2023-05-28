@@ -8,5 +8,6 @@ import javax.inject.Inject
 class GetDraftsUseCase @Inject constructor(
     private val draftsDataStore: ITicketsDataStore
 ) {
-    suspend fun execute() = draftsDataStore.getDrafts.first()?.let { it as List<TicketEntity> }
+    suspend fun execute(currentUserId: Long) = draftsDataStore.getDrafts.first()?.let{
+        it as List<TicketEntity> }?.filter { it.author?.id == currentUserId } ?: listOf()
 }

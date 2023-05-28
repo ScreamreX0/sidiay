@@ -94,11 +94,11 @@ class TicketsListViewModel @Inject constructor(
     }
 
     // Drafts
-    fun fetchDrafts() = viewModelScope.launch { drafts.value = getDraftsUseCase.execute() }
+    fun fetchDrafts(currentUserId: Long) = viewModelScope.launch { drafts.value = getDraftsUseCase.execute(currentUserId) }
 
-    fun deleteDraft(ticket: TicketEntity) = viewModelScope.launch {
+    fun deleteDraft(ticket: TicketEntity, currentUserId: Long) = viewModelScope.launch {
         deleteDraftsUseCase.execute(ticket)
-        drafts.value = getDraftsUseCase.execute()
+        drafts.value = getDraftsUseCase.execute(currentUserId)
     }
 
     // Ticket data

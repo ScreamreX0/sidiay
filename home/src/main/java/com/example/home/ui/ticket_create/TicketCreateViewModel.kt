@@ -81,9 +81,9 @@ class TicketCreateViewModel @Inject constructor(
 
     fun getRestrictions() = getTicketCreateRestrictionsUseCase.execute()
 
-    fun saveDraft(drafts: TicketEntity) = viewModelScope.launch {
+    fun saveDraft(drafts: TicketEntity, currentUserId: Long) = viewModelScope.launch {
         savingDraftResult.value = TicketOperationState.IN_PROCESS
-        saveDraftsUseCase.execute(drafts)
+        saveDraftsUseCase.execute(drafts, currentUserId)
         savingDraftResult.value = TicketOperationState.DONE
     }
 }

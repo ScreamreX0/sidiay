@@ -67,7 +67,7 @@ class TicketsList {
         // Fetching tickets
         LaunchedEffect(key1 = null) { fetchTickets() }
         // Fetching drafts
-        LaunchedEffect(key1 = null) { ticketsListViewModel.fetchDrafts() }
+        LaunchedEffect(key1 = null) { ticketsListViewModel.fetchDrafts(authParams!!.user!!.id) }
         // Fetching ticket data
         LaunchedEffect(key1 = null) {
             ticketsListViewModel.fetchTicketData(
@@ -143,7 +143,7 @@ class TicketsList {
 
         // Drafts
         drafts: MutableState<List<TicketEntity>?> = mutableStateOf(listOf()),
-        deleteDraft: (TicketEntity) -> Unit = {},
+        deleteDraft: (TicketEntity, Long) -> Unit = { _, _ -> },
     ) {
         val context = LocalContext.current
 
@@ -255,7 +255,7 @@ class TicketsList {
                                 onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                                 emptyListTitle = "Черновиков не найдено :(",
                                 isDraft = true,
-                                onDraftDelete = { deleteDraft(it) }
+                                onDraftDelete = { deleteDraft(it, authParams.user!!.id) }
                             )
                         }
                     }
@@ -268,7 +268,7 @@ class TicketsList {
                     onClickUpdate = { itTicket -> navigateToTicketUpdate(itTicket) },
                     emptyListTitle = "Черновиков не найдено :(",
                     isDraft = true,
-                    onDraftDelete = { deleteDraft(it) }
+                    onDraftDelete = { deleteDraft(it, authParams!!.user!!.id) }
                 )
             }
         }

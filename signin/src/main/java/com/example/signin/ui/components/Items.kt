@@ -41,7 +41,9 @@ import androidx.compose.ui.unit.sp
 import com.example.core.R
 import com.example.core.ui.theme.DefaultButtonStyle
 import com.example.core.utils.Helper
+import com.example.domain.data_classes.entities.UserEntity
 import com.example.domain.data_classes.params.ConnectionParams
+import com.example.domain.enums.states.INetworkState
 import com.example.domain.enums.states.NetworkState
 import kotlinx.coroutines.launch
 
@@ -76,12 +78,9 @@ internal fun CheckConnectionComponent(
     modifier: Modifier,
     selectedConnection: MutableState<ConnectionParams?>,
     checkConnection: suspend (String) -> Unit,
-    checkConnectionResult: MutableState<NetworkState>
+    checkConnectionResult: MutableState<Pair<INetworkState?, UserEntity?>>
 ) {
     val checkConnectionCoroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
-
-    checkConnectionResult.value.title?.let { Helper.showShortToast(context, it) }
 
     Text(
         modifier = modifier.clickable {
@@ -89,7 +88,7 @@ internal fun CheckConnectionComponent(
                 selectedConnection.value?.url?.let {
                     checkConnection(it)
                 } ?: run {
-                    checkConnectionResult.value = NetworkState.NO_SERVER_CONNECTION
+                    checkConnectionResult.value = Pair(NetworkState.NO_SERVER_CONNECTION, null)
                 }
             }
         },

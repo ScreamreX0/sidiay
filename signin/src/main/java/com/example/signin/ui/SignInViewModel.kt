@@ -40,9 +40,6 @@ class SignInViewModel @Inject constructor(
     internal var darkMode: MutableState<Boolean?> = mutableStateOf(null)
 
     internal var connectionsList = mutableStateOf<List<ConnectionParams>>(listOf())
-    internal val checkConnectionResult =
-        mutableStateOf(NetworkState.WAIT_FOR_INIT, neverEqualPolicy())
-
     internal var signInResult: MutableState<Pair<INetworkState?, UserEntity?>> =
         mutableStateOf(Pair(null, null), neverEqualPolicy())
 
@@ -70,7 +67,7 @@ class SignInViewModel @Inject constructor(
 
     // Connections
     internal suspend fun checkConnection(url: String) {
-        checkConnectionResult.value = checkConnectionUseCase.execute(url)
+        signInResult.value = Pair(checkConnectionUseCase.execute(url), null)
     }
 
     internal suspend fun saveConnections(connectionsList: List<ConnectionParams>) =
