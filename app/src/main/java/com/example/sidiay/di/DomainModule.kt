@@ -40,14 +40,14 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class DomainModule {
-    // Sign in
+    // Авторазация
     @Provides
     fun provideCheckSignInFieldsUseCase(): CheckSignInFieldsUseCase = CheckSignInFieldsUseCase()
 
     @Provides
     fun provideSignInUseCase(userRepository: IAuthRepository, checkConnectionUseCase: CheckConnectionUseCase, checkSignInFieldsUseCase: CheckSignInFieldsUseCase, saveLastAuthorizedUseCase: SaveLastAuthorizedUseCase): SignInUseCase = SignInUseCase(userRepository, checkConnectionUseCase, checkSignInFieldsUseCase, saveLastAuthorizedUseCase)
 
-    // Tickets
+    // Заявки
     @Provides
     fun provideGetTicketsUseCase(ticketsRepository: ITicketsRepository, checkConnectionUseCase: CheckConnectionUseCase, ): GetTicketsUseCase = GetTicketsUseCase(ticketsRepository, checkConnectionUseCase)
 
@@ -69,7 +69,7 @@ class DomainModule {
     @Provides
     fun provideGetSubscriptionsUseCase(ticketsRepository: ITicketsRepository, checkConnectionUseCase: CheckConnectionUseCase): GetSubscriptionsUseCase = GetSubscriptionsUseCase(ticketsRepository, checkConnectionUseCase)
 
-    // Restrictions
+    // Ограничения полей
     @Provides
     fun provideGetTicketUpdateRestrictionsUseCase(): GetTicketUpdateRestrictionsUseCase = GetTicketUpdateRestrictionsUseCase()
 
@@ -79,7 +79,7 @@ class DomainModule {
     @Provides
     fun provideGetTicketCreateRestrictionsUseCase(): GetTicketCreateRestrictionsUseCase = GetTicketCreateRestrictionsUseCase()
 
-    // Connections
+    // Соединения
     @Provides
     fun provideCheckConnectionUseCase(@ApplicationContext context: Context, networkConnectionRepository: INetworkConnectionRepository): CheckConnectionUseCase = CheckConnectionUseCase(networkConnectionRepository, context)
 
@@ -90,7 +90,7 @@ class DomainModule {
     @Provides
     fun provideSaveConnectionsUseCase(connectionsDataStore: IConnectionsDataStore): SaveConnectionsUseCase = SaveConnectionsUseCase(connectionsDataStore)
 
-    // Drafts
+    // Черновики
     @Provides
     fun provideGetDraftsUseCase(draftsDataStore: ITicketsDataStore): GetDraftsUseCase = GetDraftsUseCase(draftsDataStore)
 
@@ -100,7 +100,7 @@ class DomainModule {
     @Provides
     fun provideSaveDraftsUseCase(draftsDataStore: ITicketsDataStore, getDraftsUseCase: GetDraftsUseCase): SaveDraftsUseCase = SaveDraftsUseCase(draftsDataStore, getDraftsUseCase)
 
-    // Settings
+    // Настройки
     @Provides
     fun provideGetUIModeUseCase(settingsDataStore: ISettingsDataStore): GetUIModeUseCase = GetUIModeUseCase(settingsDataStore)
 
@@ -113,7 +113,7 @@ class DomainModule {
     @Provides
     fun provideSaveSettingsUseCase(themeDataStore: ISettingsDataStore): SaveUIModeUseCase = SaveUIModeUseCase(themeDataStore)
 
-    // Filtering
+    // Фильтрация и сортировка
     @Provides
     fun provideFilterTicketsListUseCase(): FilterTicketsListUseCase = FilterTicketsListUseCase()
 }

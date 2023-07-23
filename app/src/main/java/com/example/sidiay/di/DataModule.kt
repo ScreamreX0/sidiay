@@ -27,7 +27,7 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class DataModule {
-    // Repositories
+    // Репозитории
     @Provides
     fun provideAuthRepository(apiService: ApiService): IAuthRepository = AuthRepository(apiService)
 
@@ -43,7 +43,7 @@ class DataModule {
     @Provides
     fun provideTicketsHistoryRepository(apiService: ApiService): ITicketsHistoryRepository = TicketsHistoryRepository(apiService)
 
-    // Datastore
+    // Хранилища данных
     @Provides
     fun provideConnectionsDataStore(@ApplicationContext context: Context): IConnectionsDataStore = ConnectionsDataStore(context)
 
