@@ -33,10 +33,31 @@ When you enter the application, an authorization window appears, in which you mu
 </p>
   
 #### Main menu. List of tickets loading from server
+<p>
+  <img src="https://github.com/ScreamreX0/sidiay/assets/72555477/a2e67fe7-b20f-4058-99bb-4fe4379b792b" width="200" height="400" />
+</p>
+
 #### Filtering
+<p>
+  <img src="https://github.com/ScreamreX0/sidiay/assets/72555477/38fce964-d955-489b-bbcf-f7a5943401a0" width="200" height="400" />
+</p>
+
 #### Ticket creation window
+<p>
+  <img src="https://github.com/ScreamreX0/sidiay/assets/72555477/dd7ad372-ae86-4a19-9d8d-58963a4c6529" width="200" height="400" />
+</p>
+
 #### Drafts list
+<p>
+  <img src="https://github.com/ScreamreX0/sidiay/assets/72555477/00ecdbad-967e-4cdd-baf8-0792369f6676" width="200" height="400" />
+</p>
+
 #### Ticket editing. Logic
+<p>
+  <img src="https://github.com/ScreamreX0/sidiay/assets/72555477/3c9c9121-3f36-448e-9afe-a63eefe6ca23" width="200" height="400" />
+</p>
+
 #### Ticket preview
-#### Tickets history + ticket information
-#### Ticket subscription and notification 
+<p>
+  <img src="https://github.com/ScreamreX0/sidiay/assets/72555477/9288cefe-1112-4f97-94ae-ce8c0410a35e" width="200" height="400" />
+</p>
